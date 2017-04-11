@@ -1,4 +1,4 @@
-import 'todomvc-common';
+//import 'todomvc-common';
 import TodoStore from './stores/TodoStore';
 import ViewStore from './stores/ViewStore';
 import TodoApp from './components/todoApp.js';
