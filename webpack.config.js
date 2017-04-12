@@ -11,7 +11,7 @@ module.exports = {
     ],
     'api-bundle': [
       'webpack-hot-middleware/client?reload=true',
-      './src/client'
+      './src/apisClient'
     ]}
   ,
   output: {
@@ -44,8 +44,7 @@ module.exports = {
         include: [
           path.join(__dirname, 'node_modules/wix-style-react/src/Button')
         ]
-      }
-      ,
+      },
       {
         test: /\.scss$/,
         loader: ['react-hot!style!css?modules!postcss!sass'],

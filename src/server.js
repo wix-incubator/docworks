@@ -28,7 +28,7 @@ let todos = []; // Todos are stored here
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-    console.log(todos);
+    console.log('todo');
 	const todoStore = TodoStore.fromJS(todos);
 	const viewStore = new ViewStore();
 
@@ -42,9 +42,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api/apisPage', function(req, res) {
-    console.log(todos);
-    const todoStore = TodoStore.fromJS(todos);
-    const viewStore = new ViewStore();
+    console.log('apis');
 
     const initView = renderToString((
         <App />
