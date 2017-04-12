@@ -5,8 +5,6 @@ import ReactDOM from 'react-dom';
 
 const initialState = window.initialState && JSON.parse(window.initialState) || {};
 
-todoStore.subscribeServerToStore();
-
 ReactDOM.render(
 	<App/>,
 	document.getElementById('todoapp')

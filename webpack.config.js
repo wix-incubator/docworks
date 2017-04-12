@@ -42,12 +42,17 @@ module.exports = {
         test: /\.jsx?$/,
         loader: ['babel-loader'],
         include: [
-          path.join(__dirname, 'node_modules/wix-style-react/src/Button')
+          path.join(__dirname, 'node_modules/wix-style-react/')
         ]
       },
       {
         test: /\.scss$/,
-        loader: ['react-hot!style!css?modules!postcss!sass'],
+        loaders: [
+          'style-loader',
+          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+          'postcss-loader',
+          'sass-loader'
+        ],
         include: [
           path.join(__dirname, 'node_modules/wix-style-react')
         ]
