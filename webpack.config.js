@@ -26,10 +26,27 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      loaders: ['babel-loader'],
-      exclude: NODE_MODULES_PATH,
-    }]
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel-loader'],
+        exclude: NODE_MODULES_PATH
+      },
+      {
+        test: /\.jsx?$/,
+        loader: ['babel-loader'],
+        include: [
+          path.join(__dirname, 'node_modules/wix-style-react/src/Button')
+        ]
+      }
+      ,
+      {
+        test: /\.scss$/,
+        loader: ['react-hot!style!css?modules!postcss!sass'],
+        include: [
+          path.join(__dirname, 'node_modules/wix-style-react')
+        ]
+      }
+    ]
   }
 };
