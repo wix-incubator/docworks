@@ -14,8 +14,6 @@ const style = {
     lineHeight: '22px'
 };
 
-console.log(styles, styles2);
-
 @observer
 export default class App extends React.Component {
     render() {
