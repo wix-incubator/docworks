@@ -18,7 +18,7 @@ export default (todos, html) => {
 		</head>
 		<body>
 			<section id="todoapp" class="todoapp">${html}</section>
-			<script src="/static/bundle.js"></script>
+			<script src="/static/api-bundle.js"></script>
 			<footer class="info">
 				<p>Double-click to edit a todo</p>
 				<p>TodoMVC powered by React and <a href="http://github.com/mobxjs/mobx/">MobX</a>. Created by <a href="http://github.com/mweststrate/">mweststrate</a></p>

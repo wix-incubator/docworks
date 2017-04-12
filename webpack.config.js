@@ -4,13 +4,19 @@ var NODE_MODULES_PATH = path.resolve(__dirname, 'node_modules');
 
 module.exports = {
   devtool: 'eval',
-  entry: [
-    'webpack-hot-middleware/client?reload=true',
-    './src/client'
-  ],
+  entry: {
+    'bundle': [
+        'webpack-hot-middleware/client?reload=true',
+        './src/client'
+    ],
+    'api-bundle': [
+      'webpack-hot-middleware/client?reload=true',
+      './src/client'
+    ]}
+  ,
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].js',
     publicPath: '/static/'
   },
   plugins: [
