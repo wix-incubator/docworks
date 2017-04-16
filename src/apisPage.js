@@ -10,8 +10,8 @@ export default (todos, html) => {
 	<!doctype html>
 	<html lang="utf-8">
 		<head>
-			<link rel="stylesheet" href="/node_modules/todomvc-common/base.css">
-			<link rel="stylesheet" href="/node_modules/todomvc-app-css/index.css">
+			// <link rel="stylesheet" href="/node_modules/todomvc-common/base.css">
+			// <link rel="stylesheet" href="/node_modules/todomvc-app-css/index.css">
 			<script>
 				window.initialState = ${initialStateJSON}
 			</script>
@@ -19,12 +19,6 @@ export default (todos, html) => {
 		<body>
 			<section id="todoapp" class="todoapp">${html}</section>
 			<script src="/static/api-bundle.js"></script>
-			<footer class="info">
-				<p>Double-click to edit a todo</p>
-				<p>TodoMVC powered by React and <a href="http://github.com/mobxjs/mobx/">MobX</a>. Created by <a href="http://github.com/mweststrate/">mweststrate</a></p>
-				<p>Based on the base React TodoMVC by <a href="http://github.com/petehunt/">petehunt</a></p>
-				<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
-			</footer>
 		</body>
 	</html>
 	`
