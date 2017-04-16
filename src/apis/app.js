@@ -1,10 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
 
 import Button from 'wix-style-react/src/Button'
-import styles from "wix-style-react/src/Button/Button.scss"
-import styles2 from "wix-style-react/src/ButtonLayout/ButtonLayout.scss"
 import {Close} from 'wix-style-react/src/Icons/dist';
 
 const style = {
