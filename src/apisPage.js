@@ -15,7 +15,7 @@ export default (todos, html) => {
 			</script>
 		</head>
 		<body style="margin: 0;">
-			<div style="height: 100vh;background-color: #F0F4F7">${html}</div>
+			<div id="app-container" style="height: 100vh;background-color: #F0F4F7">${html}</div>
 			<script src="/static/api-bundle.js"></script>
 		</body>
 	</html>
