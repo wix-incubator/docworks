@@ -10,14 +10,12 @@ export default (todos, html) => {
 	<!doctype html>
 	<html lang="utf-8">
 		<head>
-			// <link rel="stylesheet" href="/node_modules/todomvc-common/base.css">
-			// <link rel="stylesheet" href="/node_modules/todomvc-app-css/index.css">
 			<script>
 				window.initialState = ${initialStateJSON}
 			</script>
 		</head>
-		<body>
-			<section id="todoapp" class="todoapp">${html}</section>
+		<body style="margin: 0;">
+			<div style="height: 100vh;background-color: #F0F4F7">${html}</div>
 			<script src="/static/api-bundle.js"></script>
 		</body>
 	</html>
