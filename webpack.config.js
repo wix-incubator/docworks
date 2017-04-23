@@ -58,7 +58,8 @@ module.exports = {
           'sass-loader'
         ],
         include: [
-          path.join(__dirname, 'node_modules/wix-style-react')
+          path.join(__dirname, 'node_modules/wix-style-react'),
+          path.join(__dirname, 'src')
         ]
       }
     ]

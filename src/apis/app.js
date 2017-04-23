@@ -9,10 +9,8 @@ import {
 import HelpIcon from 'wix-style-react/dist/src/Icons/dist/components/Help';
 import TrashIcon from 'wix-style-react/dist/src/Icons/dist/components/Trash3';
 import ChatIcon from 'wix-style-react/dist/src/Icons/dist/components/Chat';
+import SubLink from './components/NavigationSubLink';
 
-const indentedMenu = {
-    paddingLeft: 50
-};
 @observer
 export default class App extends React.Component {
     render() {
@@ -33,13 +31,13 @@ export default class App extends React.Component {
                             Wix Code APIs
                         </SideMenu.NavigationLink>
 
-                        <SideMenu.NavigationLink style={indentedMenu} isActive onClick={() => console.log('#3 clicked')}>
+                        <SubLink isActive isSubActive onClick={() => console.log('#3 clicked')}>
                             Tasks
-                        </SideMenu.NavigationLink>
+                        </SubLink>
 
-                        <SideMenu.NavigationLink style={indentedMenu} isActive onClick={() => console.log('#3 clicked')}>
+                        <SubLink isActive onClick={() => console.log('#4 clicked')}>
                             APIs
-                        </SideMenu.NavigationLink>
+                        </SubLink>
 
                     </SideMenu.Navigation>
 
