@@ -10,6 +10,9 @@ import HelpIcon from 'wix-style-react/dist/src/Icons/dist/components/Help';
 import TrashIcon from 'wix-style-react/dist/src/Icons/dist/components/Trash3';
 import ChatIcon from 'wix-style-react/dist/src/Icons/dist/components/Chat';
 
+const indentedMenu = {
+    paddingLeft: 50
+};
 @observer
 export default class App extends React.Component {
     render() {
@@ -18,30 +21,26 @@ export default class App extends React.Component {
                 <SideMenu>
                     <SideMenu.Logo onClick={() => console.log('Logo clicked')}>
                         <TrashIcon size="5em"/>
-                        <h2 style={{color: '#fff'}}>My Application</h2>
+                        <h2 style={{color: '#fff'}}>Wix APIs</h2>
                     </SideMenu.Logo>
 
                     <SideMenu.Navigation>
                         <SideMenu.NavigationLink onClick={() => console.log('#1 clicked')}>
-                            Link #1
-                        </SideMenu.NavigationLink>
-                        <SideMenu.NavigationLink onClick={() => console.log('#2 clicked')}>
-                            Link #2
+                            Home
                         </SideMenu.NavigationLink>
 
-                        <SideMenu.NavigationSeparator/>
-
-                        <SideMenu.NavigationLink isActive onClick={() => console.log('#3 clicked')}>
-                            Link #3
+                        <SideMenu.NavigationLink isActive onClick={() => console.log('#2 clicked')}>
+                            Wix Code APIs
                         </SideMenu.NavigationLink>
 
-                        <SideMenu.NavigationLink
-                            href="https://academy.wix.com/en/seo"
-                            target="_blank"
-                            isDiminishedHover
-                        >
-                            Dim Hover link #1
+                        <SideMenu.NavigationLink style={indentedMenu} isActive onClick={() => console.log('#3 clicked')}>
+                            Tasks
                         </SideMenu.NavigationLink>
+
+                        <SideMenu.NavigationLink style={indentedMenu} isActive onClick={() => console.log('#3 clicked')}>
+                            APIs
+                        </SideMenu.NavigationLink>
+
                     </SideMenu.Navigation>
 
                     <SideMenu.Promotion>
