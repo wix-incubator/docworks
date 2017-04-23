@@ -5,7 +5,7 @@ import {
 } from 'wix-style-react';
 
 import HelpIcon from 'wix-style-react/dist/src/Icons/dist/components/Help';
-import TrashIcon from 'wix-style-react/dist/src/Icons/dist/components/Trash3';
+import InfoMaterial from 'wix-style-react/dist/src/Icons/dist/components/InfoMaterial';
 import ChatIcon from 'wix-style-react/dist/src/Icons/dist/components/Chat';
 import SubLink from './NavigationSubLink';
 
@@ -14,7 +14,8 @@ const Navigation = () =>
     <div style={{width: 220, "height": "100%"}}>
         <SideMenu>
             <SideMenu.Logo onClick={() => console.log('Logo clicked')}>
-                <TrashIcon size="5em"/>
+                <div style={{marginTop: 50}}/>
+                <InfoMaterial size="5em"/>
                 <h2 style={{color: '#fff'}}>Wix APIs</h2>
             </SideMenu.Logo>
 
