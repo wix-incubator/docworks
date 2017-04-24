@@ -13,12 +13,33 @@ const Content = () =>
     <Container>
          <Row>
              <Col span={8}>
+                 <Row>
+                 <Card>
+                     <Card.Header title="An API"/>
+                     <Card.Content>
+                         hello
+                         agagferg
+                         aergaergaer<br/>
+                         aergaergaeg
+                     </Card.Content>
+                 </Card>
+                 </Row>
+                 <Row>
                  <Card>
                      <Card.Header title="An API"/>
                      <Card.Content>
                          hello
                      </Card.Content>
                  </Card>
+                 </Row>
+                 <Row>
+                 <Card>
+                     <Card.Header title="An API"/>
+                     <Card.Content>
+                         hello
+                     </Card.Content>
+                 </Card>
+                 </Row>
              </Col>
              <Col span={4}>
                  <Card>
