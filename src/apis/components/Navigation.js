@@ -61,7 +61,7 @@ const Navigation = () =>
                     target="_blank"
                     icon={<div style={{marginTop: 2}}><ChatIcon size="1em"/></div>}
                     tooltip="Hey, come talk to me!"
-                    onClick={() => console.lo('clicked on tiny link yay!')}
+                    onClick={() => console.log('clicked on tiny link yay!')}
                 />
             </SideMenu.Footer>
         </SideMenu>
