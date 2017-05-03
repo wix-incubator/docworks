@@ -14,18 +14,20 @@ function build() {
             dictionaries: ['jsdoc', 'closure']
         },
         "opts": {
-            "lenient": false,
-            recurse: true
+            "lenient": false
         },
         "source": {
             "include": [
-                "test/"
+                "test/service.js"
             ],
             "includePattern": ".+\\.(js|jsdoc|es6|jsw)?$",
             "excludePattern": "(^|\\/|\\\\)_"
         },
         encoding: 'utf8'
     };
+
+    // set to follow sub-directories
+    env.opts.recurse = true;
 
     // set the template to process the jsdoc results
     env.conf.opts.template = path.join(__dirname, 'lib');
@@ -43,3 +45,5 @@ function build() {
 }
 
 module.exports.build = build;
+
+build();
