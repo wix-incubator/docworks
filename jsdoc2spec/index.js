@@ -18,7 +18,7 @@ function build() {
         },
         "source": {
             "include": [
-                "test/apis/"
+                "test/"
             ],
             "includePattern": ".+\\.(js|jsdoc|es6|jsw)?$",
             "excludePattern": "(^|\\/|\\\\)_"
@@ -54,7 +54,4 @@ function build() {
         .processParseResults();
 }
 
-
-build();
-console.log('round 1');
-build();
+module.exports.build = build;
