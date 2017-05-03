@@ -14,7 +14,8 @@ function build() {
             dictionaries: ['jsdoc', 'closure']
         },
         "opts": {
-            "lenient": false
+            "lenient": false,
+            recurse: true
         },
         "source": {
             "include": [
@@ -22,19 +23,6 @@ function build() {
             ],
             "includePattern": ".+\\.(js|jsdoc|es6|jsw)?$",
             "excludePattern": "(^|\\/|\\\\)_"
-        },
-        "templates": {
-            "snippetsDir": "./tmp/examples",
-            "migrateExamples": false,
-            "apiTitle" : "Router API",
-            "groupNavByTopNamespace": true,
-            "fullSignatures": false,
-            "readme" : "README.md",
-            "tern": {
-                "name": "wix",
-                "url": "http://localhost:63342/js-sdk/jsdoc/wixdocs/"
-            },
-            "appendices" : false
         },
         encoding: 'utf8'
     };
