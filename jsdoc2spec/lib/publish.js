@@ -9,26 +9,26 @@ exports.publish = function (taffyData, opts) {
         return helper.find(data, spec);
     }
 
-    data().each(function(doclet) {
-       console.log(doclet.longname, doclet.kind);
-    });
-
-    var members = helper.getMembers(data);
-
-    members.classes.forEach((aClass) => {
-        console.log(aClass.kind, aClass.longname);
-        function addMembers(kind) {
-            var member = find({kind: kind, memberof: aClass.longname});
-            if(member) {
-                member.forEach(function(mem) {
-                    console.log(mem.kind, mem.longname);
-                });
-            }
-        }
-        addMembers('function');
-        addMembers('member');
-        addMembers('namespace');
-        addMembers('typedef');
-        addMembers('class');
-    })
+    members.classes.forEach(handleService(find));
 };
+
+function handleService(find) {
+    return (service) => {
+        console.log('service', service.kind, service.longname);
+        handleMembers(find)(service, 'function');
+        handleMembers(find)(service, 'member');
+        handleMembers(find)(service, 'namespace');
+        handleMembers(find)(service, 'typedef');
+    }
+}
+
+function handleMembers(find) {
+    return (service, kind) => {
+        var members = find({kind: kind, memberof: service.longname});
+        if(members) {
+            members.forEach(function(mem) {
+                console.log('member', mem.kind, mem.longname);
+            });
+        }
+    }
+}

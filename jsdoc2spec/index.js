@@ -39,15 +39,22 @@ function build() {
         encoding: 'utf8'
     };
 
+    // set the template to process the jsdoc results
     env.conf.opts.template = path.join(__dirname, 'lib');
     env.opts.template = env.conf.opts.template;
 
-    cli.scanFiles();
+    // required to clear the scanned files for re-running jsdoc
+    env.sourceFiles = [];
+    env.opts._ = [];
 
-    return cli.createParser()
+    // run jsdoc
+    return cli.scanFiles()
+        .createParser()
         .parseFiles()
         .processParseResults();
 }
 
 
+build();
+console.log('round 1');
 build();
