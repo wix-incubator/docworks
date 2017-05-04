@@ -32,6 +32,19 @@ class Service {
      */
     set label(value) {
     }
+
+    /**
+     * @function operation
+     * @memberof aNamespace.Service
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @param {string} input the input
+     */
+    operation(input) {
+
+    }
 }
 
 

@@ -1,7 +1,7 @@
 var path = require("path");
 const {cli, env} = require('./jsdoc-loader').default;
 
-export default function run() {
+export default function run(source) {
 
     cli.setVersionInfo();
     env.conf = {
@@ -12,13 +12,7 @@ export default function run() {
         "opts": {
             "lenient": false
         },
-        "source": {
-            "include": [
-                "test/service.js"
-            ],
-            "includePattern": ".+\\.(js|jsdoc|es6|jsw)?$",
-            "excludePattern": "(^|\\/|\\\\)_"
-        },
+        "source": source,
         encoding: 'utf8'
     };
 

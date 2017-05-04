@@ -1,6 +1,6 @@
-var helper = require('jsdoc/util/templateHelper');
+import helper from 'jsdoc/util/templateHelper';
 
-exports.publish = function (taffyData, opts) {
+export function publish (taffyData, opts) {
 
     let data = helper.prune(taffyData);
     var members = helper.getMembers(data);
@@ -10,7 +10,7 @@ exports.publish = function (taffyData, opts) {
     }
 
     members.classes.forEach(handleService(find));
-};
+}
 
 function handleService(find) {
     return (service) => {

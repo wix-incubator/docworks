@@ -1,5 +1,5 @@
 {
-  "name": "mobx-react-todomvc",
+  "name": "swank-app",
   "version": "1.0.0",
   "description": "TodoMVC reference implementation based on React TodoMVC and mobx-react-boilerplate",
   "scripts": {
