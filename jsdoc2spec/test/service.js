@@ -8,10 +8,9 @@
 class Service {
     /**
      * @member label
-     * @label property
-     * @syntax
-     * get label(): string
-     * set label(value: string): void
+     * @memberof aNamespace.Service
+     * @type {string}
+     *
      * @summary Sets or returns the label.
      * @description
      *  Setting the value of the `label` property sets the text label on a text
@@ -19,9 +18,6 @@ class Service {
      *
      *  Getting the value of the `label` property returns the value of the
      *  button's text label.
-     * @type {string}
-     * @memberof aNamespace.Service
-     * @instance
      */
     get label() {
     }

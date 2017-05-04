@@ -1,5 +1,6 @@
 var path = require("path");
 const {cli, env} = require('./jsdoc-loader').default;
+import ServiceModel from './services-model';
 
 export default function run(source) {
 
@@ -24,14 +25,18 @@ export default function run(source) {
     env.conf.opts.template = __dirname;
     env.opts.template = env.conf.opts.template;
 
+    // set the service model to get output from the jsdoc template
+    env.opts.serviceModel = new ServiceModel();
     // required to clear the scanned files for re-running jsdoc
     env.sourceFiles = [];
     env.opts._ = [];
 
     // run jsdoc
-    return cli.scanFiles()
+    cli.scanFiles()
         .createParser()
         .parseFiles()
         .processParseResults();
+
+    return env.opts.serviceModel;
 }
 

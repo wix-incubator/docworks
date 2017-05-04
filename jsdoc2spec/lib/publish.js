@@ -1,7 +1,12 @@
 import helper from 'jsdoc/util/templateHelper';
-import {Service, Operation, Param, Property} from 'swank-model';
+import {Service, Operation, Param, Property, Void} from 'swank-model';
 
-export function publish (taffyData, opts) {
+import {dump} from './util';
+
+
+export function publish(taffyData, opts) {
+    console.log(opts);
+    opts.serviceModel.clear();
 
     let data = helper.prune(taffyData);
     var members = helper.getMembers(data);
@@ -10,17 +15,22 @@ export function publish (taffyData, opts) {
         return helper.find(data, spec);
     }
 
-    members.classes.forEach(handleService(find));
+    opts.serviceModel.add(members.classes.map(handleService(find)));
 }
+
+
 
 function handleService(find) {
     return (service) => {
-        console.log('service', service.kind, service.longname);
-        handleMembers(find)(service, 'function');
+        let operations = handleFunctions(find, service);
         let properties = handleProperties(find, service);
         handleMembers(find)(service, 'namespace');
         handleMembers(find)(service, 'typedef');
-        console.log(properties);
+        dump('properties:', properties);
+        dump('functions:', operations);
+        let ser = Service(service.name, properties, operations);
+        dump('service: ', ser);
+        return ser;
     }
 }
 
@@ -35,13 +45,40 @@ function handleMembers(find) {
     }
 }
 
+function handleFunctions(find, service) {
+    let functions = find({kind: 'function', memberof: service.longname});
+    if (functions) {
+        return functions.map((func) => {
+
+            let params = func.params.map((param) => {
+                return Param(param.name, handleType(param.type));
+            });
+
+            let ret = func.return? handleType(func.return.type): Void;
+
+            // todo handle name params
+            return Operation(func.name, [], params, ret);
+        });
+    }
+}
+
 function handleProperties(find, service) {
     let members = find({kind: 'member', memberof: service.longname});
     if(members) {
         return members.map((member) => {
-            return Property(member.name, true, true, member.type);
+            // todo read property get and set indicators
+            return Property(member.name, true, true, handleType(member.type));
         });
     }
     else
         return [];
+}
+
+function handleType(type) {
+    if (type.names.length == 1) {
+        return type.names[0];
+    }
+    else {
+        return type.names;
+    }
 }

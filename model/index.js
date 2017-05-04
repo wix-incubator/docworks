@@ -1,11 +1,11 @@
 
 
-export function Service(name) {
+export function Service(name, properties, operations, messages) {
     return {
         name: name,
-        properties: [],
-        messages: [],
-        operations: []
+        properties: properties,
+        operations: operations,
+        messages: messages
     }
 }
 
@@ -35,4 +35,12 @@ export function Property(name, isGet, isSet, type) {
         set: isSet,
         type: type
     }
+}
+
+export function AtomicType(name) {
+    return name;
+}
+
+export function UnionType(names) {
+    return names;
 }
