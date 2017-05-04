@@ -1,4 +1,5 @@
 import helper from 'jsdoc/util/templateHelper';
+import {Service, Operation, Param, Property} from 'swank-model';
 
 export function publish (taffyData, opts) {
 
@@ -16,9 +17,10 @@ function handleService(find) {
     return (service) => {
         console.log('service', service.kind, service.longname);
         handleMembers(find)(service, 'function');
-        handleMembers(find)(service, 'member');
+        let properties = handleProperties(find, service);
         handleMembers(find)(service, 'namespace');
         handleMembers(find)(service, 'typedef');
+        console.log(properties);
     }
 }
 
@@ -31,4 +33,15 @@ function handleMembers(find) {
             });
         }
     }
+}
+
+function handleProperties(find, service) {
+    let members = find({kind: 'member', memberof: service.longname});
+    if(members) {
+        return members.map((member) => {
+            return Property(member.name, true, true, member.type);
+        });
+    }
+    else
+        return [];
 }
