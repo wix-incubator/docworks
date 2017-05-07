@@ -1,12 +1,14 @@
-
-import runner from '../lib/jsdoc-runner';
-import serviceModel from '../lib/services-model';
-
+import runJsDoc from '../lib/jsdoc-runner';
+import {dump} from '../lib/util';
+import chai from 'chai';
+import chaiSubset from 'chai-subset';
+const expect = chai.expect;
+chai.use(chaiSubset);
 
 describe('docs', function() {
     describe('service', function() {
         it('should return the service members', function() {
-            let services = runner({
+            let services = runJsDoc({
                 "include": [
                     "test/service.js"
                 ],
@@ -14,7 +16,18 @@ describe('docs', function() {
                 "excludePattern": "(^|\\/|\\\\)_"
             });
 
-            console.log(services);
+            dump(services);
+
+            expect(services).to.containSubset({
+                services:
+                    [
+                        {
+                            name: 'Service',
+                            properties: [{name: 'label', get: true, set: true, type: 'string'}]
+                        }
+                    ]
+            });
+
         });
     });
 });

@@ -1,11 +1,10 @@
 import helper from 'jsdoc/util/templateHelper';
 import {Service, Operation, Param, Property, Void} from 'swank-model';
 
-import {dump} from './util';
 
 
+//noinspection JSUnusedGlobalSymbols
 export function publish(taffyData, opts) {
-    console.log(opts);
     opts.serviceModel.clear();
 
     let data = helper.prune(taffyData);
@@ -26,11 +25,7 @@ function handleService(find) {
         let properties = handleProperties(find, service);
         handleMembers(find)(service, 'namespace');
         handleMembers(find)(service, 'typedef');
-        dump('properties:', properties);
-        dump('functions:', operations);
-        let ser = Service(service.name, properties, operations);
-        dump('service: ', ser);
-        return ser;
+        return Service(service.name, properties, operations);
     }
 }
 
