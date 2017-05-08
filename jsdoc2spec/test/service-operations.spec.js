@@ -113,7 +113,7 @@ describe('docs', function() {
             });
         });
 
-        it.skip('should error on duplicate operation', function() {
+        it('should error on duplicate operation', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
