@@ -1,6 +1,7 @@
 import helper from 'jsdoc/util/templateHelper';
 import {Service, Operation, Param, Void, JsDocError, Location} from 'swank-model';
 import handleProperties from './jsdoc-handler-props';
+import handleFunctions from './jsdoc-handler-operations';
 import {dump} from './util';
 
 
@@ -44,37 +45,3 @@ function handleMembers(find) {
     }
 }
 
-function handleFunctions(find, service, onError) {
-    let functions = find({kind: 'function', memberof: service.longname});
-    if (functions) {
-        return functions.map((func) => {
-
-            let params = (func.params || []).map((param) => {
-                return Param(param.name, handleType(param.type));
-            });
-
-            if (func.returns && func.returns.length > 1)
-                onError(JsDocError(`Operation ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
-
-            let ret = (func.returns && func.returns.length > 0)? handleType(func.returns[0].type): Void;
-
-            // todo handle name params
-            return Operation(func.name, [], params, ret);
-        });
-    }
-}
-
-function handleMeta(meta) {
-    return Location(meta.filename, meta.lineno);
-}
-
-function handleType(type) {
-    if (!type)
-        return Void;
-    if (type.names && type.names.length == 1) {
-        return type.names[0];
-    }
-    else {
-        return type.names;
-    }
-}
