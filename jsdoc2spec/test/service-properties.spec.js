@@ -72,5 +72,25 @@ describe('docs', function() {
             });
         });
 
+        it('should error on mismatched type between get and set', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceProperties',
+                        properties: [
+                            { name: 'missMatchType', get: true, set: true, type: 'string' }
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Property missMatchType has mismatching types for get (string) and set (number)',
+                        location: 'service-properties.js (43, 52)'
+                    }
+                ]
+            });
+        });
+
     });
 });

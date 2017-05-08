@@ -1,5 +1,5 @@
 import helper from 'jsdoc/util/templateHelper';
-import {Service, Operation, Param, Property, Void, JsDocError} from 'swank-model';
+import {Service, Operation, Param, Property, Void, JsDocError, Location} from 'swank-model';
 import {dump} from './util';
 
 
@@ -68,14 +68,14 @@ function handleProperties(find, service, onError) {
     const extractMembers = (member) => {
         // handle read property
         if (member.type)
-            return Property(member.name, true, false, handleType(member.type));
+            return Property(member.name, true, false, handleType(member.type), [handleMeta(member.meta)]);
 
         // handle write property
         if (member.params && member.params.length > 0)
-            return Property(member.name, false, true, handleType(member.params[0].type));
+            return Property(member.name, false, true, handleType(member.params[0].type), [handleMeta(member.meta)]);
 
-        onError(JsDocError(`Property ${member.name} is missing a type annotation`, metaToLocation(member.meta)));
-        return Property(member.name, false, false, Void);
+        onError(JsDocError(`Property ${member.name} is missing a type annotation`, [handleMeta(member.meta)]));
+        return Property(member.name, false, false, Void, [handleMeta(member.meta)]);
 
         // error multiple params
         // error type void
@@ -96,10 +96,22 @@ function handleProperties(find, service, onError) {
         if (properties.length == 1)
             return properties[0];
         if (properties.length == 2) {
-            if (properties[0].type === properties[1].type &&
-                properties[0].get != properties[1].get &&
-                properties[0].set != properties[1].set)
-                return Property(properties[0].name, true, true, properties[0].type)
+
+            let prop1 = properties[0];
+            var prop2 = properties[1];
+            var locations = prop1.locations.concat(prop2.locations);
+            if (prop1.type === prop2.type &&
+                prop1.get != prop2.get &&
+                prop1.set != prop2.set)
+                return Property(prop1.name, true, true, prop1.type, locations);
+
+            if (prop1.type !== prop2.type &&
+                prop1.get != prop2.get &&
+                prop1.set != prop2.set)
+                onError(JsDocError(
+                    `Property ${prop1.name} has mismatching types for get (${prop1.type}) and set (${prop2.type})`,
+                    locations));
+                return Property(prop1.name, true, true, prop1.type, locations)
         }
         // error
         return properties[0];
@@ -112,8 +124,8 @@ function handleProperties(find, service, onError) {
         .map(mergeProperties);
 }
 
-function metaToLocation(meta) {
-    return `${meta.filename} (${meta.lineno})`;
+function handleMeta(meta) {
+    return Location(meta.filename, meta.lineno);
 }
 
 function handleType(type) {
