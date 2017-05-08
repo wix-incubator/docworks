@@ -7,27 +7,52 @@ chai.use(chaiSubset);
 
 describe('docs', function() {
     describe('service', function() {
-        it('should return the service members', function() {
-            let services = runJsDoc({
+        let jsDocRes;
+        beforeEach(() => {
+            jsDocRes = runJsDoc({
                 "include": [
                     "test/service.js"
-                ],
-                "includePattern": ".+\\.(js|jsdoc|es6|jsw)?$",
-                "excludePattern": "(^|\\/|\\\\)_"
+                ]
             });
+            dump(jsDocRes);
+        });
 
-            dump(services);
+        afterEach(function(){
+            if (this.currentTest.state == 'failed') {
+                console.log('the jsDocRes:');
+                dump(jsDocRes);
+            }
+        });
 
-            expect(services).to.containSubset({
-                services:
-                    [
-                        {
-                            name: 'Service',
-                            properties: [{name: 'label', get: true, set: true, type: 'string'}]
-                        }
-                    ]
+
+        it('should return the service properties', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'Service',
+                        properties: [
+                            {name: 'label', get: true, set: true, type: 'string'}
+                        ]
+                    }
+                ]
             });
+        });
 
+        it('should return the service methods', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'Service',
+                        operations: [
+                            {name: 'operation', nameParams: [], params: [
+                                {name: 'input', type: 'string'}
+                            ], ret: 'void'}
+                        ]
+                    }
+                ]
+            });
         });
     });
 });
