@@ -28,12 +28,13 @@ export function Param(name, type) {
     }
 }
 
-export function Property(name, isGet, isSet, type) {
+export function Property(name, isGet, isSet, type, locations) {
     return {
         name: name,
         get: isGet,
         set: isSet,
-        type: type
+        type: type,
+        locations: locations
     }
 }
 
@@ -43,4 +44,33 @@ export function AtomicType(name) {
 
 export function UnionType(names) {
     return names;
+}
+
+export function Location(filename, lineno) {
+    return {
+        filename: filename,
+        lineno: lineno
+    }
+}
+
+export function JsDocError(message, locations) {
+    const groupByFile = (groups, location) => {
+        if (groups[location.filename])
+            groups[location.filename].push(location);
+        else
+            groups[location.filename] = [location];
+        return groups;
+    };
+
+    let files = locations.reduce(groupByFile, {});
+    let fileLocations = Object.keys(files)
+        .map((group) => {
+            let linenos = files[group].map(location => location.lineno);
+            return `${group} (${linenos.join(", ")})`;
+        })
+        .join(", ");
+    return {
+        message: message,
+        location: fileLocations
+    }
 }

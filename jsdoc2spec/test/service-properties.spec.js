@@ -92,5 +92,24 @@ describe('docs', function() {
             });
         });
 
+        it('should error on duplicate property definition', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceProperties',
+                        properties: [
+                            { name: 'dumplicate', get: true, set: true, type: 'string' }
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Property dumplicate is defined two or more times',
+                        location: 'service-properties.js (60, 69)'
+                    }
+                ]
+            });
+        });
     });
 });

@@ -102,16 +102,24 @@ function handleProperties(find, service, onError) {
             var locations = prop1.locations.concat(prop2.locations);
             if (prop1.type === prop2.type &&
                 prop1.get != prop2.get &&
-                prop1.set != prop2.set)
+                prop1.set != prop2.set) {
                 return Property(prop1.name, true, true, prop1.type, locations);
+            }
 
             if (prop1.type !== prop2.type &&
                 prop1.get != prop2.get &&
-                prop1.set != prop2.set)
+                prop1.set != prop2.set) {
                 onError(JsDocError(
                     `Property ${prop1.name} has mismatching types for get (${prop1.type}) and set (${prop2.type})`,
                     locations));
                 return Property(prop1.name, true, true, prop1.type, locations)
+            }
+
+            onError(JsDocError(
+                `Property ${prop1.name} is defined two or more times`,
+                locations));
+            return Property(prop1.name, true, true, prop1.type, locations)
+
         }
         // error
         return properties[0];
