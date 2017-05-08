@@ -6,7 +6,7 @@ const expect = chai.expect;
 chai.use(chaiSubset);
 
 describe('docs', function() {
-    describe.only('service', function() {
+    describe('service properties', function() {
         let jsDocRes;
         beforeEach(() => {
             jsDocRes = runJsDoc({

@@ -48,11 +48,11 @@ function handleFunctions(find, service, onError) {
     if (functions) {
         return functions.map((func) => {
 
-            let params = func.params.map((param) => {
+            let params = (func.params || []).map((param) => {
                 return Param(param.name, handleType(param.type));
             });
 
-            let ret = func.return? handleType(func.return.type): Void;
+            let ret = (func.returns && func.returns.length > 0)? handleType(func.returns[0].type): Void;
 
             // todo handle name params
             return Operation(func.name, [], params, ret);

@@ -1,0 +1,92 @@
+
+
+/**
+ * @class ServiceOperations
+ * @summary A test service
+ * @memberof aNamespace
+ */
+class ServiceOperations {
+
+    /**
+     * @function oneParam
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @param {string} input the input
+     */
+    oneParam(input) {
+
+    }
+
+    /**
+     * @function twoParams
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @param {string} input the input
+     * @param {number} input2 the 2nd input
+     */
+    twoParams(input, input2) {
+
+    }
+
+    /**
+     * @function returns
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @returns {string} the result
+     */
+    returns() {
+
+    }
+
+    /**
+     * @function multipleReturns
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @returns {string} the result
+     * @returns {string} the result
+     */
+    multipleReturns() {
+
+    }
+
+    /**
+     * @function returnsArray
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @returns {string[]} the result
+     */
+    returnsArray() {
+
+    }
+
+    /**
+     * @function returnsArray
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @returns {Promise<string>} the result
+     */
+    returnsPromise() {
+
+    }
+}
+
+
+export default ServiceOperations;
