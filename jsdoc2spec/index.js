@@ -5,7 +5,7 @@ require('babel-register')(babelrc);
 
 require('./lib/jsdoc-runner').default({
     "include": [
-        "test/service.js"
+        "test/service-sanity.js"
     ],
     "includePattern": ".+\\.(js|jsdoc|es6|jsw)?$",
     "excludePattern": "(^|\\/|\\\\)_"

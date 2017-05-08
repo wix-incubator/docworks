@@ -11,10 +11,9 @@ describe('docs', function() {
         beforeEach(() => {
             jsDocRes = runJsDoc({
                 "include": [
-                    "test/service.js"
+                    "test/service-sanity.js"
                 ]
             });
-            dump(jsDocRes);
         });
 
         afterEach(function(){

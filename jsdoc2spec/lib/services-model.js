@@ -2,6 +2,7 @@
 class ServiceModel {
     constructor() {
         this.services = [];
+        this.errors = [];
     }
 
     clear() {
@@ -14,6 +15,10 @@ class ServiceModel {
 
     get() {
         return this.services;
+    }
+
+    addError(jsDocError) {
+        this.errors.push(jsDocError);
     }
 }
 
