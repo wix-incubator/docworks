@@ -75,7 +75,7 @@ class ServiceOperations {
     }
 
     /**
-     * @function returnsArray
+     * @function returnsPromise
      * @memberof aNamespace.ServiceOperations
      * @summary an operation
      * @description

@@ -23,8 +23,9 @@ class Service {
     }
 
     /**
+     * @member label
+     * @memberof aNamespace.Service
      * @param {string} value The new label to display.
-     * @ignore
      */
     set label(value) {
     }

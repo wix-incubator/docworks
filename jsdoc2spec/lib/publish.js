@@ -52,6 +52,9 @@ function handleFunctions(find, service, onError) {
                 return Param(param.name, handleType(param.type));
             });
 
+            if (func.returns && func.returns.length > 1)
+                onError(JsDocError(`Operation ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
+
             let ret = (func.returns && func.returns.length > 0)? handleType(func.returns[0].type): Void;
 
             // todo handle name params

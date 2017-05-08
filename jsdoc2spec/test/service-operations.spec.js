@@ -6,7 +6,7 @@ const expect = chai.expect;
 chai.use(chaiSubset);
 
 describe('docs', function() {
-    describe.only('service operations', function() {
+    describe('service operations', function() {
         let jsDocRes;
         beforeEach(() => {
             jsDocRes = runJsDoc({
@@ -25,7 +25,6 @@ describe('docs', function() {
 
 
         it('should return methods with one parameter', function() {
-
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -41,7 +40,6 @@ describe('docs', function() {
         });
 
         it('should return methods with two parameter', function() {
-
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -58,7 +56,6 @@ describe('docs', function() {
         });
 
         it('should return a method with a return value', function() {
-
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -66,6 +63,51 @@ describe('docs', function() {
                         operations: [
                             {name: 'returns', nameParams: [], params: [], ret: 'string'}
                         ]
+                    }
+                ]
+            });
+        });
+
+        it('should return a method with an array return value', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'returnsArray', nameParams: [], params: [], ret: 'Array.<string>'}
+                        ]
+                    }
+                ]
+            });
+        });
+
+        it('should return a method with a promise return value', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'returnsPromise', nameParams: [], params: [], ret: 'Promise.<string>'}
+                        ]
+                    }
+                ]
+            });
+        });
+
+        it('should error on multiple returns', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'multipleReturns', nameParams: [], params: [], ret: 'string'}
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Operation multipleReturns has multiple returns annotations',
+                        location: 'service-operations.js (50)'
                     }
                 ]
             });
