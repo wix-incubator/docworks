@@ -112,5 +112,24 @@ describe('docs', function() {
                 ]
             });
         });
+
+        it.skip('should error on duplicate operation', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'duplicate', nameParams: [], params: [], ret: 'string'}
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Operation duplicate is defined two or more times',
+                        location: 'service-operations.js (90, 103)'
+                    }
+                ]
+            });
+        });
     });
 });

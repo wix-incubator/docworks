@@ -86,6 +86,32 @@ class ServiceOperations {
     returnsPromise() {
 
     }
+
+    /**
+     * @function duplicate
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @returns {string} the result
+     */
+    duplicate1() {
+
+    }
+
+    /**
+     * @function duplicate
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @returns {string} the result
+     */
+    duplicate2() {
+
+    }
 }
 
 
