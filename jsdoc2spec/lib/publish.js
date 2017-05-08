@@ -93,11 +93,17 @@ function handleProperties(find, service, onError) {
     };
 
     const mergeProperties = (properties) => {
-        if (properties.length == 1)
-            return properties[0];
+        let prop1 = properties[0];
+        if (properties.length == 1) {
+            if (prop1.set && !prop1.get)
+                onError(JsDocError(
+                    `Property ${prop1.name} is a write only property`,
+                    prop1.locations));
+
+            return prop1;
+        }
         if (properties.length == 2) {
 
-            let prop1 = properties[0];
             var prop2 = properties[1];
             var locations = prop1.locations.concat(prop2.locations);
             if (prop1.type === prop2.type &&
@@ -122,7 +128,7 @@ function handleProperties(find, service, onError) {
 
         }
         // error
-        return properties[0];
+        return prop1;
     };
 
     let groups = members.map(extractMembers)

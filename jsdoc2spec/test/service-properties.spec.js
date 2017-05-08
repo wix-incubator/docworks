@@ -38,6 +38,26 @@ describe('docs', function() {
             });
         });
 
+        it('should not allow writeonly properties', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceProperties',
+                        properties: [
+                            {name: 'writeOnly', get: false, set: true, type: 'string'}
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Property writeOnly is a write only property',
+                        location: 'service-properties.js (18)'
+                    }
+                ]
+            });
+        });
+
         it('should merge get and set members declaration into a single property', function() {
 
             expect(jsDocRes).to.containSubset({
@@ -66,7 +86,7 @@ describe('docs', function() {
                 errors: [
                     {
                         message: 'Property missingType is missing a type annotation',
-                        location: 'service-properties.js (35)'
+                        location: 'service-properties.js (44)'
                     }
                 ]
             });
@@ -86,7 +106,7 @@ describe('docs', function() {
                 errors: [
                     {
                         message: 'Property missMatchType has mismatching types for get (string) and set (number)',
-                        location: 'service-properties.js (43, 52)'
+                        location: 'service-properties.js (52, 61)'
                     }
                 ]
             });
@@ -106,7 +126,7 @@ describe('docs', function() {
                 errors: [
                     {
                         message: 'Property dumplicate is defined two or more times',
-                        location: 'service-properties.js (60, 69)'
+                        location: 'service-properties.js (69, 78)'
                     }
                 ]
             });

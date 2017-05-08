@@ -16,6 +16,15 @@ class ServiceProperties {
     }
 
     /**
+     * @member writeOnly
+     * @memberof aNamespace.ServiceProperties
+     * @param {string} value The new label to display.
+     * @summary Sets or returns the label.
+     */
+    set writeOnly(value) {
+    }
+
+    /**
      * @member label
      * @memberof aNamespace.ServiceProperties
      * @type {string}
