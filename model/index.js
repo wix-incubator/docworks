@@ -1,10 +1,11 @@
 
 
-export function Service(name, properties, operations, messages) {
+export function Service(name, properties, operations, callbacks, messages) {
     return {
         name: name,
         properties: properties,
         operations: operations,
+        callbacks: callbacks,
         messages: messages
     }
 }
