@@ -24,7 +24,7 @@ describe('docs', function() {
         });
 
 
-        it.only('should support function callbacks', function() {
+        it('should support function callbacks', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -38,6 +38,32 @@ describe('docs', function() {
                         callbacks: [
                             {name: 'aCallback', nameParams: [], params: [
                                 {name: 'x', type: 'number'},
+                            ], ret: 'void'}
+                        ]
+                    }
+                ]
+            });
+        });
+
+        it.only('should support function with complex callbacks', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceCallbacks',
+                        operations: [
+                            {name: 'operationWithComplexCallback', nameParams: [], params: [
+                                {name: 'input', type: 'string'},
+                                {name: 'callback', type: 'aNamespace.ServiceCallbacks.aComplexCallback'}
+                            ], ret: 'void'}
+                        ],
+                        callbacks: [
+                            {name: 'aComplexCallback', nameParams: [], params: [
+                                {name: 'x', type: 'number'},
+                                {name: 'y', type: 'string'},
+                                {name: 'cb', type: 'aNamespace.ServiceCallbacks.aComplexCallbackCallback'}
+                            ], ret: 'Promise.<string>'},
+                            {name: 'aComplexCallbackCallback', nameParams: [], params: [
+                                {name: 'z', type: 'number'}
                             ], ret: 'void'}
                         ]
                     }
