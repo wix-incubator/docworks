@@ -41,12 +41,26 @@ const processFunctions = (onError) => (funcs) => {
 };
 
 
-export default function handleFunctions(find, service, onError) {
+export function handleFunctions(find, service, onError) {
     let functions = find({kind: 'function', memberof: service.longname});
     if (!functions)
         return [];
 
     let groups = functions.reduce(groupByName, {});
+    return Object.keys(groups)
+        .map((group) => groups[group])
+        .map(processFunctions(onError));
+
+}
+
+export function handleCallbacks(find, service, onError) {
+    let typedefs = find({kind: 'typedef', memberof: service.longname});
+    if (!typedefs)
+        return [];
+
+    let callbacks = typedefs.filter((_) => _.type && _.type.names && _.type.names[0] === 'function');
+
+    let groups = callbacks.reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])
         .map(processFunctions(onError));

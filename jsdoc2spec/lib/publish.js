@@ -1,7 +1,7 @@
 import helper from 'jsdoc/util/templateHelper';
 import {Service} from 'swank-model';
 import handleProperties from './jsdoc-handler-props';
-import handleFunctions from './jsdoc-handler-operations';
+import {handleFunctions, handleCallbacks} from './jsdoc-handler-operations';
 import {dump} from './util';
 
 
@@ -28,9 +28,10 @@ function handleService(find, onError) {
     return (service) => {
         let operations = handleFunctions(find, service, onError);
         let properties = handleProperties(find, service, onError);
+        let callbacks = handleCallbacks(find, service, onError);
         handleMembers(find)(service, 'namespace');
         handleMembers(find)(service, 'typedef');
-        return Service(service.name, properties, operations);
+        return Service(service.name, properties, operations, callbacks);
     }
 }
 
@@ -40,6 +41,7 @@ function handleMembers(find) {
         if(members) {
             members.forEach(function(mem) {
                 console.log('member', mem.kind, mem.longname);
+                // dump(mem);
             });
         }
     }

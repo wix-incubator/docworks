@@ -1,0 +1,48 @@
+import runJsDoc from '../lib/jsdoc-runner';
+import {dump} from '../lib/util';
+import chai from 'chai';
+import chaiSubset from 'chai-subset';
+const expect = chai.expect;
+chai.use(chaiSubset);
+
+describe('docs', function() {
+    describe('service', function() {
+        let jsDocRes;
+        beforeEach(() => {
+            jsDocRes = runJsDoc({
+                "include": [
+                    "test/service-callbacks.js"
+                ]
+            });
+        });
+
+        afterEach(function(){
+            if (this.currentTest.state == 'failed') {
+                console.log('the jsDocRes:');
+                dump(jsDocRes);
+            }
+        });
+
+
+        it.only('should support function callbacks', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceCallbacks',
+                        operations: [
+                            {name: 'operationWithCallback', nameParams: [], params: [
+                                {name: 'input', type: 'string'},
+                                {name: 'callback', type: 'aNamespace.ServiceCallbacks.aCallback'}
+                            ], ret: 'void'}
+                        ],
+                        callbacks: [
+                            {name: 'aCallback', nameParams: [], params: [
+                                {name: 'x', type: 'number'},
+                            ], ret: 'void'}
+                        ]
+                    }
+                ]
+            });
+        });
+    });
+});
