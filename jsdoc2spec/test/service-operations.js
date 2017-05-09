@@ -112,6 +112,32 @@ class ServiceOperations {
     duplicate2() {
 
     }
+
+    /**
+     * @function optional
+     * @memberof aNamespace.ServiceOperations
+     * @param {string} [param]
+     */
+    optional(param) {
+    }
+
+    /**
+     * @function defaultValue
+     * @memberof aNamespace.ServiceOperations
+     * @param {string} [param=default]
+     */
+    defaultValue(param) {
+    }
+
+    /**
+     * @function varargs
+     * @memberof aNamespace.ServiceOperations
+     * @param {...string} param
+     */
+    varargs(param) {
+    }
+
+
 }
 
 

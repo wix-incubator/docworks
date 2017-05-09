@@ -131,5 +131,51 @@ describe('docs', function() {
                 ]
             });
         });
+
+        it('should support optional param', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'optional', nameParams: [], params: [
+                                {name: 'param', type: 'string', optional: true}
+                            ], ret: 'void'}
+                        ]
+                    }
+                ]
+            });
+        });
+
+        it('should support optional param with default value', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'defaultValue', nameParams: [], params: [
+                                {name: 'param', type: 'string', optional: true, defaultValue:"default"}
+                            ], ret: 'void'}
+                        ]
+                    }
+                ]
+            });
+        });
+
+        it('should support varargs param', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'varargs', nameParams: [], params: [
+                                {name: 'param', type: 'string', spread: true}
+                            ], ret: 'void'}
+                        ]
+                    }
+                ]
+            });
+        });
+
     });
 });

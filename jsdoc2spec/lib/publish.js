@@ -1,5 +1,5 @@
 import helper from 'jsdoc/util/templateHelper';
-import {Service, Operation, Param, Void, JsDocError, Location} from 'swank-model';
+import {Service} from 'swank-model';
 import handleProperties from './jsdoc-handler-props';
 import handleFunctions from './jsdoc-handler-operations';
 import {dump} from './util';

@@ -1,5 +1,6 @@
 import {handleMeta, handleType} from './jsdoc-handler-shared';
 import {Operation, Void, JsDocError, Param} from 'swank-model';
+import {dump} from './util';
 
 const groupByName = (groups, func) => {
     if (!func)
@@ -11,12 +12,19 @@ const groupByName = (groups, func) => {
     return groups;
 };
 
+const handleParam = (param) => {
+    return Param(param.name,
+        handleType(param.type),
+        param.optional,
+        param.defaultvalue,
+        param.variable
+    );
+};
+
 const processFunctions = (onError) => (funcs) => {
     if (funcs.length > 0) {
         let func = funcs[0];
-        let params = (func.params || []).map((param) => {
-            return Param(param.name, handleType(param.type));
-        });
+        let params = (func.params || []).map(handleParam);
 
         if (func.returns && func.returns.length > 1)
             onError(JsDocError(`Operation ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
