@@ -45,7 +45,7 @@ describe('docs', function() {
             });
         });
 
-        it.only('should support function with complex callbacks', function() {
+        it('should support function with complex callbacks', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
