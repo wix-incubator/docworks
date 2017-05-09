@@ -21,10 +21,13 @@ export function Operation(name, nameParams, params, ret) {
     }
 }
 
-export function Param(name, type) {
+export function Param(name, type, optional, defaultValue, spread) {
     return {
         name: name,
-        type: type
+        type: type,
+        optional: optional,
+        defaultValue: defaultValue,
+        spread: spread
     }
 }
 
