@@ -62,6 +62,21 @@ class ServiceTypes {
     get anArray2() {
     }
 
+    /**
+     * @function multiDimArray
+     * @memberof aNamespace.ServiceTypes
+     * @returns {string[][]}
+     */
+    multiDimArray() {
+    }
+
+    /**
+     * @function promiseArray
+     * @memberof aNamespace.ServiceTypes
+     * @returns {Promise<string[]>}
+     */
+    promiseArray() {
+    }
 }
 
 

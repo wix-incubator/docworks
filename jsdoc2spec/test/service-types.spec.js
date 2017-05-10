@@ -115,5 +115,31 @@ describe('docs', function() {
             });
         });
 
+        it('should support multi-dimentional arrays', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceTypes',
+                        operations: [
+                            {name: 'multiDimArray', nameParams: [], params: [], ret: 'Array.<Array.<string>>'}
+                        ]
+                    }
+                ]
+            });
+        });
+
+        it('should support Promise of array', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceTypes',
+                        operations: [
+                            {name: 'promiseArray', nameParams: [], params: [], ret: 'Promise.<Array.<string>>'}
+                        ]
+                    }
+                ]
+            });
+        });
+
     });
 });
