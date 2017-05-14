@@ -65,7 +65,7 @@ describe('docs', function() {
             });
         });
 
-        it.only('should support a function with message types', function() {
+        it('should support a function with message types', function() {
 
             expect(jsDocRes).to.containSubset({
                 services: [
@@ -80,5 +80,49 @@ describe('docs', function() {
                 ]
             });
         });
+
+        it('should support a function with a complex message type', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceMessages',
+                        operations: [
+                            {name: 'operationComplex', nameParams: [], params: [
+                                {name: 'input', type: 'aNamespace.ServiceMessages.ComplexMessage'}
+                            ], ret: 'void'}
+                        ]
+                    }
+                ]
+            });
+        });
+
+        it('should support a complex message', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceMessages',
+                        messages: [
+                            {
+                                name: 'ComplexMessage',
+                                members: [
+                                    {name: 'in1', type: 'aNamespace.ServiceMessages.InMessage'},
+                                    {name: 'in2', type: 'aNamespace.ServiceMessages.InMessage'}
+                                ]
+                            },
+                            {
+                                name: 'InMessage',
+                                members: [
+                                    {name: 'name', type: 'string'},
+                                    {name: 'age', type: ['string', 'number']}
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            });
+        });
+
     });
 });

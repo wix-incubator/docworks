@@ -22,6 +22,13 @@ class ServiceMessages {
      */
 
     /**
+     * @typedef ComplexMessage
+     * @memberof aNamespace.ServiceMessages
+     * @property {aNamespace.ServiceMessages.InMessage} in1
+     * @property {aNamespace.ServiceMessages.InMessage} in2
+     */
+
+    /**
      * @member prop
      * @memberof aNamespace.ServiceMessages
      * @type {aNamespace.ServiceMessages.OutMessage}
@@ -35,6 +42,16 @@ class ServiceMessages {
      *
      * @param {aNamespace.ServiceMessages.InMessage} input the input
      * @returns {aNamespace.ServiceMessages.OutMessage} output
+     */
+    operation(input) {
+
+    }
+
+    /**
+     * @function operationComplex
+     * @memberof aNamespace.ServiceMessages
+     *
+     * @param {aNamespace.ServiceMessages.ComplexMessage} input the input
      */
     operation(input) {
 
