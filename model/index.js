@@ -42,6 +42,20 @@ export function Property(name, isGet, isSet, type, locations) {
     }
 }
 
+export function Message(name, members) {
+    return {
+        name: name,
+        members: members
+    }
+}
+
+export function MessageMember(name, type) {
+    return {
+        name: name,
+        type: type
+    }
+}
+
 export function AtomicType(name) {
     return name;
 }
