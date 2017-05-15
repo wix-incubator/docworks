@@ -1,4 +1,4 @@
-import {handleMeta, handleType} from './jsdoc-handler-shared';
+import {handleMeta, handleType, typeContext} from './jsdoc-handler-shared';
 import {Operation, Void, JsDocError, Param} from 'swank-model';
 import {dump} from './util';
 
@@ -12,19 +12,20 @@ const groupByName = (groups, func) => {
     return groups;
 };
 
-const handleParam = (param) => {
+const handleParam = (find, onError, context) => (param) => {
     return Param(param.name,
-        handleType(param.type),
+        handleType(param.type, find, onError, context),
         param.optional,
         param.defaultvalue,
         param.variable
     );
 };
 
-const processFunctions = (onError) => (funcs) => {
+const processFunctions = (find, onError) => (funcs) => {
     if (funcs.length > 0) {
         let func = funcs[0];
-        let params = (func.params || []).map(handleParam);
+        let params = (func.params || [])
+            .map(handleParam(find, onError, typeContext('Operation', func.name, 'param', handleMeta(func.meta))));
 
         if (func.returns && func.returns.length > 1)
             onError(JsDocError(`Operation ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
@@ -32,7 +33,8 @@ const processFunctions = (onError) => (funcs) => {
         if (funcs.length > 1)
             onError(JsDocError(`Operation ${func.name} is defined two or more times`, funcs.map(func => handleMeta(func.meta))));
 
-        let ret = (func.returns && func.returns.length > 0)? handleType(func.returns[0].type): Void;
+        let ret = (func.returns && func.returns.length > 0)?
+            handleType(func.returns[0].type, find, onError, typeContext('Operation', func.name, 'return', handleMeta(func.meta))): Void;
 
 
         // todo handle name params
@@ -49,7 +51,7 @@ export function handleFunctions(find, service, onError) {
     let groups = functions.reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])
-        .map(processFunctions(onError));
+        .map(processFunctions(find, onError));
 
 }
 
@@ -63,6 +65,6 @@ export function handleCallbacks(find, service, onError) {
     let groups = callbacks.reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])
-        .map(processFunctions(onError));
+        .map(processFunctions(find, onError));
 
 }
