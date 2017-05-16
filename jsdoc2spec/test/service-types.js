@@ -78,14 +78,6 @@ class ServiceTypes {
     promiseArray() {
     }
 
-    /**
-     * @function unknownType
-     * @memberof aNamespace.ServiceTypes
-     * @param {Unknown1} unknown a non existent parameter type
-     * @returns {Unknown2}
-     */
-    unknownType() {
-    }
 }
 
 

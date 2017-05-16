@@ -141,31 +141,5 @@ describe('docs', function() {
             });
         });
 
-
-        it.only('should report error on unknown types', function() {
-            expect(jsDocRes).to.containSubset({
-                services: [
-                    {
-                        name: 'ServiceTypes',
-                        operations: [
-                            {name: 'unknownType', nameParams: [], params: [
-                                {name: 'unknown', type: 'Unknown1'}
-                            ], ret: 'Unknown2'}
-                        ]
-                    }
-                ],
-                errors: [
-                    {
-                        message: 'Operation unknownType has an Unknown param type Unknown1',
-                        location: 'service-types.js (81)'
-                    },
-                    {
-                        message: 'Operation unknownType has an Unknown return type Unknown2',
-                        location: 'service-types.js (81)'
-                    }
-
-                ]
-            });
-        });
     });
 });
