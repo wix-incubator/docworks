@@ -15,6 +15,35 @@ class ServiceUnknownTypes {
      */
     unknownType() {
     }
+
+
+    /**
+     * @typedef Type1
+     * @memberof aNamespace.ServiceUnknownTypes
+     * @property {Unknown1} unknown
+     */
+
+    /**
+     * @typedef Type2
+     * @memberof aNamespace.ServiceUnknownTypes
+     * @property {string} known
+     */
+
+    /**
+     * @function typedefFullPath
+     * @memberof aNamespace.ServiceUnknownTypes
+     * @param {aNamespace.ServiceUnknownTypes.Type2} type2 a full path parameter
+     */
+    typedefFullPath() {
+    }
+
+    /**
+     * @function typedefRelativePath
+     * @memberof aNamespace.ServiceUnknownTypes
+     * @param {Type2} type2 a relative path parameter
+     */
+    typedefRelativePath() {
+    }
 }
 
 

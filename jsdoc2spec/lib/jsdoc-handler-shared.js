@@ -25,7 +25,7 @@ export function handleType(type, find, onError, context) {
     if (type.names && find) {
         type.names.forEach((name) => {
             if (find({longname: name}).length === 0)
-                onError(JsDocError(`${context.kind} ${context.name} has an Unknown ${context.part} type ${name}`, [context.location]));
+                onError(JsDocError(`${context.kind} ${context.name} has an unknown ${context.part} type ${name}`, [context.location]));
         })
     }
 

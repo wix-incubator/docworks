@@ -24,7 +24,7 @@ describe('docs', function() {
         });
 
 
-        it('should report error on unknown types', function() {
+        it('should report error on unknown operation types', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -38,12 +38,37 @@ describe('docs', function() {
                 ],
                 errors: [
                     {
-                        message: 'Operation unknownType has an Unknown param type Unknown1',
+                        message: 'Operation unknownType has an unknown param type Unknown1',
                         location: 'service-unknown-types.js (10)'
                     },
                     {
-                        message: 'Operation unknownType has an Unknown return type Unknown2',
+                        message: 'Operation unknownType has an unknown return type Unknown2',
                         location: 'service-unknown-types.js (10)'
+                    }
+
+                ]
+            });
+        });
+
+        it('should report error on unknown message types', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceUnknownTypes',
+                        messages: [
+                            {
+                                name: 'Type1',
+                                members: [
+                                    {name: 'unknown', type: 'Unknown1'}
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Message Type1 has an unknown property type Unknown1',
+                        location: 'service-unknown-types.js (20)'
                     }
 
                 ]

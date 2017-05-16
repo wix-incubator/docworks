@@ -1,4 +1,4 @@
-import {handleMeta, handleType} from './jsdoc-handler-shared';
+import {handleMeta, handleType, typeContext} from './jsdoc-handler-shared';
 import {Message, MessageMember, JsDocError} from 'swank-model';
 import {dump} from './util';
 
@@ -12,16 +12,17 @@ const groupByName = (groups, message) => {
     return groups;
 };
 
-const handleProp = (prop) => {
+const handleProp = (find, onError, context) => (prop) => {
     return MessageMember(prop.name,
-        handleType(prop.type)
+        handleType(prop.type, find, onError, context)
     );
 };
 
-const processMessages = (onError) => (messages) => {
+const processMessages = (find, onError) => (messages) => {
     if (messages.length > 0) {
         let message = messages[0];
-        let members = (message.properties || []).map(handleProp);
+        let members = (message.properties || [])
+            .map(handleProp(find, onError, typeContext('Message', message.name, 'property', handleMeta(message.meta))));
 
         if (messages.length > 1)
             onError(JsDocError(`Message ${message.name} is defined two or more times`, messages.map(mes => handleMeta(mes.meta))));
@@ -40,6 +41,6 @@ export default function handleMessages(find, service, onError) {
     let groups = callbacks.reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])
-        .map(processMessages(onError));
+        .map(processMessages(find, onError));
 
 }
