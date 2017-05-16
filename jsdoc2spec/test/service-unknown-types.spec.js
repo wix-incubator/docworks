@@ -74,5 +74,40 @@ describe('docs', function() {
                 ]
             });
         });
+
+        it('should not report error on function with full type reference', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceUnknownTypes',
+                        operations: [
+                            {name: 'typedefFullPath', nameParams: [], params: [
+                                {name: 'type2', type: 'aNamespace.ServiceUnknownTypes.Type2'}
+                            ], ret: 'void'}
+                        ]
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation typedefFullPath');
+        });
+
+        it('should not report error on function with relative type reference', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceUnknownTypes',
+                        operations: [
+                            {name: 'typedefRelativePath', nameParams: [], params: [
+                                {name: 'type2', type: 'aNamespace.ServiceUnknownTypes.Type2'}
+                            ], ret: 'void'}
+                        ]
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation typedefRelativePath');
+        });
+
+        // todo built in types
+        // todo extra types
     });
 });

@@ -25,7 +25,7 @@ const processFunctions = (find, onError) => (funcs) => {
     if (funcs.length > 0) {
         let func = funcs[0];
         let params = (func.params || [])
-            .map(handleParam(find, onError, typeContext('Operation', func.name, 'param', handleMeta(func.meta))));
+            .map(handleParam(find, onError, typeContext('Operation', func.name, 'param', func.memberof, handleMeta(func.meta))));
 
         if (func.returns && func.returns.length > 1)
             onError(JsDocError(`Operation ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
@@ -34,7 +34,7 @@ const processFunctions = (find, onError) => (funcs) => {
             onError(JsDocError(`Operation ${func.name} is defined two or more times`, funcs.map(func => handleMeta(func.meta))));
 
         let ret = (func.returns && func.returns.length > 0)?
-            handleType(func.returns[0].type, find, onError, typeContext('Operation', func.name, 'return', handleMeta(func.meta))): Void;
+            handleType(func.returns[0].type, find, onError, typeContext('Operation', func.name, 'return', func.memberof, handleMeta(func.meta))): Void;
 
 
         // todo handle name params
