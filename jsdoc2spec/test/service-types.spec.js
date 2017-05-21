@@ -2,8 +2,20 @@ import runJsDoc from '../lib/jsdoc-runner';
 import {dump} from '../lib/util';
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
+import {inspect} from 'util';
 const expect = chai.expect;
 chai.use(chaiSubset);
+
+chai.Assertion.addMethod('hasError', function(error) {
+    if (!this._obj)
+        throw new Error('expected hasError to get an array of errors');
+    let found = this._obj.find((_) => _.message.indexOf(error) >=0);
+    this.assert(
+        !!found,
+        `expected errors to contain an error with ${error}\nErrors:\n${inspect(this._obj, {colors: true, depth: 5})}`,
+        `expected errors to not contain an error with ${error}\nErrors:\n${inspect(this._obj, {colors: true, depth: 5})}`
+    );
+});
 
 describe('docs', function() {
     describe('service types', function() {
@@ -24,7 +36,7 @@ describe('docs', function() {
         });
 
 
-        it('should support string type', function() {
+        it.only('should support string type', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -35,6 +47,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).not.hasError('Property aString');
         });
 
         it('should support number type', function() {

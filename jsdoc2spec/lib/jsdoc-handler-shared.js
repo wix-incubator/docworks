@@ -4,6 +4,11 @@ export function handleMeta(meta) {
     return Location(meta.filename, meta.lineno);
 }
 
+const builtInTypes = [
+    'string',
+    'String'
+]
+
 /**
  *
  * @param kind - member, operation, message
@@ -30,8 +35,9 @@ export function handleType(type, find, onError, context) {
             let typeByFullPath = find({longname: name});
             let typeByRelativePath = find({name: name})
                 .filter((aType) => aType.memberof === context.defaultScope);
+            let builtInType = builtInTypes.find(_ => _ === name);
 
-            if (typeByFullPath.length === 0 && typeByRelativePath.length === 0) {
+            if (typeByFullPath.length === 0 && typeByRelativePath.length === 0 && !builtInType) {
                 let paddedPart = context.part + (context.part?" ":"");
                 onError(JsDocError(`${context.kind} ${context.name} has an unknown ${paddedPart}type ${name}`, [context.location]));
             }

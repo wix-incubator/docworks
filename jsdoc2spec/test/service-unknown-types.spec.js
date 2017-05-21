@@ -107,7 +107,7 @@ describe('docs', function() {
             expect(jsDocRes.errors).to.not.deep.contains('Operation typedefRelativePath');
         });
 
-        it.only('should not report error on function with relative type reference', function() {
+        it('should not report error on function with relative type reference', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
