@@ -15,6 +15,14 @@ class ServiceTypes {
     }
 
     /**
+     * @member aString2
+     * @memberof aNamespace.ServiceTypes
+     * @type {String}
+     */
+    get aString2() {
+    }
+
+    /**
      * @member aNumber
      * @memberof aNamespace.ServiceTypes
      * @type {number}
@@ -23,11 +31,27 @@ class ServiceTypes {
     }
 
     /**
+     * @member aNumber2
+     * @memberof aNamespace.ServiceTypes
+     * @type {Number}
+     */
+    get aNumber2() {
+    }
+
+    /**
      * @member aBoolean
      * @memberof aNamespace.ServiceTypes
      * @type {boolean}
      */
     get aBoolean() {
+    }
+
+    /**
+     * @member aBoolean2
+     * @memberof aNamespace.ServiceTypes
+     * @type {Boolean}
+     */
+    get aBoolean2() {
     }
 
     /**

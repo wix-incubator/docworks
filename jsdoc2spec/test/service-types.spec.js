@@ -36,7 +36,7 @@ describe('docs', function() {
         });
 
 
-        it.only('should support string type', function() {
+        it('should support string type', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -50,6 +50,20 @@ describe('docs', function() {
             expect(jsDocRes.errors).not.hasError('Property aString');
         });
 
+        it('should support String as string type', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceTypes',
+                        properties: [
+                            {name: 'aString2', get: true, set: false, type: 'string'}
+                        ]
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).not.hasError('Property aString2');
+        });
+
         it('should support number type', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
@@ -61,6 +75,21 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).not.hasError('Property aNumber');
+        });
+
+        it('should support Number as number type', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceTypes',
+                        properties: [
+                            {name: 'aNumber2', get: true, set: false, type: 'number'}
+                        ]
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).not.hasError('Property aNumber2');
         });
 
         it('should support boolean type', function() {
@@ -74,6 +103,21 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).not.hasError('Property aBoolean');
+        });
+
+        it('should support Boolean as boolean type', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceTypes',
+                        properties: [
+                            {name: 'aBoolean2', get: true, set: false, type: 'boolean'}
+                        ]
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).not.hasError('Property aBoolean2');
         });
 
         it('should support date type', function() {
@@ -87,6 +131,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).not.hasError('Property aDate');
         });
 
         it('should support union type defined as string | number', function() {
@@ -100,9 +145,10 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).not.hasError('Property union');
         });
 
-        it('should support array type defined as string[]', function() {
+        it.skip('should support array type defined as string[]', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -113,9 +159,10 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).not.hasError('Property anArray');
         });
 
-        it('should support array type defined as Array.<string>', function() {
+        it.skip('should support array type defined as Array.<string>', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -126,9 +173,10 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).not.hasError('Property anArray2');
         });
 
-        it('should support multi-dimentional arrays', function() {
+        it.skip('should support multi-dimentional arrays', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -139,9 +187,10 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).not.hasError('Operation multiDimArray');
         });
 
-        it('should support Promise of array', function() {
+        it.skip('should support Promise of array', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -152,6 +201,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).not.hasError('Operation promiseArray');
         });
 
     });

@@ -4,10 +4,15 @@ export function handleMeta(meta) {
     return Location(meta.filename, meta.lineno);
 }
 
-const builtInTypes = [
-    'string',
-    'String'
-]
+const builtInTypes = {
+    'string': 'string',
+    'String': 'string',
+    'boolean': 'boolean',
+    'Boolean': 'boolean',
+    'number': 'number',
+    'Number': 'number',
+    'Date': 'Date'
+};
 
 /**
  *
@@ -35,15 +40,16 @@ export function handleType(type, find, onError, context) {
             let typeByFullPath = find({longname: name});
             let typeByRelativePath = find({name: name})
                 .filter((aType) => aType.memberof === context.defaultScope);
-            let builtInType = builtInTypes.find(_ => _ === name);
+            let builtInType = builtInTypes[name];
 
             if (typeByFullPath.length === 0 && typeByRelativePath.length === 0 && !builtInType) {
                 let paddedPart = context.part + (context.part?" ":"");
                 onError(JsDocError(`${context.kind} ${context.name} has an unknown ${paddedPart}type ${name}`, [context.location]));
             }
-            if (typeByFullPath.length === 0 && typeByRelativePath.length === 1) {
+            if (typeByFullPath.length === 0 && typeByRelativePath.length === 1)
                 return `${context.defaultScope}.${name}`;
-            }
+            if (builtInType)
+                return builtInType;
             return name;
         })
     }
