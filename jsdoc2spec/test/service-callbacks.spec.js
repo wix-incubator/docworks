@@ -61,7 +61,7 @@ describe('docs', function() {
                                 {name: 'x', type: 'number'},
                                 {name: 'y', type: 'string'},
                                 {name: 'cb', type: 'aNamespace.ServiceCallbacks.aComplexCallbackCallback'}
-                            ], ret: 'Promise.<string>'},
+                            ], ret: {name: 'Promise', typeParams: ['string']}},
                             {name: 'aComplexCallbackCallback', nameParams: [], params: [
                                 {name: 'z', type: 'number'}
                             ], ret: 'void'}

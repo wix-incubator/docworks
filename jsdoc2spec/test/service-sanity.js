@@ -46,7 +46,5 @@ class Service {
 
 // todo class mixins
 // todo namespace
-// todo validate types exist
-// todo messages of same namespace do not need full path
 
 export default Service;

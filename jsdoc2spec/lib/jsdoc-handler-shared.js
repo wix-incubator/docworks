@@ -1,4 +1,4 @@
-import {Void, Location, JsDocError} from 'swank-model';
+import {Void, Location, JsDocError, GeneticType} from 'swank-model';
 
 export function handleMeta(meta) {
     return Location(meta.filename, meta.lineno);
@@ -11,7 +11,9 @@ const builtInTypes = {
     'Boolean': 'boolean',
     'number': 'number',
     'Number': 'number',
-    'Date': 'Date'
+    'Date': 'Date',
+    'Array': 'Array',
+    'Promise': 'Promise'
 };
 
 /**
@@ -29,29 +31,39 @@ export function typeContext(kind, name, part, defaultScope, location) {
     }
 }
 
+const testGeneric = /([^,<>]+)\.<([^,]+)>$/;
 export function handleType(type, find, onError, context) {
     if (!type || !type.names)
         return Void;
 
     let typeNames = type.names;
 
-    if (find) {
-        typeNames = typeNames.map((name) => {
-            let typeByFullPath = find({longname: name});
-            let typeByRelativePath = find({name: name})
-                .filter((aType) => aType.memberof === context.defaultScope);
-            let builtInType = builtInTypes[name];
+    var handleTypeName = (name) => {
+        name = name.trim();
+        let generic = testGeneric.exec(name);
+        if (generic) {
+            return GeneticType(handleTypeName(generic[1]),
+                generic[2].split(',').map(handleTypeName)
+            );
+        }
+        let typeByFullPath = find({longname: name});
+        let typeByRelativePath = find({name: name})
+            .filter((aType) => aType.memberof === context.defaultScope);
+        let builtInType = builtInTypes[name];
 
-            if (typeByFullPath.length === 0 && typeByRelativePath.length === 0 && !builtInType) {
-                let paddedPart = context.part + (context.part?" ":"");
-                onError(JsDocError(`${context.kind} ${context.name} has an unknown ${paddedPart}type ${name}`, [context.location]));
-            }
-            if (typeByFullPath.length === 0 && typeByRelativePath.length === 1)
-                return `${context.defaultScope}.${name}`;
-            if (builtInType)
-                return builtInType;
-            return name;
-        })
+        if (typeByFullPath.length === 0 && typeByRelativePath.length === 0 && !builtInType) {
+            let paddedPart = context.part + (context.part?" ":"");
+            onError(JsDocError(`${context.kind} ${context.name} has an unknown ${paddedPart}type ${name}`, [context.location]));
+        }
+        if (typeByFullPath.length === 0 && typeByRelativePath.length === 1)
+            return `${context.defaultScope}.${name}`;
+        if (builtInType)
+            return builtInType;
+        return name;
+    };
+
+    if (find) {
+        typeNames = typeNames.map(handleTypeName)
     }
 
     if (typeNames.length == 1) {

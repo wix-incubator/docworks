@@ -148,13 +148,13 @@ describe('docs', function() {
             expect(jsDocRes.errors).not.hasError('Property union');
         });
 
-        it.skip('should support array type defined as string[]', function() {
+        it('should support array type defined as string[]', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
                         name: 'ServiceTypes',
                         properties: [
-                            {name: 'anArray', get: true, set: false, type: 'Array.<string>'}
+                            {name: 'anArray', get: true, set: false, type: {name: 'Array', typeParams: ['string']}}
                         ]
                     }
                 ]
@@ -162,13 +162,13 @@ describe('docs', function() {
             expect(jsDocRes.errors).not.hasError('Property anArray');
         });
 
-        it.skip('should support array type defined as Array.<string>', function() {
+        it('should support array type defined as Array.<string>', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
                         name: 'ServiceTypes',
                         properties: [
-                            {name: 'anArray2', get: true, set: false, type: 'Array.<string>'}
+                            {name: 'anArray2', get: true, set: false, type: {name: 'Array', typeParams: ['string']}}
                         ]
                     }
                 ]
@@ -176,13 +176,13 @@ describe('docs', function() {
             expect(jsDocRes.errors).not.hasError('Property anArray2');
         });
 
-        it.skip('should support multi-dimentional arrays', function() {
+        it('should support multi-dimentional arrays', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
                         name: 'ServiceTypes',
                         operations: [
-                            {name: 'multiDimArray', nameParams: [], params: [], ret: 'Array.<Array.<string>>'}
+                            {name: 'multiDimArray', nameParams: [], params: [], ret: {name: 'Array', typeParams: [{name: 'Array', typeParams: ['string']}]}}
                         ]
                     }
                 ]
@@ -190,13 +190,13 @@ describe('docs', function() {
             expect(jsDocRes.errors).not.hasError('Operation multiDimArray');
         });
 
-        it.skip('should support Promise of array', function() {
+        it('should support Promise of array', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
                         name: 'ServiceTypes',
                         operations: [
-                            {name: 'promiseArray', nameParams: [], params: [], ret: 'Promise.<Array.<string>>'}
+                            {name: 'promiseArray', nameParams: [], params: [], ret: {name: 'Promise', typeParams: [{name: 'Array', typeParams: ['string']}]}}
                         ]
                     }
                 ]

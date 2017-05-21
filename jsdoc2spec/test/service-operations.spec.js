@@ -74,7 +74,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceOperations',
                         operations: [
-                            {name: 'returnsArray', nameParams: [], params: [], ret: 'Array.<string>'}
+                            {name: 'returnsArray', nameParams: [], params: [], ret: {name: 'Array', typeParams: ['string']}}
                         ]
                     }
                 ]
@@ -87,7 +87,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceOperations',
                         operations: [
-                            {name: 'returnsPromise', nameParams: [], params: [], ret: 'Promise.<string>'}
+                            {name: 'returnsPromise', nameParams: [], params: [], ret: {name: 'Promise', typeParams: ['string']}}
                         ]
                     }
                 ]

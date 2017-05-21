@@ -64,6 +64,13 @@ export function UnionType(names) {
     return names;
 }
 
+export function GeneticType(name, typeParams) {
+    return {
+        name: name,
+        typeParams: typeParams
+    };
+}
+
 export function Location(filename, lineno) {
     return {
         filename: filename,

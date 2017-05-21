@@ -126,8 +126,6 @@ describe('docs', function() {
             });
         });
 
-        // todo built in types
         // todo extra types
-        // todo validate array types
     });
 });
