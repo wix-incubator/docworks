@@ -32,7 +32,8 @@ export function handleType(type, find, onError, context) {
                 .filter((aType) => aType.memberof === context.defaultScope);
 
             if (typeByFullPath.length === 0 && typeByRelativePath.length === 0) {
-                onError(JsDocError(`${context.kind} ${context.name} has an unknown ${context.part} type ${name}`, [context.location]));
+                let paddedPart = context.part + (context.part?" ":"");
+                onError(JsDocError(`${context.kind} ${context.name} has an unknown ${paddedPart}type ${name}`, [context.location]));
             }
             if (typeByFullPath.length === 0 && typeByRelativePath.length === 1) {
                 return `${context.defaultScope}.${name}`;

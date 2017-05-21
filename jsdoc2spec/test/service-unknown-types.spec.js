@@ -107,7 +107,27 @@ describe('docs', function() {
             expect(jsDocRes.errors).to.not.deep.contains('Operation typedefRelativePath');
         });
 
+        it.only('should not report error on function with relative type reference', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceUnknownTypes',
+                        properties: [
+                            {name: 'unknownProperty', get: true, set: false, type: 'Unknown1'}
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Property unknownProperty has an unknown type Unknown1',
+                        location: 'service-unknown-types.js (48)'
+                    }
+                ]
+            });
+        });
+
         // todo built in types
         // todo extra types
+        // todo validate array types
     });
 });

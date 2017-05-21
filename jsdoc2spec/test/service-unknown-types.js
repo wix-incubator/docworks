@@ -44,6 +44,15 @@ class ServiceUnknownTypes {
      */
     typedefRelativePath() {
     }
+
+    /**
+     * @member unknownProperty
+     * @memberof aNamespace.ServiceUnknownTypes
+     * @type {Unknown1}
+     */
+    get aString() {
+    }
+
 }
 
 

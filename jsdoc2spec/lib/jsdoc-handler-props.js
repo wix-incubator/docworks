@@ -1,19 +1,21 @@
 
 import {Property, Void, JsDocError} from 'swank-model';
-import {handleMeta, handleType} from './jsdoc-handler-shared';
+import {handleMeta, handleType, typeContext} from './jsdoc-handler-shared';
 
 
-const extractMembers = (onError) => (member) => {
+const extractMembers = (find, onError) => (member) => {
     // handle read property
+    var location = handleMeta(member.meta);
+    let context = typeContext('Property', member.name, '', member.memberof, location);
     if (member.type)
-        return Property(member.name, true, false, handleType(member.type), [handleMeta(member.meta)]);
+        return Property(member.name, true, false, handleType(member.type, find, onError, context), [location]);
 
     // handle write property
     if (member.params && member.params.length > 0)
-        return Property(member.name, false, true, handleType(member.params[0].type), [handleMeta(member.meta)]);
+        return Property(member.name, false, true, handleType(member.params[0].type, find, onError, context), [location]);
 
-    onError(JsDocError(`Property ${member.name} is missing a type annotation`, [handleMeta(member.meta)]));
-    return Property(member.name, false, false, Void, [handleMeta(member.meta)]);
+    onError(JsDocError(`Property ${member.name} is missing a type annotation`, [location]));
+    return Property(member.name, false, false, Void, [location]);
 
 };
 
@@ -76,7 +78,7 @@ export default function handleProperties(find, service, onError) {
         return [];
 
 
-    let groups = members.map(extractMembers(onError))
+    let groups = members.map(extractMembers(find, onError))
         .reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])
