@@ -75,6 +75,21 @@ class ServiceCallbacks {
     operationWithErrorCallback(input, callback) {
 
     }
+
+    /**
+     * @function operationWithUnknownCallback
+     * @memberof aNamespace.ServiceCallbacks
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @param {string} input the input
+     * @param {UnknownCallback} callback the input
+     */
+    operationWithUnknownCallback(input, callback) {
+
+    }
+
 }
 
 

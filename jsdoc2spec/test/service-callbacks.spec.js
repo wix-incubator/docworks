@@ -103,5 +103,29 @@ describe('docs', function() {
             });
             expect(jsDocRes.errors).to.not.deep.contains('Operation operationWithComplexCallback');
         });
+
+        it('should report errors for unknown callback', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceCallbacks',
+                        operations: [
+                            {name: 'operationWithUnknownCallback', nameParams: [], params: [
+                                {name: 'input', type: 'string'},
+                                {name: 'callback', type: 'UnknownCallback'}
+                            ], ret: 'void'}
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Operation operationWithUnknownCallback has an unknown param type UnknownCallback',
+                        location: 'service-callbacks.js (79)'
+                    }
+                ]
+
+            });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation operationWithComplexCallback');
+        });
     });
 });
