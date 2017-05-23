@@ -21,20 +21,20 @@ const handleParam = (find, onError, context) => (param) => {
     );
 };
 
-const processFunctions = (find, onError) => (funcs) => {
+const processFunctions = (find, onError, kind) => (funcs) => {
     if (funcs.length > 0) {
         let func = funcs[0];
         let params = (func.params || [])
-            .map(handleParam(find, onError, typeContext('Operation', func.name, 'param', func.memberof, handleMeta(func.meta))));
+            .map(handleParam(find, onError, typeContext(kind, func.name, 'param', func.memberof, handleMeta(func.meta))));
 
         if (func.returns && func.returns.length > 1)
-            onError(JsDocError(`Operation ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
+            onError(JsDocError(`${kind} ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
 
         if (funcs.length > 1)
-            onError(JsDocError(`Operation ${func.name} is defined two or more times`, funcs.map(func => handleMeta(func.meta))));
+            onError(JsDocError(`${kind} ${func.name} is defined two or more times`, funcs.map(func => handleMeta(func.meta))));
 
         let ret = (func.returns && func.returns.length > 0)?
-            handleType(func.returns[0].type, find, onError, typeContext('Operation', func.name, 'return', func.memberof, handleMeta(func.meta))): Void;
+            handleType(func.returns[0].type, find, onError, typeContext(kind, func.name, 'return', func.memberof, handleMeta(func.meta))): Void;
 
 
         // todo handle name params
@@ -51,7 +51,7 @@ export function handleFunctions(find, service, onError) {
     let groups = functions.reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])
-        .map(processFunctions(find, onError));
+        .map(processFunctions(find, onError, 'Operation'));
 
 }
 
@@ -65,6 +65,6 @@ export function handleCallbacks(find, service, onError) {
     let groups = callbacks.reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])
-        .map(processFunctions(find, onError));
+        .map(processFunctions(find, onError, 'Callback'));
 
 }

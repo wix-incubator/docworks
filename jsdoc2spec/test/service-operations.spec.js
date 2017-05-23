@@ -37,6 +37,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation oneParam');
         });
 
         it('should return methods with two parameter', function() {
@@ -53,6 +54,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation twoParams');
         });
 
         it('should return a method with a return value', function() {
@@ -66,6 +68,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation returns');
         });
 
         it('should return a method with an array return value', function() {
@@ -79,6 +82,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation returnsArray');
         });
 
         it('should return a method with a promise return value', function() {
@@ -92,6 +96,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation returnsPromise');
         });
 
         it('should error on multiple returns', function() {
@@ -145,6 +150,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation optional');
         });
 
         it('should support optional param with default value', function() {
@@ -160,6 +166,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation defaultValue');
         });
 
         it('should support varargs param', function() {
@@ -175,6 +182,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation varargs');
         });
 
     });

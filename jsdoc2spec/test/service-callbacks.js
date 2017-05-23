@@ -56,6 +56,25 @@ class ServiceCallbacks {
 
     }
 
+    /**
+     * @callback AnErrorCallback
+     * @memberof aNamespace.ServiceCallbacks
+     * @param {Unknown} z -
+     */
+
+    /**
+     * @function operationWithErrorCallback
+     * @memberof aNamespace.ServiceCallbacks
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @param {string} input the input
+     * @param {AnErrorCallback} callback the input
+     */
+    operationWithErrorCallback(input, callback) {
+
+    }
 }
 
 

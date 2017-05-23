@@ -43,6 +43,8 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation operationWithCallback');
+            expect(jsDocRes.errors).to.not.deep.contains('Callback aCallback');
         });
 
         it('should support function with complex callbacks', function() {
@@ -69,6 +71,37 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation operationWithComplexCallback');
+            expect(jsDocRes.errors).to.not.deep.contains('Callback aComplexCallback');
+        });
+
+        it('should report errors for callback with unknown types', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceCallbacks',
+                        operations: [
+                            {name: 'operationWithErrorCallback', nameParams: [], params: [
+                                {name: 'input', type: 'string'},
+                                {name: 'callback', type: 'aNamespace.ServiceCallbacks.AnErrorCallback'}
+                            ], ret: 'void'}
+                        ],
+                        callbacks: [
+                            {name: 'AnErrorCallback', nameParams: [], params: [
+                                {name: 'z', type: 'Unknown'}
+                            ], ret: 'void'}
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Callback AnErrorCallback has an unknown param type Unknown',
+                        location: 'service-callbacks.js (59)'
+                    }
+                ]
+
+            });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation operationWithComplexCallback');
         });
     });
 });
