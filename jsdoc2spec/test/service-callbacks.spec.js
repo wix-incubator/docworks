@@ -125,7 +125,6 @@ describe('docs', function() {
                 ]
 
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation operationWithComplexCallback');
         });
     });
 });
