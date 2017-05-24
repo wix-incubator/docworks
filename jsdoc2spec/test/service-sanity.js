@@ -44,6 +44,4 @@ class Service {
     }
 }
 
-// todo class mixins
-
 export default Service;

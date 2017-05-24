@@ -2,6 +2,7 @@ import helper from 'jsdoc/util/templateHelper';
 import {Service} from 'swank-model';
 import handleProperties from './jsdoc-handler-props';
 import handleMessages from './jsdoc-handler-messages';
+import handleMixins from './jsdoc-handler-mixins';
 import {handleFunctions, handleCallbacks} from './jsdoc-handler-operations';
 import {dump} from './util';
 
@@ -21,6 +22,7 @@ export function publish(taffyData, opts) {
 
     opts.serviceModel.add(members.classes.map(handleService(find, onError)));
     opts.serviceModel.add(members.namespaces.map(handleService(find, onError)));
+    opts.serviceModel.add(members.mixins.map(handleService(find, onError)));
 }
 
 
@@ -31,20 +33,8 @@ function handleService(find, onError) {
         let properties = handleProperties(find, service, onError);
         let callbacks = handleCallbacks(find, service, onError);
         let messages = handleMessages(find, service, onError);
-        handleMembers(find)(service, 'namespace');
-        return Service(service.name, service.memberof, properties, operations, callbacks, messages);
-    }
-}
-
-function handleMembers(find) {
-    return (service, kind) => {
-        var members = find({kind: kind, memberof: service.longname});
-        if(members) {
-            members.forEach(function(mem) {
-                console.log('member', mem.kind, mem.longname);
-                // dump(mem);
-            });
-        }
+        let mixes = handleMixins(find, service, onError);
+        return Service(service.name, service.memberof, mixes, properties, operations, callbacks, messages);
     }
 }
 
