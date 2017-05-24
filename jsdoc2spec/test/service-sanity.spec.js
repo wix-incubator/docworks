@@ -24,6 +24,16 @@ describe('docs', function() {
         });
 
 
+        it('should return the service for each class', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {name: 'Service', memberOf: 'aNamespace'}
+                ]
+            });
+        });
+
+
         it('should return the service properties', function() {
 
             expect(jsDocRes).to.containSubset({

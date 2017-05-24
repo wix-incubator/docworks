@@ -13,7 +13,6 @@ export function publish(taffyData, opts) {
 
     let data = helper.prune(taffyData);
     var members = helper.getMembers(data);
-
     function find(spec) {
         return helper.find(data, spec);
     }
@@ -21,6 +20,7 @@ export function publish(taffyData, opts) {
     const onError = (jsDocError) => opts.serviceModel.addError(jsDocError);
 
     opts.serviceModel.add(members.classes.map(handleService(find, onError)));
+    opts.serviceModel.add(members.namespaces.map(handleService(find, onError)));
 }
 
 
@@ -32,7 +32,7 @@ function handleService(find, onError) {
         let callbacks = handleCallbacks(find, service, onError);
         let messages = handleMessages(find, service, onError);
         handleMembers(find)(service, 'namespace');
-        return Service(service.name, properties, operations, callbacks, messages);
+        return Service(service.name, service.memberof, properties, operations, callbacks, messages);
     }
 }
 
