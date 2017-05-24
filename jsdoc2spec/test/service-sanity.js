@@ -45,6 +45,5 @@ class Service {
 }
 
 // todo class mixins
-// todo namespace
 
 export default Service;
