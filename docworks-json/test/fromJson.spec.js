@@ -59,6 +59,34 @@ describe('fromJson', function() {
             |this is the second line`)
         });
     });
+
+    it('should read nested json with multiline text', function() {
+        let json = stripMargin(`{
+          |  "x": 12,
+          |  "y": "abc",
+          |  "z": {  
+          |    "text": [
+          |      "this is the first line",
+          |      "this is the second line"
+          |    ]
+          |  }
+          |}`
+        );
+
+        let obj = fromJson(json, {
+            x: {pos:1},
+            y: {pos:2},
+            z: {pos: 3, text: {pos:1, multiLine:true}}
+        });
+
+        expect(obj).to.deep.equal({
+            x: 12,
+            y: "abc",
+            z: {text: stripMargin(`this is the first line
+                |this is the second line`)
+            }
+        });
+    });
 });
 
 function stripMargin(string) {
