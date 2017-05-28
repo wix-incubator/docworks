@@ -12,8 +12,8 @@ describe('toJson', function() {
         };
         let json = toJson(obj, 2);
         expect(json).to.equal(stripMargin(`{
-          |  x:12,
-          |  y:"abc"
+          |  x: 12,
+          |  y: "abc"
           |}`
         ))
     });
@@ -28,11 +28,11 @@ describe('toJson', function() {
         };
         let json = toJson(obj, 2, {a: {pos:1}, b: {pos:2}, r:{pos:3}, x:{pos:4}, z:{pos:5}});
         expect(json).to.equal(stripMargin(`{
-          |  a:1,
-          |  b:2,
-          |  r:3,
-          |  x:4,
-          |  z:5
+          |  a: 1,
+          |  b: 2,
+          |  r: 3,
+          |  x: 4,
+          |  z: 5
           |}`
         ))
     });
@@ -47,11 +47,11 @@ describe('toJson', function() {
         };
         let json = toJson(obj, 2, {z: {pos:1}, a:{pos:2}, r:{pos:3}, b:{pos:4}, x:{pos:5}});
         expect(json).to.equal(stripMargin(`{
-          |  z:5,
-          |  a:1,
-          |  r:3,
-          |  b:2,
-          |  x:4
+          |  z: 5,
+          |  a: 1,
+          |  r: 3,
+          |  b: 2,
+          |  x: 4
           |}`
         ))
     });
@@ -66,11 +66,11 @@ describe('toJson', function() {
         };
         let json = toJson(obj, 2, {z:{pos:1}, a:{pos:2}, r:{pos:3}});
         expect(json).to.equal(stripMargin(`{
-          |  z:5,
-          |  a:1,
-          |  r:3,
-          |  b:2,
-          |  x:4
+          |  z: 5,
+          |  a: 1,
+          |  r: 3,
+          |  b: 2,
+          |  x: 4
           |}`
         ))
     });
@@ -94,14 +94,14 @@ describe('toJson', function() {
         });
 
         expect(json).to.equal(stripMargin(`{
-          |  z:5,
-          |  a:1,
-          |  x:{
-          |    aa:1,
-          |    cc:2,
-          |    zz:3
+          |  z: 5,
+          |  a: 1,
+          |  x: {
+          |    aa: 1,
+          |    cc: 2,
+          |    zz: 3
           |  },
-          |  b:2
+          |  b: 2
           |}`
         ))
     });
@@ -120,8 +120,8 @@ describe('toJson', function() {
         });
 
         expect(json).to.equal(stripMargin(`{
-          |  z:5,
-          |  a:1,
+          |  z: 5,
+          |  a: 1,
           |  text: [
           |    "this is the first line",
           |    "this is the second line"
@@ -143,8 +143,8 @@ describe('toJson', function() {
         });
 
         expect(json).to.equal(stripMargin(`{
-          |  z:5,
-          |  a:"=\\"':",
+          |  z: 5,
+          |  a: "=\\"':",
           |  text: [
           |    "=\\"':"
           |  ]

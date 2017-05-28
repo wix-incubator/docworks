@@ -25,9 +25,9 @@ function serialize(obj, indent, indentStep, spec) {
         else if (isArray(value))
             ;
         else if (isObject(value))
-            props.push(`${indentChilds}${name}:` + serialize(value, indentChilds, indentStep, valueSpec));
+            props.push(`${indentChilds}${name}: ` + serialize(value, indentChilds, indentStep, valueSpec));
         else
-            props.push(`${indentChilds}${name}:` + JSON.stringify(value));
+            props.push(`${indentChilds}${name}: ` + JSON.stringify(value));
     }
 
     for (let i in orderedNames) {
