@@ -1,6 +1,7 @@
 import chai from 'chai';
 const expect = chai.expect;
 import {toJson, fromJson} from '../index';
+import trimEnd from 'lodash.trimend';
 
 
 describe('toJson', function() {
@@ -25,7 +26,7 @@ describe('toJson', function() {
             x: 4,
             r: 3
         };
-        let json = toJson(obj, 2, {order: ['a', 'b', 'r', 'x', 'z']});
+        let json = toJson(obj, 2, {a: {pos:1}, b: {pos:2}, r:{pos:3}, x:{pos:4}, z:{pos:5}});
         expect(json).to.equal(stripMargin(`{
           |  a:1,
           |  b:2,
@@ -44,7 +45,7 @@ describe('toJson', function() {
             x: 4,
             r: 3
         };
-        let json = toJson(obj, 2, {order: ['z', 'a', 'r', 'b', 'x']});
+        let json = toJson(obj, 2, {z: {pos:1}, a:{pos:2}, r:{pos:3}, b:{pos:4}, x:{pos:5}});
         expect(json).to.equal(stripMargin(`{
           |  z:5,
           |  a:1,
@@ -54,6 +55,57 @@ describe('toJson', function() {
           |}`
         ))
     });
+
+    it('should order print all members, even those not in the order array', function() {
+        let obj = {
+            a: 1,
+            z: 5,
+            b: 2,
+            x: 4,
+            r: 3
+        };
+        let json = toJson(obj, 2, {z:{pos:1}, a:{pos:2}, r:{pos:3}});
+        expect(json).to.equal(stripMargin(`{
+          |  z:5,
+          |  a:1,
+          |  r:3,
+          |  b:2,
+          |  x:4
+          |}`
+        ))
+    });
+
+    it('should support nested objects', function() {
+        let obj = {
+            a: 1,
+            z: 5,
+            b: 2,
+            x: {
+                aa: 1,
+                zz: 3,
+                cc: 2
+            }
+        };
+        let json = toJson(obj, 2, {
+            z: {pos: 1},
+            a: {pos: 2},
+            x: {pos: 3, aa: {pos: 1}, cc: {pos: 2}, zz: {pos: 3}},
+            r: {pos: 4}
+        });
+
+        expect(json).to.equal(stripMargin(`{
+          |  z:5,
+          |  a:1,
+          |  x:{
+          |    aa:1,
+          |    cc:2,
+          |    zz:3
+          |  },
+          |  b:2
+          |}`
+        ))
+    });
+
 });
 
 function stripMargin(string) {
@@ -62,5 +114,6 @@ function stripMargin(string) {
             let parts = line.split('|');
             return (parts.length == 2)?parts[1]: parts[0]
         })
+        .map(trimEnd)
         .join('\n');
 }
