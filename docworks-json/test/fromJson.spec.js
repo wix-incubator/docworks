@@ -20,14 +20,14 @@ describe('fromJson', function() {
         });
     });
 
-    it('should read json to an object', function() {
+    it('should read json with spec', function() {
         let json = stripMargin(`{
           |  "x": 12,
           |  "y": "abc"
           |}`
         );
 
-        let obj = fromJson(json);
+        let obj = fromJson(json, {x: {pos:1}, y: {pos:2}});
 
         expect(obj).to.deep.equal({
             x: 12,
@@ -35,6 +35,30 @@ describe('fromJson', function() {
         });
     });
 
+    it('should read json with multiline text', function() {
+        let json = stripMargin(`{
+          |  "x": 12,
+          |  "y": "abc",
+          |  "text": [
+          |    "this is the first line",
+          |    "this is the second line"
+          |  ]
+          |}`
+        );
+
+        let obj = fromJson(json, {
+            x: {pos:1},
+            y: {pos:2},
+            text: {pos:3, multiLine:true}
+        });
+
+        expect(obj).to.deep.equal({
+            x: 12,
+            y: "abc",
+            text: stripMargin(`this is the first line
+            |this is the second line`)
+        });
+    });
 });
 
 function stripMargin(string) {

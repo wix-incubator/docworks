@@ -7,7 +7,8 @@ export function toJson(obj, indentSize, spec) {
 }
 
 export function fromJson(json, spec) {
-    return JSON.parse(json);
+    let obj = JSON.parse(json);
+    return deserialize(obj, spec)
 }
 
 function serialize(obj, indent, indentStep, spec) {
@@ -65,4 +66,16 @@ function specToOrderedNames(spec){
         .filter(_ => !!_)
         .sort((a,b) => a[0] - b[0])
         .map(_ => _[0])
+}
+
+function deserialize(obj, spec) {
+    spec = spec || [];
+    let keys = Object.keys(obj);
+    keys.forEach(key => {
+        if (spec[key] && spec[key].multiLine && isArray(obj[key]))
+            obj[key] = obj[key].join('\n');
+        if (isObject(obj[key]) && spec[key])
+            obj[key] = deserialize(obj[key], spec[key]);
+    });
+    return obj;
 }
