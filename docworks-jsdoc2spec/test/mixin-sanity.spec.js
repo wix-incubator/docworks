@@ -48,7 +48,7 @@ describe('docs', function() {
             });
         });
 
-        it.only('should return the service with mixes indicator', function() {
+        it('should return the service with mixes indicator', function() {
 
             expect(jsDocRes).to.containSubset({
                 services: [
