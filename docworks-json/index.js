@@ -6,6 +6,10 @@ export function toJson(obj, indentSize, spec) {
     return serialize(obj, "", indent, spec);
 }
 
+export function fromJson(json, spec) {
+    return JSON.parse(json);
+}
+
 function serialize(obj, indent, indentStep, spec) {
     let indentChilds = indent + indentStep;
     let indentGrandChild = indentChilds + indentStep;
@@ -20,14 +24,14 @@ function serialize(obj, indent, indentStep, spec) {
                 .map(line => `${indentGrandChild}${line}`)
                 .join(",\n");
 
-            props.push(`${indentChilds}${name}: [\n${lines}\n${indentChilds}]`);
+            props.push(`${indentChilds}"${name}": [\n${lines}\n${indentChilds}]`);
         }
         else if (isArray(value))
-            ;
+            ;// todo
         else if (isObject(value))
-            props.push(`${indentChilds}${name}: ` + serialize(value, indentChilds, indentStep, valueSpec));
+            props.push(`${indentChilds}"${name}": ` + serialize(value, indentChilds, indentStep, valueSpec));
         else
-            props.push(`${indentChilds}${name}: ` + JSON.stringify(value));
+            props.push(`${indentChilds}"${name}": ` + JSON.stringify(value));
     }
 
     for (let i in orderedNames) {
