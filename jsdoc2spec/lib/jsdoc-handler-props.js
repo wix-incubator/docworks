@@ -1,5 +1,5 @@
 
-import {Property, Void, JsDocError} from 'swank-model';
+import {Property, Void, JsDocError} from 'docworks-model';
 import {handleMeta, handleType, typeContext} from './jsdoc-handler-shared';
 
 

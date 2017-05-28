@@ -1,5 +1,5 @@
 import {handleMeta, handleType, typeContext} from './jsdoc-handler-shared';
-import {Operation, Void, JsDocError, Param} from 'swank-model';
+import {Operation, Void, JsDocError, Param} from 'docworks-model';
 import {dump} from './util';
 
 const groupByName = (groups, func) => {

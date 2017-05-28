@@ -1,4 +1,4 @@
-import {JsDocError} from 'swank-model';
+import {JsDocError} from 'docworks-model';
 import {handleMeta} from './jsdoc-handler-shared';
 
 const validateMixes = (find, service, onError) => (mixes) => {

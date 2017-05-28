@@ -1,4 +1,4 @@
-import {Void, Location, JsDocError, GeneticType} from 'swank-model';
+import {Void, Location, JsDocError, GeneticType} from 'docworks-model';
 
 export function handleMeta(meta) {
     return Location(meta.filename, meta.lineno);

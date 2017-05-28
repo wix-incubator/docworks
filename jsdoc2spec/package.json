@@ -1,5 +1,5 @@
 {
-  "name": "swank-jsdoc2spec",
+  "name": "docworks-jsdoc2spec",
   "version": "1.0.0",
   "description": "extractor for jsdoc apis to api spec",
   "main": "index.js",
@@ -14,7 +14,7 @@
     "babel-register": "^6.24.1",
     "jsdoc": "^3.4.3",
     "requizzle": "^0.2.1",
-    "swank-model": "^1.0.0"
+    "docworks-model": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

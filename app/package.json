@@ -1,29 +1,12 @@
 {
-  "name": "swank-app",
+  "name": "docworks",
   "version": "1.0.0",
-  "description": "TodoMVC reference implementation based on React TodoMVC and mobx-react-boilerplate",
+  "description": "API Documentation workflow",
   "scripts": {
     "start": "node bin/server.js",
     "lint": "eslint src"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mobxjs/mobx-react-todomvc.git"
-  },
-  "keywords": [
-    "mobservable",
-    "mobx",
-    "react",
-    "reactjs",
-    "todomvc",
-    "todo-mvc"
-  ],
-  "author": "Michel Weststrate <mweststrate@gmail.com> (http://github.com/mweststrate)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mobxjs/mobx/issues"
-  },
-  "homepage": "https://github.com/mobxjs/mobx/",
   "devDependencies": {
     "babel": "^6.5.1",
     "babel-core": "^6.5.1",

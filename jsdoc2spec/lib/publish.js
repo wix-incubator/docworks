@@ -1,5 +1,5 @@
 import helper from 'jsdoc/util/templateHelper';
-import {Service} from 'swank-model';
+import {Service} from 'docworks-model';
 import handleProperties from './jsdoc-handler-props';
 import handleMessages from './jsdoc-handler-messages';
 import handleMixins from './jsdoc-handler-mixins';
