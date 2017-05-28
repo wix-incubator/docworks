@@ -106,6 +106,51 @@ describe('toJson', function() {
         ))
     });
 
+    it('should support replacing multiline strings with array of strings', function() {
+        let obj = {
+            a: 1,
+            z: 5,
+            text: stripMargin(`this is the first line
+            |this is the second line`)
+        };
+        let json = toJson(obj, 2, {
+            z: {pos: 1},
+            a: {pos: 2},
+            text: {pos: 3, multiLine:true}
+        });
+
+        expect(json).to.equal(stripMargin(`{
+          |  z:5,
+          |  a:1,
+          |  text: [
+          |    "this is the first line",
+          |    "this is the second line"
+          |  ]
+          |}`
+        ))
+    });
+
+    it('should encode non safe json chars', function() {
+        let obj = {
+            a: `="':`,
+            z: 5,
+            text: `="':`
+        };
+        let json = toJson(obj, 2, {
+            z: {pos: 1},
+            a: {pos: 2},
+            text: {pos: 3, multiLine:true}
+        });
+
+        expect(json).to.equal(stripMargin(`{
+          |  z:5,
+          |  a:"=\\"':",
+          |  text: [
+          |    "=\\"':"
+          |  ]
+          |}`
+        ))
+    });
 });
 
 function stripMargin(string) {

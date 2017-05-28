@@ -2,21 +2,30 @@ import isArray from 'lodash.isarray';
 import isObject from 'lodash.isobject';
 
 export function toJson(obj, indentSize, spec) {
-    return serialize(obj, 0, indentSize, spec);
+    let indent = new Array(indentSize + 1).join(' ');
+    return serialize(obj, "", indent, spec);
 }
 
-function serialize(obj, indentPos, indentSize, spec) {
-    let indent = new Array((indentPos)*indentSize + 1).join(' ');
-    let indentChilds = new Array((indentPos+1)*indentSize + 1).join(' ');
+function serialize(obj, indent, indentStep, spec) {
+    let indentChilds = indent + indentStep;
+    let indentGrandChild = indentChilds + indentStep;
     let names = Object.getOwnPropertyNames(obj);
     let orderedNames = specToOrderedNames(spec);
     let props = [];
 
     function handleValue(name, value, valueSpec) {
-        if (isArray(value))
+        if (valueSpec && valueSpec.multiLine) {
+            let lines = value.split('\n')
+                .map(JSON.stringify)
+                .map(line => `${indentGrandChild}${line}`)
+                .join(",\n");
+
+            props.push(`${indentChilds}${name}: [\n${lines}\n${indentChilds}]`);
+        }
+        else if (isArray(value))
             ;
         else if (isObject(value))
-            props.push(`${indentChilds}${name}:` + serialize(value, indentPos+1, indentSize, valueSpec));
+            props.push(`${indentChilds}${name}:` + serialize(value, indentChilds, indentStep, valueSpec));
         else
             props.push(`${indentChilds}${name}:` + JSON.stringify(value));
     }
