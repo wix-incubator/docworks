@@ -15,12 +15,20 @@ export function Service(name, memberOf, mixes, properties, operations, callbacks
 export const Void = 'void';
 export const Any = '*';
 
-export function Operation(name, nameParams, params, ret) {
+export function Docs(summary, description) {
+    return {
+        summary: summary,
+        description: description
+    }
+}
+
+export function Operation(name, nameParams, params, ret, locations) {
     return {
         name: name,
         nameParams: nameParams,
         params: params,
-        ret: ret
+        ret: ret,
+        locations: locations
     }
 }
 

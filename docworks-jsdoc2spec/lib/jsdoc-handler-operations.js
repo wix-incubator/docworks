@@ -38,7 +38,7 @@ const processFunctions = (find, onError, kind) => (funcs) => {
 
 
         // todo handle name params
-        return Operation(func.name, [], params, ret);
+        return Operation(func.name, [], params, ret, funcs.map(func => handleMeta(func.meta)));
     }
 };
 

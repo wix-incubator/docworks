@@ -40,6 +40,20 @@ describe('docs', function() {
             expect(jsDocRes.errors).to.not.deep.contains('Operation oneParam');
         });
 
+        it('should return method location', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'oneParam', locations: [{filename: 'service-operations.js', lineno: 10}]}
+                        ]
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation oneParam');
+        });
+
         it('should return methods with two parameter', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
