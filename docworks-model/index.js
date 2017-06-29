@@ -1,6 +1,6 @@
 
 
-export function Service(name, memberOf, mixes, properties, operations, callbacks, messages) {
+export function Service(name, memberOf, mixes, properties, operations, callbacks, messages, location, docs) {
     return {
         name: name,
         memberOf: memberOf,
@@ -8,7 +8,9 @@ export function Service(name, memberOf, mixes, properties, operations, callbacks
         properties: properties,
         operations: operations,
         callbacks: callbacks,
-        messages: messages
+        messages: messages,
+        location: location,
+        docs: docs
     }
 }
 
@@ -55,11 +57,12 @@ export function Property(name, isGet, isSet, type, locations, docs) {
     }
 }
 
-export function Message(name, members, locations) {
+export function Message(name, members, locations, docs) {
     return {
         name: name,
         members: members,
-        locations: locations
+        locations: locations,
+        docs: docs
     }
 }
 

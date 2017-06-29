@@ -4,6 +4,7 @@ import handleProperties from './jsdoc-handler-props';
 import handleMessages from './jsdoc-handler-messages';
 import handleMixins from './jsdoc-handler-mixins';
 import {handleFunctions, handleCallbacks} from './jsdoc-handler-operations';
+import {handleMeta, handleDoc} from './jsdoc-handler-shared';
 import {dump} from './util';
 
 
@@ -34,7 +35,9 @@ function handleService(find, onError) {
         let callbacks = handleCallbacks(find, service, onError);
         let messages = handleMessages(find, service, onError);
         let mixes = handleMixins(find, service, onError);
-        return Service(service.name, service.memberof, mixes, properties, operations, callbacks, messages);
+        let location = handleMeta(service.meta);
+        let docs = handleDoc(service);
+        return Service(service.name, service.memberof, mixes, properties, operations, callbacks, messages, location, docs);
     }
 }
 

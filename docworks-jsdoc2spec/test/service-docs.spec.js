@@ -24,6 +24,24 @@ describe('docs', function() {
         });
 
 
+        it('should support docs on the service', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceDocs',
+                        location: {filename: 'service-docs.js', lineno: 3},
+                        docs: {
+                            summary: 'this is a docs test service',
+                            description: 'this class is used to test how service docs work',
+                            links: ["{@link http://somedomain2.com} a related site"]
+                        }
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).to.not.deep.contains('Property propertyWithDocs');
+        });
+
         it('should support docs on a property', function() {
 
             expect(jsDocRes).to.containSubset({

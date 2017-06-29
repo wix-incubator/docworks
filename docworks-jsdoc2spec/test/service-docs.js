@@ -2,7 +2,10 @@
 
 /**
  * @class ServiceDocs
- * @summary A test service
+ * @summary this is a docs test service
+ * @description
+ * this class is used to test how service docs work
+ * @see {@link http://somedomain2.com} a related site
  * @memberof aNamespace
  */
 class ServiceDocs {
