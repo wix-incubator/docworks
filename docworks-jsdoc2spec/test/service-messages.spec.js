@@ -65,6 +65,27 @@ describe('docs', function() {
             });
         });
 
+        it('should support message location', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceMessages',
+                        messages: [
+                            {
+                                name: 'OutMessage',
+                                locations: [{filename: 'service-messages.js', lineno: 17}]
+                            },
+                            {
+                                name: 'InMessage',
+                                locations: [{filename: 'service-messages.js', lineno: 10}]
+                            }
+                        ]
+                    }
+                ]
+            });
+        });
+
         it('should support a function with message types', function() {
 
             expect(jsDocRes).to.containSubset({

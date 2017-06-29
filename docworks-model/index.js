@@ -15,10 +15,11 @@ export function Service(name, memberOf, mixes, properties, operations, callbacks
 export const Void = 'void';
 export const Any = '*';
 
-export function Docs(summary, description) {
+export function Docs(summary, description, links) {
     return {
         summary: summary,
-        description: description
+        description: description,
+        links: links
     }
 }
 
@@ -52,10 +53,11 @@ export function Property(name, isGet, isSet, type, locations) {
     }
 }
 
-export function Message(name, members) {
+export function Message(name, members, locations) {
     return {
         name: name,
-        members: members
+        members: members,
+        locations: locations
     }
 }
 
