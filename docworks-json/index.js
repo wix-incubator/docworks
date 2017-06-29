@@ -28,7 +28,7 @@ function serialize(obj, indent, indentStep, spec) {
             props.push(`${indentChilds}"${name}": [\n${lines}\n${indentChilds}]`);
         }
         else if (isArray(value))
-            ;// todo
+            throw new Error('TBD');// todo
         else if (isObject(value))
             props.push(`${indentChilds}"${name}": ` + serialize(value, indentChilds, indentStep, valueSpec));
         else

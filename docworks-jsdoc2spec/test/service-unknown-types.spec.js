@@ -127,6 +127,5 @@ describe('docs', function() {
         });
 
         // todo extra types
-        // todo docs
     });
 });
