@@ -1,4 +1,4 @@
-import {Void, Location, JsDocError, GeneticType, Docs} from 'docworks-model';
+import {Void, Location, JsDocError, GeneticType, Docs, Example} from 'docworks-model';
 
 export function handleMeta(meta) {
     return Location(meta.filename, meta.lineno);
@@ -74,6 +74,16 @@ export function handleType(type, find, onError, context) {
     }
 }
 
+const exampleCaption = /<caption>(.*)<\/caption>([\s\S]*)/;
 export function handleDoc(doclet) {
-    return Docs(doclet.summary, doclet.description, doclet.see?doclet.see:[]);
+    let rawExamples = doclet.examples || [];
+    let examples = rawExamples.map((ex) => {
+        let found;
+        if (found = exampleCaption.exec(ex)) {
+            return Example(found[1], found[2].trim())
+        }
+        else
+            return Example(undefined, ex);
+    });
+    return Docs(doclet.summary, doclet.description, doclet.see?doclet.see:[], examples);
 }

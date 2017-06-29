@@ -21,6 +21,12 @@ class ServiceDocs {
      * @see {@link aNamespace.ServiceOperations) another related service
      * @see {@link http://somedomain.com} a related site
      * @type {string}
+     * @example
+     * // returns 2
+     * let z = x.propertyWithDocs;
+     * @example  <caption>the example caption</caption>
+     * // returns 3
+     * let z = y.propertyWithDocs;
      */
     get propertyWithDocs() {
     }

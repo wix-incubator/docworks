@@ -17,11 +17,19 @@ export function Service(name, memberOf, mixes, properties, operations, callbacks
 export const Void = 'void';
 export const Any = '*';
 
-export function Docs(summary, description, links) {
+export function Docs(summary, description, links, examples) {
     return {
         summary: summary,
         description: description,
-        links: links
+        links: links,
+        examples: examples
+    }
+}
+
+export function Example(title, body) {
+    return {
+        title: title,
+        body: body
     }
 }
 

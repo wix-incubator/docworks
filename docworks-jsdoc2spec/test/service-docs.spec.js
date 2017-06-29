@@ -55,7 +55,11 @@ describe('docs', function() {
                                     description: 'the description for propertyWithDocs\nanother line of description',
                                     links: ["aNamespace.ServiceProperties a related service",
                                         "{@link aNamespace.ServiceOperations) another related service",
-                                        "{@link http://somedomain.com} a related site"]
+                                        "{@link http://somedomain.com} a related site"],
+                                    examples: [
+                                        {title: undefined, body: '// returns 2\nlet z = x.propertyWithDocs;'},
+                                        {title: 'the example caption', body: '// returns 3\nlet z = y.propertyWithDocs;'}
+                                    ]
                                 }
                             }
                         ]
