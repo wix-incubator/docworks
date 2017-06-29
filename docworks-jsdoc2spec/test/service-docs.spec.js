@@ -68,5 +68,24 @@ describe('docs', function() {
             expect(jsDocRes.errors).to.not.deep.contains('Property label');
         });
 
+        it('should support docs on an operation', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceDocs',
+                        operations: [
+                            {name: 'operationWithDocs',
+                            docs: {
+                                summary: 'an operation',
+                                description: 'the description of the operation',
+                                links: []
+                            }}
+                        ]
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).to.not.deep.contains('Operation operationWithDocs');
+        });
+
     });
 });

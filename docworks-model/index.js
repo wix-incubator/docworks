@@ -23,13 +23,14 @@ export function Docs(summary, description, links) {
     }
 }
 
-export function Operation(name, nameParams, params, ret, locations) {
+export function Operation(name, nameParams, params, ret, locations, docs) {
     return {
         name: name,
         nameParams: nameParams,
         params: params,
         ret: ret,
-        locations: locations
+        locations: locations,
+        docs: docs
     }
 }
 

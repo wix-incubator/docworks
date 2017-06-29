@@ -44,6 +44,19 @@ class ServiceDocs {
     get label() {
     }
 
+    /**
+     * @function operationWithDocs
+     * @memberof aNamespace.ServiceDocs
+     * @summary an operation
+     * @description
+     * the description of the operation
+     * @param {string} input the input
+     */
+    operationWithDocs(input) {
+
+    }
+
+
 }
 
 

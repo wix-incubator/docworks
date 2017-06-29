@@ -1,4 +1,4 @@
-import {handleMeta, handleType, typeContext} from './jsdoc-handler-shared';
+import {handleMeta, handleType, typeContext, handleDoc} from './jsdoc-handler-shared';
 import {Operation, Void, JsDocError, Param} from 'docworks-model';
 import {dump} from './util';
 
@@ -38,7 +38,7 @@ const processFunctions = (find, onError, kind) => (funcs) => {
 
 
         // todo handle name params
-        return Operation(func.name, [], params, ret, funcs.map(func => handleMeta(func.meta)));
+        return Operation(func.name, [], params, ret, funcs.map(func => handleMeta(func.meta)), handleDoc(func));
     }
 };
 
