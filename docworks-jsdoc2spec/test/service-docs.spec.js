@@ -87,5 +87,26 @@ describe('docs', function() {
             expect(jsDocRes.errors).to.not.deep.contains('Operation operationWithDocs');
         });
 
+        it('should support docs on a messages', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceDocs',
+                        messages: [
+                            {
+                                name: 'MessageWithDocs',
+                                docs: {
+                                    summary: 'a Message with docs',
+                                    description: 'the description of the message',
+                                    links: []
+                                }
+                            }
+                        ]
+                    }
+                ]
+            });
+        });
+
     });
 });

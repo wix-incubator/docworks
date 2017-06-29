@@ -1,4 +1,4 @@
-import {handleMeta, handleType, typeContext} from './jsdoc-handler-shared';
+import {handleMeta, handleType, typeContext, handleDoc} from './jsdoc-handler-shared';
 import {Message, MessageMember, JsDocError} from 'docworks-model';
 import {dump} from './util';
 
@@ -27,7 +27,7 @@ const processMessages = (find, onError) => (messages) => {
         if (messages.length > 1)
             onError(JsDocError(`Message ${message.name} is defined two or more times`, messages.map(mes => handleMeta(mes.meta))));
 
-        return Message(message.name, members, messages.map(mes => handleMeta(mes.meta)));
+        return Message(message.name, members, messages.map(mes => handleMeta(mes.meta)), handleDoc(message));
     }
 };
 
