@@ -43,13 +43,14 @@ export function Param(name, type, optional, defaultValue, spread) {
     }
 }
 
-export function Property(name, isGet, isSet, type, locations) {
+export function Property(name, isGet, isSet, type, locations, docs) {
     return {
         name: name,
         get: isGet,
         set: isSet,
         type: type,
-        locations: locations
+        locations: locations,
+        docs: docs
     }
 }
 

@@ -1,4 +1,4 @@
-import {Void, Location, JsDocError, GeneticType} from 'docworks-model';
+import {Void, Location, JsDocError, GeneticType, Docs} from 'docworks-model';
 
 export function handleMeta(meta) {
     return Location(meta.filename, meta.lineno);
@@ -72,4 +72,8 @@ export function handleType(type, find, onError, context) {
     else {
         return typeNames;
     }
+}
+
+export function handleDoc(doclet) {
+    return Docs(doclet.summary, doclet.description, doclet.see);
 }
