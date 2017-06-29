@@ -24,7 +24,7 @@ describe('docs', function() {
         });
 
 
-        it.only('should support docs on a property', function() {
+        it('should support docs on a property', function() {
 
             expect(jsDocRes).to.containSubset({
                 services: [
@@ -44,7 +44,28 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Property readOnly');
+            expect(jsDocRes.errors).to.not.deep.contains('Property propertyWithDocs');
+        });
+
+        it('should use the docs from the getter for read-write properties', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceDocs',
+                        properties: [
+                            {name: 'label', get: true, set: true, type: 'string',
+                                docs: {
+                                    summary: 'summary from the getter',
+                                    description: 'desc from the getter',
+                                    links: []
+                                }
+                            }
+                        ]
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).to.not.deep.contains('Property label');
         });
 
     });

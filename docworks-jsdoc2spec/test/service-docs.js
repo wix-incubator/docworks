@@ -22,6 +22,28 @@ class ServiceDocs {
     get propertyWithDocs() {
     }
 
+    /**
+     * @summary summary from the setter
+     * @description
+     * desc from the setter
+     * @member label
+     * @memberof aNamespace.ServiceDocs
+     * @param {string} value The new label to display.
+     */
+    set label(value) {
+    }
+
+    /**
+     * @summary summary from the getter
+     * @description
+     * desc from the getter
+     * @member label
+     * @memberof aNamespace.ServiceDocs
+     * @type {string}
+     */
+    get label() {
+    }
+
 }
 
 

@@ -75,5 +75,5 @@ export function handleType(type, find, onError, context) {
 }
 
 export function handleDoc(doclet) {
-    return Docs(doclet.summary, doclet.description, doclet.see);
+    return Docs(doclet.summary, doclet.description, doclet.see?doclet.see:[]);
 }
