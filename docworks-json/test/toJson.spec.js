@@ -204,5 +204,24 @@ describe('toJson', function() {
           |        "y": 6 } ],
           |  "a": "1" }`
         ))
+    });
+
+    it.only('should write empty array as []', function() {
+        let obj = {
+            a: '1',
+            z: 5,
+            array: []
+        };
+        let json = toJson(obj, 2, {
+            z: {pos: 1},
+            array: {pos: 2, x: {pos:1}, y: {pos:2}},
+            a: {pos: 3}
+        });
+
+        expect(json).to.equal(stripMargin(
+          `{ "z": 5,
+          |  "array": [],
+          |  "a": "1" }`
+        ))
     })
 });

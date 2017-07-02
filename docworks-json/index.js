@@ -27,14 +27,17 @@ function serialize(obj, indent, indentStep, spec) {
             props.push(`"${name}":\n${indentGrandChild}[${indentStep.slice(1)}${lines}${indentStep.slice(1)}]`);
         }
         else if (isArray(value)) {
-            props.push(`"${name}":\n${indentGrandChild}[${indentStep.slice(1)}` +
-                value.map(v => {
-                    if (isArray(v) || isObject(v))
-                        return `${serialize(v, indentGrandChild+indentStep, indentStep, valueSpec)}`;
-                    else
-                        return `${JSON.stringify(v)}`;
-                }).join(`,\n${indentGrandChild}${indentStep}`) +
-            `${indentStep.slice(1)}]`);
+            if (!value.length)
+                props.push(`"${name}": []`);
+            else
+                props.push(`"${name}":\n${indentGrandChild}[${indentStep.slice(1)}` +
+                  value.map(v => {
+                      if (isArray(v) || isObject(v))
+                          return `${serialize(v, indentGrandChild+indentStep, indentStep, valueSpec)}`;
+                      else
+                          return `${JSON.stringify(v)}`;
+                  }).join(`,\n${indentGrandChild}${indentStep}`) +
+                  `${indentStep.slice(1)}]`);
         }
         else if (isObject(value))
             props.push(`"${name}":\n${indentGrandChild}` + serialize(value, indentGrandChild, indentStep, valueSpec));
