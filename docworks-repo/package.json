@@ -1,0 +1,20 @@
+{
+  "name": "docworks-repo",
+  "version": "1.0.0",
+  "description": "manage service files in a git repo",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register ./test/**/*.spec.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^3.0.1",
+    "docworks-json": "latest"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-subset": "^1.5.0",
+    "mocha": "^3.3.0"
+  }
+}
