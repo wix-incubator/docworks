@@ -10,10 +10,9 @@ describe('toJson', function() {
             y: "abc"
         };
         let json = toJson(obj, 2);
-        expect(json).to.equal(stripMargin(`{
-          |  "x": 12,
-          |  "y": "abc"
-          |}`
+        expect(json).to.equal(stripMargin(
+          `{ "x": 12,
+          |  "y": "abc" }`
         ))
     });
 
@@ -26,13 +25,12 @@ describe('toJson', function() {
             r: 3
         };
         let json = toJson(obj, 2, {a: {pos:1}, b: {pos:2}, r:{pos:3}, x:{pos:4}, z:{pos:5}});
-        expect(json).to.equal(stripMargin(`{
-          |  "a": 1,
+        expect(json).to.equal(stripMargin(
+          `{ "a": 1,
           |  "b": 2,
           |  "r": 3,
           |  "x": 4,
-          |  "z": 5
-          |}`
+          |  "z": 5 }`
         ))
     });
 
@@ -45,15 +43,14 @@ describe('toJson', function() {
             r: 3
         };
         let json = toJson(obj, 2, {a: {pos:1}, x:{pos:4}, b: {pos:2}, z:{pos:5}, r:{pos:3}});
-        expect(json).to.equal(stripMargin(`{
-          |  "a": 1,
+        expect(json).to.equal(stripMargin(
+          `{ "a": 1,
           |  "b": 2,
           |  "r": 3,
           |  "x": 4,
-          |  "z": 5
-          |}`
+          |  "z": 5 }`
         ))
-    })
+    });
 
     it('should order the object by the spec object regardless of natural sort', function() {
         let obj = {
@@ -64,13 +61,12 @@ describe('toJson', function() {
             r: 3
         };
         let json = toJson(obj, 2, {z: {pos:1}, a:{pos:2}, r:{pos:3}, b:{pos:4}, x:{pos:5}});
-        expect(json).to.equal(stripMargin(`{
-          |  "z": 5,
+        expect(json).to.equal(stripMargin(
+          `{ "z": 5,
           |  "a": 1,
           |  "r": 3,
           |  "b": 2,
-          |  "x": 4
-          |}`
+          |  "x": 4 }`
         ))
     });
 
@@ -83,13 +79,12 @@ describe('toJson', function() {
             r: 3
         };
         let json = toJson(obj, 2, {z:{pos:1}, a:{pos:2}, r:{pos:3}});
-        expect(json).to.equal(stripMargin(`{
-          |  "z": 5,
+        expect(json).to.equal(stripMargin(
+          `{ "z": 5,
           |  "a": 1,
           |  "r": 3,
           |  "b": 2,
-          |  "x": 4
-          |}`
+          |  "x": 4 }`
         ))
     });
 
@@ -111,16 +106,14 @@ describe('toJson', function() {
             r: {pos: 4}
         });
 
-        expect(json).to.equal(stripMargin(`{
-          |  "z": 5,
+        expect(json).to.equal(stripMargin(
+          `{ "z": 5,
           |  "a": 1,
-          |  "x": {
-          |    "aa": 1,
-          |    "cc": 2,
-          |    "zz": 3
-          |  },
-          |  "b": 2
-          |}`
+          |  "x": 
+          |    { "aa": 1,
+          |      "cc": 2,
+          |      "zz": 3 },
+          |  "b": 2 }`
         ))
     });
 
@@ -137,14 +130,12 @@ describe('toJson', function() {
             text: {pos: 3, multiLine:true}
         });
 
-        expect(json).to.equal(stripMargin(`{
-          |  "z": 5,
+        expect(json).to.equal(stripMargin(
+          `{ "z": 5,
           |  "a": 1,
-          |  "text": [
-          |    "this is the first line",
-          |    "this is the second line"
-          |  ]
-          |}`
+          |  "text": 
+          |    [ "this is the first line",
+          |      "this is the second line" ] }`
         ))
     });
 
@@ -160,13 +151,11 @@ describe('toJson', function() {
             text: {pos: 3, multiLine:true}
         });
 
-        expect(json).to.equal(stripMargin(`{
-          |  "z": 5,
+        expect(json).to.equal(stripMargin(
+          `{ "z": 5,
           |  "a": "=\\"':",
-          |  "text": [
-          |    "=\\"':"
-          |  ]
-          |}`
+          |  "text": 
+          |    [ "=\\"':" ] }`
         ))
     });
 
@@ -182,15 +171,13 @@ describe('toJson', function() {
             a: {pos: 3}
         });
 
-        expect(json).to.equal(stripMargin(`{
-          |  "z": 5,
-          |  "array": [
-          |    "1",
-          |    "3",
-          |    "2" 
-          |  ],
-          |  "a": "1"
-          |}`
+        expect(json).to.equal(stripMargin(
+          `{ "z": 5,
+          |  "array": 
+          |    [ "1",
+          |      "3",
+          |      "2" ],
+          |  "a": "1" }`
         ))
     });
 
@@ -206,24 +193,16 @@ describe('toJson', function() {
             a: {pos: 3}
         });
 
-        expect(json).to.equal(stripMargin(`{
-          |  "z": 5,
-          |  "array": [
-          |    {
-          |      "x": 1, 
-          |      "y": 2
-          |    },
-          |    {
-          |      "x": 3, 
-          |      "y": 4
-          |    },
-          |    {
-          |      "x": 5, 
-          |      "y": 6
-          |    } 
-          |  ],
-          |  "a": "1"
-          |}`
+        expect(json).to.equal(stripMargin(
+          `{ "z": 5,
+          |  "array": 
+          |    [ { "x": 1, 
+          |        "y": 2 },
+          |      { "x": 3, 
+          |        "y": 4 },
+          |      { "x": 5, 
+          |        "y": 6 } ],
+          |  "a": "1" }`
         ))
     })
 });

@@ -22,25 +22,24 @@ function serialize(obj, indent, indentStep, spec) {
         if (valueSpec && valueSpec.multiLine) {
             let lines = value.split('\n')
                 .map(JSON.stringify)
-                .map(line => `${indentGrandChild}${line}`)
-                .join(",\n");
+                .join(`,\n${indentGrandChild}${indentStep}`);
 
-            props.push(`${indentChilds}"${name}": [\n${lines}\n${indentChilds}]`);
+            props.push(`"${name}":\n${indentGrandChild}[${indentStep.slice(1)}${lines}${indentStep.slice(1)}]`);
         }
         else if (isArray(value)) {
-            props.push(`${indentChilds}"${name}": [\n` +
+            props.push(`"${name}":\n${indentGrandChild}[${indentStep.slice(1)}` +
                 value.map(v => {
                     if (isArray(v) || isObject(v))
-                        return `${indentGrandChild}${serialize(v, indentGrandChild, indentStep, valueSpec)}`;
+                        return `${serialize(v, indentGrandChild+indentStep, indentStep, valueSpec)}`;
                     else
-                        return `${indentGrandChild}${JSON.stringify(v)}`;
-                }).join(',\n') +
-            `\n${indentChilds}]`);
+                        return `${JSON.stringify(v)}`;
+                }).join(`,\n${indentGrandChild}${indentStep}`) +
+            `${indentStep.slice(1)}]`);
         }
         else if (isObject(value))
-            props.push(`${indentChilds}"${name}": ` + serialize(value, indentChilds, indentStep, valueSpec));
+            props.push(`"${name}":\n${indentGrandChild}` + serialize(value, indentGrandChild, indentStep, valueSpec));
         else
-            props.push(`${indentChilds}"${name}": ` + JSON.stringify(value));
+            props.push(`"${name}": ` + JSON.stringify(value));
     }
 
     for (let i in orderedNames) {
@@ -56,9 +55,9 @@ function serialize(obj, indent, indentStep, spec) {
             handleValue(name, obj[name]);
         }
     }
-    return '{\n' +
-        props.join(',\n') +
-        `\n${indent}}`;
+    return '{' + indentStep.slice(1) +
+      props.join(`,\n${indentChilds}`) +
+      indentStep.slice(1)+ '}';
 }
 
 function specToOrderedNames(spec){
