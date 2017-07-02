@@ -27,8 +27,16 @@ function serialize(obj, indent, indentStep, spec) {
 
             props.push(`${indentChilds}"${name}": [\n${lines}\n${indentChilds}]`);
         }
-        else if (isArray(value))
-            throw new Error('TBD');// todo
+        else if (isArray(value)) {
+            props.push(`${indentChilds}"${name}": [\n` +
+                value.map(v => {
+                    if (isArray(v) || isObject(v))
+                        return `${indentChilds}${serialize(v, indentChilds, indentStep, valueSpec)}`;
+                    else
+                        return `${indentGrandChild}${JSON.stringify(v)}`;
+                }).join(',\n') +
+            `\n${indentChilds}]`);
+        }
         else if (isObject(value))
             props.push(`${indentChilds}"${name}": ` + serialize(value, indentChilds, indentStep, valueSpec));
         else

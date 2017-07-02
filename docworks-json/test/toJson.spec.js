@@ -150,4 +150,28 @@ describe('toJson', function() {
           |}`
         ))
     });
+
+    it('should encode non safe json chars', function() {
+        let obj = {
+            a: '1',
+            z: 5,
+            array: ['1', '3', '2']
+        };
+        let json = toJson(obj, 2, {
+            z: {pos: 1},
+            array: {pos: 2},
+            a: {pos: 3}
+        });
+
+        expect(json).to.equal(stripMargin(`{
+          |  "z": 5,
+          |  "array": [
+          |    "1",
+          |    "3",
+          |    "2" 
+          |  ],
+          |  "a": "1"
+          |}`
+        ))
+    })
 });
