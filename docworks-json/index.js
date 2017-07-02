@@ -72,7 +72,7 @@ function specToOrderedNames(spec){
             return undefined;
     })
         .filter(_ => !!_)
-        .sort((a,b) => a[0] - b[0])
+        .sort((a,b) => a[1] - b[1])
         .map(_ => _[0])
 }
 

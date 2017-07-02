@@ -36,6 +36,25 @@ describe('toJson', function() {
         ))
     });
 
+    it('should order the object by the spec object even if the spec is not ordered', function() {
+        let obj = {
+            a: 1,
+            z: 5,
+            b: 2,
+            x: 4,
+            r: 3
+        };
+        let json = toJson(obj, 2, {a: {pos:1}, x:{pos:4}, b: {pos:2}, z:{pos:5}, r:{pos:3}});
+        expect(json).to.equal(stripMargin(`{
+          |  "a": 1,
+          |  "b": 2,
+          |  "r": 3,
+          |  "x": 4,
+          |  "z": 5
+          |}`
+        ))
+    })
+
     it('should order the object by the spec object regardless of natural sort', function() {
         let obj = {
             a: 1,
