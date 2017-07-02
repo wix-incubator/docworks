@@ -151,7 +151,7 @@ describe('toJson', function() {
         ))
     });
 
-    it('should encode non safe json chars', function() {
+    it('should support array of primitives', function() {
         let obj = {
             a: '1',
             z: 5,
@@ -169,6 +169,39 @@ describe('toJson', function() {
           |    "1",
           |    "3",
           |    "2" 
+          |  ],
+          |  "a": "1"
+          |}`
+        ))
+    });
+
+    it('should support array of objects', function() {
+        let obj = {
+            a: '1',
+            z: 5,
+            array: [{x:1, y:2}, {x:3, y:4}, {x:5, y:6}]
+        };
+        let json = toJson(obj, 2, {
+            z: {pos: 1},
+            array: {pos: 2, x: {pos:1}, y: {pos:2}},
+            a: {pos: 3}
+        });
+
+        expect(json).to.equal(stripMargin(`{
+          |  "z": 5,
+          |  "array": [
+          |    {
+          |      "x": 1, 
+          |      "y": 2
+          |    },
+          |    {
+          |      "x": 3, 
+          |      "y": 4
+          |    },
+          |    {
+          |      "x": 5, 
+          |      "y": 6
+          |    } 
           |  ],
           |  "a": "1"
           |}`

@@ -31,7 +31,7 @@ function serialize(obj, indent, indentStep, spec) {
             props.push(`${indentChilds}"${name}": [\n` +
                 value.map(v => {
                     if (isArray(v) || isObject(v))
-                        return `${indentChilds}${serialize(v, indentChilds, indentStep, valueSpec)}`;
+                        return `${indentGrandChild}${serialize(v, indentGrandChild, indentStep, valueSpec)}`;
                     else
                         return `${indentGrandChild}${JSON.stringify(v)}`;
                 }).join(',\n') +
