@@ -4,11 +4,11 @@ import {toJson} from 'docworks-json';
 const serviceFileExtension = '.service.json';
 
 const docSpec = {
-  summary: {pos: 1, multiLine:true},
+  summary: {pos: 1},
   description: {pos: 2, multiLine:true},
   links: {pos: 3},
   examples: {pos: 4,
-    title: {pos: 1, multiLine:true},
+    title: {pos: 1},
     body: {pos: 2, multiLine:true}
   }
 };
@@ -72,6 +72,6 @@ export function serviceToDirName(directory, service) {
 }
 
 export function serviceToJson(service) {
-  return toJson(service, 4, serviceSpec)
+  return toJson(service, 2, serviceSpec)
 }
 
