@@ -1,13 +1,14 @@
 // var path = require("path");
-var fs = require('fs');
-var babelrc = JSON.parse(fs.readFileSync('./.babelrc'));
-require('babel-register')(babelrc);
+// var fs = require('fs');
+// var babelrc = JSON.parse(fs.readFileSync('./.babelrc'));
+// require('babel-register')(babelrc);
 
-require('./lib/jsdoc-runner').default({
-    "include": [
-        "test/service-sanity.js"
-    ],
-    "includePattern": ".+\\.(js|jsdoc|es6|jsw)?$",
-    "excludePattern": "(^|\\/|\\\\)_"
-});
+export default from './lib/jsdoc-runner';
+// require('./lib/jsdoc-runner').default({
+//     "include": [
+//         "test/service-sanity.js"
+//     ],
+//     "includePattern": ".+\\.(js|jsdoc|es6|jsw)?$",
+//     "excludePattern": "(^|\\/|\\\\)_"
+// });
 
