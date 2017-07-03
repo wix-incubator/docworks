@@ -206,7 +206,7 @@ describe('toJson', function() {
         ))
     });
 
-    it.only('should write empty array as []', function() {
+    it('should write empty array as []', function() {
         let obj = {
             a: '1',
             z: 5,

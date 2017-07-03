@@ -84,7 +84,9 @@ function deserialize(obj, spec) {
     keys.forEach(key => {
         if (spec[key] && spec[key].multiLine && isArray(obj[key]))
             obj[key] = obj[key].join('\n');
-        if (isObject(obj[key]) && spec[key])
+        else if (isArray(obj[key]))
+            obj[key].forEach((obj) => deserialize(obj, spec[key]));
+        else if (isObject(obj[key]) && spec[key])
             obj[key] = deserialize(obj[key], spec[key]);
     });
     return obj;

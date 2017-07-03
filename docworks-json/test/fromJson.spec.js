@@ -87,4 +87,35 @@ describe('fromJson', function() {
             }
         });
     });
+
+    it('should read nested json in array with multiline text', function() {
+        let json = stripMargin(`{
+          |  "x": 12,
+          |  "y": "abc",
+          |  "z":    
+          |    [ { "text": 
+          |         [ "this is the first line",
+          |           "this is the second line" ] },
+          |      { "text": 
+          |         [ "this is the 3rd line",
+          |           "this is the 4th line" ] } ]
+          |}`
+        );
+
+        let obj = fromJson(json, {
+            x: {pos:1},
+            y: {pos:2},
+            z: {pos: 3, text: {pos:1, multiLine:true}}
+        });
+
+        expect(obj).to.deep.equal({
+            x: 12,
+            y: "abc",
+            z: [ { text: stripMargin(`this is the first line
+                |this is the second line`) },
+                { text: stripMargin(`this is the 3rd line
+                |this is the 4th line`) }
+            ]
+        });
+    })
 });

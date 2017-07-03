@@ -22,5 +22,4 @@ describe('to and from Json', function() {
 
         expect(obj2).to.deep.equal(obj);
     });
-
 });
