@@ -4,6 +4,10 @@ import ServiceModel from './services-model';
 
 export default function run(source) {
 
+    env.dirname = path.resolve(__dirname, '../', 'node_modules/jsdoc');
+    env.pwd = process.cwd();
+    env.args = process.argv.slice(2);
+
     cli.setVersionInfo();
     env.conf = {
         "tags": {
@@ -16,6 +20,7 @@ export default function run(source) {
         "source": source,
         encoding: 'utf8'
     };
+
 
     // set to follow sub-directories
     env.opts.recurse = true;

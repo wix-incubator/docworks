@@ -37,7 +37,6 @@ export default function handleMessages(find, service, onError) {
         return [];
 
     let callbacks = typedefs.filter((_) => !(_.type && _.type.names && _.type.names[0] === 'function'));
-
     let groups = callbacks.reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])

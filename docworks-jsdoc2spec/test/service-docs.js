@@ -11,6 +11,16 @@
 class ServiceDocs {
 
     /**
+     * @typedef MessageWithDocs
+     * @memberof aNamespace.ServiceDocs
+     * @summary a Message with docs
+     * @description
+     * the description of the message
+     * @property {string} name
+     * @property {string|number} age
+     */
+
+    /**
      * @member propertyWithDocs
      * @memberof aNamespace.ServiceDocs
      * @summary the summary for propertyWithDocs
@@ -65,15 +75,6 @@ class ServiceDocs {
 
     }
 
-    /**
-     * @summary a Message with docs
-     * @description
-     * the description of the message
-     * @typedef MessageWithDocs
-     * @memberof aNamespace.ServiceDocs
-     * @property {string} name
-     * @property {string|number} age
-     */
 
 
 
