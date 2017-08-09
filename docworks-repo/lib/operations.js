@@ -56,10 +56,10 @@ const serviceSpec = {
   mixes: {pos: 3},
   location: Object.assign({pos: 4}, locationSpec),
   docs: Object.assign({pos: 5}, docSpec),
-  properties: Object.assign({pos: 6}, propertySpec),
-  operations: Object.assign({pos: 7}, operationSpec),
-  callbacks: Object.assign({pos: 8}, operationSpec),
-  messages: Object.assign({pos: 9}, messageSpec)
+  properties: Object.assign({pos: 6, orderBy:'name'}, propertySpec),
+  operations: Object.assign({pos: 7, orderBy:'name'}, operationSpec),
+  callbacks: Object.assign({pos: 8, orderBy:'name'}, operationSpec),
+  messages: Object.assign({pos: 9, orderBy:'name'}, messageSpec)
 };
 
 export function serviceToFileName(directory, service) {

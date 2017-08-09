@@ -55,7 +55,6 @@ describe('saveToFiles', function() {
           let ser2 = readModel.services
             .find((ser2) => ser2.name === ser1.name);
           expect(ser1).to.containSubset(ser2);
-
         });
       });
   });
