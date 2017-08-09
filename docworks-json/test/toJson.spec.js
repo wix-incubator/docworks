@@ -206,6 +206,25 @@ describe('toJson', function() {
         ))
     });
 
+    it('should sort an array of object by specified field', function() {
+        let obj = {
+            array: [{x:1, y:6}, {x:2, y:2}, {x:3, y:4}]
+        };
+        let json = toJson(obj, 2, {
+            array: {pos: 2, orderBy: 'y', x: {pos:1}, y: {pos:2}}
+        });
+
+        expect(json).to.equal(stripMargin(
+          `{ "array": 
+          |    [ { "x": 2, 
+          |        "y": 2 },
+          |      { "x": 3, 
+          |        "y": 4 },
+          |      { "x": 1, 
+          |        "y": 6 } ] }`
+        ))
+    });
+
     it('should write empty array as []', function() {
         let obj = {
             a: '1',
