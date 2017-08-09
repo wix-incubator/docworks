@@ -1,5 +1,7 @@
 import {join} from 'path';
-import {toJson} from 'docworks-json';
+import {toJson, fromJson} from 'docworks-json';
+import fs from 'fs-extra';
+import flatten from 'array-flatten';
 
 const serviceFileExtension = '.service.json';
 
@@ -73,5 +75,22 @@ export function serviceToDirName(directory, service) {
 
 export function serviceToJson(service) {
   return toJson(service, 2, serviceSpec)
+}
+
+
+// link - how to use async await https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined-with-async-await
+export async function readDir(dir) {
+  let files = await fs.readdir(dir);
+  let readFiles = await Promise.all(files.map(async (file) => {
+    let stat = await fs.stat(join(dir, file));
+    if (stat.isDirectory())
+      return await readDir(join(dir, file));
+    else if (file.endsWith(serviceFileExtension)){
+      let fileContent = await fs.readFile(join(dir, file), 'utf8');
+      return fromJson(fileContent, serviceSpec);
+    }
+    else return [];
+  }));
+  return flatten(readFiles);
 }
 

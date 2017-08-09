@@ -1,4 +1,4 @@
-import {serviceToFileName, serviceToDirName, serviceToJson} from './lib/operations';
+import {serviceToFileName, serviceToDirName, serviceToJson, readDir} from './lib/operations';
 import fs from 'fs-extra';
 
 export function saveToDir(directory, services) {
@@ -21,4 +21,11 @@ export function saveToDir(directory, services) {
       filesAndServices.map(
         (fileAndService) => fs.outputFile(fileAndService[1], fileAndService[2])))
   });
+}
+
+export function readFromDir(directory) {
+  return readDir(directory)
+    .then((services) => {return {
+      services
+    }});
 }

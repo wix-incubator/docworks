@@ -1,10 +1,13 @@
 import chai from 'chai';
 import chaiFiles from 'chai-files';
+import chaiSubset from 'chai-subset';
 import runJsDoc from 'docworks-jsdoc2spec';
-import {saveToDir} from '../index';
+import {saveToDir, readFromDir} from '../index';
 import fs from 'fs-extra';
+import {dump} from './util';
 
 chai.use(chaiFiles);
+chai.use(chaiSubset);
 const expect = chai.expect;
 const file = chaiFiles.file;
 const dir = chaiFiles.dir;
@@ -37,5 +40,24 @@ describe('saveToFiles', function() {
               expect(file('tmp/aNamespace/ServiceTypes.service.json')).to.exist;
           });
     });
+
+  it('should read all services from files', function() {
+    let jsDocRes = runJsDoc({
+      "include": [
+        "test/sources/mixin-sanity.js"
+      ],
+      "includePattern": ".+\\.(js)?$",
+    });
+    return saveToDir('tmp', jsDocRes.services)
+      .then(() => readFromDir('./tmp'))
+      .then((readModel) => {
+        jsDocRes.services.forEach((ser1) => {
+          let ser2 = readModel.services
+            .find((ser2) => ser2.name === ser1.name);
+          expect(ser1).to.containSubset(ser2);
+
+        });
+      });
+  });
 
 });
