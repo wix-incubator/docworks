@@ -34,7 +34,7 @@ function serialize(obj, indent, indentStep, spec) {
         if (!value.length)
             props.push(`"${name}": []`);
         else {
-            let sortedValue = valueSpec.orderBy?
+            let sortedValue = (valueSpec && valueSpec.orderBy)?
               value.slice(0).sort((a,b) => compare(a[valueSpec.orderBy], b[valueSpec.orderBy])):
               value;
             props.push(`"${name}":\n${indentGrandChild}[${indentStep.slice(1)}` +
