@@ -35,6 +35,11 @@ describe('docs', function() {
                             summary: 'this is a docs test service',
                             description: 'this class is used to test how service docs work',
                             links: ["{@link http://somedomain2.com} a related site"]
+                        },
+                        srcDocs: {
+                            summary: 'this is a docs test service',
+                            description: 'this class is used to test how service docs work',
+                            links: ["{@link http://somedomain2.com} a related site"]
                         }
                     }
                 ]
@@ -51,6 +56,17 @@ describe('docs', function() {
                         properties: [
                             {name: 'propertyWithDocs', get: true, set: false, type: 'string',
                                 docs: {
+                                    summary: 'the summary for propertyWithDocs',
+                                    description: 'the description for propertyWithDocs\nanother line of description',
+                                    links: ["aNamespace.ServiceProperties a related service",
+                                        "{@link aNamespace.ServiceOperations) another related service",
+                                        "{@link http://somedomain.com} a related site"],
+                                    examples: [
+                                        {title: undefined, body: '// returns 2\nlet z = x.propertyWithDocs;'},
+                                        {title: 'the example caption', body: '// returns 3\nlet z = y.propertyWithDocs;'}
+                                    ]
+                                },
+                                srcDocs: {
                                     summary: 'the summary for propertyWithDocs',
                                     description: 'the description for propertyWithDocs\nanother line of description',
                                     links: ["aNamespace.ServiceProperties a related service",
@@ -81,6 +97,11 @@ describe('docs', function() {
                                     summary: 'summary from the getter',
                                     description: 'desc from the getter',
                                     links: []
+                                },
+                                srcDocs: {
+                                    summary: 'summary from the getter',
+                                    description: 'desc from the getter',
+                                    links: []
                                 }
                             }
                         ]
@@ -98,6 +119,11 @@ describe('docs', function() {
                         operations: [
                             {name: 'operationWithDocs',
                             docs: {
+                                summary: 'an operation',
+                                description: 'the description of the operation',
+                                links: []
+                            },
+                            srcDocs: {
                                 summary: 'an operation',
                                 description: 'the description of the operation',
                                 links: []
@@ -119,6 +145,11 @@ describe('docs', function() {
                             {
                                 name: 'MessageWithDocs',
                                 docs: {
+                                    summary: 'a Message with docs',
+                                    description: 'the description of the message',
+                                    links: []
+                                },
+                                srcDocs: {
                                     summary: 'a Message with docs',
                                     description: 'the description of the message',
                                     links: []

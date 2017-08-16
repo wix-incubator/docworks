@@ -27,7 +27,7 @@ const processMessages = (find, onError) => (messages) => {
         if (messages.length > 1)
             onError(JsDocError(`Message ${message.name} is defined two or more times`, messages.map(mes => handleMeta(mes.meta))));
 
-        return Message(message.name, members, messages.map(mes => handleMeta(mes.meta)), handleDoc(message));
+        return Message(message.name, members, messages.map(mes => handleMeta(mes.meta)), handleDoc(message), handleDoc(message));
     }
 };
 

@@ -1,6 +1,6 @@
 
 
-export function Service(name, memberOf, mixes, properties, operations, callbacks, messages, location, docs) {
+export function Service(name, memberOf, mixes, properties, operations, callbacks, messages, location, docs, srcDocs) {
     return {
         name: name,
         memberOf: memberOf,
@@ -10,7 +10,8 @@ export function Service(name, memberOf, mixes, properties, operations, callbacks
         callbacks: callbacks,
         messages: messages,
         location: location,
-        docs: docs
+        docs: docs,
+        srcDocs: srcDocs
     }
 }
 
@@ -33,14 +34,15 @@ export function Example(title, body) {
     }
 }
 
-export function Operation(name, nameParams, params, ret, locations, docs) {
+export function Operation(name, nameParams, params, ret, locations, docs, srcDocs) {
     return {
         name: name,
         nameParams: nameParams,
         params: params,
         ret: ret,
         locations: locations,
-        docs: docs
+        docs: docs,
+        srcDocs: srcDocs
     }
 }
 
@@ -54,23 +56,25 @@ export function Param(name, type, optional, defaultValue, spread) {
     }
 }
 
-export function Property(name, isGet, isSet, type, locations, docs) {
+export function Property(name, isGet, isSet, type, locations, docs, srcDocs) {
     return {
         name: name,
         get: isGet,
         set: isSet,
         type: type,
         locations: locations,
-        docs: docs
+        docs: docs,
+        srcDocs: srcDocs
     }
 }
 
-export function Message(name, members, locations, docs) {
+export function Message(name, members, locations, docs, srcDocs) {
     return {
         name: name,
         members: members,
         locations: locations,
-        docs: docs
+        docs: docs,
+        srcDocs: srcDocs
     }
 }
 
