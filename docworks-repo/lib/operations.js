@@ -24,7 +24,8 @@ const propertySpec = {
   set: {pos: 3},
   type: {pos: 4},
   locations: Object.assign({pos: 5}, locationSpec),
-  docs: Object.assign({pos: 6}, docSpec)
+  docs: Object.assign({pos: 6}, docSpec),
+  srcDocs: Object.assign({pos: 7}, docSpec)
 };
 const paramSpec = {
   name: {pos: 1},
@@ -39,13 +40,15 @@ const operationSpec = {
   params: Object.assign({pos: 3}, paramSpec),
   ret: {pos: 4},
   locations: Object.assign({pos: 5}, locationSpec),
-  docs: Object.assign({pos: 6}, docSpec)
+  docs: Object.assign({pos: 6}, docSpec),
+  srcDocs: Object.assign({pos: 7}, docSpec)
 };
 const messageSpec = {
   name: {pos: 1},
   locations: Object.assign({pos: 2}, locationSpec),
   docs: Object.assign({pos: 3}, docSpec),
-  members: {pos: 4,
+  srcDocs: Object.assign({pos: 4}, docSpec),
+  members: {pos: 5,
     name: {pos: 1},
     type: {pos: 2}
   }
@@ -56,10 +59,11 @@ const serviceSpec = {
   mixes: {pos: 3},
   location: Object.assign({pos: 4}, locationSpec),
   docs: Object.assign({pos: 5}, docSpec),
-  properties: Object.assign({pos: 6, orderBy:'name'}, propertySpec),
-  operations: Object.assign({pos: 7, orderBy:'name'}, operationSpec),
-  callbacks: Object.assign({pos: 8, orderBy:'name'}, operationSpec),
-  messages: Object.assign({pos: 9, orderBy:'name'}, messageSpec)
+  srcDocs: Object.assign({pos: 6}, docSpec),
+  properties: Object.assign({pos: 7, orderBy:'name'}, propertySpec),
+  operations: Object.assign({pos: 8, orderBy:'name'}, operationSpec),
+  callbacks: Object.assign({pos: 9, orderBy:'name'}, operationSpec),
+  messages: Object.assign({pos: 10, orderBy:'name'}, messageSpec)
 };
 
 export function serviceToFileName(directory, service) {
