@@ -13,8 +13,10 @@ function extractServices(path) {
     "includePattern": ".+\\.(js)?$",}).services;
 }
 
-function serviceByName(name) {
-  return (_) => _.name === name;
+function serviceByName(memberof, name) {
+  let noMemberOf = !name;
+  name = name?name:memberof;
+  return (_) => (_.name === name) && (noMemberOf || _.memberOf === memberof);
 }
 
 describe.only('compare repo', function() {
@@ -33,7 +35,7 @@ describe.only('compare repo', function() {
     expect(mergedRepo.repo).to.deep.equal(repo);
   });
 
-  it('should report added service b and removed service c', async function() {
+  it('should report added ServiceB and removed ServiceC', async function() {
     let newRepo = extractServices('./test/compare/newVersion/changeServices');
     let repo = extractServices('./test/compare/repoVersion/changeServices');
 
@@ -43,9 +45,25 @@ describe.only('compare repo', function() {
     let serviceB = mergedRepo.repo.find(serviceByName('ServiceB'));
     let serviceC = mergedRepo.repo.find(serviceByName('ServiceC'));
 
-    expect(mergedRepo.messages).to.include.members(['Service ServiceB is new', 'Service ServiceC was removed']);
+    expect(mergedRepo.messages).to.containSubset(['Service ServiceB is new', 'Service ServiceC was removed']);
     expect(serviceA.labels).to.be.empty;
     expect(serviceB.labels).to.include.members(['new']);
     expect(serviceC.labels).to.include.members(['removed']);
+  });
+
+  it('should report added package1.ServiceB and removed ServiceB', async function() {
+    let newRepo = extractServices('./test/compare/newVersion/changeNestedServices');
+    let repo = extractServices('./test/compare/repoVersion/changeNestedServices');
+
+    let mergedRepo = merge(newRepo, repo);
+
+    let serviceA = mergedRepo.repo.find(serviceByName('package1', 'ServiceA'));
+    let serviceB = mergedRepo.repo.find(serviceByName('ServiceB'));
+    let serviceB2 = mergedRepo.repo.find(serviceByName('package1', 'ServiceB'));
+
+    expect(mergedRepo.messages).to.containSubset(['Service package1.ServiceB is new', 'Service ServiceB was removed']);
+    expect(serviceA.labels).to.be.empty;
+    expect(serviceB.labels).to.include.members(['removed']);
+    expect(serviceB2.labels).to.include.members(['new']);
   });
 });

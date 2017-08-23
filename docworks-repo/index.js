@@ -1,4 +1,5 @@
 import {serviceToFileName, serviceToDirName, serviceToJson, readDir, zipByName} from './lib/operations';
+export merge from './lib/merge';
 import fs from 'fs-extra';
 
 export async function saveToDir(directory, services) {
@@ -30,27 +31,3 @@ export function readFromDir(directory) {
     }});
 }
 
-export function merge(newRepo, repo) {
-  // todo zip by name and memberof
-  let zippedServices = zipByName(newRepo, repo, 'name');
-  let messages = [];
-  let updatedRepo = zippedServices.map(_ => {
-    if (_[0] && _[1]) {
-      return Object.assign({}, _[1]);
-    }
-    else if (_[0]) {
-      let newService = Object.assign({}, _[0]);
-      // todo set labels by model
-      newService.labels = ['new'];
-      messages.push(`Service ${newService.name} is new`);
-      return newService;
-    }
-    else {
-      let removedService = Object.assign({}, _[1]);
-      removedService.labels = ['removed'];
-      messages.push(`Service ${removedService.name} was removed`);
-      return removedService;
-    }
-  });
-  return {repo: updatedRepo, messages}
-}
