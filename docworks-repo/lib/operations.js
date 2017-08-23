@@ -98,3 +98,21 @@ export async function readDir(dir) {
   return flatten(readFiles);
 }
 
+export function zipByName(arr1, arr2, name) {
+  let dict = {};
+  let res = [];
+  arr1.forEach(_1 => dict[_1[name]] = _1);
+  arr2.forEach(_2 => {
+    if (dict[_2[name]]) {
+      res.push([dict[_2[name]],_2]);
+      delete dict[_2[name]];
+    }
+    else {
+      res.push([,_2]);
+    }
+  });
+  for (name in dict) {
+    res.push([dict[name],]);
+  }
+  return res;
+}
