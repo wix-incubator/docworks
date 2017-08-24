@@ -1,10 +1,11 @@
 
 
-export function Service(name, memberOf, mixes, properties, operations, callbacks, messages, location, docs, srcDocs) {
+export function Service(name, memberOf, mixes, labels, properties, operations, callbacks, messages, location, docs, srcDocs) {
     return {
         name: name,
         memberOf: memberOf,
         mixes: mixes,
+        labels: labels,
         properties: properties,
         operations: operations,
         callbacks: callbacks,

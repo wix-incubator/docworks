@@ -19,7 +19,7 @@ function serviceByName(memberof, name) {
   return (_) => (_.name === name) && (noMemberOf || _.memberOf === memberof);
 }
 
-describe.only('compare repo', function() {
+describe('compare repo', function() {
 
   beforeEach(() => {
     return fs.remove('./tmp');

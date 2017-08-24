@@ -17,6 +17,17 @@ export function zipByKey(arr1, arr2, makeKey) {
   return res;
 }
 
+function addLabel(labels, label) {
+  let newLabels = labels.slice();
+  if (newLabels.indexOf(label) == -1)
+    newLabels.push(label);
+  return newLabels;
+}
+
+function copy(source, overrides) {
+  return Object.assign({}, source, overrides);
+}
+
 function serviceKey(service) {
   return service.memberOf?`${service.memberOf}.${service.name}`:service.name;
 }
@@ -29,15 +40,12 @@ export default function merge(newRepo, repo) {
       return Object.assign({}, _[1]);
     }
     else if (_[0]) {
-      let newService = Object.assign({}, _[0]);
-      // todo set labels by model
-      newService.labels = ['new'];
+      let newService = copy(_[0], {labels: addLabel(_[0].labels, 'new')});
       messages.push(`Service ${serviceKey(newService)} is new`);
       return newService;
     }
     else {
-      let removedService = Object.assign({}, _[1]);
-      removedService.labels = ['removed'];
+      let removedService = copy(_[1], {labels: addLabel(_[1].labels, 'removed')});
       messages.push(`Service ${serviceKey(removedService)} was removed`);
       return removedService;
     }

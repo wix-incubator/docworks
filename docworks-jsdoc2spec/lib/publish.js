@@ -37,7 +37,7 @@ function handleService(find, onError) {
         let mixes = handleMixins(find, service, onError);
         let location = handleMeta(service.meta);
         let docs = handleDoc(service);
-        return Service(service.name, service.memberof, mixes, properties, operations, callbacks, messages, location, docs, docs);
+        return Service(service.name, service.memberof, mixes, [], properties, operations, callbacks, messages, location, docs, docs);
     }
 }
 
