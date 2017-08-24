@@ -24,8 +24,8 @@ function addLabel(labels, label) {
   return newLabels;
 }
 
-function copy(source, overrides) {
-  return Object.assign({}, source, overrides);
+function copy() {
+  return Object.assign({}, ...arguments);
 }
 
 function serviceKey(service) {
@@ -37,7 +37,7 @@ export default function merge(newRepo, repo) {
   let messages = [];
   let updatedRepo = zippedServices.map(_ => {
     if (_[0] && _[1]) {
-      return Object.assign({}, _[1]);
+      return copy(_[1]);
     }
     else if (_[0]) {
       let newService = copy(_[0], {labels: addLabel(_[0].labels, 'new')});
