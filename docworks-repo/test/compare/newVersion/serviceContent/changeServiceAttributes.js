@@ -11,7 +11,7 @@ export class ChangeServiceAttributes1 {
 
 /**
  * @class ChangeServiceAttributes2
- * @summary A test service
+ * @summary the new summary
  */
 export class ChangeServiceAttributes2 {
 
@@ -21,7 +21,7 @@ export class ChangeServiceAttributes2 {
  * @class ChangeServiceAttributes3
  * @summary A test service
  * @description
- * A description
+ * the new description
  */
 export class ChangeServiceAttributes3 {
 

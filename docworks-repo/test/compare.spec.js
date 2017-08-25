@@ -32,7 +32,7 @@ describe('compare repo', function() {
     let mergedRepo = merge(newRepo, repo);
 
     expect(mergedRepo.messages).to.be.empty;
-    expect(mergedRepo.repo).to.deep.equal(repo);
+    expect(mergedRepo.repo).to.containSubset(repo);
   });
 
   it('should report added ServiceB and removed ServiceC', async function() {
@@ -82,7 +82,26 @@ describe('compare repo', function() {
 
         expect(service.mixes).to.have.members(['a']);
         expect(service.labels).to.include.members(['changed']);
+      });
 
+      it('should detect change in summary', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes2'));
+        let newService = newRepo.find(serviceByName('ChangeServiceAttributes2'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes2 has changed summary']);
+
+        expect(service.summary).to.equal(newService.summary);
+        expect(service.labels).to.include.members(['changed']);
+      });
+
+      it('should detect change in description', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceAttributes3'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes3 has changed description']);
+
+        expect(service.description).to.equal(newService.description);
+        expect(service.labels).to.include.members(['changed']);
       });
     });
   });

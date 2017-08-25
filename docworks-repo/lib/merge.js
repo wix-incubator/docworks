@@ -13,12 +13,26 @@ function compareMixes(sNewMixes, sRepoMixes, messages, serviceKey) {
   return compareResult.equal;
 }
 
+function compareAttribute(sNewValue, sRepoValue, messages, sKey, attribute) {
+  if (sNewValue !== sRepoValue) {
+    messages.push(`Service ${sKey} has changed ${attribute}`);
+    return false;
+  }
+  return true;
+}
+
 function mergeService(sNew, sRepo, messages) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareMixes(sNew.mixes, sRepo.mixes, messages, sKey);
+  let summaryChanged = !compareAttribute(sNew.docs.summary, sRepo.docs.summary, messages, sKey, 'summary');
+  let descriptionChanged = !compareAttribute(sNew.docs.description, sRepo.docs.description, messages, sKey, 'description');
+  let changed = mixesChanged || summaryChanged || descriptionChanged;
+  console.log(mixesChanged, summaryChanged, descriptionChanged, changed);
   return copy(sRepo, {
-    labels: mixesChanged?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
-    mixes: sNew.mixes
+    labels: changed?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
+    mixes: sNew.mixes,
+    summary: sNew.summary,
+    description: sNew.description
   });
 }
 
