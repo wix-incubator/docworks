@@ -77,7 +77,7 @@ describe('compare repo', function() {
       it('should detect change in mixes', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes1'));
 
-        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes1 has new mixes a',
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes1 has a new mixes a',
           'Service ChangeServiceAttributes1 mixes b was removed']);
 
         expect(service.mixes).to.have.members(['a']);

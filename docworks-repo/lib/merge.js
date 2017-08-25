@@ -4,21 +4,12 @@ function serviceKey(service) {
   return service.memberOf?`${service.memberOf}.${service.name}`:service.name;
 }
 
-function compareMixes(sNewMixes, sRepoMixes, messages, serviceKey) {
-  let compareResult = compareArraysAsSets(sNewMixes, sRepoMixes);
+function compareArrays(sNewArr, sRepoArr, messages, serviceKey, attribute) {
+  let compareResult = compareArraysAsSets(sNewArr, sRepoArr);
   for (let item of compareResult.onlyIn1)
-    messages.push(`Service ${serviceKey} has new mixes ${item}`)
+    messages.push(`Service ${serviceKey} has a new ${attribute} ${item}`)
   for (let item of compareResult.onlyIn2)
-    messages.push(`Service ${serviceKey} mixes ${item} was removed`)
-  return compareResult.equal;
-}
-
-function compareLinks(sNewLinks, sRepoLinks, messages, serviceKey) {
-  let compareResult = compareArraysAsSets(sNewLinks, sRepoLinks);
-  for (let item of compareResult.onlyIn1)
-    messages.push(`Service ${serviceKey} has a new link ${item}`)
-  for (let item of compareResult.onlyIn2)
-    messages.push(`Service ${serviceKey} link ${item} was removed`)
+    messages.push(`Service ${serviceKey} ${attribute} ${item} was removed`)
   return compareResult.equal;
 }
 
@@ -32,10 +23,10 @@ function compareAttribute(sNewValue, sRepoValue, messages, sKey, attribute) {
 
 function mergeService(sNew, sRepo, messages) {
   let sKey = serviceKey(sNew);
-  let mixesChanged = !compareMixes(sNew.mixes, sRepo.mixes, messages, sKey);
+  let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
   let summaryChanged = !compareAttribute(sNew.srcDocs.summary, sRepo.srcDocs.summary, messages, sKey, 'summary');
   let descriptionChanged = !compareAttribute(sNew.srcDocs.description, sRepo.srcDocs.description, messages, sKey, 'description');
-  let linksChanged = !compareLinks(sNew.srcDocs.links, sRepo.srcDocs.links, messages, sKey);
+  let linksChanged = !compareArrays(sNew.srcDocs.links, sRepo.srcDocs.links, messages, sKey, 'link');
 
   let changed = mixesChanged || summaryChanged || descriptionChanged || linksChanged;
   return copy(sRepo, {
