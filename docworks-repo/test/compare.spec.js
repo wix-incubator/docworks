@@ -87,20 +87,24 @@ describe('compare repo', function() {
       it('should detect change in summary', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes2'));
         let newService = newRepo.find(serviceByName('ChangeServiceAttributes2'));
+        let repoService = repo.find(serviceByName('ChangeServiceAttributes2'));
 
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes2 has changed summary']);
 
-        expect(service.summary).to.equal(newService.summary);
+        expect(service.docs.summary).to.equal(repoService.docs.summary);
+        expect(service.srcDocs.summary).to.equal(newService.srcDocs.summary);
         expect(service.labels).to.include.members(['changed']);
       });
 
       it('should detect change in description', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes3'));
         let newService = newRepo.find(serviceByName('ChangeServiceAttributes3'));
+        let repoService = repo.find(serviceByName('ChangeServiceAttributes3'));
 
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes3 has changed description']);
 
-        expect(service.description).to.equal(newService.description);
+        expect(service.docs.description).to.equal(repoService.docs.description);
+        expect(service.srcDocs.description).to.equal(newService.srcDocs.description);
         expect(service.labels).to.include.members(['changed']);
       });
     });

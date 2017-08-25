@@ -27,12 +27,10 @@ function mergeService(sNew, sRepo, messages) {
   let summaryChanged = !compareAttribute(sNew.docs.summary, sRepo.docs.summary, messages, sKey, 'summary');
   let descriptionChanged = !compareAttribute(sNew.docs.description, sRepo.docs.description, messages, sKey, 'description');
   let changed = mixesChanged || summaryChanged || descriptionChanged;
-  console.log(mixesChanged, summaryChanged, descriptionChanged, changed);
   return copy(sRepo, {
     labels: changed?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
     mixes: sNew.mixes,
-    summary: sNew.summary,
-    description: sNew.description
+    srcDocs: copy(sNew.srcDocs)
   });
 }
 
