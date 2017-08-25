@@ -66,4 +66,24 @@ describe('compare repo', function() {
     expect(serviceB.labels).to.include.members(['removed']);
     expect(serviceB2.labels).to.include.members(['new']);
   });
+
+  describe("compare a service", function() {
+    let newRepo = extractServices('./test/compare/newVersion/serviceContent');
+    let repo = extractServices('./test/compare/repoVersion/serviceContent');
+
+    let mergedRepo = merge(newRepo, repo);
+
+    describe('service attributes', function() {
+      it('should detect change in mixes', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes1 has new mixes a',
+          'Service ChangeServiceAttributes1 mixes b was removed']);
+
+        expect(service.mixes).to.have.members(['a']);
+        expect(service.labels).to.include.members(['changed']);
+
+      });
+    });
+  });
 });
