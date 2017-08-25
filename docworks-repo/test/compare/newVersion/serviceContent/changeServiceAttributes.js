@@ -30,7 +30,7 @@ export class ChangeServiceAttributes3 {
 /**
  * @class ChangeServiceAttributes4
  * @summary A test service
- * @link http://someplace
+ * @see http://someplace
  */
 export class ChangeServiceAttributes4 {
 

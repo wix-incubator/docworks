@@ -13,6 +13,15 @@ function compareMixes(sNewMixes, sRepoMixes, messages, serviceKey) {
   return compareResult.equal;
 }
 
+function compareLinks(sNewLinks, sRepoLinks, messages, serviceKey) {
+  let compareResult = compareArraysAsSets(sNewLinks, sRepoLinks);
+  for (let item of compareResult.onlyIn1)
+    messages.push(`Service ${serviceKey} has a new link ${item}`)
+  for (let item of compareResult.onlyIn2)
+    messages.push(`Service ${serviceKey} link ${item} was removed`)
+  return compareResult.equal;
+}
+
 function compareAttribute(sNewValue, sRepoValue, messages, sKey, attribute) {
   if (sNewValue !== sRepoValue) {
     messages.push(`Service ${sKey} has changed ${attribute}`);
@@ -24,9 +33,11 @@ function compareAttribute(sNewValue, sRepoValue, messages, sKey, attribute) {
 function mergeService(sNew, sRepo, messages) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareMixes(sNew.mixes, sRepo.mixes, messages, sKey);
-  let summaryChanged = !compareAttribute(sNew.docs.summary, sRepo.docs.summary, messages, sKey, 'summary');
-  let descriptionChanged = !compareAttribute(sNew.docs.description, sRepo.docs.description, messages, sKey, 'description');
-  let changed = mixesChanged || summaryChanged || descriptionChanged;
+  let summaryChanged = !compareAttribute(sNew.srcDocs.summary, sRepo.srcDocs.summary, messages, sKey, 'summary');
+  let descriptionChanged = !compareAttribute(sNew.srcDocs.description, sRepo.srcDocs.description, messages, sKey, 'description');
+  let linksChanged = !compareLinks(sNew.srcDocs.links, sRepo.srcDocs.links, messages, sKey);
+
+  let changed = mixesChanged || summaryChanged || descriptionChanged || linksChanged;
   return copy(sRepo, {
     labels: changed?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
     mixes: sNew.mixes,

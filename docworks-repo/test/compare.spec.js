@@ -107,6 +107,18 @@ describe('compare repo', function() {
         expect(service.srcDocs.description).to.equal(newService.srcDocs.description);
         expect(service.labels).to.include.members(['changed']);
       });
+
+      it.only('should detect change in a link', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes4'));
+        let newService = newRepo.find(serviceByName('ChangeServiceAttributes4'));
+        let repoService = repo.find(serviceByName('ChangeServiceAttributes4'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes4 has a new link http://someplace']);
+
+        expect(service.docs.links).to.have.members(repoService.docs.links);
+        expect(service.srcDocs.links).to.have.members(newService.srcDocs.links);
+        expect(service.labels).to.include.members(['changed']);
+      });
     });
   });
 });
