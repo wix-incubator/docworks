@@ -108,7 +108,7 @@ describe('compare repo', function() {
         expect(service.labels).to.include.members(['changed']);
       });
 
-      it.only('should detect change in a link', function() {
+      it('should detect change in a link', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes4'));
         let newService = newRepo.find(serviceByName('ChangeServiceAttributes4'));
         let repoService = repo.find(serviceByName('ChangeServiceAttributes4'));
@@ -118,6 +118,16 @@ describe('compare repo', function() {
         expect(service.docs.links).to.have.members(repoService.docs.links);
         expect(service.srcDocs.links).to.have.members(newService.srcDocs.links);
         expect(service.labels).to.include.members(['changed']);
+      });
+
+      it('should detect change in location but not report the service as changed', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes5'));
+        let newService = newRepo.find(serviceByName('ChangeServiceAttributes5'));
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceAttributes5') > -1));
+
+        expect(service.location).to.deep.equal(newService.location);
+        expect(service.labels).to.not.include.members(['changed']);
       });
     });
   });

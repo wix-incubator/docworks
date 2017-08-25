@@ -41,7 +41,8 @@ function mergeService(sNew, sRepo, messages) {
   return copy(sRepo, {
     labels: changed?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
     mixes: sNew.mixes,
-    srcDocs: copy(sNew.srcDocs)
+    srcDocs: copy(sNew.srcDocs),
+    location: sNew.location
   });
 }
 
