@@ -39,3 +39,38 @@ export class ChangeServicePropeties2 {
   set prop2(value) {
   }
 }
+
+/**
+ * @class ChangeServicePropeties3
+ */
+export class ChangeServicePropeties3 {
+  /**
+   * @member prop1
+   * @memberof ChangeServicePropeties3
+   * @type {String}
+   */
+  get prop1() {
+  }
+
+  /**
+   * @member prop1
+   * @memberof ChangeServicePropeties3
+   * @param {String} value The new label to display.
+   */
+  set prop1(value) {
+  }
+}
+
+/**
+ * @class ChangeServicePropeties4
+ */
+export class ChangeServicePropeties4 {
+  /**
+   * @member prop1
+   * @memberof ChangeServicePropeties4
+   * @type {String}
+   */
+  get prop1() {
+  }
+
+}

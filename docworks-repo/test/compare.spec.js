@@ -35,8 +35,6 @@ describe('compare repo', function() {
 
     let mergedRepo = merge(newRepo, repo);
 
-//    saveToDir('./tmp/repo', mergedRepo.repo)
-
     expect(mergedRepo.messages).to.be.empty;
     expect(mergedRepo.repo).to.containSubset(repo);
   });
@@ -168,6 +166,18 @@ describe('compare repo', function() {
         expect(prop2).to.containSubset(repoProp2);
       });
 
+      it('should report changed property type', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties3'));
+        let newService = newRepo.find(serviceByName('ChangeServicePropeties3'));
+        let prop1 = service.properties.find(memberByName('prop1'));
+        let newProp1 = newService.properties.find(memberByName('prop1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServicePropeties3 property prop1 has changed type']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(prop1.labels).to.include.members(['changed']);
+        expect(prop1.type).to.equal(newProp1.type);
+      });
     });
   });
 });

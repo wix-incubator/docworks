@@ -13,12 +13,22 @@ function compareArrays(sNewArr, sRepoArr, messages, serviceKey, attribute) {
   return compareResult.equal;
 }
 
-function compareAttribute(sNewValue, sRepoValue, messages, sKey, attribute) {
+function compareAttribute(sNewValue, sRepoValue, messages, key, attribute) {
   if (sNewValue !== sRepoValue) {
-    messages.push(`Service ${sKey} has changed ${attribute}`);
+    messages.push(`Service ${key} has changed ${attribute}`);
     return false;
   }
   return true;
+}
+
+function mergeProperty(newProperty, repoProperty, messages, key) {
+  let changedType = !compareAttribute(newProperty.type, repoProperty.type, messages, key, 'type');
+  let changed = changedType;
+  let property = copy(repoProperty, {
+    labels: changed?addUniqueToArray(repoProperty.labels, 'changed'): repoProperty.labels,
+    type: newProperty.type
+  });
+  return {changed, property}
 }
 
 function mergePropeties(sNewProperties, sRepoProperties, messages, sKey) {
@@ -28,7 +38,9 @@ function mergePropeties(sNewProperties, sRepoProperties, messages, sKey) {
     let pNew = _[0];
     let pRepo = _[1];
     if (pNew && pRepo) {
-      return pRepo;
+      var mergedProperty = mergeProperty(pNew, pRepo, messages, `${sKey} property ${pNew.name}`);
+      changed = changed || mergedProperty.changed;
+      return mergedProperty.property;
     }
     else if (pNew) {
       let newProperty = copy(pNew, {labels: addUniqueToArray(pNew.labels, 'new')});
