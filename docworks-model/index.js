@@ -35,10 +35,11 @@ export function Example(title, body) {
     }
 }
 
-export function Operation(name, nameParams, params, ret, locations, docs, srcDocs) {
+export function Operation(name, labels, nameParams, params, ret, locations, docs, srcDocs) {
     return {
         name: name,
         nameParams: nameParams,
+        labels: labels,
         params: params,
         ret: ret,
         locations: locations,

@@ -20,12 +20,13 @@ const locationSpec = {
 };
 const propertySpec = {
   name: {pos: 1},
-  get: {pos: 2},
-  set: {pos: 3},
-  type: {pos: 4},
-  locations: Object.assign({pos: 5}, locationSpec),
-  docs: Object.assign({pos: 6}, docSpec),
-  srcDocs: Object.assign({pos: 7}, docSpec)
+  labels: {pos: 2},
+  get: {pos: 3},
+  set: {pos: 4},
+  type: {pos: 5},
+  locations: Object.assign({pos: 6}, locationSpec),
+  docs: Object.assign({pos: 7}, docSpec),
+  srcDocs: Object.assign({pos: 8}, docSpec)
 };
 const paramSpec = {
   name: {pos: 1},
@@ -36,12 +37,13 @@ const paramSpec = {
 };
 const operationSpec = {
   name: {pos: 1},
-  nameParams: {pos: 2},
-  params: Object.assign({pos: 3}, paramSpec),
-  ret: {pos: 4},
-  locations: Object.assign({pos: 5}, locationSpec),
-  docs: Object.assign({pos: 6}, docSpec),
-  srcDocs: Object.assign({pos: 7}, docSpec)
+  labels: {pos: 2},
+  nameParams: {pos: 3},
+  params: Object.assign({pos: 4}, paramSpec),
+  ret: {pos: 5},
+  locations: Object.assign({pos: 6}, locationSpec),
+  docs: Object.assign({pos: 7}, docSpec),
+  srcDocs: Object.assign({pos: 8}, docSpec)
 };
 const messageSpec = {
   name: {pos: 1},

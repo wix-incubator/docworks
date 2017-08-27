@@ -11,3 +11,26 @@ export class ChangeServiceOperations1 {
 
   }
 }
+
+/**
+ * @class ChangeServiceOperations2
+ */
+export class ChangeServiceOperations2 {
+  /**
+   * @function operation1
+   * @memberof ChangeServiceOperations2
+   * @param {string} input the input
+   */
+  operation1(input) {
+
+  }
+
+  /**
+   * @function operation2
+   * @memberof ChangeServiceOperations2
+   * @param {string} input the input
+   */
+  operation2(input) {
+
+  }
+}

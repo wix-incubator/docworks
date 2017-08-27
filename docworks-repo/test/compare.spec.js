@@ -227,16 +227,37 @@ describe('compare repo', function() {
     });
 
     describe('service operations', function() {
-      it('should not report any change if no properties has changed', function() {
+      it('should not report any change if no operations has changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations1'));
         let newService = newRepo.find(serviceByName('ChangeServiceOperations1'));
-        let operation = service.properties.find(memberByName('operations1'));
-        let newOperation = newService.properties.find(memberByName('operations1'));
+        let operation = service.operations.find(memberByName('operations1'));
+        let newOperation = newService.operations.find(memberByName('operations1'));
 
         expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceOperations1') > -1));
 
         expect(operation).to.deep.equal(newOperation);
       });
+
+      it.only('should report added and removed operations', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations2'));
+        let newService = newRepo.find(serviceByName('ChangeServiceOperations2'));
+        let repoService = repo.find(serviceByName('ChangeServiceOperations2'));
+        let operation3 = service.operations.find(memberByName('operation3'));
+        let operation2 = service.operations.find(memberByName('operation2'));
+        let newOperation3 = newService.operations.find(memberByName('operation3'));
+        let repoOperation2 = repoService.operations.find(memberByName('operation2'));
+
+        saveToDir('./tmp2', mergedRepo.repo);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations2 has a new operation operation3',
+          'Service ChangeServiceOperations2 operation operation2 was removed']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(operation3.labels).to.include.members(['new']);
+        expect(operation3).to.containSubset(newOperation3);
+        expect(operation2.labels).to.include.members(['removed']);
+        expect(operation2).to.containSubset(repoOperation2);
+      })
     });
   });
 });

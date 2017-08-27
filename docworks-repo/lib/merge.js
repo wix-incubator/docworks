@@ -73,19 +73,66 @@ function mergePropeties(sNewProperties, sRepoProperties, messages, sKey) {
   return {changed, properties}
 }
 
+function mergeOperation(newProperty, repoProperty, messages, key) {
+  // let changedType = !compareAttribute(newProperty.type, repoProperty.type, messages, key, 'type');
+  // let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
+  // let changedSetter = !compareAttribute(newProperty.set, repoProperty.set, messages, key, 'setter');
+  // let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
+  //
+  let changed = false;//changedType || changedGetter || changedSetter || docsChanged;
+  let operation = copy(repoProperty, {
+    // labels: changed?addUniqueToArray(repoProperty.labels, 'changed'): repoProperty.labels,
+    // type: newProperty.type,
+    // get: newProperty.get,
+    // set: newProperty.set,
+    // srcDocs: copy(newProperty.srcDocs),
+    // locations: newProperty.locations
+  });
+  return {changed, operation}
+}
+
+function mergeOperations(sNewOperations, sRepoOperations, messages, sKey) {
+  let zippedOperations = zipByKey(sNewOperations, sRepoOperations, _ => _.name);
+  let changed = false;
+  let operations = zippedOperations.map(_ => {
+    let pNew = _[0];
+    let pRepo = _[1];
+    if (pNew && pRepo) {
+      var mergedOperation = mergeOperation(pNew, pRepo, messages, `${sKey} property ${pNew.name}`);
+      changed = changed || mergedOperation.changed;
+      return mergedOperation.operation;
+    }
+    else if (pNew) {
+      let newOperation = copy(pNew, {labels: addUniqueToArray(pNew.labels, 'new')});
+      messages.push(`Service ${sKey} has a new operation ${newOperation.name}`);
+      changed = true;
+      return newOperation;
+    }
+    else {
+      let removedOperation = copy(pRepo, {labels: addUniqueToArray(pRepo.labels, 'removed')});
+      messages.push(`Service ${sKey} operation ${removedOperation.name} was removed`);
+      changed = true;
+      return removedOperation;
+    }
+  });
+  return {changed, operations}
+}
+
 function mergeService(sNew, sRepo, messages) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
   let docsChanged = !compareDocs(sNew.srcDocs, sRepo.srcDocs, messages, sKey);
   let propertiesMerge = mergePropeties(sNew.properties, sRepo.properties, messages, sKey);
+  let operationsMerge = mergeOperations(sNew.operations, sRepo.operations, messages, sKey);
 
-  let changed = mixesChanged || docsChanged || propertiesMerge.changed;
+  let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed;
   return copy(sRepo, {
     labels: changed?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
     mixes: sNew.mixes,
     srcDocs: copy(sNew.srcDocs),
     location: sNew.location,
-    properties: propertiesMerge.properties
+    properties: propertiesMerge.properties,
+    operations: operationsMerge.operations
   });
 }
 
