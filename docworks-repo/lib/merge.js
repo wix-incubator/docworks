@@ -73,33 +73,6 @@ function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem) {
   return {changed, merged}
 }
 
-function mergePropeties(sNewProperties, sRepoProperties, messages, sKey) {
-  let zippedProperties = zipByKey(sNewProperties, sRepoProperties, _ => _.name);
-  let changed = false;
-  let properties = zippedProperties.map(_ => {
-    let pNew = _[0];
-    let pRepo = _[1];
-    if (pNew && pRepo) {
-      var mergedProperty = mergeProperty(pNew, pRepo, messages, `${sKey} property ${pNew.name}`);
-      changed = changed || mergedProperty.changed;
-      return mergedProperty.property;
-    }
-    else if (pNew) {
-      let newProperty = copy(pNew, {labels: addUniqueToArray(pNew.labels, 'new')});
-      messages.push(`Service ${sKey} has a new property ${newProperty.name}`);
-      changed = true;
-      return newProperty;
-    }
-    else {
-      let removedProperty = copy(pRepo, {labels: addUniqueToArray(pRepo.labels, 'removed')});
-      messages.push(`Service ${sKey} property ${removedProperty.name} was removed`);
-      changed = true;
-      return removedProperty;
-    }
-  });
-  return {changed, properties}
-}
-
 function mergeOperation(newProperty, repoProperty, messages, key) {
   // let changedType = !compareAttribute(newProperty.type, repoProperty.type, messages, key, 'type');
   // let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
@@ -116,33 +89,6 @@ function mergeOperation(newProperty, repoProperty, messages, key) {
     // locations: newProperty.locations
   });
   return {changed, item}
-}
-
-function mergeOperations(sNewOperations, sRepoOperations, messages, sKey) {
-  let zippedOperations = zipByKey(sNewOperations, sRepoOperations, _ => _.name);
-  let changed = false;
-  let operations = zippedOperations.map(_ => {
-    let pNew = _[0];
-    let pRepo = _[1];
-    if (pNew && pRepo) {
-      var mergedOperation = mergeOperation(pNew, pRepo, messages, `${sKey} property ${pNew.name}`);
-      changed = changed || mergedOperation.changed;
-      return mergedOperation.operation;
-    }
-    else if (pNew) {
-      let newOperation = copy(pNew, {labels: addUniqueToArray(pNew.labels, 'new')});
-      messages.push(`Service ${sKey} has a new operation ${newOperation.name}`);
-      changed = true;
-      return newOperation;
-    }
-    else {
-      let removedOperation = copy(pRepo, {labels: addUniqueToArray(pRepo.labels, 'removed')});
-      messages.push(`Service ${sKey} operation ${removedOperation.name} was removed`);
-      changed = true;
-      return removedOperation;
-    }
-  });
-  return {changed, operations}
 }
 
 function mergeService(sNew, sRepo, messages) {
