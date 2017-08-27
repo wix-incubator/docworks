@@ -35,7 +35,7 @@ function mergeProperty(newProperty, repoProperty, messages, key) {
   let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
 
   let changed = changedType || changedGetter || changedSetter || docsChanged;
-  let property = copy(repoProperty, {
+  let item = copy(repoProperty, {
     labels: changed?addUniqueToArray(repoProperty.labels, 'changed'): repoProperty.labels,
     type: newProperty.type,
     get: newProperty.get,
@@ -43,7 +43,34 @@ function mergeProperty(newProperty, repoProperty, messages, key) {
     srcDocs: copy(newProperty.srcDocs),
     locations: newProperty.locations
   });
-  return {changed, property}
+  return {changed, item}
+}
+
+function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem) {
+  let zipped = zipByKey(newList, repoList, _ => _.name);
+  let changed = false;
+  let merged = zipped.map(_ => {
+    let newItem = _[0];
+    let repoItem = _[1];
+    if (newItem && repoItem) {
+      var mergedItem = mergeItem(newItem, repoItem, messages, `${sKey} ${itemName} ${newItem.name}`);
+      changed = changed || mergedItem.changed;
+      return mergedItem.item;
+    }
+    else if (newItem) {
+      let mergedItem = copy(newItem, {labels: addUniqueToArray(newItem.labels, 'new')});
+      messages.push(`Service ${sKey} has a new ${itemName} ${mergedItem.name}`);
+      changed = true;
+      return mergedItem;
+    }
+    else {
+      let mergedItem = copy(repoItem, {labels: addUniqueToArray(repoItem.labels, 'removed')});
+      messages.push(`Service ${sKey} ${itemName} ${mergedItem.name} was removed`);
+      changed = true;
+      return mergedItem;
+    }
+  });
+  return {changed, merged}
 }
 
 function mergePropeties(sNewProperties, sRepoProperties, messages, sKey) {
@@ -80,7 +107,7 @@ function mergeOperation(newProperty, repoProperty, messages, key) {
   // let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
   //
   let changed = false;//changedType || changedGetter || changedSetter || docsChanged;
-  let operation = copy(repoProperty, {
+  let item = copy(repoProperty, {
     // labels: changed?addUniqueToArray(repoProperty.labels, 'changed'): repoProperty.labels,
     // type: newProperty.type,
     // get: newProperty.get,
@@ -88,7 +115,7 @@ function mergeOperation(newProperty, repoProperty, messages, key) {
     // srcDocs: copy(newProperty.srcDocs),
     // locations: newProperty.locations
   });
-  return {changed, operation}
+  return {changed, item}
 }
 
 function mergeOperations(sNewOperations, sRepoOperations, messages, sKey) {
@@ -122,8 +149,8 @@ function mergeService(sNew, sRepo, messages) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
   let docsChanged = !compareDocs(sNew.srcDocs, sRepo.srcDocs, messages, sKey);
-  let propertiesMerge = mergePropeties(sNew.properties, sRepo.properties, messages, sKey);
-  let operationsMerge = mergeOperations(sNew.operations, sRepo.operations, messages, sKey);
+  let propertiesMerge = mergeLists(sNew.properties, sRepo.properties, messages, sKey, 'property', mergeProperty);
+  let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeProperty);
 
   let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed;
   return copy(sRepo, {
@@ -131,8 +158,8 @@ function mergeService(sNew, sRepo, messages) {
     mixes: sNew.mixes,
     srcDocs: copy(sNew.srcDocs),
     location: sNew.location,
-    properties: propertiesMerge.properties,
-    operations: operationsMerge.operations
+    properties: propertiesMerge.merged,
+    operations: operationsMerge.merged
   });
 }
 

@@ -235,10 +235,10 @@ describe('compare repo', function() {
 
         expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceOperations1') > -1));
 
-        expect(operation).to.deep.equal(newOperation);
+        expect(operation).to.containSubset(newOperation);
       });
 
-      it.only('should report added and removed operations', function() {
+      it('should report added and removed operations', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations2'));
         let newService = newRepo.find(serviceByName('ChangeServiceOperations2'));
         let repoService = repo.find(serviceByName('ChangeServiceOperations2'));
