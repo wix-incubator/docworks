@@ -192,6 +192,22 @@ describe('compare repo', function() {
         expect(prop1.get).to.equal(newProp1.get);
         expect(prop1.set).to.equal(newProp1.set);
       });
+
+      it('should report changed property docs', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties5'));
+        let newService = newRepo.find(serviceByName('ChangeServicePropeties5'));
+        let prop1 = service.properties.find(memberByName('prop1'));
+        let newProp1 = newService.properties.find(memberByName('prop1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServicePropeties5 property prop1 has changed summary',
+          'Service ChangeServicePropeties5 property prop1 has changed description',
+          'Service ChangeServicePropeties5 property prop1 has a new link http://new-link',
+          'Service ChangeServicePropeties5 property prop1 link http://repo-link was removed']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(prop1.labels).to.include.members(['changed']);
+        expect(prop1.srcDocs).to.deep.equal(newProp1.srcDocs);
+      })
     });
   });
 });

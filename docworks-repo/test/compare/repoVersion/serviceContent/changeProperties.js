@@ -74,3 +74,27 @@ export class ChangeServicePropeties4 {
   }
 
 }
+
+/**
+ * @class ChangeServicePropeties5
+ */
+export class ChangeServicePropeties5 {
+  /**
+   * @member prop1
+   * @memberof ChangeServicePropeties5
+   * @type {string}
+   * @summary repo summary
+   * @description repo description
+   * @see http://repo-link
+   */
+  get prop1() {
+  }
+
+  /**
+   * @member prop1
+   * @memberof ChangeServicePropeties5
+   * @param {string} value The new label to display.
+   */
+  set prop1(value) {
+  }
+}

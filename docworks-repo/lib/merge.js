@@ -21,16 +21,26 @@ function compareAttribute(sNewValue, sRepoValue, messages, key, attribute) {
   return true;
 }
 
+function compareDocs(newDocs, repoDocs, messages, key) {
+  let summaryEqual = compareAttribute(newDocs.summary, repoDocs.summary, messages, key, 'summary');
+  let descriptionEqual = compareAttribute(newDocs.description, repoDocs.description, messages, key, 'description');
+  let linksEqual = compareArrays(newDocs.links, repoDocs.links, messages, key, 'link');
+  return summaryEqual && descriptionEqual && linksEqual;
+}
+
 function mergeProperty(newProperty, repoProperty, messages, key) {
   let changedType = !compareAttribute(newProperty.type, repoProperty.type, messages, key, 'type');
   let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
   let changedSetter = !compareAttribute(newProperty.set, repoProperty.set, messages, key, 'setter');
-  let changed = changedType || changedGetter || changedSetter;
+  let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
+
+  let changed = changedType || changedGetter || changedSetter || docsChanged;
   let property = copy(repoProperty, {
     labels: changed?addUniqueToArray(repoProperty.labels, 'changed'): repoProperty.labels,
     type: newProperty.type,
     get: newProperty.get,
-    set: newProperty.set
+    set: newProperty.set,
+    srcDocs: copy(newProperty.srcDocs)
   });
   return {changed, property}
 }
@@ -65,12 +75,10 @@ function mergePropeties(sNewProperties, sRepoProperties, messages, sKey) {
 function mergeService(sNew, sRepo, messages) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
-  let summaryChanged = !compareAttribute(sNew.srcDocs.summary, sRepo.srcDocs.summary, messages, sKey, 'summary');
-  let descriptionChanged = !compareAttribute(sNew.srcDocs.description, sRepo.srcDocs.description, messages, sKey, 'description');
-  let linksChanged = !compareArrays(sNew.srcDocs.links, sRepo.srcDocs.links, messages, sKey, 'link');
+  let docsChanged = !compareDocs(sNew.srcDocs, sRepo.srcDocs, messages, sKey);
   let propertiesMerge = mergePropeties(sNew.properties, sRepo.properties, messages, sKey);
 
-  let changed = mixesChanged || summaryChanged || descriptionChanged || linksChanged || propertiesMerge.changed;
+  let changed = mixesChanged || docsChanged || propertiesMerge.changed;
   return copy(sRepo, {
     labels: changed?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
     mixes: sNew.mixes,

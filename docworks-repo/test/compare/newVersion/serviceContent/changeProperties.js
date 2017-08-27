@@ -81,3 +81,27 @@ export class ChangeServicePropeties4 {
   set prop1(value) {
   }
 }
+
+/**
+ * @class ChangeServicePropeties5
+ */
+export class ChangeServicePropeties5 {
+  /**
+   * @member prop1
+   * @memberof ChangeServicePropeties5
+   * @type {string}
+   * @summary new summary
+   * @description new description
+   * @see http://new-link
+   */
+  get prop1() {
+  }
+
+  /**
+   * @member prop1
+   * @memberof ChangeServicePropeties5
+   * @param {string} value The new label to display.
+   */
+  set prop1(value) {
+  }
+}
