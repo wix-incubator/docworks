@@ -196,8 +196,10 @@ describe('compare repo', function() {
       it('should report changed property docs', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties5'));
         let newService = newRepo.find(serviceByName('ChangeServiceProperties5'));
+        let repoService = repo.find(serviceByName('ChangeServiceProperties5'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
+        let repoProp1 = repoService.properties.find(memberByName('prop1'));
 
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceProperties5 property prop1 has changed summary',
           'Service ChangeServiceProperties5 property prop1 has changed description',
@@ -207,6 +209,7 @@ describe('compare repo', function() {
         expect(service.labels).to.include.members(['changed']);
         expect(prop1.labels).to.include.members(['changed']);
         expect(prop1.srcDocs).to.deep.equal(newProp1.srcDocs);
+        expect(prop1.src).to.deep.equal(repoProp1.src);
       });
 
       it('should detect change in property location but not report the service or property as changed', function() {
