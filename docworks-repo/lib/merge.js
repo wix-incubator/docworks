@@ -40,7 +40,8 @@ function mergeProperty(newProperty, repoProperty, messages, key) {
     type: newProperty.type,
     get: newProperty.get,
     set: newProperty.set,
-    srcDocs: copy(newProperty.srcDocs)
+    srcDocs: copy(newProperty.srcDocs),
+    locations: newProperty.locations
   });
   return {changed, property}
 }

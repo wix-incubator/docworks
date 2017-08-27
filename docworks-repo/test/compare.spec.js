@@ -207,6 +207,19 @@ describe('compare repo', function() {
         expect(service.labels).to.include.members(['changed']);
         expect(prop1.labels).to.include.members(['changed']);
         expect(prop1.srcDocs).to.deep.equal(newProp1.srcDocs);
+      });
+
+      it('should detect change in property location but not report the service or property as changed', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties6'));
+        let newService = newRepo.find(serviceByName('ChangeServicePropeties6'));
+        let prop1 = service.properties.find(memberByName('prop1'));
+        let newProp1 = newService.properties.find(memberByName('prop1'));
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceAttributes6') > -1));
+
+        expect(service.labels).to.not.include.members(['changed']);
+        expect(prop1.labels).to.not.include.members(['changed']);
+        expect(prop1.locations).to.deep.equal(newProp1.locations);
       })
     });
   });
