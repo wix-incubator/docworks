@@ -137,27 +137,27 @@ describe('compare repo', function() {
 
     describe('service properties', function() {
       it('should not report any change if no properties has changed', function() {
-        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties1'));
-        let newService = newRepo.find(serviceByName('ChangeServicePropeties1'));
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
+        let newService = newRepo.find(serviceByName('ChangeServiceProperties1'));
         let prop = service.properties.find(memberByName('prop1'));
         let newProp = newService.properties.find(memberByName('prop1'));
 
-        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServicePropeties1') > -1));
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceProperties1') > -1));
 
         expect(prop).to.deep.equal(newProp);
       });
 
       it('should report added and removed properties', function() {
-        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties2'));
-        let newService = newRepo.find(serviceByName('ChangeServicePropeties2'));
-        let repoService = repo.find(serviceByName('ChangeServicePropeties2'));
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties2'));
+        let newService = newRepo.find(serviceByName('ChangeServiceProperties2'));
+        let repoService = repo.find(serviceByName('ChangeServiceProperties2'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let prop2 = service.properties.find(memberByName('prop2'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
         let repoProp2 = repoService.properties.find(memberByName('prop2'));
 
-        expect(mergedRepo.messages).to.containSubset(['Service ChangeServicePropeties2 has a new property prop1',
-          'Service ChangeServicePropeties2 property prop2 was removed']);
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceProperties2 has a new property prop1',
+          'Service ChangeServiceProperties2 property prop2 was removed']);
 
         expect(service.labels).to.include.members(['changed']);
         expect(prop1.labels).to.include.members(['new']);
@@ -167,12 +167,12 @@ describe('compare repo', function() {
       });
 
       it('should report changed property type', function() {
-        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties3'));
-        let newService = newRepo.find(serviceByName('ChangeServicePropeties3'));
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceProperties3'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
 
-        expect(mergedRepo.messages).to.containSubset(['Service ChangeServicePropeties3 property prop1 has changed type']);
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceProperties3 property prop1 has changed type']);
 
         expect(service.labels).to.include.members(['changed']);
         expect(prop1.labels).to.include.members(['changed']);
@@ -180,12 +180,12 @@ describe('compare repo', function() {
       });
 
       it('should report changed property get/set', function() {
-        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties4'));
-        let newService = newRepo.find(serviceByName('ChangeServicePropeties4'));
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties4'));
+        let newService = newRepo.find(serviceByName('ChangeServiceProperties4'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
 
-        expect(mergedRepo.messages).to.containSubset(['Service ChangeServicePropeties4 property prop1 has changed setter']);
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceProperties4 property prop1 has changed setter']);
 
         expect(service.labels).to.include.members(['changed']);
         expect(prop1.labels).to.include.members(['changed']);
@@ -194,15 +194,15 @@ describe('compare repo', function() {
       });
 
       it('should report changed property docs', function() {
-        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties5'));
-        let newService = newRepo.find(serviceByName('ChangeServicePropeties5'));
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties5'));
+        let newService = newRepo.find(serviceByName('ChangeServiceProperties5'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
 
-        expect(mergedRepo.messages).to.containSubset(['Service ChangeServicePropeties5 property prop1 has changed summary',
-          'Service ChangeServicePropeties5 property prop1 has changed description',
-          'Service ChangeServicePropeties5 property prop1 has a new link http://new-link',
-          'Service ChangeServicePropeties5 property prop1 link http://repo-link was removed']);
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceProperties5 property prop1 has changed summary',
+          'Service ChangeServiceProperties5 property prop1 has changed description',
+          'Service ChangeServiceProperties5 property prop1 has a new link http://new-link',
+          'Service ChangeServiceProperties5 property prop1 link http://repo-link was removed']);
 
         expect(service.labels).to.include.members(['changed']);
         expect(prop1.labels).to.include.members(['changed']);
@@ -210,8 +210,8 @@ describe('compare repo', function() {
       });
 
       it('should detect change in property location but not report the service or property as changed', function() {
-        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties6'));
-        let newService = newRepo.find(serviceByName('ChangeServicePropeties6'));
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties6'));
+        let newService = newRepo.find(serviceByName('ChangeServiceProperties6'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
 

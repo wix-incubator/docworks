@@ -1,10 +1,10 @@
 /**
- * @class ChangeServicePropeties1
+ * @class ChangeServiceProperties1
  */
-export class ChangeServicePropeties1 {
+export class ChangeServiceProperties1 {
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties1
+   * @memberof ChangeServiceProperties1
    * @type {string}
    */
   get prop1() {
@@ -12,7 +12,7 @@ export class ChangeServicePropeties1 {
 
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties1
+   * @memberof ChangeServiceProperties1
    * @param {string} value The new label to display.
    */
   set prop1(value) {
@@ -20,12 +20,12 @@ export class ChangeServicePropeties1 {
 }
 
 /**
- * @class ChangeServicePropeties2
+ * @class ChangeServiceProperties2
  */
-export class ChangeServicePropeties2 {
+export class ChangeServiceProperties2 {
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties2
+   * @memberof ChangeServiceProperties2
    * @type {string}
    */
   get prop1() {
@@ -33,7 +33,7 @@ export class ChangeServicePropeties2 {
 
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties2
+   * @memberof ChangeServiceProperties2
    * @param {string} value The new label to display.
    */
   set prop1(value) {
@@ -41,12 +41,12 @@ export class ChangeServicePropeties2 {
 }
 
 /**
- * @class ChangeServicePropeties3
+ * @class ChangeServiceProperties3
  */
-export class ChangeServicePropeties3 {
+export class ChangeServiceProperties3 {
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties3
+   * @memberof ChangeServiceProperties3
    * @type {Number}
    */
   get prop1() {
@@ -54,7 +54,7 @@ export class ChangeServicePropeties3 {
 
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties3
+   * @memberof ChangeServiceProperties3
    * @param {Number} value The new label to display.
    */
   set prop1(value) {
@@ -62,12 +62,12 @@ export class ChangeServicePropeties3 {
 }
 
 /**
- * @class ChangeServicePropeties4
+ * @class ChangeServiceProperties4
  */
-export class ChangeServicePropeties4 {
+export class ChangeServiceProperties4 {
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties4
+   * @memberof ChangeServiceProperties4
    * @type {String}
    */
   get prop1() {
@@ -75,7 +75,7 @@ export class ChangeServicePropeties4 {
 
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties4
+   * @memberof ChangeServiceProperties4
    * @param {String} value The new label to display.
    */
   set prop1(value) {
@@ -83,12 +83,12 @@ export class ChangeServicePropeties4 {
 }
 
 /**
- * @class ChangeServicePropeties5
+ * @class ChangeServiceProperties5
  */
-export class ChangeServicePropeties5 {
+export class ChangeServiceProperties5 {
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties5
+   * @memberof ChangeServiceProperties5
    * @type {string}
    * @summary new summary
    * @description new description
@@ -99,7 +99,7 @@ export class ChangeServicePropeties5 {
 
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties5
+   * @memberof ChangeServiceProperties5
    * @param {string} value The new label to display.
    */
   set prop1(value) {
@@ -107,12 +107,12 @@ export class ChangeServicePropeties5 {
 }
 
 /**
- * @class ChangeServicePropeties6
+ * @class ChangeServiceProperties6
  */
-export class ChangeServicePropeties6 {
+export class ChangeServiceProperties6 {
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties6
+   * @memberof ChangeServiceProperties6
    * @type {string}
    */
   get prop1() {
@@ -120,7 +120,7 @@ export class ChangeServicePropeties6 {
 
   /**
    * @member prop1
-   * @memberof ChangeServicePropeties6
+   * @memberof ChangeServiceProperties6
    * @param {string} value The new label to display.
    */
   set prop1(value) {
