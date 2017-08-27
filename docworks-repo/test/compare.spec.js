@@ -225,5 +225,18 @@ describe('compare repo', function() {
         expect(prop1.locations).to.deep.equal(newProp1.locations);
       })
     });
+
+    describe('service operations', function() {
+      it('should not report any change if no properties has changed', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations1'));
+        let newService = newRepo.find(serviceByName('ChangeServiceOperations1'));
+        let operation = service.properties.find(memberByName('operations1'));
+        let newOperation = newService.properties.find(memberByName('operations1'));
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceOperations1') > -1));
+
+        expect(operation).to.deep.equal(newOperation);
+      });
+    });
   });
 });
