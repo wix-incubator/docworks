@@ -178,6 +178,20 @@ describe('compare repo', function() {
         expect(prop1.labels).to.include.members(['changed']);
         expect(prop1.type).to.equal(newProp1.type);
       });
+
+      it('should report changed property get/set', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServicePropeties4'));
+        let newService = newRepo.find(serviceByName('ChangeServicePropeties4'));
+        let prop1 = service.properties.find(memberByName('prop1'));
+        let newProp1 = newService.properties.find(memberByName('prop1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServicePropeties4 property prop1 has changed setter']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(prop1.labels).to.include.members(['changed']);
+        expect(prop1.get).to.equal(newProp1.get);
+        expect(prop1.set).to.equal(newProp1.set);
+      });
     });
   });
 });

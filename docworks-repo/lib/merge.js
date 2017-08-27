@@ -23,10 +23,14 @@ function compareAttribute(sNewValue, sRepoValue, messages, key, attribute) {
 
 function mergeProperty(newProperty, repoProperty, messages, key) {
   let changedType = !compareAttribute(newProperty.type, repoProperty.type, messages, key, 'type');
-  let changed = changedType;
+  let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
+  let changedSetter = !compareAttribute(newProperty.set, repoProperty.set, messages, key, 'setter');
+  let changed = changedType || changedGetter || changedSetter;
   let property = copy(repoProperty, {
     labels: changed?addUniqueToArray(repoProperty.labels, 'changed'): repoProperty.labels,
-    type: newProperty.type
+    type: newProperty.type,
+    get: newProperty.get,
+    set: newProperty.set
   });
   return {changed, property}
 }
