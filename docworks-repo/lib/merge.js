@@ -82,9 +82,6 @@ function mergeOperation(newProperty, repoProperty, messages, key) {
   let changed = false;//changedType || changedGetter || changedSetter || docsChanged;
   let item = copy(repoProperty, {
     // labels: changed?addUniqueToArray(repoProperty.labels, 'changed'): repoProperty.labels,
-    // type: newProperty.type,
-    // get: newProperty.get,
-    // set: newProperty.set,
     // srcDocs: copy(newProperty.srcDocs),
     // locations: newProperty.locations
   });
@@ -96,7 +93,7 @@ function mergeService(sNew, sRepo, messages) {
   let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
   let docsChanged = !compareDocs(sNew.srcDocs, sRepo.srcDocs, messages, sKey);
   let propertiesMerge = mergeLists(sNew.properties, sRepo.properties, messages, sKey, 'property', mergeProperty);
-  let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeProperty);
+  let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeOperation);
 
   let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed;
   return copy(sRepo, {
