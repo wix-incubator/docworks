@@ -119,9 +119,9 @@ describe('docs', function() {
                         operations: [
                             {name: 'operationWithDocs',
                                 params: [
-                                    {name: 'input', type: 'string', doc: 'the input'}
+                                    {name: 'input', type: 'string', doc: 'the input', srcDoc: 'the input'}
                                 ],
-                                ret: {type: 'string', doc: 'the return value'},
+                                ret: {type: 'string', doc: 'the return value', srcDoc: 'the return value'},
                                 docs: {
                                     summary: 'an operation',
                                     description: 'the description of the operation',

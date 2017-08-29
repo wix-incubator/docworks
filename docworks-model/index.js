@@ -35,10 +35,11 @@ export function Example(title, body) {
     }
 }
 
-export function Return(type, doc) {
+export function Return(type, doc, srcDoc) {
     return {
         type: type,
-        doc: doc
+        doc: doc,
+        srcDoc: srcDoc
     }
 }
 
@@ -55,11 +56,12 @@ export function Operation(name, labels, nameParams, params, ret, locations, docs
     }
 }
 
-export function Param(name, type, doc, optional, defaultValue, spread) {
+export function Param(name, type, doc, srcDoc, optional, defaultValue, spread) {
     return {
         name: name,
         type: type,
         doc: doc,
+        srcDoc: srcDoc,
         optional: optional,
         defaultValue: defaultValue,
         spread: spread

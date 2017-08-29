@@ -73,15 +73,53 @@ function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem) {
   return {changed, merged}
 }
 
-function mergeOperation(newProperty, repoProperty, messages, key) {
+function mergeParam(newParam, repoParam, messages, key) {
+  let changedName = newParam.name !== repoParam.name;
+  if (changedName) {
+    messages.push(`Service ${key} has changed param name from ${repoParam.name} to ${newParam.name}`);
+  }
+  let changedType = !compareAttribute(newParam.type, repoParam.type, messages, key, 'type');
+  let changedDoc = !compareAttribute(newParam.doc, repoParam.doc, messages, key, 'doc');
+
+  let changed = changedName || changedType || changedDoc;
+  let item = copy(repoParam, {
+    name: newParam.name,
+    type: newParam.type,
+    srcDoc: newParam.srcDoc
+  });
+
+  return {changed, item}
+}
+
+function mergeParams(newParams, repoParams, messages, key) {
+  let changed = newParams.length !== repoParams.length;
+  let params = [];
+  for (let i = 0; i < Math.min(newParams.length, repoParams.length); i++) {
+    let mergedParam = mergeParam(newParams[i], repoParams[i], messages, key);
+    changed = changed || mergedParam.changed;
+    params.push(mergedParam.item)
+  }
+  for (let i = newParams.length; i < repoParams.length; i++) {
+    messages.push(`Service ${key} param ${repoParams[i].name} was removed`);
+  }
+  for (let i = repoParams.length; i < newParams.length; i++) {
+    messages.push(`Service ${key} has a new param ${newParams[i].name}`);
+    params.push(copy(newParams[i]));
+  }
+  return {changed, params};
+}
+
+function mergeOperation(newOperation, repoOperation, messages, key) {
+  let paramsMerge = mergeParams(newOperation.params, repoOperation.params, messages, key);
   // let changedType = !compareAttribute(newProperty.type, repoProperty.type, messages, key, 'type');
   // let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
   // let changedSetter = !compareAttribute(newProperty.set, repoProperty.set, messages, key, 'setter');
   // let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
   //
-  let changed = false;//changedType || changedGetter || changedSetter || docsChanged;
-  let item = copy(repoProperty, {
-    // labels: changed?addUniqueToArray(repoProperty.labels, 'changed'): repoProperty.labels,
+  let changed = paramsMerge.changed;//changedType || changedGetter || changedSetter || docsChanged;
+  let item = copy(repoOperation, {
+    params: paramsMerge.params,
+    labels: changed?addUniqueToArray(repoOperation.labels, 'changed'): repoOperation.labels,
     // srcDocs: copy(newProperty.srcDocs),
     // locations: newProperty.locations
   });

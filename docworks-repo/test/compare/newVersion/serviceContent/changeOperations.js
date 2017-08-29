@@ -35,6 +35,50 @@ export class ChangeServiceOperations2 {
   }
 }
 
+/**
+ * @class ChangeServiceOperations3
+ */
+export class ChangeServiceOperations3 {
+  /**
+   * @function operation1
+   * @memberof ChangeServiceOperations3
+   * @param {Number} input the input
+   */
+  operation1(input) {
+
+  }
+
+  /**
+   * @function operation2
+   * @memberof ChangeServiceOperations3
+   * @param {string} anotherInput the input
+   */
+  operation2(input) {
+
+  }
+
+  /**
+   * @function operation3
+   * @memberof ChangeServiceOperations3
+   * @param {string} input different doc
+   */
+  operation3(input) {
+
+  }
+
+  /**
+   * @function operation4
+   * @memberof ChangeServiceOperations3
+   * @param {string} input the input
+   * @param {string} input2 another input
+   */
+  operation4(input) {
+
+  }
+
+  // param type array
+}
+
 // compare params
 // compare return value
 // compare location

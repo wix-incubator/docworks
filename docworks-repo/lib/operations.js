@@ -31,16 +31,18 @@ const propertySpec = {
 const paramSpec = {
   name: {pos: 1},
   type: {pos: 2},
-  optional: {pos: 3},
-  defaultValue: {pos: 4},
-  spread: {pos: 5}
+  doc: {pos: 3},
+  srcDoc: {pos: 4},
+  optional: {pos: 5},
+  defaultValue: {pos: 6},
+  spread: {pos: 7}
 };
 const operationSpec = {
   name: {pos: 1},
   labels: {pos: 2},
   nameParams: {pos: 3},
   params: Object.assign({pos: 4}, paramSpec),
-  ret: {pos: 5, type: {pos: 1}, doc: {pos: 2}},
+  ret: {pos: 5, type: {pos: 1}, doc: {pos: 2}, srcDoc: {pos: 3}},
   locations: Object.assign({pos: 6}, locationSpec),
   docs: Object.assign({pos: 7}, docSpec),
   srcDocs: Object.assign({pos: 8}, docSpec)

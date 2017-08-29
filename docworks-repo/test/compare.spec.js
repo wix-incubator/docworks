@@ -247,8 +247,6 @@ describe('compare repo', function() {
         let newOperation3 = newService.operations.find(memberByName('operation3'));
         let repoOperation2 = repoService.operations.find(memberByName('operation2'));
 
-        saveToDir('./tmp2', mergedRepo.repo);
-
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations2 has a new operation operation3',
           'Service ChangeServiceOperations2 operation operation2 was removed']);
 
@@ -257,6 +255,80 @@ describe('compare repo', function() {
         expect(operation3).to.containSubset(newOperation3);
         expect(operation2.labels).to.include.members(['removed']);
         expect(operation2).to.containSubset(repoOperation2);
+      });
+
+      it('should report changes in param type', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
+        let operation1 = service.operations.find(memberByName('operation1'));
+        let newOperation1 = newService.operations.find(memberByName('operation1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations3 operation operation1 has changed type']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(operation1.labels).to.include.members(['changed']);
+        operation1.params.forEach((param, index) => {
+          let newParam = newOperation1.params[index];
+          expect(param.type).to.deep.equal(newParam.type);
+        })
+      });
+
+      it('should report changes in param name', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
+        let operation2 = service.operations.find(memberByName('operation2'));
+        let newOperation2 = newService.operations.find(memberByName('operation2'));
+
+        expect(mergedRepo.messages).to.containSubset([
+          'Service ChangeServiceOperations3 operation operation2 has changed param name from input to anotherInput']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(operation2.labels).to.include.members(['changed']);
+        operation2.params.forEach((param, index) => {
+          let newParam = newOperation2.params[index];
+          expect(param.name).to.equal(newParam.name);
+        })
+      });
+
+      it('should report changes in param doc', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
+        let repoService = repo.find(serviceByName('ChangeServiceOperations3'));
+        let operation3 = service.operations.find(memberByName('operation3'));
+        let newOperation3 = newService.operations.find(memberByName('operation3'));
+        let repoOperation3 = repoService.operations.find(memberByName('operation3'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations3 operation operation3 has changed doc']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(operation3.labels).to.include.members(['changed']);
+        operation3.params.forEach((param, index) => {
+          let newParam = newOperation3.params[index];
+          let repoParam = repoOperation3.params[index];
+          expect(param.doc).to.equal(repoParam.doc);
+          expect(param.srcDoc).to.equal(newParam.srcDoc);
+        })
+      });
+
+      it('should report new params', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
+        let repoService = repo.find(serviceByName('ChangeServiceOperations3'));
+        let operation4 = service.operations.find(memberByName('operation4'));
+        let newOperation4 = newService.operations.find(memberByName('operation4'));
+        let repoOperation4 = repoService.operations.find(memberByName('operation4'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations3 operation operation4 has a new param input2']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(operation4.labels).to.include.members(['changed']);
+
+        for (let i = repoOperation4.params.length; i < newOperation4.params.length; i++) {
+          let newParam = newOperation4.params[i];
+          let param = operation4.params[i];
+          expect(param).to.containSubset(newParam);
+        }
+
       })
     });
   });
