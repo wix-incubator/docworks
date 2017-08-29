@@ -95,7 +95,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'operation', nameParams: [], params: [
                                 {name: 'input', type: 'aNamespace.ServiceMessages.InMessage'}
-                            ], ret: 'aNamespace.ServiceMessages.OutMessage'}
+                            ], ret: {type: 'aNamespace.ServiceMessages.OutMessage'}}
                         ]
                     }
                 ]
@@ -111,7 +111,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'operationComplex', nameParams: [], params: [
                                 {name: 'input', type: 'aNamespace.ServiceMessages.ComplexMessage'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]

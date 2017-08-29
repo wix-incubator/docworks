@@ -118,16 +118,20 @@ describe('docs', function() {
                         name: 'ServiceDocs',
                         operations: [
                             {name: 'operationWithDocs',
-                            docs: {
-                                summary: 'an operation',
-                                description: 'the description of the operation',
-                                links: []
-                            },
-                            srcDocs: {
-                                summary: 'an operation',
-                                description: 'the description of the operation',
-                                links: []
-                            }}
+                                params: [
+                                    {name: 'input', type: 'string', doc: 'the input'}
+                                ],
+                                ret: {type: 'string', doc: 'the return value'},
+                                docs: {
+                                    summary: 'an operation',
+                                    description: 'the description of the operation',
+                                    links: []
+                                },
+                                srcDocs: {
+                                    summary: 'an operation',
+                                    description: 'the description of the operation',
+                                    links: []
+                                }}
                         ]
                     }
                 ]

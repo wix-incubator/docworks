@@ -57,7 +57,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'operation', nameParams: [], params: [
                                 {name: 'input', type: 'string'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]

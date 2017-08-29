@@ -242,5 +242,53 @@ describe('toJson', function() {
           |  "array": [],
           |  "a": "1" }`
         ))
+    });
+
+    it('should not write undefined and do write null', function() {
+        let obj = {
+            a: '1',
+            b: undefined,
+            c: '3',
+            d: null,
+            e: '5'
+        };
+        let json = toJson(obj, 2, {
+            a: {pos: 1},
+            b: {pos: 2},
+            c: {pos: 3},
+            d: {pos: 4},
+            e: {pos: 5}
+        });
+
+        expect(json).to.equal(stripMargin(
+          `{ "a": "1",
+          |  "c": "3",
+          |  "d": null,
+          |  "e": "5" }`
+        ))
+    })
+
+    it('should support null or undefined multiline values', function() {
+        let obj = {
+            a: '1',
+            b: undefined,
+            c: '3',
+            d: null,
+            e: '5'
+        };
+        let json = toJson(obj, 2, {
+            a: {pos: 1},
+            b: {pos: 2, multiLine: true},
+            c: {pos: 3},
+            d: {pos: 4, multiLine: true},
+            e: {pos: 5}
+        });
+
+        expect(json).to.equal(stripMargin(
+          `{ "a": "1",
+          |  "c": "3",
+          |  "d": null,
+          |  "e": "5" }`
+        ))
     })
 });

@@ -33,12 +33,12 @@ describe('docs', function() {
                             {name: 'operationWithCallback', nameParams: [], params: [
                                 {name: 'input', type: 'string'},
                                 {name: 'callback', type: 'aNamespace.ServiceCallbacks.aCallback'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ],
                         callbacks: [
                             {name: 'aCallback', nameParams: [], params: [
                                 {name: 'x', type: 'number'},
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]
@@ -56,17 +56,17 @@ describe('docs', function() {
                             {name: 'operationWithComplexCallback', nameParams: [], params: [
                                 {name: 'input', type: 'string'},
                                 {name: 'callback', type: 'aNamespace.ServiceCallbacks.aComplexCallback'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ],
                         callbacks: [
                             {name: 'aComplexCallback', nameParams: [], params: [
                                 {name: 'x', type: 'number'},
                                 {name: 'y', type: 'string'},
                                 {name: 'cb', type: 'aNamespace.ServiceCallbacks.aComplexCallbackCallback'}
-                            ], ret: {name: 'Promise', typeParams: ['string']}},
+                            ], ret: {type: {name: 'Promise', typeParams: ['string']}}}  ,
                             {name: 'aComplexCallbackCallback', nameParams: [], params: [
                                 {name: 'z', type: 'number'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]
@@ -84,12 +84,12 @@ describe('docs', function() {
                             {name: 'operationWithErrorCallback', nameParams: [], params: [
                                 {name: 'input', type: 'string'},
                                 {name: 'callback', type: 'aNamespace.ServiceCallbacks.AnErrorCallback'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ],
                         callbacks: [
                             {name: 'AnErrorCallback', nameParams: [], params: [
                                 {name: 'z', type: 'Unknown'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ],
@@ -113,7 +113,7 @@ describe('docs', function() {
                             {name: 'operationWithUnknownCallback', nameParams: [], params: [
                                 {name: 'input', type: 'string'},
                                 {name: 'callback', type: 'UnknownCallback'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ],

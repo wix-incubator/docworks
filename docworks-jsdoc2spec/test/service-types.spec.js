@@ -182,7 +182,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceTypes',
                         operations: [
-                            {name: 'multiDimArray', nameParams: [], params: [], ret: {name: 'Array', typeParams: [{name: 'Array', typeParams: ['string']}]}}
+                            {name: 'multiDimArray', nameParams: [], params: [], ret: {type: {name: 'Array', typeParams: [{name: 'Array', typeParams: ['string']}]}}}
                         ]
                     }
                 ]
@@ -196,7 +196,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceTypes',
                         operations: [
-                            {name: 'promiseArray', nameParams: [], params: [], ret: {name: 'Promise', typeParams: [{name: 'Array', typeParams: ['string']}]}}
+                            {name: 'promiseArray', nameParams: [], params: [], ret: {type: {name: 'Promise', typeParams: [{name: 'Array', typeParams: ['string']}]}}}
                         ]
                     }
                 ]

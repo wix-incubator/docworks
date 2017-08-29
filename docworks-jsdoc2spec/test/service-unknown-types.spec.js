@@ -32,7 +32,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'unknownType', nameParams: [], params: [
                                 {name: 'unknown', type: 'Unknown1'}
-                            ], ret: 'Unknown2'}
+                            ], ret: {type: 'Unknown2'}}
                         ]
                     }
                 ],
@@ -83,7 +83,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'typedefFullPath', nameParams: [], params: [
                                 {name: 'type2', type: 'aNamespace.ServiceUnknownTypes.Type2'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]
@@ -99,7 +99,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'typedefRelativePath', nameParams: [], params: [
                                 {name: 'type2', type: 'aNamespace.ServiceUnknownTypes.Type2'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]

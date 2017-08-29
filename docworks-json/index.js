@@ -49,7 +49,7 @@ function serialize(obj, indent, indentStep, spec) {
     }
 
     function handleValue(name, value, valueSpec) {
-        if (valueSpec && valueSpec.multiLine) {
+        if (valueSpec && valueSpec.multiLine && value) {
             handleMultiLine(value, name);
         }
         else if (isArray(value)) {
@@ -57,15 +57,15 @@ function serialize(obj, indent, indentStep, spec) {
         }
         else if (isObject(value))
             props.push(`"${name}":\n${indentGrandChild}` + serialize(value, indentGrandChild, indentStep, valueSpec));
-        else
+        else if (value === null)
+            props.push(`"${name}": null`);
+        else if (value !== undefined)
             props.push(`"${name}": ` + JSON.stringify(value));
     }
 
     for (let i in orderedNames) {
         let name = orderedNames[i];
-        if (obj[name]) {
-            handleValue(name, obj[name], spec[name]);
-        }
+        handleValue(name, obj[name], spec[name]);
     }
 
     for (let i in names) {

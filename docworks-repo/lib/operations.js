@@ -40,7 +40,7 @@ const operationSpec = {
   labels: {pos: 2},
   nameParams: {pos: 3},
   params: Object.assign({pos: 4}, paramSpec),
-  ret: {pos: 5},
+  ret: {pos: 5, type: {pos: 1}, doc: {pos: 2}},
   locations: Object.assign({pos: 6}, locationSpec),
   docs: Object.assign({pos: 7}, docSpec),
   srcDocs: Object.assign({pos: 8}, docSpec)

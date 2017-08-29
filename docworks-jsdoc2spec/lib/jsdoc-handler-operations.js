@@ -1,5 +1,5 @@
 import {handleMeta, handleType, typeContext, handleDoc} from './jsdoc-handler-shared';
-import {Operation, Void, JsDocError, Param} from 'docworks-model';
+import {Operation, Void, JsDocError, Param, Return} from 'docworks-model';
 import {dump} from './util';
 
 const groupByName = (groups, func) => {
@@ -15,6 +15,7 @@ const groupByName = (groups, func) => {
 const handleParam = (find, onError, context) => (param) => {
     return Param(param.name,
         handleType(param.type, find, onError, context),
+        param.description,
         param.optional,
         param.defaultvalue,
         param.variable
@@ -34,7 +35,8 @@ const processFunctions = (find, onError, kind) => (funcs) => {
             onError(JsDocError(`${kind} ${func.name} is defined two or more times`, funcs.map(func => handleMeta(func.meta))));
 
         let ret = (func.returns && func.returns.length > 0)?
-            handleType(func.returns[0].type, find, onError, typeContext(kind, func.name, 'return', func.memberof, handleMeta(func.meta))): Void;
+            Return(handleType(func.returns[0].type, find, onError, typeContext(kind, func.name, 'return', func.memberof, handleMeta(func.meta))), func.returns[0].description):
+            Return(Void, undefined);
 
 
         // todo handle name params

@@ -42,7 +42,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'operation', nameParams: [], params: [
                                 {name: 'input', type: 'string'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]
@@ -56,7 +56,7 @@ describe('docs', function() {
                     {
                         name: 'child',
                         operations: [
-                            {name: 'op2', nameParams: [], params: [], ret: 'void'}
+                            {name: 'op2', nameParams: [], params: [], ret: {type: 'void'}}
                         ]
                     }
                 ]

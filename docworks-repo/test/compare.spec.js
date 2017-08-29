@@ -238,7 +238,7 @@ describe('compare repo', function() {
         expect(operation).to.containSubset(newOperation);
       });
 
-      it.only('should report added and removed operations', function() {
+      it('should report added and removed operations', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations2'));
         let newService = newRepo.find(serviceByName('ChangeServiceOperations2'));
         let repoService = repo.find(serviceByName('ChangeServiceOperations2'));

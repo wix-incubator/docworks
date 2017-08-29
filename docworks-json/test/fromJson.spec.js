@@ -118,4 +118,34 @@ describe('fromJson', function() {
             ]
         });
     })
+
+    it('should read json with null', function() {
+        let json = stripMargin(`{
+          |  "x": 12,
+          |  "y": null
+          |}`
+        );
+
+        let obj = fromJson(json, {x: {pos:1}, y: {pos:2}, z: {pos: 3}});
+
+        expect(obj).to.deep.equal({
+            x: 12,
+            y: null
+        });
+    });
+
+    it('should read json with null', function() {
+        let json = stripMargin(`{
+          |  "x": 12,
+          |  "y": null
+          |}`
+        );
+
+        let obj = fromJson(json, {x: {pos:1}, y: {pos:2, multiLine: true}, z: {pos: 3, multiLine: true}});
+
+        expect(obj).to.deep.equal({
+            x: 12,
+            y: null
+        });
+    });
 });

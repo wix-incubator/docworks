@@ -70,6 +70,7 @@ class ServiceDocs {
      * @description
      * the description of the operation
      * @param {string} input the input
+     * @return {string} the return value
      */
     operationWithDocs(input) {
 

@@ -32,7 +32,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'oneParam', nameParams: [], params: [
                                 {name: 'input', type: 'string'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]
@@ -63,7 +63,7 @@ describe('docs', function() {
                             {name: 'twoParams', nameParams: [], params: [
                                 {name: 'input', type: 'string'},
                                 {name: 'input2', type: 'number'}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]
@@ -77,7 +77,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceOperations',
                         operations: [
-                            {name: 'returns', nameParams: [], params: [], ret: 'string'}
+                            {name: 'returns', nameParams: [], params: [], ret: {type: 'string'}}
                         ]
                     }
                 ]
@@ -91,7 +91,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceOperations',
                         operations: [
-                            {name: 'returnsArray', nameParams: [], params: [], ret: {name: 'Array', typeParams: ['string']}}
+                            {name: 'returnsArray', nameParams: [], params: [], ret: {type: {name: 'Array', typeParams: ['string']}}}
                         ]
                     }
                 ]
@@ -105,7 +105,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceOperations',
                         operations: [
-                            {name: 'returnsPromise', nameParams: [], params: [], ret: {name: 'Promise', typeParams: ['string']}}
+                            {name: 'returnsPromise', nameParams: [], params: [], ret: {type: {name: 'Promise', typeParams: ['string']}}}
                         ]
                     }
                 ]
@@ -119,7 +119,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceOperations',
                         operations: [
-                            {name: 'multipleReturns', nameParams: [], params: [], ret: 'string'}
+                            {name: 'multipleReturns', nameParams: [], params: [], ret: {type: 'string'}}
                         ]
                     }
                 ],
@@ -138,7 +138,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceOperations',
                         operations: [
-                            {name: 'duplicate', nameParams: [], params: [], ret: 'string'}
+                            {name: 'duplicate', nameParams: [], params: [], ret: {type: 'string'}}
                         ]
                     }
                 ],
@@ -159,7 +159,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'optional', nameParams: [], params: [
                                 {name: 'param', type: 'string', optional: true}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]
@@ -175,7 +175,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'defaultValue', nameParams: [], params: [
                                 {name: 'param', type: 'string', optional: true, defaultValue:"default"}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]
@@ -191,7 +191,7 @@ describe('docs', function() {
                         operations: [
                             {name: 'varargs', nameParams: [], params: [
                                 {name: 'param', type: 'string', spread: true}
-                            ], ret: 'void'}
+                            ], ret: {type: 'void'}}
                         ]
                     }
                 ]
