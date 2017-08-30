@@ -17,6 +17,15 @@ export class ChangeServiceProperties1 {
    */
   set prop1(value) {
   }
+
+  /**
+   * @member prop2
+   * @memberof ChangeServiceProperties1
+   * @type {Array<string>}
+   */
+  get prop2() {
+  }
+
 }
 
 /**

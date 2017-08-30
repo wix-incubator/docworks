@@ -38,7 +38,7 @@ function compareDocs(newDocs, repoDocs, messages, key) {
 }
 
 function mergeProperty(newProperty, repoProperty, messages, key) {
-  let changedType = !compareAttribute(newProperty.type, repoProperty.type, messages, key, 'type');
+  let changedType = !compareType(newProperty.type, repoProperty.type, messages, key);
   let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
   let changedSetter = !compareAttribute(newProperty.set, repoProperty.set, messages, key, 'setter');
   let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
