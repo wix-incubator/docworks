@@ -1,7 +1,16 @@
 import {zipByKey, addUniqueToArray, copy, compareArraysAsSets} from './collection-utils';
+import isEqual from 'lodash.isequal';
 
 function serviceKey(service) {
   return service.memberOf?`${service.memberOf}.${service.name}`:service.name;
+}
+
+function compareType(newType, repoType, messages, serviceKey) {
+  if (!isEqual(newType, repoType)) {
+    messages.push(`Service ${serviceKey} has changed type`)
+    return false;
+  }
+  return true;
 }
 
 function compareArrays(sNewArr, sRepoArr, messages, serviceKey, attribute) {
@@ -78,7 +87,7 @@ function mergeParam(newParam, repoParam, messages, key) {
   if (changedName) {
     messages.push(`Service ${key} has changed param name from ${repoParam.name} to ${newParam.name}`);
   }
-  let changedType = !compareAttribute(newParam.type, repoParam.type, messages, key, 'type');
+  let changedType = !compareType(newParam.type, repoParam.type, messages, key);
   let changedDoc = !compareAttribute(newParam.doc, repoParam.doc, messages, key, 'doc');
 
   let changed = changedName || changedType || changedDoc;

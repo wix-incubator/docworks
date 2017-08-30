@@ -74,4 +74,32 @@ export class ChangeServiceOperations3 {
   operation4(input) {
 
   }
+
+  /**
+   * @function operation5
+   * @memberof ChangeServiceOperations3
+   * @param {string} input the input
+   * @param {string} input2 another input
+   */
+  operation5(input) {
+
+  }
+
+  /**
+   * @function operation6
+   * @memberof ChangeServiceOperations3
+   * @param {string} input the input
+   */
+  operation6(input) {
+
+  }
+
+  /**
+   * @function operation7
+   * @memberof ChangeServiceOperations3
+   * @param {Array<string>} input the input
+   */
+  operation7(input) {
+
+  }
 }

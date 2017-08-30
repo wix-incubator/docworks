@@ -76,7 +76,33 @@ export class ChangeServiceOperations3 {
 
   }
 
-  // param type array
+  /**
+   * @function operation5
+   * @memberof ChangeServiceOperations3
+   * @param {string} input the input
+   */
+  operation5(input) {
+
+  }
+
+  /**
+   * @function operation6
+   * @memberof ChangeServiceOperations3
+   * @param {Array<string>} input the input
+   */
+  operation6(input) {
+
+  }
+
+  /**
+   * @function operation7
+   * @memberof ChangeServiceOperations3
+   * @param {Array<string>} input the input
+   */
+  operation7(input) {
+
+  }
+
 }
 
 // compare params
