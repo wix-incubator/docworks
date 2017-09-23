@@ -137,6 +137,18 @@ class ServiceOperations {
     varargs(param) {
     }
 
+    /**
+     * @function brokenReturns
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @returns string the result
+     */
+    brokenReturns() {
+
+    }
 
 }
 

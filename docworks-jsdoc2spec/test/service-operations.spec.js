@@ -151,6 +151,25 @@ describe('docs', function() {
             });
         });
 
+        it('should error on returns without type', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'brokenReturns', nameParams: [], params: [], ret: {type: 'void'}}
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Operation brokenReturns has return description but no type. Did you forget the {} around the type?',
+                        location: 'service-operations.js (140)'
+                    }
+                ]
+            });
+        });
+
         it('should support optional param', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
