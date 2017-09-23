@@ -193,7 +193,7 @@ describe('compare repo', function() {
         expect(prop1.set).to.equal(newProp1.set);
       });
 
-      it('should report changed property docs', function() {
+      it('should report changed property docs, preserve docs and update srcDocs', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties5'));
         let newService = newRepo.find(serviceByName('ChangeServiceProperties5'));
         let repoService = repo.find(serviceByName('ChangeServiceProperties5'));
@@ -370,7 +370,26 @@ describe('compare repo', function() {
         expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('operation7') > -1));
 
         expect(operation).to.containSubset(newOperation);
-      })
+      });
+
+      it('should report changed property docs, preserve docs and update srcDocs', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations4'));
+        let newService = newRepo.find(serviceByName('ChangeServiceOperations4'));
+        let repoService = repo.find(serviceByName('ChangeServiceOperations4'));
+        let operation = service.operations.find(memberByName('operation1'));
+        let newOperation = newService.operations.find(memberByName('operation1'));
+        let repoOperation = repoService.operations.find(memberByName('operation1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations4 operation operation1 has changed summary',
+          'Service ChangeServiceOperations4 operation operation1 has changed description']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(operation.labels).to.include.members(['changed']);
+        expect(operation.srcDocs).to.deep.equal(newOperation.srcDocs);
+        expect(operation.src).to.deep.equal(repoOperation.src);
+      });
+
+      // operation location
     });
   });
 });

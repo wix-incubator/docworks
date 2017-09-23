@@ -103,3 +103,20 @@ export class ChangeServiceOperations3 {
 
   }
 }
+
+/**
+ * @class ChangeServiceOperations4
+ */
+export class ChangeServiceOperations4 {
+  /**
+   * @function operation1
+   * @summary a summary
+   * @description
+   * a description
+   * @memberof ChangeServiceOperations4
+   * @param {string} input the input
+   */
+  operation1(input) {
+
+  }
+}

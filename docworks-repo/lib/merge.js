@@ -123,13 +123,13 @@ function mergeOperation(newOperation, repoOperation, messages, key) {
   // let changedType = !compareAttribute(newProperty.type, repoProperty.type, messages, key, 'type');
   // let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
   // let changedSetter = !compareAttribute(newProperty.set, repoProperty.set, messages, key, 'setter');
-  // let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
+  let docsChanged = !compareDocs(newOperation.srcDocs, repoOperation.srcDocs, messages, key);
   //
-  let changed = paramsMerge.changed;//changedType || changedGetter || changedSetter || docsChanged;
+  let changed = paramsMerge.changed || docsChanged;//changedType || changedGetter || changedSetter || docsChanged;
   let item = copy(repoOperation, {
     params: paramsMerge.params,
     labels: changed?addUniqueToArray(repoOperation.labels, 'changed'): repoOperation.labels,
-    // srcDocs: copy(newProperty.srcDocs),
+    srcDocs: copy(newOperation.srcDocs),
     // locations: newProperty.locations
   });
   return {changed, item}

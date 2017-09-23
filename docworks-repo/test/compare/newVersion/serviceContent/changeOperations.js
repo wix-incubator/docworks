@@ -53,7 +53,7 @@ export class ChangeServiceOperations3 {
    * @memberof ChangeServiceOperations3
    * @param {string} anotherInput the input
    */
-  operation2(input) {
+  operation2(anotherInput) {
 
   }
 
@@ -105,7 +105,23 @@ export class ChangeServiceOperations3 {
 
 }
 
-// compare params
+/**
+ * @class ChangeServiceOperations4
+ */
+export class ChangeServiceOperations4 {
+  /**
+   * @function operation1
+   * @summary new summary
+   * @description
+   * new description
+   * @memberof ChangeServiceOperations4
+   * @param {string} input the input
+   */
+  operation1(input) {
+
+  }
+
+}
+
 // compare return value
 // compare location
-// compare docs
