@@ -389,7 +389,20 @@ describe('compare repo', function() {
         expect(operation.src).to.deep.equal(repoOperation.src);
       });
 
+      it('should detect change in operation location but not report the service or property as changed', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations5'));
+        let newService = newRepo.find(serviceByName('ChangeServiceOperations5'));
+        let operation = service.operations.find(memberByName('operation1'));
+        let newOperation = newService.operations.find(memberByName('operation1'));
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceOperations5') > -1));
+
+        expect(service.labels).to.not.include.members(['changed']);
+        expect(operation.labels).to.not.include.members(['changed']);
+        expect(operation.locations).to.deep.equal(newOperation.locations);
+      });
       // operation location
+      // return value
     });
   });
 });

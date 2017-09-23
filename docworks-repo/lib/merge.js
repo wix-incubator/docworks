@@ -130,7 +130,7 @@ function mergeOperation(newOperation, repoOperation, messages, key) {
     params: paramsMerge.params,
     labels: changed?addUniqueToArray(repoOperation.labels, 'changed'): repoOperation.labels,
     srcDocs: copy(newOperation.srcDocs),
-    // locations: newProperty.locations
+    locations: newOperation.locations
   });
   return {changed, item}
 }

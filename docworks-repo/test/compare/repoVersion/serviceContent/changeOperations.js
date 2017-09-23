@@ -120,3 +120,18 @@ export class ChangeServiceOperations4 {
 
   }
 }
+
+/**
+ * @class ChangeServiceOperations5
+ */
+export class ChangeServiceOperations5 {
+  /**
+   * @function operation1
+   * @memberof ChangeServiceOperations5
+   * @param {string} input the input
+   */
+  operation1(input) {
+
+  }
+}
+
