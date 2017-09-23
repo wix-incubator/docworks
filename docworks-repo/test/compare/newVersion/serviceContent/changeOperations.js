@@ -137,5 +137,30 @@ export class ChangeServiceOperations5 {
   }
 }
 
+/**
+ * @class ChangeServiceOperations6
+ */
+export class ChangeServiceOperations6 {
+  /**
+   * @function operation1
+   * @memberof ChangeServiceOperations6
+   * @param {string} input the input
+   * @returns {Number} a string value
+   */
+  operation1(input) {
+
+  }
+
+  /**
+   * @function operation2
+   * @memberof ChangeServiceOperations6
+   * @param {string} input the input
+   * @returns {Array<Number>} a string value
+   */
+  operation2(input) {
+
+  }
+}
+
+
 // compare return value
-// compare location
