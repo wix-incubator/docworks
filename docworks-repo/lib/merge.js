@@ -125,15 +125,20 @@ function mergeParams(newParams, repoParams, messages, key) {
 function mergeOperation(newOperation, repoOperation, messages, key) {
   let paramsMerge = mergeParams(newOperation.params, repoOperation.params, messages, key);
   let changedReturn = !compareType(newOperation.ret.type, repoOperation.ret.type, messages, key, 'return');
+  let changedDoc = !compareAttribute(newOperation.ret.doc, repoOperation.ret.doc, messages, key, `return doc`);
   let docsChanged = !compareDocs(newOperation.srcDocs, repoOperation.srcDocs, messages, key);
 
-  let changed = paramsMerge.changed || docsChanged || changedReturn;
+  let changed = paramsMerge.changed || docsChanged || changedReturn || changedDoc;
+  let ret = copy(repoOperation.ret, {
+    type: newOperation.ret.type,
+    srcDoc: newOperation.ret.srcDoc
+  });
   let item = copy(repoOperation, {
     params: paramsMerge.params,
     labels: changed?addUniqueToArray(repoOperation.labels, 'changed'): repoOperation.labels,
     srcDocs: copy(newOperation.srcDocs),
     locations: newOperation.locations,
-    ret: newOperation.ret
+    ret: ret
   });
   return {changed, item}
 }

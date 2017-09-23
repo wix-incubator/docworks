@@ -162,5 +162,16 @@ export class ChangeServiceOperations6 {
   }
 }
 
+/**
+ * @class ChangeServiceOperations7
+ */
+export class ChangeServiceOperations7 {
+  /**
+   * @function operation1
+   * @memberof ChangeServiceOperations7
+   * @returns {string} a new description
+   */
+  operation1(input) {
 
-// compare return value
+  }
+}

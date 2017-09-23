@@ -161,3 +161,18 @@ export class ChangeServiceOperations6 {
 
 }
 
+/**
+ * @class ChangeServiceOperations7
+ */
+export class ChangeServiceOperations7 {
+  /**
+   * @function operation1
+   * @memberof ChangeServiceOperations7
+   * @returns {string} original description
+   */
+  operation1(input) {
+
+  }
+}
+
+

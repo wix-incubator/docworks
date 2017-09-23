@@ -387,6 +387,23 @@ describe('compare repo', function() {
         expect(operation2.ret.type).to.deep.equal(newOperation2.ret.type);
       });
 
+      it('should report changes in return doc', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations7'));
+        let newService = newRepo.find(serviceByName('ChangeServiceOperations7'));
+        let repoService = repo.find(serviceByName('ChangeServiceOperations7'));
+        let operation1 = service.operations.find(memberByName('operation1'));
+        let newOperation1 = newService.operations.find(memberByName('operation1'));
+        let repoOperation1 = repoService.operations.find(memberByName('operation1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations7 operation operation1 has changed return doc']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(operation1.labels).to.include.members(['changed']);
+        expect(operation1.ret.doc).to.equal(repoOperation1.ret.doc);
+        expect(operation1.ret.srcDoc).to.equal(newOperation1.ret.srcDoc);
+
+      });
+
       it('should not report any change if no operations has changed - for complex typed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
         let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
@@ -398,7 +415,7 @@ describe('compare repo', function() {
         expect(operation).to.containSubset(newOperation);
       });
 
-      it('should report changed property docs, preserve docs and update srcDocs', function() {
+      it('should report changed operation docs, preserve docs and update srcDocs', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations4'));
         let newService = newRepo.find(serviceByName('ChangeServiceOperations4'));
         let repoService = repo.find(serviceByName('ChangeServiceOperations4'));
