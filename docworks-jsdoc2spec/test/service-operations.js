@@ -150,6 +150,13 @@ class ServiceOperations {
 
     }
 
+    /**
+     * @function brokenParam
+     * @memberof aNamespace.ServiceOperations
+     * @param param broken description
+     */
+    brokenParam(param) {
+    }
 }
 
 

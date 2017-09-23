@@ -170,6 +170,25 @@ describe('docs', function() {
             });
         });
 
+        it('should error on a param without type', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'brokenParam', nameParams: [], params: [{"name": "param", "type": "void"}], ret: {type: 'void'}}
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Operation brokenParam param param has a name but no type. Did you forget the {} around the type?',
+                        location: 'service-operations.js (153)'
+                    }
+                ]
+            });
+        });
+
         it('should support optional param', function() {
             expect(jsDocRes).to.containSubset({
                 services: [

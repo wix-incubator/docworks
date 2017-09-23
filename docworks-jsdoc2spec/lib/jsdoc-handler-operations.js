@@ -13,6 +13,8 @@ const groupByName = (groups, func) => {
 };
 
 const handleParam = (find, onError, context) => (param) => {
+    if (param.name && !param.type)
+        onError(JsDocError(`${context.kind} ${context.name} param ${param.name} has a name but no type. Did you forget the {} around the type?`, [context.location]));
     return Param(param.name,
         handleType(param.type, find, onError, context),
         param.description,
