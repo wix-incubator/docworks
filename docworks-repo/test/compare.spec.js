@@ -444,7 +444,226 @@ describe('compare repo', function() {
         expect(operation.labels).to.not.include.members(['changed']);
         expect(operation.locations).to.deep.equal(newOperation.locations);
       });
-      // return doc value
     });
+
+    describe('service callbacks', function() {
+      it('should not report any change if no callbacks has changed', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks1'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks1'));
+        let callback = service.callbacks.find(memberByName('callbacks1'));
+        let newCallback = newService.callbacks.find(memberByName('callbacks1'));
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceCallbacks1') > -1));
+
+        expect(callback).to.containSubset(newCallback);
+      });
+
+      it('should report added and removed callbacks', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks2'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks2'));
+        let repoService = repo.find(serviceByName('ChangeServiceCallbacks2'));
+        let callback3 = service.callbacks.find(memberByName('callback3'));
+        let callback2 = service.callbacks.find(memberByName('callback2'));
+        let newCallback3 = newService.callbacks.find(memberByName('callback3'));
+        let repoCallback2 = repoService.callbacks.find(memberByName('callback2'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks2 has a new callback callback3',
+          'Service ChangeServiceCallbacks2 callback callback2 was removed']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback3.labels).to.include.members(['new']);
+        expect(callback3).to.containSubset(newCallback3);
+        expect(callback2.labels).to.include.members(['removed']);
+        expect(callback2).to.containSubset(repoCallback2);
+      });
+
+      it('should report changes in param type', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let callback1 = service.callbacks.find(memberByName('callback1'));
+        let newCallback1 = newService.callbacks.find(memberByName('callback1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks3 callback callback1 has changed param input type']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback1.labels).to.include.members(['changed']);
+        callback1.params.forEach((param, index) => {
+          let newParam = newCallback1.params[index];
+          expect(param.type).to.deep.equal(newParam.type);
+        })
+      });
+
+      it('should report changes in param name', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let callback2 = service.callbacks.find(memberByName('callback2'));
+        let newCallback2 = newService.callbacks.find(memberByName('callback2'));
+
+        expect(mergedRepo.messages).to.containSubset([
+          'Service ChangeServiceCallbacks3 callback callback2 has changed param name from input to anotherInput']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback2.labels).to.include.members(['changed']);
+        callback2.params.forEach((param, index) => {
+          let newParam = newCallback2.params[index];
+          expect(param.name).to.equal(newParam.name);
+        })
+      });
+
+      it('should report changes in param doc', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let repoService = repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let callback3 = service.callbacks.find(memberByName('callback3'));
+        let newCallback3 = newService.callbacks.find(memberByName('callback3'));
+        let repoCallback3 = repoService.callbacks.find(memberByName('callback3'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks3 callback callback3 has changed param input doc']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback3.labels).to.include.members(['changed']);
+        callback3.params.forEach((param, index) => {
+          let newParam = newCallback3.params[index];
+          let repoParam = repoCallback3.params[index];
+          expect(param.doc).to.equal(repoParam.doc);
+          expect(param.srcDoc).to.equal(newParam.srcDoc);
+        })
+      });
+
+      it('should report new params', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let repoService = repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let callback4 = service.callbacks.find(memberByName('callback4'));
+        let newCallback4 = newService.callbacks.find(memberByName('callback4'));
+        let repoCallback4 = repoService.callbacks.find(memberByName('callback4'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks3 callback callback4 has a new param input2']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback4.labels).to.include.members(['changed']);
+
+        for (let i = repoCallback4.params.length; i < newCallback4.params.length; i++) {
+          let newParam = newCallback4.params[i];
+          let param = callback4.params[i];
+          expect(param).to.containSubset(newParam);
+        }
+
+      });
+
+      it('should report removed params', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let callback5 = service.callbacks.find(memberByName('callback5'));
+        let newCallback5 = newService.callbacks.find(memberByName('callback5'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks3 callback callback5 param input2 was removed']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback5.labels).to.include.members(['changed']);
+        expect(callback5.params.length).to.equal(newCallback5.params.length);
+
+      });
+
+      it('should report changes in complex param type', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let callback6 = service.callbacks.find(memberByName('callback6'));
+        let newCallback6 = newService.callbacks.find(memberByName('callback6'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks3 callback callback6 has changed param input type']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback6.labels).to.include.members(['changed']);
+        callback6.params.forEach((param, index) => {
+          let newParam = newCallback6.params[index];
+          expect(param.type).to.deep.equal(newParam.type);
+        })
+      });
+
+      it('should report changes in return type', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks6'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks6'));
+        let callback1 = service.callbacks.find(memberByName('callback1'));
+        let newCallback1 = newService.callbacks.find(memberByName('callback1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks6 callback callback1 has changed return type']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback1.labels).to.include.members(['changed']);
+        expect(callback1.ret.type).to.deep.equal(newCallback1.ret.type);
+      });
+
+      it('should report changes in complex return type', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks6'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks6'));
+        let callback2 = service.callbacks.find(memberByName('callback2'));
+        let newCallback2 = newService.callbacks.find(memberByName('callback2'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks6 callback callback2 has changed return type']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback2.labels).to.include.members(['changed']);
+        expect(callback2.ret.type).to.deep.equal(newCallback2.ret.type);
+      });
+
+      it('should report changes in return doc', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks7'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks7'));
+        let repoService = repo.find(serviceByName('ChangeServiceCallbacks7'));
+        let callback1 = service.callbacks.find(memberByName('callback1'));
+        let newCallback1 = newService.callbacks.find(memberByName('callback1'));
+        let repoCallback1 = repoService.callbacks.find(memberByName('callback1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks7 callback callback1 has changed return doc']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback1.labels).to.include.members(['changed']);
+        expect(callback1.ret.doc).to.equal(repoCallback1.ret.doc);
+        expect(callback1.ret.srcDoc).to.equal(newCallback1.ret.srcDoc);
+
+      });
+
+      it('should not report any change if no callbacks has changed - for complex typed', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let callback = service.callbacks.find(memberByName('callbacks7'));
+        let newCallback = newService.callbacks.find(memberByName('callbacks7'));
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('callback7') > -1));
+
+        expect(callback).to.containSubset(newCallback);
+      });
+
+      it('should report changed callback docs, preserve docs and update srcDocs', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks4'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks4'));
+        let repoService = repo.find(serviceByName('ChangeServiceCallbacks4'));
+        let callback = service.callbacks.find(memberByName('callback1'));
+        let newCallback = newService.callbacks.find(memberByName('callback1'));
+        let repoCallback = repoService.callbacks.find(memberByName('callback1'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks4 callback callback1 has changed summary',
+          'Service ChangeServiceCallbacks4 callback callback1 has changed description']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(callback.labels).to.include.members(['changed']);
+        expect(callback.srcDocs).to.deep.equal(newCallback.srcDocs);
+        expect(callback.src).to.deep.equal(repoCallback.src);
+      });
+
+      it('should detect change in callback location but not report the service or property as changed', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks5'));
+        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks5'));
+        let callback = service.callbacks.find(memberByName('callback1'));
+        let newCallback = newService.callbacks.find(memberByName('callback1'));
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceCallbacks5') > -1));
+
+        expect(service.labels).to.not.include.members(['changed']);
+        expect(callback.labels).to.not.include.members(['changed']);
+        expect(callback.locations).to.deep.equal(newCallback.locations);
+      });
+    })    
   });
 });

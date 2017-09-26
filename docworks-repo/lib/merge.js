@@ -1,5 +1,6 @@
 import {zipByKey, addUniqueToArray, copy, compareArraysAsSets} from './collection-utils';
 import isEqual from 'lodash.isequal';
+import {dump} from '../test/util';
 
 function serviceKey(service) {
   return service.memberOf?`${service.memberOf}.${service.name}`:service.name;
@@ -149,15 +150,17 @@ function mergeService(sNew, sRepo, messages) {
   let docsChanged = !compareDocs(sNew.srcDocs, sRepo.srcDocs, messages, sKey);
   let propertiesMerge = mergeLists(sNew.properties, sRepo.properties, messages, sKey, 'property', mergeProperty);
   let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeOperation);
+  let callbacksMerge = mergeLists(sNew.callbacks, sRepo.callbacks, messages, sKey, 'callback', mergeOperation);
 
-  let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed;
+  let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed || callbacksMerge.changed;
   return copy(sRepo, {
     labels: changed?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
     mixes: sNew.mixes,
     srcDocs: copy(sNew.srcDocs),
     location: sNew.location,
     properties: propertiesMerge.merged,
-    operations: operationsMerge.merged
+    operations: operationsMerge.merged,
+    callbacks: callbacksMerge.merged
   });
 }
 
