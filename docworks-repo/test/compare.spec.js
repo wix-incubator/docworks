@@ -695,7 +695,22 @@ describe('compare repo', function() {
         expect(addedMessage).to.containSubset(newMessage);
         expect(removedMessage.labels).to.include.members(['removed']);
         expect(removedMessage).to.containSubset(repoMessage);
+      });
+
+      it('should added and removed message properties', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
+        let newService = newRepo.find(serviceByName('ChangeServiceMessages2'));
+        let message = service.messages.find(memberByName('Message2'));
+        let newMessage = newService.messages.find(memberByName('Message2'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message2 has a new member newProperty',
+          'Service ChangeServiceMessages2 message Message2 member oldProperty was removed']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(message.labels).to.include.members(['changed']);
+        expect(message.members).to.containSubset(newMessage.members);
       })
+
     });
   });
 });

@@ -26,7 +26,7 @@ export class ChangeServiceMessages3 {
  * @typedef Message2
  * @memberOf ChangeServiceMessages2
  * @property {string} name
- * @property {string} oldParam
+ * @property {string} oldProperty
  */
 
 /**

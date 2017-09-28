@@ -60,7 +60,7 @@ function mergeProperty(newProperty, repoProperty, messages, key) {
   return {changed, item}
 }
 
-function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem) {
+function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem, addLabels) {
   let zipped = zipByKey(newList, repoList, _ => _.name);
   let changed = false;
   let merged = zipped.map(_ => {
@@ -72,13 +72,17 @@ function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem) {
       return mergedItem.item;
     }
     else if (newItem) {
-      let mergedItem = copy(newItem, {labels: addUniqueToArray(newItem.labels, 'new')});
+      let mergedItem = addLabels?
+        copy(newItem, {labels: addUniqueToArray(newItem.labels, 'new')}):
+        copy(newItem);
       messages.push(`Service ${sKey} has a new ${itemName} ${mergedItem.name}`);
       changed = true;
       return mergedItem;
     }
     else {
-      let mergedItem = copy(repoItem, {labels: addUniqueToArray(repoItem.labels, 'removed')});
+      let mergedItem = addLabels?
+        copy(repoItem, {labels: addUniqueToArray(repoItem.labels, 'removed')}):
+        copy(repoItem);
       messages.push(`Service ${sKey} ${itemName} ${mergedItem.name} was removed`);
       changed = true;
       return mergedItem;
@@ -144,20 +148,32 @@ function mergeOperation(newOperation, repoOperation, messages, key) {
   return {changed, item}
 }
 
-function mergeMessage(newMessage, repoMessage, messages, key) {
-  let item = copy(repoMessage, {
+function mergeMessageMember(newMessageMember, repoMessageMember, messages, key) {
+  let item = copy(repoMessageMember, {
   });
   return {changed:false, item}
+}
+
+function mergeMessage(newMessage, repoMessage, messages, key) {
+  let membersMerge = mergeLists(newMessage.members, repoMessage.members, messages, key,
+    'member', mergeMessageMember, false);
+
+  let changed = membersMerge.changed;
+  let item = copy(repoMessage, {
+    labels: changed?addUniqueToArray(repoMessage.labels, 'changed'): repoMessage.labels,
+    members: membersMerge.merged
+  });
+  return {changed, item}
 }
 
 function mergeService(sNew, sRepo, messages) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
   let docsChanged = !compareDocs(sNew.srcDocs, sRepo.srcDocs, messages, sKey);
-  let propertiesMerge = mergeLists(sNew.properties, sRepo.properties, messages, sKey, 'property', mergeProperty);
-  let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeOperation);
-  let callbacksMerge = mergeLists(sNew.callbacks, sRepo.callbacks, messages, sKey, 'callback', mergeOperation);
-  let messagesMerge = mergeLists(sNew.messages, sRepo.messages, messages, sKey, 'message', mergeMessage);
+  let propertiesMerge = mergeLists(sNew.properties, sRepo.properties, messages, sKey, 'property', mergeProperty, true);
+  let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeOperation, true);
+  let callbacksMerge = mergeLists(sNew.callbacks, sRepo.callbacks, messages, sKey, 'callback', mergeOperation, true);
+  let messagesMerge = mergeLists(sNew.messages, sRepo.messages, messages, sKey, 'message', mergeMessage, true);
 
   let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed ||
     callbacksMerge.changed || messagesMerge.changed;
