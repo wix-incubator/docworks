@@ -81,9 +81,10 @@ export function Property(name, labels, isGet, isSet, type, locations, docs, srcD
     }
 }
 
-export function Message(name, members, locations, docs, srcDocs) {
+export function Message(name, labels, members, locations, docs, srcDocs) {
     return {
         name: name,
+        labels: labels,
         members: members,
         locations: locations,
         docs: docs,

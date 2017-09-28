@@ -144,6 +144,12 @@ function mergeOperation(newOperation, repoOperation, messages, key) {
   return {changed, item}
 }
 
+function mergeMessage(newMessage, repoMessage, messages, key) {
+  let item = copy(repoMessage, {
+  });
+  return {changed:false, item}
+}
+
 function mergeService(sNew, sRepo, messages) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
@@ -151,8 +157,10 @@ function mergeService(sNew, sRepo, messages) {
   let propertiesMerge = mergeLists(sNew.properties, sRepo.properties, messages, sKey, 'property', mergeProperty);
   let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeOperation);
   let callbacksMerge = mergeLists(sNew.callbacks, sRepo.callbacks, messages, sKey, 'callback', mergeOperation);
+  let messagesMerge = mergeLists(sNew.messages, sRepo.messages, messages, sKey, 'message', mergeMessage);
 
-  let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed || callbacksMerge.changed;
+  let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed ||
+    callbacksMerge.changed || messagesMerge.changed;
   return copy(sRepo, {
     labels: changed?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
     mixes: sNew.mixes,
@@ -160,7 +168,8 @@ function mergeService(sNew, sRepo, messages) {
     location: sNew.location,
     properties: propertiesMerge.merged,
     operations: operationsMerge.merged,
-    callbacks: callbacksMerge.merged
+    callbacks: callbacksMerge.merged,
+    messages: messagesMerge.merged
   });
 }
 

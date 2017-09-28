@@ -664,6 +664,38 @@ describe('compare repo', function() {
         expect(callback.labels).to.not.include.members(['changed']);
         expect(callback.locations).to.deep.equal(newCallback.locations);
       });
-    })    
+    });
+
+    describe('service messages', function() {
+      it('should not report any change if no messages has changed', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages1'));
+        let newService = newRepo.find(serviceByName('ChangeServiceMessages1'));
+        let message = service.messages.find(memberByName('Message1'));
+        let newMessage = newService.messages.find(memberByName('Message1'));
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceMessages1') > -1));
+
+        expect(message).to.containSubset(newMessage);
+      });
+
+      it('should added and removed messages', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages3'));
+        let newService = newRepo.find(serviceByName('ChangeServiceMessages3'));
+        let repoService = repo.find(serviceByName('ChangeServiceMessages3'));
+        let removedMessage = service.messages.find(memberByName('Message3'));
+        let addedMessage = service.messages.find(memberByName('Message4'));
+        let newMessage = newService.messages.find(memberByName('Message4'));
+        let repoMessage = repoService.messages.find(memberByName('Message3'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages3 has a new message Message4',
+          'Service ChangeServiceMessages3 message Message3 was removed']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(addedMessage.labels).to.include.members(['new']);
+        expect(addedMessage).to.containSubset(newMessage);
+        expect(removedMessage.labels).to.include.members(['removed']);
+        expect(removedMessage).to.containSubset(repoMessage);
+      })
+    });
   });
 });
