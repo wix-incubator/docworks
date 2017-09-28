@@ -17,6 +17,12 @@ export class ChangeServiceMessages3 {
 }
 
 /**
+ * @class ChangeServiceMessages4
+ */
+export class ChangeServiceMessages4 {
+}
+
+/**
  * @typedef Message1
  * @memberOf ChangeServiceMessages1
  * @property {string} name
@@ -45,4 +51,18 @@ export class ChangeServiceMessages3 {
  * @typedef Message6
  * @memberOf ChangeServiceMessages2
  * @property {Number} name the name of the param
+ */
+
+/**
+ * @summary this is a new summary
+ * @description this is a new description
+ * @typedef Message7
+ * @memberOf ChangeServiceMessages2
+ * @property {Number} name the name of the param
+ */
+
+/**
+ * @typedef Message8
+ * @memberOf ChangeServiceMessages4
+ * @property {string} name
  */

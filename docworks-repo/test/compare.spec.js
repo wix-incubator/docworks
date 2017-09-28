@@ -743,6 +743,36 @@ describe('compare repo', function() {
         expect(member.srcDoc).to.containSubset(newMember.srcDoc);
         expect(member.doc).to.containSubset(repoMember.doc);
       });
+
+      it('should report changed message docs, preserve docs and update srcDocs', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
+        let newService = newRepo.find(serviceByName('ChangeServiceMessages2'));
+        let repoService = repo.find(serviceByName('ChangeServiceMessages2'));
+        let message = service.messages.find(memberByName('Message7'));
+        let newMessage = newService.messages.find(memberByName('Message7'));
+        let repoMessage = repoService.messages.find(memberByName('Message7'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message7 has changed summary',
+          'Service ChangeServiceMessages2 message Message7 has changed description']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(message.labels).to.include.members(['changed']);
+        expect(message.srcDocs).to.deep.equal(newMessage.srcDocs);
+        expect(message.src).to.deep.equal(repoMessage.src);
+      });
+
+      it('should detect change in message location but not report is has changed', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages4'));
+        let newService = newRepo.find(serviceByName('ChangeServiceMessages4'));
+        let message = service.messages.find(memberByName('Message8'));
+        let newMessage = newService.messages.find(memberByName('Message8'));
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceMessages4') > -1));
+
+        expect(service.labels).to.not.include.members(['changed']);
+        expect(message.labels).to.not.include.members(['changed']);
+        expect(message.locations).to.deep.equal(newMessage.locations);
+      });
     });
   });
 });

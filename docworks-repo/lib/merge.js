@@ -163,11 +163,14 @@ function mergeMessageMember(newMessageMember, repoMessageMember, messages, key) 
 function mergeMessage(newMessage, repoMessage, messages, key) {
   let membersMerge = mergeLists(newMessage.members, repoMessage.members, messages, key,
     'member', mergeMessageMember, false);
+  let docsChanged = !compareDocs(newMessage.srcDocs, repoMessage.srcDocs, messages, key);
 
-  let changed = membersMerge.changed;
+  let changed = membersMerge.changed || docsChanged;
   let item = copy(repoMessage, {
     labels: changed?addUniqueToArray(repoMessage.labels, 'changed'): repoMessage.labels,
-    members: membersMerge.merged
+    members: membersMerge.merged,
+    srcDocs: copy(newMessage.srcDocs),
+    locations: newMessage.locations
   });
   return {changed, item}
 }
