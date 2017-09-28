@@ -92,10 +92,12 @@ export function Message(name, labels, members, locations, docs, srcDocs) {
     }
 }
 
-export function MessageMember(name, type) {
+export function MessageMember(name, type, docs, srcDocs) {
     return {
         name: name,
-        type: type
+        type: type,
+        docs: docs,
+        srcDocs: srcDocs
     }
 }
 

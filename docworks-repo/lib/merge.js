@@ -150,10 +150,12 @@ function mergeOperation(newOperation, repoOperation, messages, key) {
 
 function mergeMessageMember(newMessageMember, repoMessageMember, messages, key) {
   let changedType = !compareType(newMessageMember.type, repoMessageMember.type, messages, key);
+  let docsChanged = !compareAttribute(newMessageMember.srcDocs, repoMessageMember.srcDocs, messages, key, 'doc');
 
-  let changed = changedType;
+  let changed = changedType || docsChanged;
   let item = copy(repoMessageMember, {
-    type: newMessageMember.type
+    type: newMessageMember.type,
+    docs: newMessageMember.docs
   });
   return {changed, item}
 }

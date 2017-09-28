@@ -709,7 +709,7 @@ describe('compare repo', function() {
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
         expect(message.members).to.containSubset(newMessage.members);
-      })
+      });
 
       it('should report change in message member type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
@@ -722,8 +722,27 @@ describe('compare repo', function() {
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
         expect(message.members).to.containSubset(newMessage.members);
-      })
+      });
 
+      it('should report change in message member doc', function() {
+        let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
+        let newService = newRepo.find(serviceByName('ChangeServiceMessages2'));
+        let repoService = repo.find(serviceByName('ChangeServiceMessages2'));
+        let message = service.messages.find(memberByName('Message6'));
+        let newMessage = newService.messages.find(memberByName('Message6'));
+        let repoMessage = repoService.messages.find(memberByName('Message6'));
+
+        let member = message.members.find(_ => _.name === 'name');
+        let repoMember = repoMessage.members.find(_ => _.name === 'name');
+        let newMember = newMessage.members.find(_ => _.name === 'name');
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message6 member name has changed doc']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(message.labels).to.include.members(['changed']);
+        expect(member.srcDoc).to.containSubset(newMember.srcDoc);
+        expect(member.doc).to.containSubset(repoMember.doc);
+      });
     });
   });
 });
