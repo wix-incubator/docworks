@@ -133,5 +133,25 @@ describe('docs', function() {
                 ]
             });
         });
+
+        it('should error on duplicate 3 times property definition', function() {
+
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceProperties',
+                        properties: [
+                            { name: 'dumplicate2', get: true, set: false, type: 'string' }
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Property dumplicate2 is defined two or more times',
+                        location: 'service-properties.js (87, 96, 105)'
+                    }
+                ]
+            });
+        });
     });
 });

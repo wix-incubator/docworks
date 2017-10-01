@@ -83,6 +83,33 @@ class ServiceProperties {
      */
     get dumplicate2() {
     }
+
+    /**
+     * @member dumplicate2
+     * @memberof aNamespace.ServiceProperties
+     * @type {string}
+     * @summary Sets or returns the label.
+     */
+    get dumplicate_case_B_1() {
+    }
+
+    /**
+     * @member dumplicate2
+     * @memberof aNamespace.ServiceProperties
+     * @type {string}
+     * @summary Sets or returns the label.
+     */
+    get dumplicate_case_B_2() {
+    }
+
+    /**
+     * @member dumplicate2
+     * @memberof aNamespace.ServiceProperties
+     * @type {string}
+     * @summary Sets or returns the label.
+     */
+    get dumplicate_case_B_3() {
+    }
 }
 
 
