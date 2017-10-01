@@ -40,7 +40,7 @@ const processFunctions = (find, onError, kind) => (funcs) => {
             if (func.returns.length > 1)
                 onError(JsDocError(`${kind} ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
 
-            if (func.returns[0].description || !func.returns[0].type)
+            if (func.returns[0].description && !func.returns[0].type)
                 onError(JsDocError(`${kind} ${func.name} has return description but no type. Did you forget the {} around the type?`, [handleMeta(func.meta)]));
 
             ret =

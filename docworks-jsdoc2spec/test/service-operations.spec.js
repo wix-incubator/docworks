@@ -5,6 +5,24 @@ import chaiSubset from 'chai-subset';
 const expect = chai.expect;
 chai.use(chaiSubset);
 
+chai.Assertion.addMethod('onlyCountOfErrorsWith', function (num, errorText) {
+    let errors = this._obj;
+    let errorsWithText = errors.filter(_ => _.message.indexOf(errorText) > -1);
+    let errorsWithTextNum = errorsWithText.length;
+    let match = errorsWithTextNum === num;
+    this.assert(
+      match
+      , `expected errors to have ${num} errors containing '${errorText}' but got ${errorsWithTextNum}
+Errors: [
+  ${errorsWithText.map(_ => `${JSON.stringify(_)}`).join(',\n  ')} ]`
+      , `expected errors to not have ${num} errors containing ${errorText}
+Errors: [
+  ${errorsWithText.map(_ => `${JSON.stringify(_)}`).join(',\n  ')} ]`
+      , num        // expected
+      , errorsWithText   // actual
+    );
+});
+
 describe('docs', function() {
     describe('service operations', function() {
         let jsDocRes;
@@ -130,6 +148,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.have.onlyCountOfErrorsWith(1, 'Operation multipleReturns');
         });
 
         it('should error on duplicate operation', function() {
@@ -149,6 +168,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.have.onlyCountOfErrorsWith(1, 'Operation duplicate');
         });
 
         it('should error on returns without type', function() {
@@ -168,6 +188,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.have.onlyCountOfErrorsWith(1, 'Operation brokenReturns');
         });
 
         it('should error on a param without type', function() {
@@ -187,6 +208,7 @@ describe('docs', function() {
                     }
                 ]
             });
+            expect(jsDocRes.errors).to.have.onlyCountOfErrorsWith(1, 'Operation brokenParam');
         });
 
         it('should support optional param', function() {
