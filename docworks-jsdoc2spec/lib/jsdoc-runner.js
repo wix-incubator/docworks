@@ -18,7 +18,8 @@ export default function run(source) {
             "lenient": false
         },
         "source": source,
-        encoding: 'utf8'
+        encoding: 'utf8',
+        recurseDepth: 99
     };
 
 
