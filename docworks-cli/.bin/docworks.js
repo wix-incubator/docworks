@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 require("babel-register");
 require("babel-polyfill");
+var tmp = require('tmp-promise');
+var extractDocs = require('../src/extract-compare-push').default;
+var optimist = require('optimist')
 
 if (process.argv.length < 3) {
   printUsage();
@@ -10,9 +13,7 @@ if (process.argv.length < 3) {
 var command = process.argv[2];
 if (command === 'ecp') {
   console.log(process.argv.slice(3));
-  var tmp = require('tmp-promise');
-  var extractDocs = require('../src/extract-compare-push').default;
-  var argv = require('optimist')
+  var argv = optimist
     .usage('Usage: $0 ecp -r [remote repo] -s [local sources]')
     .demand('r')
     .alias('r', 'remote')
@@ -29,7 +30,16 @@ if (command === 'ecp') {
     console.log('working directory', o.path);
     return extractDocs(remote, o.path, {"include": sources, "includePattern": ".+\\.(js)?$"});
   });
+}
+else {
+  printUsage(1);
+  process.exit(1);
+}
 
-
+function printUsage() {
+  console.log('Usage: ' + optimist.$0 + ' [command] [options...]');
+  console.log('');
+  console.log('Commands:');
+  console.log('  ecp      extract, compare and push docs from sources to a docs git repository');
 }
 
