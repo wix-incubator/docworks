@@ -13,8 +13,10 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.24.1",
+    "docworks-repo": "latest",
     "nodegit": "^0.20.2",
-    "docworks-repo": "latest"
+    "optimist": "^0.6.1",
+    "tmp-promise": "^1.0.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",

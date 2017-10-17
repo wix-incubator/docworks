@@ -6,7 +6,7 @@ import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, readFromDir, merge} from 'docworks-repo';
 import git from 'nodegit';
 
-import {extractDocs} from '../src/extract-compare-push';
+import extractDocs from '../src/extract-compare-push';
 
 chai.use(chaiSubset);
 const expect = chai.expect;
