@@ -12,7 +12,6 @@ if (process.argv.length < 3) {
 
 var command = process.argv[2];
 if (command === 'ecp') {
-  console.log(process.argv.slice(3));
   var argv = optimist
     .usage('Usage: $0 ecp -r [remote repo] -s [local sources]')
     .demand('r')
