@@ -57,5 +57,6 @@ export default async function extractDocs(remoteRepo, localFolder, jsDocSources,
   }
   catch (error) {
     logger.error('failed to complete workflow\n' + error.stack);
+    throw error;
   }
 }

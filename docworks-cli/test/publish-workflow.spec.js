@@ -98,6 +98,25 @@ describe('extract compare push workflow', function() {
     });
   });
 
+  it('should update remote with changes from v2, v3 and v4 over v1', async function() {
+    await createRemoteOnVer1();
+    logger.log('run test');
+    logger.log('--------');
+    await extractDocs(remote, './tmp/local', {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
+    await extractDocs(remote, './tmp/local2', {"include": ver3, "includePattern": ".+\\.(js)?$"}, logger);
+    await extractDocs(remote, './tmp/local3', {"include": ver4, "includePattern": ".+\\.(js)?$"}, logger);
+
+    let remoteRepo = await git.Repository.open(remote);
+    let head = await git.Reference.nameToId(remoteRepo, "HEAD");
+    let commit = await remoteRepo.getCommit(head);
+    let service = await readServiceFromCommit(commit, "Service.service.json");
+
+    expect(commit.message()).to.equal('Service Service has a new operation newOperation');
+    expect(service).to.containSubset({
+      labels: ['changed']
+    });
+  });
+
   it('not update remote if there are no changes', async function() {
     await createRemoteOnVer1();
     logger.log('run test');
