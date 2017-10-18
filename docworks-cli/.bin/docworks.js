@@ -3,7 +3,7 @@ require("babel-register");
 require("babel-polyfill");
 var tmp = require('tmp-promise');
 var extractDocs = require('../src/extract-compare-push').default;
-var optimist = require('optimist')
+var optimist = require('optimist');
 
 if (process.argv.length < 3) {
   printUsage();

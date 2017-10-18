@@ -4,47 +4,63 @@ import fs from 'fs-extra';
 import chalk from 'chalk';
 
 import runJsDoc from 'docworks-jsdoc2spec';
-import {saveToDir, readFromDir, merge, serviceFromJson} from 'docworks-repo';
+import {saveToDir, serviceFromJson} from 'docworks-repo';
 import git from 'nodegit';
 
 import extractDocs from '../src/extract-compare-push';
 
 chai.use(chaiSubset);
-
 const expect = chai.expect;
+
 const remote = './tmp/remote';
-const comment = (_) => console.log(`    ${chalk.gray.dim(_)}`);
+const ver1 = './test/ver1';
+const ver2 = './test/ver2';
+const ver3 = './test/ver3';
+const ver4 = './test/ver4';
+
 let log = [];
-const logger = (_) => log.push(_);
+const logger = {
+  log: (_) => log.push(_),
+  error: (_) => log.push(_),
+  success: (_) => log.push(_)
+};
 
 
 async function createRemoteOnVer1() {
   const remoteBuild = './tmp/remoteBuild';
   // setup
-  logger('create remote repo');
-  logger('------------------');
-  logger('git init');
+  logger.log('create remote repo');
+  logger.log('------------------');
+  logger.log('git init');
   let remoteBuildRepo = await git.Repository.init(remoteBuild, 0);
   // run js doc
-  logger('jsdoc ./test/ver1');
-  let v1 = runJsDoc({"include": './test/ver1', "includePattern": ".+\\.(js)?$",}).services;
+  logger.log('jsdoc ./test/ver1');
+
+  let v1 = runJsDoc({"include": ver1, "includePattern": ".+\\.(js)?$",}).services;
   let files = await saveToDir(remoteBuild, v1);
 
-  logger('git add files');
+  logger.log('git add files');
   // git add files
   let index = await remoteBuildRepo.refreshIndex();
   await Promise.all(files.map(file => index.addByPath(file)));
   await index.write();
   let oid = await index.writeTree();
 
-  logger('git commit');
+  logger.log('git commit');
   // commit
   let author = git.Signature.default(remoteBuildRepo);
   let committer = git.Signature.default(remoteBuildRepo);
-  await remoteBuildRepo.createCommit("HEAD", author, committer, "message", oid, []);
+  await remoteBuildRepo.createCommit("HEAD", author, committer, "initial commit", oid, []);
 
-  logger(`git clone ${remoteBuild} ${remote} --bare`);
+  logger.log(`git clone ${remoteBuild} ${remote} --bare`);
   await git.Clone(remoteBuild, remote, {bare: 1});
+}
+
+async function readServiceFromCommit(commit, fileName) {
+  let file = await commit.getEntry(fileName);
+  let content = await file.getBlob();
+  let fileJson = content.content().toString();
+  return serviceFromJson(fileJson);
 }
 
 describe('extract compare push workflow', function() {
@@ -55,30 +71,48 @@ describe('extract compare push workflow', function() {
   });
 
   afterEach(function(){
-    if (true /*this.currentTest.state == 'failed'*/) {
-      log.forEach(comment);
+    // console.log(this.currentTest)
+    if (this.currentTest.err && this.currentTest.err.stack) {
+      let stack = this.currentTest.err.stack;
+      let lines = stack.split('\n');
+      lines.splice(1, 0, ...log);
+      this.currentTest.err.stack = lines.join('\n');
     }
   });
 
 
-  it('update remote with changes from v2 over v1', async function() {
+  it('should update remote with changes from v2 over v1', async function() {
     await createRemoteOnVer1();
-    logger('run test');
-    logger('--------');
-    await extractDocs(remote, './tmp/local', {"include": './test/ver2', "includePattern": ".+\\.(js)?$"}, logger);
+    logger.log('run test');
+    logger.log('--------');
+    await extractDocs(remote, './tmp/local', {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
     let commit = await remoteRepo.getCommit(head);
+    let service = await readServiceFromCommit(commit, "Service.service.json");
+
     expect(commit.message()).to.equal('Service Service operation operation has a new param param2');
-    let file = await commit.getEntry("Service.service.json");
-    let content = await file.getBlob();
-    let fileJson = content.content().toString();
-    let service = serviceFromJson(fileJson);
     expect(service).to.containSubset({
       labels: ['changed']
     });
+  });
 
+  it('not update remote if there are no changes', async function() {
+    await createRemoteOnVer1();
+    logger.log('run test');
+    logger.log('--------');
+    await extractDocs(remote, './tmp/local', {"include": ver1, "includePattern": ".+\\.(js)?$"}, logger);
+
+    let remoteRepo = await git.Repository.open(remote);
+    let head = await git.Reference.nameToId(remoteRepo, "HEAD");
+    let commit = await remoteRepo.getCommit(head);
+    let service = await readServiceFromCommit(commit, "Service.service.json");
+
+    expect(commit.message()).to.equal('initial commit');
+    expect(service).to.not.containSubset({
+      labels: ['changed']
+    });
   });
 
 });
