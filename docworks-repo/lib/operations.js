@@ -85,6 +85,10 @@ export function serviceToJson(service) {
   return toJson(service, 2, serviceSpec)
 }
 
+export function serviceFromJson(json) {
+  return fromJson(json, serviceSpec);
+}
+
 export async function saveToDir(directory, services) {
   let filesAndServices = services.map(service => {
     let dirName = serviceToDirName(directory, service);
@@ -120,7 +124,7 @@ export async function readDir(dir) {
       return await readDir(join(dir, file));
     else if (file.endsWith(serviceFileExtension)){
       let fileContent = await fs.readFile(join(dir, file), 'utf8');
-      return fromJson(fileContent, serviceSpec);
+      return serviceFromJson(fileContent);
     }
     else return [];
   }));
