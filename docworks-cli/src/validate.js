@@ -8,7 +8,8 @@ export default function validate(jsDocSources, logger) {
     let serviceModel = runJsDoc(jsDocSources);
     if (serviceModel.errors.length > 0) {
       serviceModel.errors.forEach(_ => logger.warn(`  ${_.message} (${_.location})`));
-      logger.error(`jsDoc errors detected - ${serviceModel.errors.length} issues`);
+      logger.error(`jsDoc errors detected`);
+      logger.error(`  ${serviceModel.errors.length} issues detected`);
       return false;
     }
     logger.success('jsDoc ok');

@@ -177,18 +177,38 @@ describe('docs', function() {
                     {
                         name: 'ServiceOperations',
                         operations: [
-                            {name: 'brokenReturns', nameParams: [], params: [], ret: {type: 'void'}}
+                            {name: 'brokenReturns1', nameParams: [], params: [], ret: {type: 'void'}}
                         ]
                     }
                 ],
                 errors: [
                     {
-                        message: 'Operation brokenReturns has return description but no type. Did you forget the {} around the type?',
+                        message: 'Operation brokenReturns1 has return description but no type. Did you forget the {} around the type?',
                         location: 'service-operations.js (140)'
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.have.onlyCountOfErrorsWith(1, 'Operation brokenReturns');
+            expect(jsDocRes.errors).to.have.onlyCountOfErrorsWith(1, 'Operation brokenReturns1');
+        });
+
+        it('should error on returns without type or description', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceOperations',
+                        operations: [
+                            {name: 'brokenReturns2', nameParams: [], params: [], ret: {type: 'void'}}
+                        ]
+                    }
+                ],
+                errors: [
+                    {
+                        message: 'Operation brokenReturns2 has return without description or type',
+                        location: 'service-operations.js (153)'
+                    }
+                ]
+            });
+            expect(jsDocRes.errors).to.have.onlyCountOfErrorsWith(1, 'Operation brokenReturns2');
         });
 
         it('should error on a param without type', function() {
@@ -204,7 +224,7 @@ describe('docs', function() {
                 errors: [
                     {
                         message: 'Operation brokenParam param param has a name but no type. Did you forget the {} around the type?',
-                        location: 'service-operations.js (153)'
+                        location: 'service-operations.js (166)'
                     }
                 ]
             });

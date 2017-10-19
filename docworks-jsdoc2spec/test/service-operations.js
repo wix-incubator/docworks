@@ -138,7 +138,7 @@ class ServiceOperations {
     }
 
     /**
-     * @function brokenReturns
+     * @function brokenReturns1
      * @memberof aNamespace.ServiceOperations
      * @summary an operation
      * @description
@@ -146,7 +146,20 @@ class ServiceOperations {
      *
      * @returns string the result
      */
-    brokenReturns() {
+    brokenReturns1() {
+
+    }
+
+    /**
+     * @function brokenReturns2
+     * @memberof aNamespace.ServiceOperations
+     * @summary an operation
+     * @description
+     * the description of the operation
+     *
+     * @returns
+     */
+    brokenReturns2() {
 
     }
 

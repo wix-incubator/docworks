@@ -40,13 +40,20 @@ const processFunctions = (find, onError, kind) => (funcs) => {
             if (func.returns.length > 1)
                 onError(JsDocError(`${kind} ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
 
-            if (func.returns[0].description && !func.returns[0].type)
-                onError(JsDocError(`${kind} ${func.name} has return description but no type. Did you forget the {} around the type?`, [handleMeta(func.meta)]));
+            if (!func.returns[0]) {
+                onError(JsDocError(`${kind} ${func.name} has return without description or type`, [handleMeta(func.meta)]));
+                ret =
+                    Return('void', '', '');
+            }
+            else {
+                if (func.returns[0].description && !func.returns[0].type)
+                    onError(JsDocError(`${kind} ${func.name} has return description but no type. Did you forget the {} around the type?`, [handleMeta(func.meta)]));
 
-            ret =
-              Return(handleType(func.returns[0].type, find, onError, typeContext(kind, func.name, 'return', func.memberof, handleMeta(func.meta))),
-                func.returns[0].description,
-                func.returns[0].description);
+                ret =
+                    Return(handleType(func.returns[0].type, find, onError, typeContext(kind, func.name, 'return', func.memberof, handleMeta(func.meta))),
+                        func.returns[0].description,
+                        func.returns[0].description);
+            }
         }
 
         // todo handle name params
