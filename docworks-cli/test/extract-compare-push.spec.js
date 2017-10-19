@@ -17,6 +17,7 @@ const ver1 = './test/ver1';
 const ver2 = './test/ver2';
 const ver3 = './test/ver3';
 const ver4 = './test/ver4';
+const project2_ver1 = './test/project2-ver1';
 const project1 = 'project1';
 const project2 = 'project2';
 
@@ -160,5 +161,28 @@ describe('extract compare push workflow', function() {
       labels: ['changed']
     });
   });
+
+  it('should support two projects working on the same repo', async function() {
+    await createRemoteOnVer1();
+    logger.log('run test');
+    logger.log('--------');
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
+    await extractComparePush(remote, './tmp/local2', project2, {"include": project2_ver1, "includePattern": ".+\\.(js)?$"}, logger);
+
+    let remoteRepo = await git.Repository.open(remote);
+    let head = await git.Reference.nameToId(remoteRepo, "HEAD");
+    let commit = await remoteRepo.getCommit(head);
+    let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
+    let anotherService = await readServiceFromCommit(commit, join(project2, "AnotherService.service.json"));
+
+    expect(commit.message()).to.equal('Service AnotherService is new');
+    expect(service).to.containSubset({
+      labels: ['changed']
+    });
+    expect(anotherService).to.containSubset({
+      labels: ['new']
+    });
+  });
+
 
 });

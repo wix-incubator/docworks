@@ -38,27 +38,31 @@ function ecp() {
     .demand('r')
     .alias('r', 'remote')
     .describe('r', 'remote repository to merge docs into')
-    .demand('s')
-    .alias('s', 'sources')
-    .describe('s', 'folder containing the source files to extract docs from')
-    .default('p', ".+\\.js?$")
-    .alias('p', 'pattern')
-    .describe('p', 'file pattern, defaults to ".+\\.js$"')
+    .demand('fs')
+    .alias('fs', 'sources')
+    .describe('fs', 'folder containing the source files to extract docs from')
+    .demand('p')
+    .alias('p', 'project')
+    .describe('p', 'project folder name in the docs repo')
+    .default('fp', ".+\\.js?$")
+    .alias('fp', 'pattern')
+    .describe('fp', 'file pattern, defaults to ".+\\.js$"')
     .parse(process.argv.slice(3));
 
   let remote = argv.remote;
   let sources = argv.sources;
   let pattern = argv.pattern;
+  let project = argv.project;
 
   tmp.dir().then(o => {
     console.log('working directory', o.path);
-    return extractComparePush(remote, o.path, {"include": sources, "includePattern": pattern});
+    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern});
   });
 }
 
 function validateCommand() {
   var argv = optimist
-    .usage('Usage: $0 validate -s [local sources] -p [file pattern]')
+    .usage('Usage: $0 validate -fs [local sources] -p [file pattern] -fp [file pattern]')
     .demand('s')
     .alias('s', 'sources')
     .describe('s', 'folder containing the source files to extract docs from')
