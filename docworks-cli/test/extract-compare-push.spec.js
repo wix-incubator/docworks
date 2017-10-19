@@ -6,7 +6,7 @@ import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, serviceFromJson} from 'docworks-repo';
 import git from 'nodegit';
 
-import extractDocs from '../src/extract-compare-push';
+import extractComparePush from '../src/extract-compare-push';
 
 chai.use(chaiSubset);
 const expect = chai.expect;
@@ -92,7 +92,7 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractDocs(remote, './tmp/local', {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
+    await extractComparePush(remote, './tmp/local', {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
@@ -109,7 +109,7 @@ describe('extract compare push workflow', function() {
     await createBareRemote();
     logger.log('run test');
     logger.log('--------');
-    await extractDocs(remote, './tmp/local', {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
+    await extractComparePush(remote, './tmp/local', {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
@@ -126,9 +126,9 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractDocs(remote, './tmp/local', {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
-    await extractDocs(remote, './tmp/local2', {"include": ver3, "includePattern": ".+\\.(js)?$"}, logger);
-    await extractDocs(remote, './tmp/local3', {"include": ver4, "includePattern": ".+\\.(js)?$"}, logger);
+    await extractComparePush(remote, './tmp/local', {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
+    await extractComparePush(remote, './tmp/local2', {"include": ver3, "includePattern": ".+\\.(js)?$"}, logger);
+    await extractComparePush(remote, './tmp/local3', {"include": ver4, "includePattern": ".+\\.(js)?$"}, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
@@ -145,7 +145,7 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractDocs(remote, './tmp/local', {"include": ver1, "includePattern": ".+\\.(js)?$"}, logger);
+    await extractComparePush(remote, './tmp/local', {"include": ver1, "includePattern": ".+\\.(js)?$"}, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");

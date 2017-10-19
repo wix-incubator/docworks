@@ -3,7 +3,7 @@ import {saveToDir, readFromDir, merge} from 'docworks-repo';
 import git from 'nodegit';
 import defaultLogger from './logger';
 
-export default async function extractDocs(remoteRepo, localFolder, jsDocSources, logger) {
+export default async function extractComparePush(remoteRepo, localFolder, jsDocSources, logger) {
   logger = logger || defaultLogger;
   try {
 
