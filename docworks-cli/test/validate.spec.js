@@ -14,7 +14,8 @@ let log = [];
 const logger = {
   log: (_) => log.push(_),
   error: (_) => log.push(_),
-  success: (_) => log.push(_)
+  success: (_) => log.push(_),
+  warn: (_) => log.push(_)
 };
 
 

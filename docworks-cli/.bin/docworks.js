@@ -2,7 +2,7 @@
 require("babel-register");
 require("babel-polyfill");
 var tmp = require('tmp-promise');
-var extractDocs = require('../src/extract-compare-push').default;
+var extractComparePush = require('../src/extract-compare-push').default;
 var validate = require('../src/validate').default;
 var optimist = require('optimist');
 
@@ -52,7 +52,7 @@ function ecp() {
 
   tmp.dir().then(o => {
     console.log('working directory', o.path);
-    return extractDocs(remote, o.path, {"include": sources, "includePattern": pattern});
+    return extractComparePush(remote, o.path, {"include": sources, "includePattern": pattern});
   });
 }
 

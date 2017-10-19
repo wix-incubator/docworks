@@ -1,17 +1,19 @@
 import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, readFromDir, merge} from 'docworks-repo';
+import {join} from 'path';
 import git from 'nodegit';
 import defaultLogger from './logger';
 
-export default async function extractComparePush(remoteRepo, localFolder, jsDocSources, logger) {
+export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, logger) {
   logger = logger || defaultLogger;
+  let workingSubdir = join(workingDir, projectSubdir);
   try {
 
-    logger.log(`git clone ${remoteRepo} ${localFolder}`);
-    await git.Clone(remoteRepo, localFolder);
+    logger.log(`git clone ${remoteRepo} ${workingDir}`);
+    await git.Clone(remoteRepo, workingDir);
 
-    logger.log(`docworks readServices ${localFolder}`);
-    let repoContent = await readFromDir(localFolder);
+    logger.log(`docworks readServices ${workingSubdir}`);
+    let repoContent = await readFromDir(workingSubdir);
 
     logger.log(`docworks extractDocs ${jsDocSources.include}/**/${jsDocSources.includePattern}`);
     let newDocs = runJsDoc(jsDocSources).services;
@@ -19,10 +21,10 @@ export default async function extractComparePush(remoteRepo, localFolder, jsDocS
     logger.log(`docworks merge`);
     let merged = merge(newDocs, repoContent.services);
 
-    logger.log(`docworks saveServices ${localFolder}`);
-    await saveToDir(localFolder, merged.repo);
+    logger.log(`docworks saveServices ${workingSubdir}`);
+    await saveToDir(workingSubdir, merged.repo);
 
-    let localRepo = await git.Repository.open(localFolder);
+    let localRepo = await git.Repository.open(workingDir);
 
     logger.log(`git status`);
     let statuses = await localRepo.getStatus();
