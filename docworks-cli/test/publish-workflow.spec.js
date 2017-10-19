@@ -55,6 +55,14 @@ async function createRemoteOnVer1() {
   await git.Clone(remoteBuild, remote, {bare: 1});
 }
 
+async function createBareRemote() {
+  // setup
+  logger.log('create bare remote');
+  logger.log('------------------');
+  logger.log('git init --bare');
+  await git.Repository.init(remote, 1);
+}
+
 async function readServiceFromCommit(commit, fileName) {
   let file = await commit.getEntry(fileName);
   let content = await file.getBlob();
@@ -94,6 +102,23 @@ describe('extract compare push workflow', function() {
     expect(commit.message()).to.equal('Service Service operation operation has a new param param2');
     expect(service).to.containSubset({
       labels: ['changed']
+    });
+  });
+
+  it('should push files to a bare remote', async function() {
+    await createBareRemote();
+    logger.log('run test');
+    logger.log('--------');
+    await extractDocs(remote, './tmp/local', {"include": ver2, "includePattern": ".+\\.(js)?$"}, logger);
+
+    let remoteRepo = await git.Repository.open(remote);
+    let head = await git.Reference.nameToId(remoteRepo, "HEAD");
+    let commit = await remoteRepo.getCommit(head);
+    let service = await readServiceFromCommit(commit, "Service.service.json");
+
+    expect(commit.message()).to.equal('Service Service is new');
+    expect(service).to.containSubset({
+      labels: ['new']
     });
   });
 

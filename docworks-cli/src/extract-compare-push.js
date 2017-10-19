@@ -40,11 +40,18 @@ export default async function extractDocs(remoteRepo, localFolder, jsDocSources,
       let oid = await index.writeTree();
 
       logger.log(`git commit -m '${merged.messages.join('\n')}'`);
-      let head = await git.Reference.nameToId(localRepo, "HEAD");
-      let parent = await localRepo.getCommit(head);
+      let parents = [];
+      try {
+        let head = await git.Reference.nameToId(localRepo, "HEAD");
+        let parent = await localRepo.getCommit(head);
+        parents = [parent];
+      }
+      catch (err) {
+
+      }
       let author = git.Signature.default(localRepo);
       let committer = git.Signature.default(localRepo);
-      await localRepo.createCommit("HEAD", author, committer, merged.messages.join('\n'), oid, [parent]);
+      await localRepo.createCommit("HEAD", author, committer, merged.messages.join('\n'), oid, parents);
 
       logger.log('git push origin master');
       let remote = await git.Remote.lookup(localRepo, 'origin');
