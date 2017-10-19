@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
 import fs from 'fs-extra';
-import chalk from 'chalk';
 
 import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, serviceFromJson} from 'docworks-repo';

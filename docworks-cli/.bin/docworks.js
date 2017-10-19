@@ -20,14 +20,18 @@ if (command === 'ecp') {
     .demand('s')
     .alias('s', 'sources')
     .describe('s', 'folder containing the source files to extract docs from')
+    .default('p', ".+\\.js?$")
+    .alias('p', 'pattern')
+    .describe('p', 'file pattern, defaults to ".+\\.js$"')
     .parse(process.argv.slice(3));
 
   let remote = argv.remote;
   let sources = argv.sources;
+  let pattern = argv.pattern;
 
   tmp.dir().then(o => {
     console.log('working directory', o.path);
-    return extractDocs(remote, o.path, {"include": sources, "includePattern": ".+\\.(js)?$"});
+    return extractDocs(remote, o.path, {"include": sources, "includePattern": pattern});
   });
 }
 else {
