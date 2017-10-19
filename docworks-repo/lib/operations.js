@@ -117,6 +117,8 @@ export async function saveToDir(directory, services) {
 
 // link - how to use async await https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined-with-async-await
 export async function readDir(dir) {
+  if (! await fs.pathExists(dir))
+    return [];
   let files = await fs.readdir(dir);
   let readFiles = await Promise.all(files.map(async (file) => {
     let stat = await fs.stat(join(dir, file));

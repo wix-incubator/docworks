@@ -61,4 +61,8 @@ describe('saveToFiles', function() {
       });
   });
 
+  it('should return empty result if folder does not exist', async function() {
+    let res = await readFromDir('./non-existing');
+    expect(res.services).to.deep.equal([]);
+  })
 });
