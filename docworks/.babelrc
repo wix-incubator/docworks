@@ -7,6 +7,7 @@
   "plugins": ["transform-decorators-legacy"],
   "only": [
     "src",
-    "node_modules/wix-style-react"
+    "node_modules/wix-style-react",
+    "node_modules/wix-animations"
   ]
 }

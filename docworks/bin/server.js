@@ -10,6 +10,7 @@ require('css-modules-require-hook')({
 
 var babelrc = JSON.parse(fs.readFileSync('./.babelrc'));
 require('babel-register')(babelrc);
+require("babel-polyfill");
 
 global.__CLIENT__ = false;
 global.__SERVER__ = true;

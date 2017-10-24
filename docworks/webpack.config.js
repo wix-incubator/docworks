@@ -42,11 +42,11 @@ module.exports = {
         test: /\.jsx?$/,
         loader: ['babel-loader'],
         include: [
-          path.join(__dirname, 'node_modules/wix-style-react/')
+          path.join(__dirname, 'node_modules/wix-style-react/'), path.join(__dirname, 'node_modules/wix-animations/')
         ]
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        test: /\.(png|jpg|jpeg|gif|svg|eot|ttf|woff)$/,
         loader: 'file-loader',
       },
       {
@@ -60,6 +60,7 @@ module.exports = {
         include: [
           path.join(__dirname, 'node_modules/wix-style-react'),
           path.join(__dirname, 'node_modules/bootstrap-sass'),
+          path.join(__dirname, 'node_modules/wix-animations'),
           path.join(__dirname, 'src')
         ]
       }
