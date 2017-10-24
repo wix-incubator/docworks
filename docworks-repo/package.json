@@ -2,24 +2,26 @@
   "name": "docworks-repo",
   "version": "1.0.0",
   "description": "manage service files in a git repo",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "babel lib --out-dir dist",
     "test": "mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "array-flatten": "^2.1.1",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1",
-    "babel-register": "^6.24.1",
     "docworks-jsdoc2spec": "latest",
     "docworks-json": "latest",
     "fs-extra": "^3.0.1",
     "lodash.isequal": "^4.5.0"
   },
   "devDependencies": {
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "babel-cli": "^6.26.0",
     "chai": "^3.5.0",
     "chai-files": "^1.4.0",
     "chai-subset": "^1.5.0",

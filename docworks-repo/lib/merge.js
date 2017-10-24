@@ -1,6 +1,5 @@
 import {zipByKey, addUniqueToArray, copy, compareArraysAsSets} from './collection-utils';
 import isEqual from 'lodash.isequal';
-import {dump} from '../test/util';
 
 function serviceKey(service) {
   return service.memberOf?`${service.memberOf}.${service.name}`:service.name;

@@ -2,13 +2,17 @@
   "name": "docworks-model",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "babel src --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.24.1"

@@ -1,6 +1,6 @@
 import chai from 'chai';
 const expect = chai.expect;
-import {toJson} from '../index';
+import {toJson} from '../src/index';
 import {stripMargin} from './util';
 
 describe('toJson', function() {

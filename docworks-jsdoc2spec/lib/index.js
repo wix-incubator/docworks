@@ -3,7 +3,7 @@
 // var babelrc = JSON.parse(fs.readFileSync('./.babelrc'));
 // require('babel-register')(babelrc);
 
-export default from './lib/jsdoc-runner';
+export default from './jsdoc-runner';
 // require('./lib/jsdoc-runner').default({
 //     "include": [
 //         "test/service-sanity.js"

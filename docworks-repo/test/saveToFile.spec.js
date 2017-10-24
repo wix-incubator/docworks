@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiFiles from 'chai-files';
 import chaiSubset from 'chai-subset';
 import runJsDoc from 'docworks-jsdoc2spec';
-import {saveToDir, readFromDir} from '../index';
+import {saveToDir, readFromDir} from '../lib/index';
 import fs from 'fs-extra';
 import {dump} from './util';
 
