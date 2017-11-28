@@ -81,7 +81,9 @@ export default function handleProperties(find, service, onError) {
         return [];
 
 
-    let groups = members.map(extractMembers(find, onError))
+  members = members.filter(_ => !_.mixed);
+
+  let groups = members.map(extractMembers(find, onError))
         .reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])

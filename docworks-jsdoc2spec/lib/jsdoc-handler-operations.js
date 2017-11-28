@@ -67,6 +67,8 @@ export function handleFunctions(find, service, onError) {
     if (!functions)
         return [];
 
+    functions = functions.filter(_ => !_.mixed);
+
     let groups = functions.reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])
@@ -80,6 +82,7 @@ export function handleCallbacks(find, service, onError) {
         return [];
 
     let callbacks = typedefs.filter((_) => _.type && _.type.names && _.type.names[0] === 'function');
+    callbacks = callbacks.filter(_ => !_.mixed);
 
     let groups = callbacks.reduce(groupByName, {});
     return Object.keys(groups)
