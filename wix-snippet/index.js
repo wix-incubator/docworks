@@ -1,10 +1,9 @@
 let path = require('path');
 let fs = require('fs');
-let snippetsDir;
 let logger;
 
 exports.setSnippetsDir = function(value) {
-  snippetsDir = value;
+  global.wixJsDocPluginSnippetsDir = value;
 };
 
 exports.setLogger = function(value) {
@@ -19,7 +18,7 @@ exports.defineTags = function(dictionary) {
     canHaveName : true,
     onTagged: function(doclet, tag) {
       let snippet = tag.value;
-      let p = path.join(snippetsDir, snippet.name);
+      let p = path.join(global.wixJsDocPluginSnippetsDir, snippet.name);
       try {
         let ext = path.extname(p);
         let lang = "javascript";
@@ -28,12 +27,7 @@ exports.defineTags = function(dictionary) {
         }
         let contents = fs.readFileSync(p, 'utf8');
         doclet.examples = doclet.examples || [];
-        doclet.examples.push({
-          caption: snippet.description,
-          code: contents,
-          title: snippet.defaultvalue,
-          lang: lang
-        });
+        doclet.examples.push(`<caption>${snippet.defaultvalue}</caption>\n${contents}`);
       } catch(error) {
         if (error.code === 'ENOENT')
           logger.error('ERROR: The @snippet tag - file \'' + p + '\' not found. File: ' + doclet.meta.filename + ' line: ' + doclet.meta.lineno);

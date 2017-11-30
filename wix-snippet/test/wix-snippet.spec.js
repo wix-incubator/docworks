@@ -70,10 +70,7 @@ describe('wix-snippet', function() {
 
     expect(doclet).to.containSubset({
       examples:
-        [ {
-          code: 'function example() {\n  console.log(\'hi\');\n}',
-          title: 'The example',
-          lang: 'javascript' } ]
+        [ '<caption>The example</caption>\nfunction example() {\n  console.log(\'hi\');\n}']
     });
     expect(log).to.be.empty;
   });
