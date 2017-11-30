@@ -2,7 +2,7 @@ var path = require("path");
 const {cli, env} = require('./jsdoc-loader').default;
 import ServiceModel from './services-model';
 
-export default function run(source) {
+export default function run(source, plugins) {
 
     env.dirname = path.resolve(__dirname, '../', 'node_modules/jsdoc');
     env.pwd = process.cwd();
@@ -21,6 +21,9 @@ export default function run(source) {
         encoding: 'utf8',
         recurseDepth: 99
     };
+
+    if (plugins)
+        env.conf.plugins = plugins;
 
 
     // set to follow sub-directories
