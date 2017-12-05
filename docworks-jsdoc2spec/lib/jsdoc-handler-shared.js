@@ -32,6 +32,13 @@ export function typeContext(kind, name, part, defaultScope, location) {
     }
 }
 
+function convertToTilde(longname) {
+  let tokens = longname.split('.');
+  let namespaces = tokens.slice(-1, 0);
+  let name = tokens.slice(-1);
+  return `${namespaces.join('.')}~${name[0]}`;
+}
+
 const testGeneric = /([^,<>]+)\.<([^,]+)>$/;
 export function handleType(type, find, onError, context) {
     if (!type || !type.names)
@@ -48,11 +55,12 @@ export function handleType(type, find, onError, context) {
             );
         }
         let typeByFullPath = find({longname: name});
+        let typeByFullPathWithTilde = find({longname: convertToTilde(name)});
         let typeByRelativePath = find({name: name})
             .filter((aType) => aType.memberof === context.defaultScope);
         let builtInType = builtInTypes[name];
 
-        if (typeByFullPath.length === 0 && typeByRelativePath.length === 0 && !builtInType) {
+        if (typeByFullPath.length === 0 && typeByFullPathWithTilde === 0 && typeByRelativePath.length === 0 && !builtInType) {
             let paddedPart = context.part + (context.part?" ":"");
             onError(JsDocError(`${context.kind} ${context.name} has an unknown ${paddedPart}type ${name}`, [context.location]));
         }

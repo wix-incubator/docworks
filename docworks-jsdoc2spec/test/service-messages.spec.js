@@ -145,5 +145,40 @@ describe('docs', function() {
             });
         });
 
+      it('should support messages defined using @typedef namespace~message', function() {
+
+        expect(jsDocRes).to.containSubset({
+          services: [
+            {
+              name: 'ServiceMessages',
+              messages: [
+                {
+                  name: 'OtherMessage',
+                  members: [
+                    {name: 'name', type: 'string'},
+                    {name: 'age', type: ['string', 'number']}
+                  ]
+                }
+              ]
+            }
+          ]
+        });
+      });
+
+      it.only('should report service property of a message type defined as @typedef namespace~message', function() {
+
+        expect(jsDocRes).to.containSubset({
+          services: [
+            {
+              name: 'ServiceMessages',
+              properties: [
+                {name: 'prop2', get: true, set: false, type: 'aNamespace.ServiceMessages.OtherMessage'}
+              ]
+            }
+          ]
+        });
+        expect(jsDocRes.errors).to.not.deep.contains('Property prop2');
+      });
+
     });
 });
