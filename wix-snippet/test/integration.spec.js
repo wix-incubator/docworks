@@ -1,7 +1,7 @@
 import runJsDoc from 'docworks-jsdoc2spec';
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
-import {setSnippetsDir} from '../index';
+import {setSnippetsDir} from '../src/index';
 
 const expect = chai.expect;
 chai.use(chaiSubset);
@@ -15,7 +15,7 @@ describe('integration test', function() {
       "include": [
         "test/integration.service.js"
       ],
-    }, ['./index']);
+    }, ['src/index']);
 
 
 

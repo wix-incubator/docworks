@@ -12,7 +12,7 @@ describe('integration test', function() {
     "include": [
       "test/types.service.js"
     ],
-  }, ['./index']);
+  }, ['src/index']);
 
   it('should have no errors', function() {
     expect(jsDocRes.errors).to.be.deep.equal([]);
