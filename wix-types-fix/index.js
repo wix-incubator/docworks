@@ -2,6 +2,7 @@ function fixTypeName(type) {
   return type.replace('external:', '');
 }
 
+// {names: ['name', 'name']}
 function fixType(aType) {
   if (aType.names)
     return {names: aType.names.map(fixTypeName)};
@@ -9,12 +10,13 @@ function fixType(aType) {
     return aType;
 }
 
+// [{type: {names: ['name', 'name']}}, {type: {names: ['name', 'name']}}]
 function fixTypes(doclet, typesArrayName) {
   if (doclet[typesArrayName])
     doclet[typesArrayName] = doclet[typesArrayName].map(aType => {
       if (aType.type && aType.type.names)
         return Object.assign(aType, {
-          type: {names: aType.type.names.map(fixTypeName)}
+          type: fixType(aType.type)
         });
       else
         return aType;
