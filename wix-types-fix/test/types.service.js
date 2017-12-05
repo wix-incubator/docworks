@@ -25,6 +25,34 @@ class Service {
   get valid() {}
 
   /**
+   * @member date
+   * @type {external:Date}
+   * @memberof Service
+   */
+  get date() {}
+
+  /**
+   * @member union
+   * @type {external:Number|Service.aType}
+   * @memberof Service
+   */
+  get union() {}
+
+  /**
+   * @member array
+   * @type {external:String[]}
+   * @memberof Service
+   */
+  get array() {}
+
+  /**
+   * @member promise
+   * @type {external:Promise}
+   * @memberof Service
+   */
+  get promise() {}
+
+  /**
    * @callback Service.Event
    * @param {external:String|external:Boolean} value
    * @param {external:Function} reject

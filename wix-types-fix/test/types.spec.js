@@ -7,22 +7,36 @@ chai.use(chaiSubset);
 
 
 describe('integration test', function() {
-  it('should rename all types with prefix external: to the native type name', function() {
-    let jsDocRes = runJsDoc({
-      "include": [
-        "test/types.service.js"
-      ],
-    }, ['./index']);
 
+  let jsDocRes = runJsDoc({
+    "include": [
+      "test/types.service.js"
+    ],
+  }, ['./index']);
+
+  it('should have no errors', function() {
+    expect(jsDocRes.errors).to.be.deep.equal([]);
+  });
+
+  it('should rename property types with prefix external: to the native type name', function() {
 
     expect(jsDocRes).to.containSubset({
       services:
         [ { name: 'Service',
           properties:
             [ { name: 'label',
-                type: 'string' },
+              type: 'string' },
               { name: 'valid',
-                type: 'boolean' } ],
+                type: 'boolean' } ]
+        } ] } );
+
+  });
+
+  it('should rename operation types with prefix external: to the native type name', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
           operations:
             [ { name: 'onEvent',
                 params:
@@ -32,23 +46,76 @@ describe('integration test', function() {
                 params:
                   [ { name: 'param',
                       type: 'string' } ],
-                ret: { type: 'number'} } ],
+                ret: { type: 'number'} } ]
+       } ] } );
+
+  });
+
+  it('should rename callback types with prefix external: to the native type name', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
           callbacks:
             [ { name: 'Event',
               params:
                 [ { name: 'value',
-                    type: [ 'string', 'boolean' ] },
+                  type: [ 'string', 'boolean' ] },
                   { name: 'reject',
-                    type: 'Function' }] } ],
+                    type: 'Function' }] } ]
+        } ] } );
+
+  });
+
+  it('should rename message types with prefix external: to the native type name', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
           messages:
             [ { name: 'aType',
               members:
                 [ { name: 'boolProp',
-                    type: 'boolean' },
+                  type: 'boolean' },
                   { name: 'stringProp',
                     type: 'string' } ] } ]
-       } ] } );
+        } ] } );
 
-    expect(jsDocRes.errors).to.be.empty;
+  });
+
+  it('should rename external:Date to the Date', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
+          properties:
+            [ { name: 'date',
+              type: 'Date' } ]
+        } ] } );
+
+  });
+
+  it('should rename external:Number|$w.Slide to the number|$w.Slide', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
+          properties:
+            [ { name: 'union',
+              type: ['number','Service.aType'] } ]
+        } ] } );
+
+  });
+
+  it('should rename external:String[] to the Array.<string>', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
+          properties:
+            [ { name: 'array',
+              type: {name: 'Array', typeParams: ['string'] } } ]
+        } ] } );
+
   });
 });
