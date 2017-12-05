@@ -45,18 +45,21 @@ class Service {
    */
   get array() {}
 
-  /**
-   * @member promise
-   * @type {external:Promise}
-   * @memberof Service
-   */
-  get promise() {}
 
   /**
    * @callback Service.Event
    * @param {external:String|external:Boolean} value
    * @param {external:Function} reject
    */
+
+  /**
+   * @function anAsyncFunction
+   * @returns {external:Promise} abcd
+   * @fulfill {external:String} fulfill docs
+   * @reject {external:String} error docs
+   * @memberof Service
+   */
+  anAsyncFunction() {}
 
   /**
    * @function onEvent

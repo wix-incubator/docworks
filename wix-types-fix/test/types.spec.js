@@ -107,7 +107,7 @@ describe('integration test', function() {
 
   });
 
-  it('should rename external:String[] to the Array.<string>', function() {
+  it('should rename external:String[] to Array.<string>', function() {
 
     expect(jsDocRes).to.containSubset({
       services:
@@ -115,6 +115,20 @@ describe('integration test', function() {
           properties:
             [ { name: 'array',
               type: {name: 'Array', typeParams: ['string'] } } ]
+        } ] } );
+
+  });
+
+  it('should rename external:Promise to Promise<>, incorporating the @reject and @fulfill tags', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
+          operations:
+            [ { name: 'anAsyncFunction',
+                ret: {
+                  type: {name: 'Promise', typeParams: ['string'] },
+                  doc: 'abcd. on fulfilled - fulfill docs. on rejected - error docs' } } ]
         } ] } );
 
   });
