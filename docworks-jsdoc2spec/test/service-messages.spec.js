@@ -165,7 +165,7 @@ describe('docs', function() {
         });
       });
 
-      it.only('should report service property of a message type defined as @typedef namespace~message', function() {
+      it('should report service property of a message type defined as @typedef namespace~message', function() {
 
         expect(jsDocRes).to.containSubset({
           services: [
