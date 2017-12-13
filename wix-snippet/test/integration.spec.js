@@ -6,11 +6,9 @@ import {setSnippetsDir} from '../src/index';
 const expect = chai.expect;
 chai.use(chaiSubset);
 
-
-setSnippetsDir('./test');
-
 describe('integration test', function() {
   it('should load the example, adding it to the processed service', function() {
+    setSnippetsDir('./test');
     let jsDocRes = runJsDoc({
       "include": [
         "test/integration.service.js"
@@ -32,5 +30,22 @@ describe('integration test', function() {
       ]
     });
 
+  });
+
+  it('should report error if snippet dir not set', function() {
+    setSnippetsDir(undefined);
+    let jsDocRes = runJsDoc({
+      "include": [
+        "test/integration.service.js"
+      ],
+    }, ['src/index']);
+
+
+
+    expect(jsDocRes).to.containSubset({
+      errors: ['ERROR: The Wix Snippet jsdoc plugin requires a configuration of wixJsDocPluginSnippetsDir']
+    });
+
   })
+
 });

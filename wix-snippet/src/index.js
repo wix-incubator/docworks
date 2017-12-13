@@ -1,6 +1,6 @@
 let path = require('path');
 let fs = require('fs');
-let logger;
+let logger = console;
 
 exports.setSnippetsDir = function(value) {
   global.wixJsDocPluginSnippetsDir = value;
@@ -10,6 +10,7 @@ exports.setLogger = function(value) {
   logger = value;
 };
 
+console.log('included 2');
 
 exports.defineTags = function(dictionary) {
   dictionary.defineTag('snippet', {
@@ -17,6 +18,10 @@ exports.defineTags = function(dictionary) {
     canHaveType: false,
     canHaveName : true,
     onTagged: function(doclet, tag) {
+      if (!global.wixJsDocPluginSnippetsDir) {
+        logger.error('ERROR: The Wix Snippet jsdoc plugin requires a configuration of wixJsDocPluginSnippetsDir');
+        return;
+      }
       let snippet = tag.value;
       let p = path.join(global.wixJsDocPluginSnippetsDir, snippet.name);
       try {

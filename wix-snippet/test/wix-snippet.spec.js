@@ -3,7 +3,7 @@ import chaiSubset from 'chai-subset';
 const expect = chai.expect;
 chai.use(chaiSubset);
 
-import {setSnippetsDir, defineTags, setLogger} from '../index';
+import {setSnippetsDir, defineTags, setLogger} from '../src/index';
 
 let log = [];
 const logger = {
@@ -12,10 +12,10 @@ const logger = {
 
 
 describe('wix-snippet', function() {
-  setSnippetsDir('./test');
-  setLogger(logger);
 
   beforeEach(() => {
+    setSnippetsDir('./test');
+    setLogger(logger);
     log = [];
   });
 
