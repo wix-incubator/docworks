@@ -10,8 +10,6 @@ exports.setLogger = function(value) {
   logger = value;
 };
 
-console.log('included 2');
-
 exports.defineTags = function(dictionary) {
   dictionary.defineTag('snippet', {
     mustHaveValue : true,
