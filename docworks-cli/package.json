@@ -16,6 +16,7 @@
     "docworks-repo": "latest",
     "nodegit": "^0.20.2",
     "optimist": "^0.6.1",
+    "resolve": "^1.5.0",
     "tmp-promise": "^1.0.3"
   },
   "devDependencies": {

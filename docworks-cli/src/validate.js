@@ -1,11 +1,11 @@
 import runJsDoc from 'docworks-jsdoc2spec';
 import defaultLogger from './logger';
 
-export default function validate(jsDocSources, logger) {
+export default function validate(jsDocSources, plugins, logger) {
   logger = logger || defaultLogger;
   try {
-    logger.log(`docworks extractDocs ${jsDocSources.include}/**/${jsDocSources.includePattern}`);
-    let serviceModel = runJsDoc(jsDocSources);
+    logger.log(`docworks extractDocs ${jsDocSources.include}/**/${jsDocSources.includePattern} --plug ${plugins}`);
+    let serviceModel = runJsDoc(jsDocSources, plugins);
     if (serviceModel.errors.length > 0) {
       serviceModel.errors.forEach(_ => logger.warn(`  ${_.message} (${_.location})`));
       logger.error(`jsDoc errors detected`);

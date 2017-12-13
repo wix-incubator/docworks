@@ -6,6 +6,10 @@ import defaultLogger from './logger';
 
 export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, logger) {
   logger = logger || defaultLogger;
+  logger.log(`remote repo url: ${remoteRepo}`);
+  logger.log(`working dir: ${workingDir}`);
+  logger.log(`project dir: ${projectSubdir}`);
+  logger.log(`jsdoc sources: ${JSON.stringify(jsDocSources)}`);
   let workingSubdir = join(workingDir, projectSubdir);
   try {
 

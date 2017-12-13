@@ -37,14 +37,14 @@ describe('validate workflow', function() {
   });
 
   it('should report valid for valid jsDocs', async function() {
-    let isValid = validate({"include": valid, "includePattern": ".+\\.(js)?$"}, logger);
+    let isValid = validate({"include": valid, "includePattern": ".+\\.(js)?$"}, [], logger);
 
     expect(isValid).to.be.true;
     expect(log).to.containSubset(['jsDoc ok']);
   });
 
   it('should report invalid for invalid jsDocs', async function() {
-    let isValid = validate({"include": invalid, "includePattern": ".+\\.(js)?$"}, logger);
+    let isValid = validate({"include": invalid, "includePattern": ".+\\.(js)?$"}, [], logger);
 
     expect(isValid).to.be.false;
     expect(log).to.containSubset(['jsDoc errors detected']);
