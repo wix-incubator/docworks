@@ -42,7 +42,10 @@ export default function run(source, plugins) {
   env.opts._ = [];
 
   let messages = [];
-  let interceptor = (message) => messages.push(message.trim());
+  let interceptor = (message) => {
+    messages.push({message:message.trim()});
+    return '';
+  };
   let unhook;
   try {
     unhook = interceptStdout(interceptor, interceptor);
@@ -51,6 +54,8 @@ export default function run(source, plugins) {
       .createParser()
       .parseFiles()
       .processParseResults();
+
+    unhook();
   }
   catch (e){
     unhook();
