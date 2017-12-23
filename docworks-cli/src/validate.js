@@ -7,7 +7,12 @@ export default function validate(jsDocSources, plugins, logger) {
     logger.log(`docworks extractDocs ${jsDocSources.include}/**/${jsDocSources.includePattern} --plug ${plugins}`);
     let serviceModel = runJsDoc(jsDocSources, plugins);
     if (serviceModel.errors.length > 0) {
-      serviceModel.errors.forEach(_ => logger.warn(`  ${_.message} (${_.location})`));
+      serviceModel.errors.forEach(_ => {
+        if (_.location)
+          logger.warn(`  ${_.message} (${_.location})`);
+        else
+          logger.warn(`  ${_.message}`);
+      });
       logger.error(`jsDoc errors detected`);
       logger.error(`  ${serviceModel.errors.length} issues detected`);
       return false;
