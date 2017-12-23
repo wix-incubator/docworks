@@ -10,6 +10,7 @@ exports.setLogger = function(value) {
   logger = value;
 };
 
+let reportedConfigError = false;
 exports.defineTags = function(dictionary) {
   dictionary.defineTag('snippet', {
     mustHaveValue : true,
@@ -17,7 +18,10 @@ exports.defineTags = function(dictionary) {
     canHaveName : true,
     onTagged: function(doclet, tag) {
       if (!global.wixJsDocPluginSnippetsDir) {
-        logger.error('ERROR: The Wix Snippet jsdoc plugin requires a configuration of wixJsDocPluginSnippetsDir');
+        if (!reportedConfigError) {
+          logger.error('ERROR: The Wix Snippet jsdoc plugin requires a configuration of snippets dir');
+          reportedConfigError = true;
+        }
         return;
       }
       let snippet = tag.value;

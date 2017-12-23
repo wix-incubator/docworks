@@ -43,7 +43,7 @@ describe('integration test', function() {
 
 
     expect(jsDocRes).to.containSubset({
-      errors: ['ERROR: The Wix Snippet jsdoc plugin requires a configuration of wixJsDocPluginSnippetsDir']
+      errors: [{message: 'ERROR: The Wix Snippet jsdoc plugin requires a configuration of snippets dir'}]
     });
 
   })
