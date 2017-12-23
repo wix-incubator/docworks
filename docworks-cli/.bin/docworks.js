@@ -35,7 +35,23 @@ function printUsage() {
 
 function resolvePlugins(plugins) {
   return (plugins?(Array.isArray(plugins)?plugins:[plugins]):[])
-    .map(resolve.sync);
+    // .map(resolve.sync);
+    // .map((p) => resolve.sync(p, {basedir: '.'}));
+    .map(pluginCmd => {
+      let [plugin, param] = pluginCmd.split(/:(.+)/);
+      console.log('plugin', plugin, param?param:'');
+      plugin = resolve.sync(plugin, {basedir: '.'});
+      try {
+        let pluginModule = require(plugin);
+        if (param && pluginModule.init)
+          pluginModule.init(param);
+      }
+      catch (err) {
+
+      }
+      return plugin;
+    }
+    );
 }
 
 function ecp() {
@@ -61,7 +77,7 @@ function ecp() {
   let sources = argv.sources;
   let pattern = argv.pattern;
   let project = argv.project;
-  let plugins = Array.isArray(argv.jsdocplugin)?argv.jsdocplugin:[argv.jsdocplugin];
+  let plugins = resolvePlugins(argv.jsdocplugin);
 
   tmp.dir().then(o => {
     console.log('working directory', o.path);
@@ -85,7 +101,6 @@ function validateCommand() {
   let sources = argv.sources;
   let pattern = argv.pattern;
   let plugins = resolvePlugins(argv.jsdocplugin);
-  console.log(plugins);
 
   if (!validate({"include": sources, "includePattern": pattern}, plugins))
     process.exit(1);

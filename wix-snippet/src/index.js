@@ -10,6 +10,10 @@ exports.setLogger = function(value) {
   logger = value;
 };
 
+exports.init = function(param) {
+  exports.setSnippetsDir(param);
+}
+
 let reportedConfigError = false;
 exports.defineTags = function(dictionary) {
   dictionary.defineTag('snippet', {
