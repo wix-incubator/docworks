@@ -39,7 +39,6 @@ function resolvePlugins(plugins) {
     // .map((p) => resolve.sync(p, {basedir: '.'}));
     .map(pluginCmd => {
       let [plugin, param] = pluginCmd.split(/:(.+)/);
-      console.log('plugin', plugin, param?param:'');
       plugin = resolve.sync(plugin, {basedir: '.'});
       try {
         let pluginModule = require(plugin);
@@ -80,7 +79,6 @@ function ecp() {
   let plugins = resolvePlugins(argv.jsdocplugin);
 
   tmp.dir().then(o => {
-    console.log('working directory', o.path);
     return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern}, plugins);
   });
 }
