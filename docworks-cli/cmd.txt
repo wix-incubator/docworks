@@ -1,4 +1,4 @@
 > js-wixcode-sdk
-node ../docworks/docworks-cli/.bin/docworks ecp -r file:///Users/yoava/work/wix/git/cloud/docs --fs ./js/modules -p js-sdk2 --fp .+\\.es6?$
+node ../docworks/docworks-cli/.bin/docworks ecp -r file:///Users/yoava/work/wix/git/cloud/docs --fs ./js/modules -p js-sdk2 --fp .+\\.es6?$ --plug wix-types-fix --plug wix-snippet:examples
 node ../docworks/docworks-cli/.bin/docworks val --fs ./js/modules --fp .+\\.es6?$
 node ../docworks/docworks-cli/.bin/docworks val --fs ./js/modules --fp .+\\.es6?$ --plug wix-types-fix --plug wix-snippet:examples

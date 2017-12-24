@@ -81,7 +81,7 @@ function ecp() {
 
   tmp.dir().then(o => {
     console.log('working directory', o.path);
-    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern});
+    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern}, plugins);
   });
 }
 

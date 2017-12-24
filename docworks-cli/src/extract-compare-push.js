@@ -4,7 +4,7 @@ import {join} from 'path';
 import git from 'nodegit';
 import defaultLogger from './logger';
 
-export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, logger) {
+export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, plugins, logger) {
   logger = logger || defaultLogger;
   logger.log(`remote repo url: ${remoteRepo}`);
   logger.log(`working dir: ${workingDir}`);
@@ -20,7 +20,7 @@ export default async function extractComparePush(remoteRepo, workingDir, project
     let repoContent = await readFromDir(workingSubdir);
 
     logger.log(`docworks extractDocs ${jsDocSources.include}/**/${jsDocSources.includePattern}`);
-    let newDocs = runJsDoc(jsDocSources).services;
+    let newDocs = runJsDoc(jsDocSources, plugins).services;
 
     logger.log(`docworks merge`);
     let merged = merge(newDocs, repoContent.services);
