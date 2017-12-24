@@ -14,7 +14,8 @@ const builtInTypes = {
     'Date': 'Date',
     'Array': 'Array',
     'Function': 'Function',
-    'Promise': 'Promise'
+    'Promise': 'Promise',
+    'Object': 'Object'
 };
 
 /**
