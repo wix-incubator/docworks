@@ -1,0 +1,13 @@
+{
+  "lerna": "2.5.1",
+  "packages": [
+    "docworks-cli",
+    "docworks-jsdoc2spec",
+    "docworks-json",
+    "docworks-model",
+    "docworks-repo",
+    "wix-snippet",
+    "wix-types-fix"
+  ],
+  "version": "1.0.0"
+}
