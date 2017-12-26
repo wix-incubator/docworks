@@ -1,13 +1,14 @@
 {
   "name": "docworks-model",
   "version": "1.0.0",
-  "description": "",
+  "description": "The model objects for docworks json files",
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
+    "prepublish": "babel src --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Yoav Abrahami",
   "license": "ISC",
   "dependencies": {
   },

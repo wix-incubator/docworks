@@ -5,9 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
+    "prepublish": "babel src --out-dir dist",
     "test": "mocha --compilers js:babel-core/register ./test/**/*.spec.js"
   },
-  "author": "",
+  "author": "Yoav Abrahami",
   "license": "ISC",
   "dependencies": {
     "lodash.isarray": "^4.0.0",

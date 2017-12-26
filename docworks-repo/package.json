@@ -5,14 +5,15 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "babel lib --out-dir dist",
+    "prepublish": "babel lib --out-dir dist",
     "test": "mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js"
   },
-  "author": "",
+  "author": "Yoav Abrahami",
   "license": "ISC",
   "dependencies": {
     "array-flatten": "^2.1.1",
-    "docworks-jsdoc2spec": "latest",
-    "docworks-json": "latest",
+    "docworks-jsdoc2spec": "~1.0.0",
+    "docworks-json": "~1.0.0",
     "fs-extra": "^3.0.1",
     "lodash.isequal": "^4.5.0"
   },
