@@ -23,12 +23,12 @@ describe('docs', function() {
             }
         });
 
-        it.only('should return the service for each class', function() {
+        it('should return the service for each class', function() {
 
             expect(jsDocRes).to.containSubset({
                 errors: [
-                    'ERROR: The @description tag requires a value. File: jsdoc-errors.js, line: 8',
-                    'ERROR: The @description tag requires a value. File: jsdoc-errors.js, line: 16'
+                  {message: 'ERROR: The @description tag requires a value. File: jsdoc-errors.js, line: 8'},
+                  {message: 'ERROR: The @description tag requires a value. File: jsdoc-errors.js, line: 16'}
                 ]
             });
         });

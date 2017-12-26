@@ -2,6 +2,8 @@ import runJsDoc from '../lib/jsdoc-runner';
 import {dump} from '../lib/util';
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
+import './test-util';
+
 const expect = chai.expect;
 chai.use(chaiSubset);
 
@@ -22,7 +24,6 @@ describe('docs', function() {
                 dump(jsDocRes);
             }
         });
-
 
         it('should report service property of a message type', function() {
 
@@ -166,7 +167,6 @@ describe('docs', function() {
       });
 
       it('should report service property of a message type defined as @typedef namespace~message', function() {
-
         expect(jsDocRes).to.containSubset({
           services: [
             {
@@ -177,7 +177,7 @@ describe('docs', function() {
             }
           ]
         });
-        expect(jsDocRes.errors).to.not.deep.contains('Property prop2');
+        expect(jsDocRes.errors).to.not.containError('Property prop2');
       });
 
     });

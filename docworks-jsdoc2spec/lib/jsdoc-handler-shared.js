@@ -35,7 +35,7 @@ export function typeContext(kind, name, part, defaultScope, location) {
 
 function convertToTilde(longname) {
   let tokens = longname.split('.');
-  let namespaces = tokens.slice(-1, 0);
+  let namespaces = tokens.slice(0, -1);
   let name = tokens.slice(-1);
   return `${namespaces.join('.')}~${name[0]}`;
 }
@@ -47,7 +47,7 @@ export function handleType(type, find, onError, context) {
 
     let typeNames = type.names;
 
-    var handleTypeName = (name) => {
+    let handleTypeName = (name) => {
         name = name.trim();
         let generic = testGeneric.exec(name);
         if (generic) {
