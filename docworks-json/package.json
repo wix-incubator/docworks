@@ -1,6 +1,6 @@
 {
   "name": "docworks-json",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "serialize objects to json in a form that is nice with git",
   "main": "dist/index.js",
   "scripts": {
@@ -16,10 +16,10 @@
     "lodash.trimend": "^4.5.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.24.1",
-    "babel-cli": "^6.26.0",
     "chai": "^3.5.0",
     "chai-subset": "^1.5.0",
     "mocha": "^3.3.0"
