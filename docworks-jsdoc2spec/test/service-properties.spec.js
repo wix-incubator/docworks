@@ -36,7 +36,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Property readOnly');
+          expect(jsDocRes.errors).to.not.containError('Property readOnly');
         });
 
         it('should not allow writeonly properties', function() {
@@ -71,7 +71,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Property label');
+          expect(jsDocRes.errors).to.not.containError('Property label');
         });
 
         it('should error on missing type', function() {

@@ -2,6 +2,7 @@ import runJsDoc from '../lib/jsdoc-runner';
 import {dump} from '../lib/util';
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
+import './test-util';
 const expect = chai.expect;
 chai.use(chaiSubset);
 
@@ -104,7 +105,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation typedefRelativePath');
+          expect(jsDocRes.errors).to.not.containError('Operation typedefRelativePath');
         });
 
         it('should not report error on function with relative type reference', function() {

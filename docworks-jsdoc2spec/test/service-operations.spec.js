@@ -2,6 +2,7 @@ import runJsDoc from '../lib/jsdoc-runner';
 import {dump} from '../lib/util';
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
+import './test-util';
 const expect = chai.expect;
 chai.use(chaiSubset);
 
@@ -55,7 +56,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation oneParam');
+          expect(jsDocRes.errors).to.not.containError('Operation oneParam');
         });
 
         it('should return method location', function() {
@@ -69,7 +70,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation oneParam');
+          expect(jsDocRes.errors).to.not.containError('Operation oneParam');
         });
 
         it('should return methods with two parameter', function() {
@@ -86,7 +87,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation twoParams');
+          expect(jsDocRes.errors).to.not.containError('Operation twoParams');
         });
 
         it('should return a method with a return value', function() {
@@ -100,7 +101,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation returns');
+          expect(jsDocRes.errors).to.not.containError('Operation returns');
         });
 
         it('should return a method with an array return value', function() {
@@ -114,7 +115,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation returnsArray');
+          expect(jsDocRes.errors).to.not.containError('Operation returnsArray');
         });
 
         it('should return a method with a promise return value', function() {
@@ -128,7 +129,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation returnsPromise');
+          expect(jsDocRes.errors).to.not.containError('Operation returnsPromise');
         });
 
         it('should error on multiple returns', function() {
@@ -244,7 +245,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation optional');
+          expect(jsDocRes.errors).to.not.containError('Operation optional');
         });
 
         it('should support optional param with default value', function() {
@@ -260,7 +261,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation defaultValue');
+          expect(jsDocRes.errors).to.not.containError('Operation defaultValue');
         });
 
         it('should support varargs param', function() {
@@ -276,7 +277,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation varargs');
+          expect(jsDocRes.errors).to.not.containError('Operation varargs');
         });
 
     });

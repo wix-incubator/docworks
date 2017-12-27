@@ -2,6 +2,7 @@ import runJsDoc from '../lib/jsdoc-runner';
 import {dump} from '../lib/util';
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
+import './test-util';
 const expect = chai.expect;
 chai.use(chaiSubset);
 
@@ -44,7 +45,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Property propertyWithDocs');
+          expect(jsDocRes.errors).to.not.containError('Property propertyWithDocs');
         });
 
         it('should support docs on a property', function() {
@@ -82,7 +83,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Property propertyWithDocs');
+          expect(jsDocRes.errors).to.not.containError('Property propertyWithDocs');
         });
 
         it('should use the docs from the getter for read-write properties', function() {
@@ -108,7 +109,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Property label');
+          expect(jsDocRes.errors).to.not.containError('Property label');
         });
 
         it('should support docs on an operation', function() {
@@ -136,7 +137,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation operationWithDocs');
+          expect(jsDocRes.errors).to.not.containError('Operation operationWithDocs');
         });
 
         it('should support docs on a messages', function() {

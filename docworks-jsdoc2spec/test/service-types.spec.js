@@ -3,6 +3,7 @@ import {dump} from '../lib/util';
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
 import {inspect} from 'util';
+import './test-util';
 const expect = chai.expect;
 chai.use(chaiSubset);
 
@@ -47,7 +48,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property aString');
+          expect(jsDocRes.errors).to.not.containError('Property aString');
         });
 
         it('should support String as string type', function() {
@@ -61,7 +62,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property aString2');
+          expect(jsDocRes.errors).to.not.containError('Property aString2');
         });
 
         it('should support number type', function() {
@@ -75,7 +76,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property aNumber');
+          expect(jsDocRes.errors).to.not.containError('Property aNumber');
         });
 
         it('should support Number as number type', function() {
@@ -89,7 +90,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property aNumber2');
+          expect(jsDocRes.errors).to.not.containError('Property aNumber2');
         });
 
         it('should support boolean type', function() {
@@ -103,7 +104,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property aBoolean');
+          expect(jsDocRes.errors).to.not.containError('Property aBoolean');
         });
 
         it('should support Boolean as boolean type', function() {
@@ -117,7 +118,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property aBoolean2');
+          expect(jsDocRes.errors).to.not.containError('Property aBoolean2');
         });
 
         it('should support date type', function() {
@@ -131,7 +132,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property aDate');
+            expect(jsDocRes.errors).to.not.containError('Property aDate');
         });
 
         it('should support union type defined as string | number', function() {
@@ -145,7 +146,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property union');
+            expect(jsDocRes.errors).to.not.containError('Property union');
         });
 
         it('should support array type defined as string[]', function() {
@@ -159,7 +160,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property anArray');
+            expect(jsDocRes.errors).to.not.containError('Property anArray');
         });
 
         it('should support array type defined as Array.<string>', function() {
@@ -173,7 +174,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Property anArray2');
+            expect(jsDocRes.errors).to.not.containError('Property anArray2');
         });
 
         it('should support multi-dimentional arrays', function() {
@@ -187,7 +188,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Operation multiDimArray');
+            expect(jsDocRes.errors).to.not.containError('Operation multiDimArray');
         });
 
         it('should support Promise of array', function() {
@@ -201,7 +202,7 @@ describe('docs', function() {
                     }
                 ]
             });
-            expect(jsDocRes.errors).not.hasError('Operation promiseArray');
+            expect(jsDocRes.errors).to.not.containError('Operation promiseArray');
         });
 
     });
