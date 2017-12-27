@@ -6,6 +6,7 @@ import {join} from 'path';
 import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, serviceFromJson} from 'docworks-repo';
 import git from 'nodegit';
+import * as logger from './test-logger';
 
 import extractComparePush from '../src/extract-compare-push';
 
@@ -20,14 +21,6 @@ const ver4 = './test/ver4';
 const project2_ver1 = './test/project2-ver1';
 const project1 = 'project1';
 const project2 = 'project2';
-
-let log = [];
-const logger = {
-  log: (_) => log.push(_),
-  error: (_) => log.push(_),
-  success: (_) => log.push(_)
-};
-
 
 async function createRemoteOnVer1() {
   const remoteBuild = './tmp/remoteBuild';
@@ -77,7 +70,7 @@ async function readServiceFromCommit(commit, fileName) {
 describe('extract compare push workflow', function() {
 
   beforeEach(() => {
-    log = [];
+    logger.reset();
     return fs.remove('./tmp');
   });
 
@@ -86,7 +79,7 @@ describe('extract compare push workflow', function() {
     if (this.currentTest.err && this.currentTest.err.stack) {
       let stack = this.currentTest.err.stack;
       let lines = stack.split('\n');
-      lines.splice(1, 0, ...log);
+      lines.splice(1, 0, ...logger.get());
       this.currentTest.err.stack = lines.join('\n');
     }
   });
