@@ -65,18 +65,19 @@ function ecp() {
     .default('fp', ".+\\.js?$")
     .alias('fp', 'pattern')
     .describe('fp', 'file pattern, defaults to ".+\\.js$"')
-    .alias('plug', 'jsdocplugin')
     .describe('plug', 'a module name that is a jsdoc plugin')
+    .describe('ghtoken', 'Github token - see the github token at http://www.nodegit.org/guides/cloning/gh-two-factor/')
     .parse(process.argv.slice(3));
 
   let remote = argv.remote;
   let sources = argv.sources;
   let pattern = argv.pattern;
   let project = argv.project;
-  let plugins = resolvePlugins(argv.jsdocplugin);
+  let ghtoken = argv.ghtoken;
+  let plugins = resolvePlugins(argv.plug);
 
   tmp.dir().then(o => {
-    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern}, plugins);
+    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern}, plugins, ghtoken);
   });
 }
 

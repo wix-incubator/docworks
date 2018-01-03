@@ -89,14 +89,14 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
     let commit = await remoteRepo.getCommit(head);
     let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
 
-    expect(commit.message()).to.equal('Service Service operation operation has a new param param2');
+    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service operation operation has a new param param2');
     expect(service).to.containSubset({
       labels: ['changed']
     });
@@ -106,14 +106,14 @@ describe('extract compare push workflow', function() {
     await createBareRemote();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
     let commit = await remoteRepo.getCommit(head);
     let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
 
-    expect(commit.message()).to.equal('Service Service is new');
+    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service is new');
     expect(service).to.containSubset({
       labels: ['new']
     });
@@ -123,16 +123,16 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], logger);
-    await extractComparePush(remote, './tmp/local2', project1, {"include": ver3, "includePattern": ".+\\.(js)?$"}, [], logger);
-    await extractComparePush(remote, './tmp/local3', project1, {"include": ver4, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
+    await extractComparePush(remote, './tmp/local2', project1, {"include": ver3, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
+    await extractComparePush(remote, './tmp/local3', project1, {"include": ver4, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
     let commit = await remoteRepo.getCommit(head);
     let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
 
-    expect(commit.message()).to.equal('Service Service has a new operation newOperation');
+    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service has a new operation newOperation');
     expect(service).to.containSubset({
       labels: ['changed']
     });
@@ -142,7 +142,7 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver1, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver1, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
@@ -159,8 +159,8 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], logger);
-    await extractComparePush(remote, './tmp/local2', project2, {"include": project2_ver1, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
+    await extractComparePush(remote, './tmp/local2', project2, {"include": project2_ver1, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
 
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
@@ -168,7 +168,7 @@ describe('extract compare push workflow', function() {
     let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
     let anotherService = await readServiceFromCommit(commit, join(project2, "AnotherService.service.json"));
 
-    expect(commit.message()).to.equal('Service AnotherService is new');
+    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService AnotherService is new');
     expect(service).to.containSubset({
       labels: ['changed']
     });

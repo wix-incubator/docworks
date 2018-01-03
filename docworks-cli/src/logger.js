@@ -1,9 +1,10 @@
 import chalk from 'chalk';
 
+const nvl = (_) => _?_:'';
 export const rawLog = (_) => console.log(_);
 export const details = (_) => console.log(`    ${chalk.gray(_)}`);
-export const config = (cmd, args) => console.log(`${chalk.whiteBright(cmd)} ${chalk.white(args)}` );
-export const command = (cmd, args) => console.log(`${chalk.green('>')} ${chalk.whiteBright(cmd)} ${chalk.white(args)}` );
+export const config = (cmd, args) => console.log(`${chalk.whiteBright(cmd)} ${chalk.white(nvl(args))}` );
+export const command = (cmd, args) => console.log(`${chalk.green('>')} ${chalk.whiteBright(cmd)} ${chalk.white(nvl(args))}` );
 export const newLine = () => console.log();
 export const log = (_) => console.log(`${chalk.white(_)}`);
 export const warn = (_) => console.log(`${chalk.yellow(_)}`);
