@@ -9,7 +9,7 @@
     "test": "mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js"
   },
   "bin": {
-    "docworks": "./bin/docworks.js"
+    "docworks": "./.bin/docworks.js"
   },
   "author": "Yoav Abrahami",
   "license": "ISC",
