@@ -6,7 +6,6 @@ import interceptStdout from "intercept-stdout";
 export default function run(source, plugins) {
 
   // env.dirname = path.resolve(__dirname, '../', 'node_modules/jsdoc');
-  console.log(env.dirname);
   env.pwd = process.cwd();
   env.args = process.argv.slice(2);
 
