@@ -19,7 +19,9 @@ var ogRequire = require;
 
 const env = (function() {
     'use strict';
-    return require(ogRequire.resolve('jsdoc/lib/jsdoc/env'));
+  const env = require(ogRequire.resolve('jsdoc/lib/jsdoc/env'));
+  env.dirname = path.resolve(ogRequire.resolve('jsdoc/lib/jsdoc/env'), '../../../');
+  return env;
 })();
 
 const app = (function() {
