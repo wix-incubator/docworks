@@ -49,12 +49,18 @@ export default async function extractComparePush(remoteRepo, workingDir, project
 
     logger.command('git', `clone ${remoteRepo} ${workingDir}`);
     let gitAuthOptions = {};
+    let tries = 10;
     if (ghtoken) {
       const remoteCallbacks = {
         certificateCheck: function () {
           return 1;
         },
         credentials: function () {
+          if (tries-- === 0) {
+            logger.error('Github authentication failed');
+            process.exit(1);
+          }
+
           return git.Cred.userpassPlaintextNew(ghtoken, "x-oauth-basic");
         }
       };

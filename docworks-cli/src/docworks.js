@@ -78,7 +78,10 @@ function ecp() {
 
   tmp.dir().then(o => {
     return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern}, plugins, ghtoken);
-  });
+  })
+    .catch(() => {
+      process.exit(1);
+    });
 }
 
 function validateCommand() {
