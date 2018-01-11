@@ -1,7 +1,8 @@
 import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, readFromDir, merge} from 'docworks-repo';
 import {join} from 'path';
-import git from 'nodegit';
+import git from 'simple-git';
+import fs from 'fs-extra';
 import * as defaultLogger from './logger';
 import chalk from 'chalk';
 
@@ -36,6 +37,29 @@ function commitMessage(messages, errors, indent) {
   return commitMessage;
 }
 
+function asPromise(git, gitFunc) {
+  return function() {
+    let args = Array.prototype.slice.call(arguments);
+    return new Promise(function(resolve, reject) {
+      args.push((err, result) => {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(result);
+        }
+      });
+      gitFunc.apply(git, args);
+    });
+  }
+}
+
+function logStatus(statuses, logger) {
+  statuses.created.forEach(file => logger.details(`  New:      ${file}`));
+  statuses.not_added.forEach(file => logger.details(`  New:      ${file}`));
+  statuses.modified.forEach(file => logger.details(`  Modified:      ${file}`));
+}
+
 export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, plugins, ghtoken, logger) {
   logger = logger || defaultLogger;
   logger.config(`remote repo url:   `, remoteRepo);
@@ -47,30 +71,12 @@ export default async function extractComparePush(remoteRepo, workingDir, project
   let workingSubdir = join(workingDir, projectSubdir);
   try {
 
+    await fs.ensureDir(workingDir);
+    let baseGit = git();
     logger.command('git', `clone ${remoteRepo} ${workingDir}`);
-    let gitAuthOptions = {};
-    let tries = 10;
-    if (ghtoken) {
-      const remoteCallbacks = {
-        certificateCheck: function () {
-          return 1;
-        },
-        credentials: function () {
-          if (tries-- === 0) {
-            logger.error('Github authentication failed');
-            process.exit(1);
-          }
+    await asPromise(baseGit, baseGit.clone)(remoteRepo, workingDir, []);
 
-          return git.Cred.userpassPlaintextNew(ghtoken, "x-oauth-basic");
-        }
-      };
-      gitAuthOptions = {
-        callbacks: remoteCallbacks
-      }
-    }
-    await git.Clone(remoteRepo, workingDir, {
-      fetchOpts: gitAuthOptions
-    });
+    let localRepo = git(workingDir);
 
     logger.command('docworks', `readServices ${workingSubdir}`);
     let repoContent = await readFromDir(workingSubdir);
@@ -85,40 +91,22 @@ export default async function extractComparePush(remoteRepo, workingDir, project
     logger.command('docworks', `saveServices ${workingSubdir}`);
     await saveToDir(workingSubdir, merged.repo);
 
-    let localRepo = await git.Repository.open(workingDir);
+    logger.command('git status', '');
+    let statuses = await asPromise(localRepo, localRepo.status)();
+    let files = [];
+    files.push(...statuses.created, ...statuses.not_added, ...statuses.modified);
 
-    logger.command('git status');
-    let statuses = await localRepo.getStatus();
-    let files = statuses.filter(_ => _.isNew() || _.isModified())
-      .map(_ => {
-        logger.details(`  ${_.isNew()?'New:     ':'Modified:'} ${_.path()}`);
-        return _.path()
-      });
+    logStatus(statuses, logger);
 
     if (files.length > 0) {
       logger.command('git', `add ${files.join(' ')}`);
-      let index = await localRepo.refreshIndex();
-      await Promise.all(files.map(file => index.addByPath(file)));
-      await index.write();
-      let oid = await index.writeTree();
+      await asPromise(localRepo, localRepo.add)(files);
 
       logger.rawLog(`    ${chalk.white('git commit -m')} '${chalk.gray(commitMessage(merged.messages, errors, '      '))}'`);
-      let parents = [];
-      try {
-        let head = await git.Reference.nameToId(localRepo, "HEAD");
-        let parent = await localRepo.getCommit(head);
-        parents = [parent];
-      }
-      catch (err) {
-
-      }
-      let author = git.Signature.default(localRepo);
-      let committer = git.Signature.default(localRepo);
-      await localRepo.createCommit("HEAD", author, committer, commitMessage(merged.messages, errors, ''), oid, parents);
+      await asPromise(localRepo, localRepo.commit)(commitMessage(merged.messages, errors, ''));
 
       logger.command('git push', 'origin master', );
-      let remote = await git.Remote.lookup(localRepo, 'origin');
-      await remote.push(['refs/heads/master:refs/heads/master'], gitAuthOptions);
+      await asPromise(localRepo, localRepo.push)('origin', 'master', []);
     }
     else {
       logger.log('no changes detected');

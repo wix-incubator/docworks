@@ -96,7 +96,7 @@ describe('extract compare push workflow', function() {
     let commit = await remoteRepo.getCommit(head);
     let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
 
-    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service operation operation has a new param param2');
+    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service operation operation has a new param param2\n');
     expect(service).to.containSubset({
       labels: ['changed']
     });
@@ -107,13 +107,12 @@ describe('extract compare push workflow', function() {
     logger.log('run test');
     logger.log('--------');
     await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
-
     let remoteRepo = await git.Repository.open(remote);
     let head = await git.Reference.nameToId(remoteRepo, "HEAD");
     let commit = await remoteRepo.getCommit(head);
     let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
 
-    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service is new');
+    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service is new\n');
     expect(service).to.containSubset({
       labels: ['new']
     });
@@ -132,7 +131,7 @@ describe('extract compare push workflow', function() {
     let commit = await remoteRepo.getCommit(head);
     let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
 
-    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service has a new operation newOperation');
+    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service has a new operation newOperation\n');
     expect(service).to.containSubset({
       labels: ['changed']
     });
@@ -168,7 +167,7 @@ describe('extract compare push workflow', function() {
     let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
     let anotherService = await readServiceFromCommit(commit, join(project2, "AnotherService.service.json"));
 
-    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService AnotherService is new');
+    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService AnotherService is new\n');
     expect(service).to.containSubset({
       labels: ['changed']
     });
