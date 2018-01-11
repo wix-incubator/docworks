@@ -44,7 +44,7 @@ function logStatus(statuses, logger) {
   statuses.modified.forEach(file => logger.details(`  Modified:      ${file}`));
 }
 
-export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, plugins, ghtoken, logger) {
+export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, plugins, logger) {
   logger = logger || defaultLogger;
   logger.config(`remote repo url:   `, remoteRepo);
   logger.config(`working dir:       `, workingDir);
