@@ -5,7 +5,8 @@ import {join} from 'path';
 
 import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, serviceFromJson} from 'docworks-repo';
-import git from 'nodegit';
+import git from 'simple-git';
+import asPromise from '../src/as-promise';
 import * as logger from './test-logger';
 
 import extractComparePush from '../src/extract-compare-push';
@@ -21,6 +22,7 @@ const ver4 = './test/ver4';
 const project2_ver1 = './test/project2-ver1';
 const project1 = 'project1';
 const project2 = 'project2';
+let baseGit = git();
 
 async function createRemoteOnVer1() {
   const remoteBuild = './tmp/remoteBuild';
@@ -28,7 +30,9 @@ async function createRemoteOnVer1() {
   logger.log('create remote repo');
   logger.log('------------------');
   logger.log('git init');
-  let remoteBuildRepo = await git.Repository.init(remoteBuild, 0);
+  await fs.ensureDir(remoteBuild);
+  let remoteBuildRepo = git(remoteBuild);
+  await asPromise(remoteBuildRepo, remoteBuildRepo.init)();
   // run js doc
   logger.log('jsdoc ./test/ver1');
 
@@ -37,19 +41,14 @@ async function createRemoteOnVer1() {
 
   logger.log('git add files');
   // git add files
-  let index = await remoteBuildRepo.refreshIndex();
-  await Promise.all(files.map(file => index.addByPath(join(project1, file))));
-  await index.write();
-  let oid = await index.writeTree();
+  await asPromise(remoteBuildRepo, remoteBuildRepo.add)(files.map(file => join(project1, file)));
 
   logger.log('git commit');
   // commit
-  let author = git.Signature.default(remoteBuildRepo);
-  let committer = git.Signature.default(remoteBuildRepo);
-  await remoteBuildRepo.createCommit("HEAD", author, committer, "initial commit", oid, []);
+  await asPromise(remoteBuildRepo, remoteBuildRepo.commit)("initial commit");
 
   logger.log(`git clone ${remoteBuild} ${remote} --bare`);
-  await git.Clone(remoteBuild, remote, {bare: 1});
+  await asPromise(baseGit, baseGit.clone)(remoteBuild, remote, ['--bare']);
 }
 
 async function createBareRemote() {
@@ -57,13 +56,18 @@ async function createBareRemote() {
   logger.log('create bare remote');
   logger.log('------------------');
   logger.log('git init --bare');
-  await git.Repository.init(remote, 1);
+  await fs.ensureDir(remote);
+  let remoteRepo = git(remote);
+  await asPromise(remoteRepo, remoteRepo.init)(true);
 }
 
-async function readServiceFromCommit(commit, fileName) {
-  let file = await commit.getEntry(fileName);
-  let content = await file.getBlob();
-  let fileJson = content.content().toString();
+async function getCommitMessage(remoteRepo) {
+  let listLogSummary = await asPromise(remoteRepo, remoteRepo.log)(['-1', '--pretty=format:%H;%ai;%B;%aN;%ae']);
+  return listLogSummary.latest.message;
+}
+
+async function readServiceFromCommit(remoteRepo, fileName) {
+  let fileJson = await asPromise(remoteRepo, remoteRepo.catFile)(['-p', `HEAD:${fileName}`]);
   return serviceFromJson(fileJson);
 }
 
@@ -91,12 +95,11 @@ describe('extract compare push workflow', function() {
     logger.log('--------');
     await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
 
-    let remoteRepo = await git.Repository.open(remote);
-    let head = await git.Reference.nameToId(remoteRepo, "HEAD");
-    let commit = await remoteRepo.getCommit(head);
-    let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
+    let remoteRepo = git(remote);
+    let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
+    let message = await getCommitMessage(remoteRepo);
 
-    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service operation operation has a new param param2\n');
+    expect(message).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service operation operation has a new param param2\n');
     expect(service).to.containSubset({
       labels: ['changed']
     });
@@ -107,12 +110,12 @@ describe('extract compare push workflow', function() {
     logger.log('run test');
     logger.log('--------');
     await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
-    let remoteRepo = await git.Repository.open(remote);
-    let head = await git.Reference.nameToId(remoteRepo, "HEAD");
-    let commit = await remoteRepo.getCommit(head);
-    let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
 
-    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service is new\n');
+    let remoteRepo = git(remote);
+    let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
+    let message = await getCommitMessage(remoteRepo);
+
+    expect(message).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service is new\n');
     expect(service).to.containSubset({
       labels: ['new']
     });
@@ -126,12 +129,11 @@ describe('extract compare push workflow', function() {
     await extractComparePush(remote, './tmp/local2', project1, {"include": ver3, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
     await extractComparePush(remote, './tmp/local3', project1, {"include": ver4, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
 
-    let remoteRepo = await git.Repository.open(remote);
-    let head = await git.Reference.nameToId(remoteRepo, "HEAD");
-    let commit = await remoteRepo.getCommit(head);
-    let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
+    let remoteRepo = git(remote);
+    let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
+    let message = await getCommitMessage(remoteRepo);
 
-    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service has a new operation newOperation\n');
+    expect(message).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service has a new operation newOperation\n');
     expect(service).to.containSubset({
       labels: ['changed']
     });
@@ -143,12 +145,11 @@ describe('extract compare push workflow', function() {
     logger.log('--------');
     await extractComparePush(remote, './tmp/local', project1, {"include": ver1, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
 
-    let remoteRepo = await git.Repository.open(remote);
-    let head = await git.Reference.nameToId(remoteRepo, "HEAD");
-    let commit = await remoteRepo.getCommit(head);
-    let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
+    let remoteRepo = git(remote);
+    let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
+    let message = await getCommitMessage(remoteRepo);
 
-    expect(commit.message()).to.equal('initial commit');
+    expect(message).to.equal('initial commit\n');
     expect(service).to.not.containSubset({
       labels: ['changed']
     });
@@ -161,13 +162,12 @@ describe('extract compare push workflow', function() {
     await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
     await extractComparePush(remote, './tmp/local2', project2, {"include": project2_ver1, "includePattern": ".+\\.(js)?$"}, [], undefined, logger);
 
-    let remoteRepo = await git.Repository.open(remote);
-    let head = await git.Reference.nameToId(remoteRepo, "HEAD");
-    let commit = await remoteRepo.getCommit(head);
-    let service = await readServiceFromCommit(commit, join(project1, "Service.service.json"));
-    let anotherService = await readServiceFromCommit(commit, join(project2, "AnotherService.service.json"));
+    let remoteRepo = git(remote);
+    let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
+    let anotherService = await readServiceFromCommit(remoteRepo, join(project2, "AnotherService.service.json"));
+    let message = await getCommitMessage(remoteRepo);
 
-    expect(commit.message()).to.equal('DocWorks  - 1 change detected\nchanges:\nService AnotherService is new\n');
+    expect(message).to.equal('DocWorks  - 1 change detected\nchanges:\nService AnotherService is new\n');
     expect(service).to.containSubset({
       labels: ['changed']
     });
