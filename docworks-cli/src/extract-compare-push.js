@@ -4,6 +4,7 @@ import {join} from 'path';
 import git from 'simple-git';
 import fs from 'fs-extra';
 import * as defaultLogger from './logger';
+import asPromise from './as-promise';
 import chalk from 'chalk';
 
 function commitMessage(messages, errors, indent) {
@@ -35,23 +36,6 @@ function commitMessage(messages, errors, indent) {
     commitMessage += newLineIndent + newLineIndent + 'issues:' + newLineIndent + formattedErrors.join(newLineIndent);
   }
   return commitMessage;
-}
-
-function asPromise(git, gitFunc) {
-  return function() {
-    let args = Array.prototype.slice.call(arguments);
-    return new Promise(function(resolve, reject) {
-      args.push((err, result) => {
-        if (err) {
-          reject(err);
-        }
-        else {
-          resolve(result);
-        }
-      });
-      gitFunc.apply(git, args);
-    });
-  }
 }
 
 function logStatus(statuses, logger) {
