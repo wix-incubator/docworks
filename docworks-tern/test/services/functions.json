@@ -92,6 +92,39 @@
       { "summary": "Opens a lightbox and optionally passes it the given data.",
         "description": [],
         "links": [],
+        "examples": [] } },
+
+    { "name": "scrollBy",
+      "labels": [],
+      "nameParams": [],
+      "params":
+      [ { "name": "x",
+        "type": "number",
+        "doc": "The horizontal offset, in pixels, to scroll by.",
+        "srcDoc": "The horizontal offset, in pixels, to scroll by." },
+        { "name": "y",
+          "type": "number",
+          "doc": "The vertical offset, in pixels, to scroll by.",
+          "srcDoc": "The vertical offset, in pixels, to scroll by." } ],
+      "ret":
+      { "type":
+      { "name": "Promise",
+        "typeParams":
+        [ "void" ] },
+        "doc": "on fulfilled - When the scroll is complete.",
+        "srcDoc": "on fulfilled - When the scroll is complete." },
+      "locations":
+      [ { "filename": "window.es6",
+        "lineno": 282 } ],
+      "docs":
+      { "summary": "Scrolls the page by a given number of pixels.",
+        "description": [],
+        "links": [],
+        "examples": [] },
+      "srcDocs":
+      { "summary": "Scrolls the page by a given number of pixels.",
+        "description": [],
+        "links": [],
         "examples": [] } }
   ],
   "callbacks": [],

@@ -46,8 +46,6 @@ describe('generate tern', function() {
     });
 
 //    Function
-//    Promise
-
   });
 
   describe('for properties', function() {
@@ -122,7 +120,7 @@ describe('generate tern', function() {
         } } );
     });
 
-    it('func(string, object): void', function() {
+    it('func(string, object): Promise<Object>', function() {
       let operation = service.operations.find(_ => _.name === 'openLightbox');
 
       let tern = operationTern(service, operation, urlGenerator);
@@ -135,5 +133,17 @@ describe('generate tern', function() {
         } } );
     });
 
+    it('func(Number, Number): Promise<void>', function() {
+      let operation = service.operations.find(_ => _.name === 'scrollBy');
+
+      let tern = operationTern(service, operation, urlGenerator);
+
+      expect(tern).to.containSubset({
+        "scrollBy": {
+          "!type": "fn(x: number, y: number) -> +Promise[value=+void]",
+          "!doc": "Scrolls the page by a given number of pixels.",
+          "!url": "http://www.wix.com/reference/functions.html#scrollBy"
+        } } );
+    });
   });
 });
