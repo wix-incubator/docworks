@@ -1,0 +1,63 @@
+{ "name": "functions",
+  "mixes": [],
+  "labels": [],
+  "location":
+    { "filename": "functions.es6",
+      "lineno": 9 },
+  "docs":
+    { "summary": "",
+      "description": [],
+      "links": [],
+      "examples": [] },
+  "srcDocs":
+    { "summary": "",
+      "description": [],
+      "links": [],
+      "examples": [] },
+  "properties": [],
+  "operations": [
+    { "name": "resetValidityIndication",
+      "labels": [],
+      "nameParams": [],
+      "params": [],
+      "ret":
+      { "type": "void" },
+      "locations":
+      [ { "filename": "ValidatableMixin.es6",
+        "lineno": 191 } ],
+      "docs":
+      { "summary": "Resets the element's visual validity indication.",
+        "description": [],
+        "links": [],
+        "examples": [] },
+      "srcDocs":
+      { "summary": "Resets the element's visual validity indication.",
+        "description": [],
+        "links": [],
+        "examples": [] } },
+    { "name": "to",
+      "labels": [],
+      "nameParams": [],
+      "params":
+      [ { "name": "url",
+        "type": "string",
+        "doc": "The URL of the page or website to navigate to.",
+        "srcDoc": "The URL of the page or website to navigate to." } ],
+      "ret":
+      { "type": "void" },
+      "locations":
+      [ { "filename": "location.es6",
+        "lineno": 272 } ],
+      "docs":
+      { "summary": "Directs the browser to navigate to the specified URL.",
+        "description": [],
+        "links": [],
+        "examples": [] },
+      "srcDocs":
+      { "summary": "Directs the browser to navigate to the specified URL.",
+        "description": [],
+        "links": [],
+        "examples": [] } }
+  ],
+  "callbacks": [],
+  "messages": [] }

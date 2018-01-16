@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
-import {propTern, typeTern} from '../lib/tern-generator';
+import {propTern, typeTern, operationTern} from '../lib/tern-generator';
 
 chai.use(chaiSubset);
 const expect = chai.expect;
@@ -33,7 +33,15 @@ describe('generate tern', function() {
       expect(typeTern('Object')).to.equal('obj');
     });
 
-//    Date
+    it('Date', function() {
+      expect(typeTern('Date')).to.equal('+Date');
+    });
+
+    it('$w.Element', function() {
+      expect(typeTern('$w.Element')).to.equal('+$w.Element');
+    })
+
+
 //    Function
 //    Promise
 
@@ -82,4 +90,34 @@ describe('generate tern', function() {
     });
   });
 
+  describe('for functions', function() {
+    let service = require('./services/functions.json');
+
+    it('func(): void', function() {
+      let operation = service.operations.find(_ => _.name === 'resetValidityIndication');
+
+      let tern = operationTern(service, operation, urlGenerator);
+
+      expect(tern).to.containSubset({
+        "resetValidityIndication": {
+          "!type": "fn()",
+          "!doc": "Resets the element's visual validity indication.",
+          "!url": "http://www.wix.com/reference/functions.html#resetValidityIndication"
+        } } );
+    });
+
+    it('func(string): void', function() {
+      let operation = service.operations.find(_ => _.name === 'to');
+
+      let tern = operationTern(service, operation, urlGenerator);
+
+      expect(tern).to.containSubset({
+        "to": {
+          "!type": "fn(url: string)",
+          "!doc": "Directs the browser to navigate to the specified URL.",
+          "!url": "http://www.wix.com/reference/functions.html#to"
+        } } );
+    })
+
+  });
 });
