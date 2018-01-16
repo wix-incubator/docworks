@@ -1,0 +1,77 @@
+{ "name": "properties",
+  "mixes": [],
+  "labels": [],
+  "location":
+    { "filename": "properties.es6",
+      "lineno": 9 },
+  "docs":
+    { "summary": "",
+      "description": [],
+      "links": [],
+      "examples": [] },
+  "srcDocs":
+    { "summary": "",
+      "description": [],
+      "links": [],
+      "examples": [] },
+  "properties":
+  [ { "name": "prop1",
+      "labels": [],
+      "get": true,
+      "set": false,
+      "type": "string",
+      "locations":
+        [ { "filename": "location.es6",
+            "lineno": 247 } ],
+      "docs":
+        { "summary": "Summary of prop 1",
+          "description": [],
+          "links": [],
+          "examples": [] },
+      "srcDocs":
+        { "summary": "Summary of prop 1",
+          "description": [],
+          "links": [],
+          "examples": [] } },
+    { "name": "prop2",
+      "labels": [],
+      "get": true,
+      "set": true,
+      "type": "string",
+      "locations":
+        [ { "filename": "location.es6",
+            "lineno": 247 } ],
+      "docs":
+        { "summary": "Summary of prop 2",
+          "description": [],
+          "links": [],
+          "examples": [] },
+      "srcDocs":
+        { "summary": "Summary of prop 2",
+          "description": [],
+          "links": [],
+          "examples": [] } },
+    { "name": "arrayProp",
+      "labels": [],
+      "get": true,
+      "set": true,
+      "type":
+        { "name": "Array",
+          "typeParams":
+          [ "string" ] },
+      "locations":
+        [ { "filename": "location.es6",
+            "lineno": 247 } ],
+      "docs":
+        { "summary": "Summary of arrayProp",
+          "description": [],
+          "links": [],
+          "examples": [] },
+      "srcDocs":
+        { "summary": "Summary of arrayProp",
+          "description": [],
+          "links": [],
+          "examples": [] } } ],
+  "operations": [],
+  "callbacks": [],
+  "messages": [] }
