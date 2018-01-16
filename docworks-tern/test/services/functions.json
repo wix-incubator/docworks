@@ -35,14 +35,15 @@
         "description": [],
         "links": [],
         "examples": [] } },
+
     { "name": "to",
       "labels": [],
       "nameParams": [],
       "params":
       [ { "name": "url",
-        "type": "string",
-        "doc": "The URL of the page or website to navigate to.",
-        "srcDoc": "The URL of the page or website to navigate to." } ],
+          "type": "string",
+          "doc": "The URL of the page or website to navigate to.",
+          "srcDoc": "The URL of the page or website to navigate to." } ],
       "ret":
       { "type": "void" },
       "locations":
@@ -55,6 +56,40 @@
         "examples": [] },
       "srcDocs":
       { "summary": "Directs the browser to navigate to the specified URL.",
+        "description": [],
+        "links": [],
+        "examples": [] } },
+
+    { "name": "openLightbox",
+      "labels": [],
+      "nameParams": [],
+      "params":
+      [ { "name": "name",
+          "type": "string",
+          "doc": "The name of the lightbox to open.",
+          "srcDoc": "The name of the lightbox to open." },
+        { "name": "data",
+          "type": "Object",
+          "doc": "The data to pass to the lightbox.",
+          "srcDoc": "The data to pass to the lightbox.",
+          "optional": true } ],
+      "ret":
+      { "type":
+      { "name": "Promise",
+        "typeParams":
+        [ "Object" ] },
+        "doc": "undefined. on fulfilled - The returned data from the lightbox.. on rejected - The error that caused the rejection.",
+        "srcDoc": "undefined. on fulfilled - The returned data from the lightbox.. on rejected - The error that caused the rejection." },
+      "locations":
+      [ { "filename": "window.es6",
+        "lineno": 391 } ],
+      "docs":
+      { "summary": "Opens a lightbox and optionally passes it the given data.",
+        "description": [],
+        "links": [],
+        "examples": [] },
+      "srcDocs":
+      { "summary": "Opens a lightbox and optionally passes it the given data.",
         "description": [],
         "links": [],
         "examples": [] } }

@@ -14,9 +14,12 @@ export function typeTern(type) {
     else
       return `+${type}`;
   }
-  else if (typeof type === 'object') {
-    if (type.name && type.name === 'Array') {
-      return `[${type.typeParams[0]}]`;
+  else if (typeof type === 'object' && type.name) {
+    if (type.name === 'Array') {
+      return `[${typeTern(type.typeParams[0])}]`;
+    }
+    else if (type.name === 'Promise') {
+      return `+Promise[value=${typeTern(type.typeParams[0])}]`;
     }
   }
 }
@@ -34,11 +37,17 @@ export function propTern(service, prop, urlGenerator) {
 
 export function operationTern(service, operation, urlGenerator) {
   let tern = {};
+
   let params = '';
   if (operation.params && operation.params.length)
     params = operation.params.map(param => `${param.name}: ${typeTern(param.type)}`).join(', ');
+
+  let ret = '';
+  if (operation.ret && operation.ret.type !== 'void')
+    ret = ` -> ${typeTern(operation.ret.type)}`;
+
   tern[operation.name] = {
-    "!type": `fn(${params})`,
+    "!type": `fn(${params})${ret}`,
     "!doc": operation.srcDocs.summary,
     "!url": urlGenerator(service.name, operation.name)
   };

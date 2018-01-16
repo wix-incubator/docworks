@@ -39,8 +39,11 @@ describe('generate tern', function() {
 
     it('$w.Element', function() {
       expect(typeTern('$w.Element')).to.equal('+$w.Element');
-    })
+    });
 
+    it('Promise<obj>', function() {
+      expect(typeTern({name: "Promise", typeParams: [ "Object" ]})).to.equal('+Promise[value=obj]');
+    });
 
 //    Function
 //    Promise
@@ -117,7 +120,20 @@ describe('generate tern', function() {
           "!doc": "Directs the browser to navigate to the specified URL.",
           "!url": "http://www.wix.com/reference/functions.html#to"
         } } );
-    })
+    });
+
+    it('func(string, object): void', function() {
+      let operation = service.operations.find(_ => _.name === 'openLightbox');
+
+      let tern = operationTern(service, operation, urlGenerator);
+
+      expect(tern).to.containSubset({
+        "openLightbox": {
+          "!type": "fn(name: string, data: obj) -> +Promise[value=obj]",
+          "!doc": "Opens a lightbox and optionally passes it the given data.",
+          "!url": "http://www.wix.com/reference/functions.html#openLightbox"
+        } } );
+    });
 
   });
 });
