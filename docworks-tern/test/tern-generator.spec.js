@@ -153,6 +153,8 @@ describe('generate tern', function() {
     let findCallback = function(aType) {
       if (aType === 'callbacks.EventHandler')
         return service.callbacks.find(_ => _.name === 'EventHandler');
+      if (aType === 'callbacks.EventHandler2')
+        return service.callbacks.find(_ => _.name === 'EventHandler2');
     };
 
     it('func(func(): void): Element', function() {
@@ -165,6 +167,19 @@ describe('generate tern', function() {
           "!type": "fn(handler: fn()) -> +$w.Element",
           "!doc": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
           "!url": "http://www.wix.com/reference/callbacks.html#onViewportEnter"
+        } } );
+    });
+
+    it('func(func(Event, $w): number): Element', function() {
+      let operation = service.operations.find(_ => _.name === 'onViewportEnter2');
+
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
+
+      expect(tern).to.containSubset({
+        "onViewportEnter2": {
+          "!type": "fn(handler: fn(event: +Event, $w: +$w.$w) -> number) -> +$w.Element",
+          "!doc": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
+          "!url": "http://www.wix.com/reference/callbacks.html#onViewportEnter2"
         } } );
     });
   });
