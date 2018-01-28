@@ -93,11 +93,12 @@ describe('generate tern', function() {
 
   describe('for functions', function() {
     let service = require('./services/functions.json');
+    let findCallback = function() {return undefined};
 
     it('func(): void', function() {
       let operation = service.operations.find(_ => _.name === 'resetValidityIndication');
 
-      let tern = operationTern(service, operation, urlGenerator);
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
 
       expect(tern).to.containSubset({
         "resetValidityIndication": {
@@ -110,7 +111,7 @@ describe('generate tern', function() {
     it('func(string): void', function() {
       let operation = service.operations.find(_ => _.name === 'to');
 
-      let tern = operationTern(service, operation, urlGenerator);
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
 
       expect(tern).to.containSubset({
         "to": {
@@ -123,7 +124,7 @@ describe('generate tern', function() {
     it('func(string, object): Promise<Object>', function() {
       let operation = service.operations.find(_ => _.name === 'openLightbox');
 
-      let tern = operationTern(service, operation, urlGenerator);
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
 
       expect(tern).to.containSubset({
         "openLightbox": {
@@ -136,13 +137,34 @@ describe('generate tern', function() {
     it('func(Number, Number): Promise<void>', function() {
       let operation = service.operations.find(_ => _.name === 'scrollBy');
 
-      let tern = operationTern(service, operation, urlGenerator);
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
 
       expect(tern).to.containSubset({
         "scrollBy": {
           "!type": "fn(x: number, y: number) -> +Promise[value=+void]",
           "!doc": "Scrolls the page by a given number of pixels.",
           "!url": "http://www.wix.com/reference/functions.html#scrollBy"
+        } } );
+    });
+  });
+
+  describe('for callbacks', function() {
+    let service = require('./services/callbacks.json');
+    let findCallback = function(aType) {
+      if (aType === 'callbacks.EventHandler')
+        return service.callbacks.find(_ => _.name === 'EventHandler');
+    };
+
+    it('func(func(): void): Element', function() {
+      let operation = service.operations.find(_ => _.name === 'onViewportEnter');
+
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
+
+      expect(tern).to.containSubset({
+        "onViewportEnter": {
+          "!type": "fn(handler: fn()) -> +$w.Element",
+          "!doc": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
+          "!url": "http://www.wix.com/reference/callbacks.html#onViewportEnter"
         } } );
     });
   });

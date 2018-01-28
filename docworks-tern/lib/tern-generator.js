@@ -35,19 +35,29 @@ export function propTern(service, prop, urlGenerator) {
   return tern;
 }
 
-export function operationTern(service, operation, urlGenerator) {
-  let tern = {};
-
+function formatFunctionTern(operation, findCallback) {
   let params = '';
   if (operation.params && operation.params.length)
-    params = operation.params.map(param => `${param.name}: ${typeTern(param.type)}`).join(', ');
+    params = operation.params.map(param => {
+      let callback = findCallback(param.type);
+      if (callback)
+        return `${param.name}: ${formatFunctionTern(callback, findCallback)}`;
+      else
+        return `${param.name}: ${typeTern(param.type)}`
+    }).join(', ');
 
   let ret = '';
   if (operation.ret && operation.ret.type !== 'void')
     ret = ` -> ${typeTern(operation.ret.type)}`;
 
+  return `fn(${params})${ret}`;
+}
+
+export function operationTern(service, operation, urlGenerator, findCallback) {
+  let tern = {};
+
   tern[operation.name] = {
-    "!type": `fn(${params})${ret}`,
+    "!type": formatFunctionTern(operation, findCallback),
     "!doc": operation.srcDocs.summary,
     "!url": urlGenerator(service.name, operation.name)
   };
