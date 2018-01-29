@@ -46,7 +46,7 @@ function formatFunctionTern(operation, findCallback) {
   let params = '';
   if (operation.params && operation.params.length)
     params = operation.params.map(param => {
-      let callback = findCallback(param.type);
+      let callback = !builtInTypes[param.type] && findCallback(param.type);
       if (callback)
         return `${param.name}: ${formatFunctionTern(callback, findCallback)}`;
       else
@@ -93,15 +93,7 @@ export function messageTern(service, message, urlGenerator) {
 }
 
 export function ternService(service, urlGenerator, findCallback, findMixin) {
-  let root = {};
-  let tern = root;
-
-  if (service.memberOf) {
-    let namespaces = service.memberOf.split('.');
-    namespaces.forEach(namespace => {
-      tern = tern[namespace] = {};
-    })
-  }
+  let tern = {};
 
   tern[service.name] = {
     "!doc": trimPara(service.srcDocs.summary),
@@ -113,8 +105,8 @@ export function ternService(service, urlGenerator, findCallback, findMixin) {
     let mixinService = findMixin(mix);
     if (mixinService) {
       parentServices.push(mixinService);
+      mixinService.mixes.forEach(gatherMixes);
     }
-    mixinService.mixes.forEach(gatherMixes);
   };
   service.mixes.forEach(gatherMixes);
 
@@ -132,5 +124,5 @@ export function ternService(service, urlGenerator, findCallback, findMixin) {
     });
   });
 
-  return root;
+  return tern;
 }

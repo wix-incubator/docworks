@@ -11,7 +11,8 @@
   "author": "Yoav Abrahami",
   "license": "ISC",
   "dependencies": {
-    "docworks-model": "^1.1.0"
+    "docworks-model": "^1.1.0",
+    "docworks-repo": "^1.2.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

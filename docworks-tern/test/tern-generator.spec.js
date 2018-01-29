@@ -53,7 +53,7 @@ describe('generate tern', function() {
   });
 
   describe('for properties', function() {
-    let service = require('./services/properties.json');
+    let service = require('./services/properties.service.json');
 
     it('read-only property', function() {
       let prop = service.properties.find(_ => _.name === 'prop1');
@@ -96,7 +96,7 @@ describe('generate tern', function() {
   });
 
   describe('for functions', function() {
-    let service = require('./services/functions.json');
+    let service = require('./services/functions.service.json');
     let findCallback = function() {return undefined};
 
     it('func(): void', function() {
@@ -153,7 +153,7 @@ describe('generate tern', function() {
   });
 
   describe('for callbacks', function() {
-    let service = require('./services/callbacks.json');
+    let service = require('./services/callbacks.service.json');
     let findCallback = function(aType) {
       if (aType === 'callbacks.EventHandler')
         return service.callbacks.find(_ => _.name === 'EventHandler');
@@ -189,7 +189,7 @@ describe('generate tern', function() {
   });
 
   describe('for messages', function() {
-    let service = require('./services/messages.json');
+    let service = require('./services/messages.service.json');
 
     it('Dropdown.Options', function() {
       let message = service.messages.find(_ => _.name === 'Option');
@@ -216,11 +216,11 @@ describe('generate tern', function() {
   });
 
   describe('for a service', function() {
-    let collapsedMixin = require('./services/collapsedMixin.json');
+    let collapsedMixin = require('./services/collapsedMixin.service.json');
     let hiddenCollapsedMixin = require('./services/HiddenCollapsedMixin.service.json');
     let hiddenMixin = require('./services/HiddenMixin.service.json');
-    let button = require('./services/button.json');
-    let button2 = require('./services/button2.json');
+    let button = require('./services/button.service.json');
+    let button2 = require('./services/button2.service.json');
 
     let findMixin = (fullName) => {
       if (fullName === '$w.CollapsedMixin')
@@ -235,26 +235,24 @@ describe('generate tern', function() {
       let tern = ternService(collapsedMixin, urlGenerator);
 
       expect(tern).to.containSubset({
-        "$w": {
-          "CollapsedMixin": {
-            "!doc": "Provides functionality for elements that can be collapsed.\n\n To learn about the behavior of a collapsed element,\n see the [`collapsed`](#collapsed) property.",
-            "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html",
-            "prototype": {
-              "collapse": {
-                "!type": "fn() -> +Promise[value=+void]",
-                "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
-                "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapse"
-              },
-              "expand": {
-                "!type": "fn() -> +Promise[value=+void]",
-                "!doc": "Expands the element and sets its `collapsed` property to `false`.",
-                "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#expand"
-              },
-              "collapsed": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is collapsed or expanded.",
-                "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapsed"
-              }
+        "CollapsedMixin": {
+          "!doc": "Provides functionality for elements that can be collapsed.\n\n To learn about the behavior of a collapsed element,\n see the [`collapsed`](#collapsed) property.",
+          "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html",
+          "prototype": {
+            "collapse": {
+              "!type": "fn() -> +Promise[value=+void]",
+              "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
+              "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapse"
+            },
+            "expand": {
+              "!type": "fn() -> +Promise[value=+void]",
+              "!doc": "Expands the element and sets its `collapsed` property to `false`.",
+              "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#expand"
+            },
+            "collapsed": {
+              "!type": "bool",
+              "!doc": "Indicates if the element is collapsed or expanded.",
+              "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapsed"
             }
           }
         },
@@ -265,31 +263,29 @@ describe('generate tern', function() {
       let tern = ternService(button, urlGenerator, () => {}, findMixin);
 
       expect(tern).to.containSubset({
-        "$w": {
-          "Button": {
-            "!doc": "A text button or an icon button.",
-            "!url": "http://www.wix.com/reference/$w.Button.html",
-            "prototype": {
-              "label": {
-                "!type": "string",
-                "!doc": "Sets or gets the label of a text button.",
-                "!url": "http://www.wix.com/reference/$w.Button.html#label"
-              },
-              "collapse": {
-                "!type": "fn() -> +Promise[value=+void]",
-                "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
-                "!url": "http://www.wix.com/reference/$w.Button.html#collapse"
-              },
-              "expand": {
-                "!type": "fn() -> +Promise[value=+void]",
-                "!doc": "Expands the element and sets its `collapsed` property to `false`.",
-                "!url": "http://www.wix.com/reference/$w.Button.html#expand"
-              },
-              "collapsed": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is collapsed or expanded.",
-                "!url": "http://www.wix.com/reference/$w.Button.html#collapsed"
-              }
+        "Button": {
+          "!doc": "A text button or an icon button.",
+          "!url": "http://www.wix.com/reference/$w.Button.html",
+          "prototype": {
+            "label": {
+              "!type": "string",
+              "!doc": "Sets or gets the label of a text button.",
+              "!url": "http://www.wix.com/reference/$w.Button.html#label"
+            },
+            "collapse": {
+              "!type": "fn() -> +Promise[value=+void]",
+              "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
+              "!url": "http://www.wix.com/reference/$w.Button.html#collapse"
+            },
+            "expand": {
+              "!type": "fn() -> +Promise[value=+void]",
+              "!doc": "Expands the element and sets its `collapsed` property to `false`.",
+              "!url": "http://www.wix.com/reference/$w.Button.html#expand"
+            },
+            "collapsed": {
+              "!type": "bool",
+              "!doc": "Indicates if the element is collapsed or expanded.",
+              "!url": "http://www.wix.com/reference/$w.Button.html#collapsed"
             }
           }
         },
@@ -300,51 +296,49 @@ describe('generate tern', function() {
       let tern = ternService(button2, urlGenerator, () => {}, findMixin);
 
       expect(tern).to.containSubset({
-        "$w": {
-          "Button2": {
-            "!doc": "A text button or an icon button.",
-            "!url": "http://www.wix.com/reference/$w.Button2.html",
-            "prototype": {
-              "label": {
-                "!type": "string",
-                "!doc": "Sets or gets the label of a text button.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#label"
-              },
-              "collapse": {
-                "!type": "fn() -> +Promise[value=+void]",
-                "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#collapse"
-              },
-              "expand": {
-                "!type": "fn() -> +Promise[value=+void]",
-                "!doc": "Expands the element and sets its `collapsed` property to `false`.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#expand"
-              },
-              "collapsed": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is collapsed or expanded.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#collapsed"
-              },
-              "hide": {
-                "!type": "fn(animationName: string) -> +Promise[value=+void]",
-                "!doc": "Hides the element and sets its `hidden` property\n to `true`, using an animation if specified.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#hide"
-              },
-              "show": {
-                "!type": "fn(animationName: string) -> +Promise[value=+void]",
-                "!doc": "Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#show"
-              },
-              "hidden": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is visible or hidden.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#hidden"
-              },
-              "isVisible": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is actually visible.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#isVisible"
-              }
+        "Button2": {
+          "!doc": "A text button or an icon button.",
+          "!url": "http://www.wix.com/reference/$w.Button2.html",
+          "prototype": {
+            "label": {
+              "!type": "string",
+              "!doc": "Sets or gets the label of a text button.",
+              "!url": "http://www.wix.com/reference/$w.Button2.html#label"
+            },
+            "collapse": {
+              "!type": "fn() -> +Promise[value=+void]",
+              "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
+              "!url": "http://www.wix.com/reference/$w.Button2.html#collapse"
+            },
+            "expand": {
+              "!type": "fn() -> +Promise[value=+void]",
+              "!doc": "Expands the element and sets its `collapsed` property to `false`.",
+              "!url": "http://www.wix.com/reference/$w.Button2.html#expand"
+            },
+            "collapsed": {
+              "!type": "bool",
+              "!doc": "Indicates if the element is collapsed or expanded.",
+              "!url": "http://www.wix.com/reference/$w.Button2.html#collapsed"
+            },
+            "hide": {
+              "!type": "fn(animationName: string) -> +Promise[value=+void]",
+              "!doc": "Hides the element and sets its `hidden` property\n to `true`, using an animation if specified.",
+              "!url": "http://www.wix.com/reference/$w.Button2.html#hide"
+            },
+            "show": {
+              "!type": "fn(animationName: string) -> +Promise[value=+void]",
+              "!doc": "Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.",
+              "!url": "http://www.wix.com/reference/$w.Button2.html#show"
+            },
+            "hidden": {
+              "!type": "bool",
+              "!doc": "Indicates if the element is visible or hidden.",
+              "!url": "http://www.wix.com/reference/$w.Button2.html#hidden"
+            },
+            "isVisible": {
+              "!type": "bool",
+              "!doc": "Indicates if the element is actually visible.",
+              "!url": "http://www.wix.com/reference/$w.Button2.html#isVisible"
             }
           }
         },
