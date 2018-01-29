@@ -109,12 +109,14 @@ export function ternService(service, urlGenerator, findCallback, findMixin) {
   };
 
   let parentServices = [service];
-  service.mixes.forEach(mix => {
+  let gatherMixes = mix => {
     let mixinService = findMixin(mix);
     if (mixinService) {
       parentServices.push(mixinService);
     }
-  });
+    mixinService.mixes.forEach(gatherMixes);
+  };
+  service.mixes.forEach(gatherMixes);
 
   let servicePrototype = tern[service.name]["prototype"] = {};
 
