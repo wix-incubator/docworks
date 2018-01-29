@@ -216,10 +216,16 @@ describe('generate tern', function() {
   });
 
   describe('for a service', function() {
-    let service = require('./services/collapsedMixin.json');
+    let collapsedMixin = require('./services/collapsedMixin.json');
+    let button = require('./services/button.json');
+
+    let findMixin = (fullName) => {
+      if (fullName === '$w.CollapsedMixin')
+        return collapsedMixin;
+    };
 
     it('CollapsedMixin', function() {
-      let tern = ternService(service, urlGenerator);
+      let tern = ternService(collapsedMixin, urlGenerator);
 
       expect(tern).to.containSubset({
         "$w": {
@@ -241,6 +247,41 @@ describe('generate tern', function() {
                 "!type": "bool",
                 "!doc": "Indicates if the element is collapsed or expanded.",
                 "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapsed"
+              }
+            }
+          }
+        },
+      });
+    });
+
+    it('Button - with one mixin', function() {
+      let tern = ternService(button, urlGenerator, () => {}, findMixin);
+
+      expect(tern).to.containSubset({
+        "$w": {
+          "Button": {
+            "!doc": "A text button or an icon button.",
+            "!url": "http://www.wix.com/reference/$w.Button.html",
+            "prototype": {
+              "label": {
+                "!type": "string",
+                "!doc": "Sets or gets the label of a text button.",
+                "!url": "http://www.wix.com/reference/$w.Button.html#label"
+              },
+              "collapse": {
+                "!type": "fn() -> +Promise[value=+void]",
+                "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
+                "!url": "http://www.wix.com/reference/$w.Button.html#collapse"
+              },
+              "expand": {
+                "!type": "fn() -> +Promise[value=+void]",
+                "!doc": "Expands the element and sets its `collapsed` property to `false`.",
+                "!url": "http://www.wix.com/reference/$w.Button.html#expand"
+              },
+              "collapsed": {
+                "!type": "bool",
+                "!doc": "Indicates if the element is collapsed or expanded.",
+                "!url": "http://www.wix.com/reference/$w.Button.html#collapsed"
               }
             }
           }

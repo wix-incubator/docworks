@@ -92,7 +92,7 @@ export function messageTern(service, message, urlGenerator) {
   return tern;
 }
 
-export function ternService(service, urlGenerator, fincCallback) {
+export function ternService(service, urlGenerator, findCallback, findMixin) {
   let root = {};
   let tern = root;
 
@@ -108,18 +108,27 @@ export function ternService(service, urlGenerator, fincCallback) {
     "!url": urlGenerator(service)
   };
 
-  if (service.messages.length + service.properties.length + service.operations.length > 0) {
-    let servicePrototype = tern[service.name]["prototype"] = {};
-    service.properties.forEach(prop => {
+  let parentServices = [service];
+  service.mixes.forEach(mix => {
+    let mixinService = findMixin(mix);
+    if (mixinService) {
+      parentServices.push(mixinService);
+    }
+  });
+
+  let servicePrototype = tern[service.name]["prototype"] = {};
+
+  parentServices.forEach(parentService => {
+    parentService.properties.forEach(prop => {
       Object.assign(servicePrototype, propTern(service, prop,urlGenerator));
     });
-    service.operations.forEach(operation => {
-      Object.assign(servicePrototype, operationTern(service, operation,urlGenerator, fincCallback));
+    parentService.operations.forEach(operation => {
+      Object.assign(servicePrototype, operationTern(service, operation,urlGenerator, findCallback));
     });
-    service.messages.forEach(message => {
+    parentService.messages.forEach(message => {
       Object.assign(servicePrototype, messageTern(service, message,urlGenerator));
     });
-  }
-  
+  });
+
   return root;
 }
