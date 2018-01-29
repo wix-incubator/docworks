@@ -1,21 +1,21 @@
 import {ternService} from './tern-generator';
 
-export default function tern(repo, apiName, urlGenerator) {
+export default function tern(services, apiName, urlGenerator) {
   let ternModel = {};
 
-  let findMixin = (fullName) => {
+  let findService = (fullName) => {
     let memberOf = fullName.substring(0, fullName.lastIndexOf("."));
     let name = fullName.substring(fullName.lastIndexOf(".") + 1, fullName.length);
     if (memberOf)
-      return repo.services.find(_ => _.name === name && _.memberOf === memberOf);
+      return services.find(_ => _.name === name && _.memberOf === memberOf);
     else
-      return repo.services.find(_ => _.name === name && !_.memberOf);
+      return services.find(_ => _.name === name && !_.memberOf);
   };
 
   let findCallback = (fullName) => {
     let callbackName = fullName.substring(fullName.lastIndexOf(".") + 1, fullName.length);
     let serviceFullName = fullName.substring(0, fullName.lastIndexOf("."));
-    let service = findMixin(serviceFullName);
+    let service = findService(serviceFullName);
     if (service)
       return service.callbacks.find(_ => _.name === callbackName);
     else
@@ -23,8 +23,8 @@ export default function tern(repo, apiName, urlGenerator) {
   };
 
 
-  repo.services.forEach(service => {
-    let serviceTern = ternService(service, urlGenerator, findCallback, findMixin);
+  services.forEach(service => {
+    let serviceTern = ternService(service, urlGenerator, findCallback, findService);
     let ternParent = ternModel;
     let namespaces = (service.memberOf || '').split('.');
     namespaces.forEach(namespace => {

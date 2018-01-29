@@ -19,7 +19,7 @@ describe('generate tern', function() {
   it('for repo', async function() {
     let repo = await readFromDir('./test/services');
 
-    let ternModel = tern(repo, 'Wix APIs', urlGenerator);
+    let ternModel = tern(repo.services, 'Wix APIs', urlGenerator);
 
     expect(ternModel).to.containSubset({
       "!define": {
