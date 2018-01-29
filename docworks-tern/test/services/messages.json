@@ -1,0 +1,63 @@
+{ "name": "Dropdown",
+  "memberOf": "$w",
+  "mixes":
+  [ "$w.FormElement",
+    "$w.HiddenCollapsedMixin",
+    "$w.DisabledMixin",
+    "$w.FocusMixin",
+    "$w.ClickableMixin" ],
+  "labels":
+  [ "new" ],
+  "location":
+  { "filename": "DropDown.es6",
+    "lineno": 17 },
+  "docs":
+  { "summary": "Dropdowns are used for selecting one of a number of options.\n They are especially useful when there are too many options to display using\n [radio buttons]($w.RadioButtonGroup.html). Dropdowns consist of a list\n of [options](#Option). Each [option](#Option) contains a label, which is\n what the user sees, and a value, which is what is used in code and stored in\n you collections.",
+    "links": [],
+    "examples": [] },
+  "srcDocs":
+  { "summary": "Dropdowns are used for selecting one of a number of options.\n They are especially useful when there are too many options to display using\n [radio buttons]($w.RadioButtonGroup.html). Dropdowns consist of a list\n of [options](#Option). Each [option](#Option) contains a label, which is\n what the user sees, and a value, which is what is used in code and stored in\n you collections.",
+    "links": [],
+    "examples": [] },
+  "properties": [],
+  "operations": [],
+  "callbacks": [],
+  "messages":
+  [ { "name": "Option",
+      "locations":
+    [ { "filename": "DropDown.es6",
+        "lineno": 44 } ],
+    "docs":
+      { "summary": "An object used by the `options` property that contains the attributes of a dropdown list item.",
+        "links":
+          [ "[options](#Options)",
+            "[value](#value)" ],
+        "examples":
+          [ { "title": "Get option info",
+        "body":
+          [ "let firstOption = $w(\"#myDropdown\").options[0];",
+            "",
+            "let optionLabel = firstOption.label;  // \"First choice\"",
+            "let optionValue = firstOption.value;  // \"first_choice\"" ] } ] },
+    "srcDocs":
+      { "summary": "An object used by the `options` property that contains the attributes of a dropdown list item.",
+        "links":
+          [ "[options](#Options)",
+            "[value](#value)" ],
+        "examples":
+          [ { "title": "Get option info",
+        "body":
+          [ "let firstOption = $w(\"#myDropdown\").options[0];",
+            "",
+            "let optionLabel = firstOption.label;  // \"First choice\"",
+            "let optionValue = firstOption.value;  // \"first_choice\"" ] } ] },
+    "members":
+    [ { "name": "value",
+        "type": "string",
+        "docs": "The value of the dropdown option. This is what you use in code and is what is stored in your collections.",
+        "srcDocs": "The value of the dropdown option. This is what you use in code and is what is stored in your collections." },
+      { "name": "label",
+        "type": "string",
+        "docs": "The label of the dropdown option. This is what a user sees.",
+        "srcDocs": "The label of the dropdown option. This is what a user sees." } ],
+    "labels": [] } ] }

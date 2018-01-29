@@ -24,12 +24,19 @@ export function typeTern(type) {
   }
 }
 
+function trimPara(text) {
+  if(text) {
+    return text.trim().replace(/<(?:.|\n)*?>/gm, '');
+  }
+  return '';
+}
+
 export function propTern(service, prop, urlGenerator) {
   let tern = {};
   tern[prop.name] = {
       "!type": typeTern(prop.type),
-      "!doc": prop.srcDocs.summary,
-      "!url": urlGenerator(service.name, prop.name)
+      "!doc": trimPara(prop.srcDocs.summary),
+      "!url": urlGenerator(service, prop.name)
     };
 
   return tern;
@@ -58,9 +65,29 @@ export function operationTern(service, operation, urlGenerator, findCallback) {
 
   tern[operation.name] = {
     "!type": formatFunctionTern(operation, findCallback),
-    "!doc": operation.srcDocs.summary,
-    "!url": urlGenerator(service.name, operation.name)
+    "!doc": trimPara(operation.srcDocs.summary),
+    "!url": urlGenerator(service, operation.name)
   };
+
+  return tern;
+}
+
+export function messageTern(service, message, urlGenerator) {
+  let tern = {};
+
+  const messageUrl = urlGenerator(service, message.name);
+  tern[message.name] = {
+    "!doc": trimPara(message.srcDocs.summary),
+    "!url": messageUrl
+  };
+
+  message.members.forEach(member => {
+     tern[message.name][member.name] = {
+       "!type": typeTern(member.type),
+       "!doc": trimPara(member.srcDocs),
+       "!url": messageUrl
+     }
+  });
 
   return tern;
 }

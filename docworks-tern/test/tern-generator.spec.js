@@ -1,12 +1,13 @@
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
-import {propTern, typeTern, operationTern} from '../lib/tern-generator';
+import {propTern, typeTern, operationTern, messageTern} from '../lib/tern-generator';
 
 chai.use(chaiSubset);
 const expect = chai.expect;
 
 function urlGenerator(service, member) {
-  return `http://www.wix.com/reference/${service}.html#${member}`;
+  let serviceFullName = service.memberOf?`${service.memberOf}.${service.name}`:service.name;
+  return `http://www.wix.com/reference/${serviceFullName}.html#${member}`;
 }
 
 describe('generate tern', function() {
@@ -183,4 +184,33 @@ describe('generate tern', function() {
         } } );
     });
   });
+
+  describe('for messages', function() {
+    let service = require('./services/messages.json');
+
+    it('Dropdown.Options', function() {
+      let message = service.messages.find(_ => _.name === 'Option');
+
+      let tern = messageTern(service, message, urlGenerator);
+
+      expect(tern).to.containSubset({
+        "Option": {
+          "!doc": "An object used by the `options` property that contains the attributes of a dropdown list item.",
+          "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option",
+          "label": {
+            "!type": "string",
+            "!doc": "The label of the dropdown option. This is what a user sees.",
+            "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option"
+          },
+          "value": {
+            "!type": "string",
+            "!doc": "The value of the dropdown option. This is what you use in code and is what is stored in your collections.",
+            "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option"
+          }
+        }
+      });
+    });
+
+  });
+
 });
