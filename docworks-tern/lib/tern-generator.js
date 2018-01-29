@@ -91,3 +91,35 @@ export function messageTern(service, message, urlGenerator) {
 
   return tern;
 }
+
+export function ternService(service, urlGenerator, fincCallback) {
+  let root = {};
+  let tern = root;
+
+  if (service.memberOf) {
+    let namespaces = service.memberOf.split('.');
+    namespaces.forEach(namespace => {
+      tern = tern[namespace] = {};
+    })
+  }
+
+  tern[service.name] = {
+    "!doc": trimPara(service.srcDocs.summary),
+    "!url": urlGenerator(service)
+  };
+
+  if (service.messages.length + service.properties.length + service.operations.length > 0) {
+    let servicePrototype = tern[service.name]["prototype"] = {};
+    service.properties.forEach(prop => {
+      Object.assign(servicePrototype, propTern(service, prop,urlGenerator));
+    });
+    service.operations.forEach(operation => {
+      Object.assign(servicePrototype, operationTern(service, operation,urlGenerator, fincCallback));
+    });
+    service.messages.forEach(message => {
+      Object.assign(servicePrototype, messageTern(service, message,urlGenerator));
+    });
+  }
+  
+  return root;
+}

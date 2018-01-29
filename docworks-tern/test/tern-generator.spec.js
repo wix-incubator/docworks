@@ -1,13 +1,16 @@
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
-import {propTern, typeTern, operationTern, messageTern} from '../lib/tern-generator';
+import {propTern, typeTern, operationTern, messageTern, ternService} from '../lib/tern-generator';
 
 chai.use(chaiSubset);
 const expect = chai.expect;
 
 function urlGenerator(service, member) {
   let serviceFullName = service.memberOf?`${service.memberOf}.${service.name}`:service.name;
-  return `http://www.wix.com/reference/${serviceFullName}.html#${member}`;
+  if (member)
+    return `http://www.wix.com/reference/${serviceFullName}.html#${member}`;
+  else
+    return `http://www.wix.com/reference/${serviceFullName}.html`;
 }
 
 describe('generate tern', function() {
@@ -210,7 +213,39 @@ describe('generate tern', function() {
         }
       });
     });
-
   });
 
+  describe('for a service', function() {
+    let service = require('./services/collapsedMixin.json');
+
+    it('CollapsedMixin', function() {
+      let tern = ternService(service, urlGenerator);
+
+      expect(tern).to.containSubset({
+        "$w": {
+          "CollapsedMixin": {
+            "!doc": "Provides functionality for elements that can be collapsed.\n\n To learn about the behavior of a collapsed element,\n see the [`collapsed`](#collapsed) property.",
+            "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html",
+            "prototype": {
+              "collapse": {
+                "!type": "fn() -> +Promise[value=+void]",
+                "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
+                "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapse"
+              },
+              "expand": {
+                "!type": "fn() -> +Promise[value=+void]",
+                "!doc": "Expands the element and sets its `collapsed` property to `false`.",
+                "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#expand"
+              },
+              "collapsed": {
+                "!type": "bool",
+                "!doc": "Indicates if the element is collapsed or expanded.",
+                "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapsed"
+              }
+            }
+          }
+        },
+      });
+    })
+  });
 });
