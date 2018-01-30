@@ -42,11 +42,15 @@ export function propTern(service, prop, urlGenerator) {
   return tern;
 }
 
+function complexType(typeName) {
+  return typeof typeName !== 'string';
+}
+
 function formatFunctionTern(operation, findCallback) {
   let params = '';
   if (operation.params && operation.params.length)
     params = operation.params.map(param => {
-      let callback = !builtInTypes[param.type] && findCallback(param.type);
+      let callback = !builtInTypes[param.type] && !complexType(param.type) && findCallback(param.type);
       if (callback)
         return `${param.name}: ${formatFunctionTern(callback, findCallback)}`;
       else

@@ -125,6 +125,37 @@
       { "summary": "Scrolls the page by a given number of pixels.",
         "description": [],
         "links": [],
+        "examples": [] } },
+
+    { "name": "complexType",
+      "labels": [],
+      "nameParams": [],
+      "params":
+      [ { "name": "x",
+        "type": { "name": "Array",
+          "typeParams":
+          [ "aType" ] },
+        "doc": "a Complex param",
+        "srcDoc": "a Complex param" } ],
+      "ret":
+      { "type":
+      { "name": "Promise",
+        "typeParams":
+        [ "void" ] },
+        "doc": "on fulfilled - When the scroll is complete.",
+        "srcDoc": "on fulfilled - When the scroll is complete." },
+      "locations":
+      [ { "filename": "window.es6",
+        "lineno": 282 } ],
+      "docs":
+      { "summary": "...",
+        "description": [],
+        "links": [],
+        "examples": [] },
+      "srcDocs":
+      { "summary": "...",
+        "description": [],
+        "links": [],
         "examples": [] } }
   ],
   "callbacks": [],

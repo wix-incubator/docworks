@@ -150,6 +150,19 @@ describe('generate tern', function() {
           "!url": "http://www.wix.com/reference/functions.html#scrollBy"
         } } );
     });
+
+    it('func(Array<aType>): Promise<void>', function() {
+      let operation = service.operations.find(_ => _.name === 'complexType');
+
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
+
+      expect(tern).to.containSubset({
+        "complexType": {
+          "!type": "fn(x: [+aType]) -> +Promise[value=+void]",
+          "!doc": "...",
+          "!url": "http://www.wix.com/reference/functions.html#complexType"
+        } } );
+    });
   });
 
   describe('for callbacks', function() {
