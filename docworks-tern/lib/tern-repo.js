@@ -1,5 +1,19 @@
 import {ternService} from './tern-generator';
 
+function mergeObjects(path, object1, object2) {
+  if (typeof object1 !== 'object' && typeof object2 !== 'object')
+    throw new Error(`failed merging services, found ${typeof object1} and ${typeof object2} at ${path}`);
+
+  for (let key in object2) {
+    if (typeof object1[key] === 'object' && typeof object2[key] === 'object') {
+      object1[key] = mergeObjects(`${path}.${key}`, object1[key], object2[key]);
+    } else {
+      object1[key] = object2[key];
+    }
+  }
+  return object1;
+}
+
 export default function tern(services, apiName, urlGenerator) {
   let ternModel = {};
 
@@ -31,7 +45,7 @@ export default function tern(services, apiName, urlGenerator) {
       if (namespace)
         ternParent = ternParent[namespace] = ternParent[namespace] || {};
     });
-    Object.assign(ternParent, serviceTern);
+    mergeObjects('', ternParent, serviceTern);
 
   });
 
