@@ -234,6 +234,7 @@ describe('generate tern', function() {
     let hiddenMixin = require('./services/HiddenMixin.service.json');
     let button = require('./services/button.service.json');
     let button2 = require('./services/button2.service.json');
+    let dropdown = require('./services/dropdown.service.json');
 
     let findMixin = (fullName) => {
       if (fullName === '$w.CollapsedMixin')
@@ -352,6 +353,48 @@ describe('generate tern', function() {
               "!type": "bool",
               "!doc": "Indicates if the element is actually visible.",
               "!url": "http://www.wix.com/reference/$w.Button2.html#isVisible"
+            }
+          }
+        },
+      });
+    })
+
+    it('Dropdown - with messages', function() {
+      let tern = ternService(dropdown, urlGenerator, () => {}, findMixin);
+
+      expect(tern).to.containSubset({
+        "Dropdown": {
+          "!doc": "...",
+          "!url": "http://www.wix.com/reference/$w.Dropdown.html",
+          "prototype": {
+            "options": {
+              "!type": "[+$w.Dropdown~Option]",
+              "!doc": "Sets or gets the options in a dropdown.",
+              "!url": "http://www.wix.com/reference/$w.Dropdown.html#options"
+            },
+            "placeholder": {
+              "!type": "string",
+              "!doc": "Sets or gets the dropdown's placeholder text.",
+              "!url": "http://www.wix.com/reference/$w.Dropdown.html#placeholder"
+            },
+            "selectedIndex": {
+              "!type": "number",
+              "!doc": "Sets or gets the index of the selected option.",
+              "!url": "http://www.wix.com/reference/$w.Dropdown.html#selectedIndex"
+            }
+          },
+          "Option": {
+            "!doc": "An object used by the `options` property that contains the attributes of a dropdown list item.",
+            "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option",
+            "label": {
+              "!type": "string",
+              "!doc": "The label of the dropdown option. This is what a user sees.",
+              "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option"
+            },
+            "value": {
+              "!type": "string",
+              "!doc": "The value of the dropdown option. This is what you use in code and is what is stored in your collections.",
+              "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option"
             }
           }
         },

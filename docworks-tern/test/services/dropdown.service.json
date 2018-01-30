@@ -1,0 +1,80 @@
+{ "name": "Dropdown",
+  "memberOf": "$w",
+  "mixes":
+  [ ],
+  "labels":
+  [ "new" ],
+  "location":
+  { "filename": "DropDown.es6",
+    "lineno": 17 },
+  "docs":
+  { "summary": "...",
+    "links": [],
+    "examples": [] },
+  "srcDocs":
+  { "summary": "...",
+    "links": [],
+    "examples": [] },
+  "properties":
+    [ { "name": "options", "labels": [], "get": true, "set": false,
+        "type": { "name": "Array", "typeParams": [ "$w.Dropdown~Option" ] },
+        "locations": [ { "filename": "DropDown.es6", "lineno": 54 } ],
+        "docs":
+          { "summary": "Sets or gets the options in a dropdown.",
+            "description": [],
+            "links": [],
+            "examples": [] },
+          "srcDocs":
+          { "summary": "Sets or gets the options in a dropdown.",
+            "description": [],
+            "links": [],
+            "examples": [] } },
+      { "name": "placeholder", "labels": [], "get": true, "set": false,
+        "type": "string",
+        "locations": [ { "filename": "DropDown.es6", "lineno": 127 } ],
+        "docs":
+          { "summary": "Sets or gets the dropdown's placeholder text.",
+            "description": [],
+            "links": [],
+            "examples": [] },
+          "srcDocs":
+          { "summary": "Sets or gets the dropdown's placeholder text.",
+            "description": [],
+            "links": [],
+            "examples": [] } },
+      { "name": "selectedIndex", "labels": [], "get": true, "set": false,
+        "type": "number",
+        "locations": [ { "filename": "DropDown.es6", "lineno": 169 } ],
+        "docs":
+          { "summary": "Sets or gets the index of the selected option.",
+            "description": [],
+            "links": [],
+            "examples": [] },
+          "srcDocs":
+          { "summary": "Sets or gets the index of the selected option.",
+            "description": [],
+            "links": [],
+            "examples": [] } } ],
+  "operations": [],
+  "callbacks": [],
+  "messages":
+  [ { "name": "Option",
+      "locations": [ { "filename": "DropDown.es6", "lineno": 44 } ],
+      "docs":
+      { "summary": "An object used by the `options` property that contains the attributes of a dropdown list item.",
+        "links": [],
+        "examples": [] },
+      "srcDocs":
+      { "summary": "An object used by the `options` property that contains the attributes of a dropdown list item.",
+        "links": [],
+        "examples": [] },
+      "members":
+      [ { "name": "value",
+          "type": "string",
+          "docs": "The value of the dropdown option. This is what you use in code and is what is stored in your collections.",
+          "srcDocs": "The value of the dropdown option. This is what you use in code and is what is stored in your collections." },
+        { "name": "label",
+          "type": "string",
+          "docs": "The label of the dropdown option. This is what a user sees.",
+          "srcDocs": "The label of the dropdown option. This is what a user sees." } ],
+      "labels": [] } ] }

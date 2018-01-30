@@ -173,18 +173,7 @@ describe('generate tern', function() {
             '!doc': 'Dropdowns are used for selecting one of a number of options.\n They are especially useful when there are too many options to display using\n [radio buttons]($w.RadioButtonGroup.html). Dropdowns consist of a list\n of [options](#Option). Each [option](#Option) contains a label, which is\n what the user sees, and a value, which is what is used in code and stored in\n you collections.',
             '!url': 'http://www.wix.com/reference/$w.Dropdown.html',
             prototype:
-              { Option:
-                { '!doc': 'An object used by the `options` property that contains the attributes of a dropdown list item.',
-                  '!url': 'http://www.wix.com/reference/$w.Dropdown.html#Option',
-                  value:
-                    { '!type': 'string',
-                      '!doc': 'The value of the dropdown option. This is what you use in code and is what is stored in your collections.',
-                      '!url': 'http://www.wix.com/reference/$w.Dropdown.html#Option' },
-                  label:
-                    { '!type': 'string',
-                      '!doc': 'The label of the dropdown option. This is what a user sees.',
-                      '!url': 'http://www.wix.com/reference/$w.Dropdown.html#Option' } },
-                hidden:
+              { hidden:
                   { '!type': 'bool',
                     '!doc': 'Indicates if the element is visible or hidden.',
                     '!url': 'http://www.wix.com/reference/$w.Dropdown.html#hidden' },
@@ -211,7 +200,19 @@ describe('generate tern', function() {
                 expand:
                   { '!type': 'fn() -> +Promise[value=+void]',
                     '!doc': 'Expands the element and sets its `collapsed` property to `false`.',
-                    '!url': 'http://www.wix.com/reference/$w.Dropdown.html#expand' } } }
+                    '!url': 'http://www.wix.com/reference/$w.Dropdown.html#expand' } },
+            Option:
+              { '!doc': 'An object used by the `options` property that contains the attributes of a dropdown list item.',
+                '!url': 'http://www.wix.com/reference/$w.Dropdown.html#Option',
+                value:
+                  { '!type': 'string',
+                    '!doc': 'The value of the dropdown option. This is what you use in code and is what is stored in your collections.',
+                    '!url': 'http://www.wix.com/reference/$w.Dropdown.html#Option' },
+                label:
+                  { '!type': 'string',
+                    '!doc': 'The label of the dropdown option. This is what a user sees.',
+                    '!url': 'http://www.wix.com/reference/$w.Dropdown.html#Option' } }
+          }
         },
         "callbacks": {
           '!doc': '',
