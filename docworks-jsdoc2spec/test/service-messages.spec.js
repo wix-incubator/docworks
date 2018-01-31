@@ -119,7 +119,7 @@ describe('docs', function() {
       });
     });
 
-    it.only('should support a function with a complex message type referenced using aNamespace.ServiceMessages~ComplexMessage', function() {
+    it('should support a function with a complex message type referenced using aNamespace.ServiceMessages~ComplexMessage', function() {
 
       expect(jsDocRes).to.containSubset({
         services: [
