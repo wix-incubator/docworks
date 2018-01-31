@@ -14,7 +14,7 @@ export function publish(taffyData, opts) {
     opts.serviceModel.clear();
 
     let data = helper.prune(taffyData);
-    var members = helper.getMembers(data);
+    let members = helper.getMembers(data);
     function find(spec) {
         return helper.find(data, spec);
     }

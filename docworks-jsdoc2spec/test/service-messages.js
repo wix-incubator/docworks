@@ -71,6 +71,16 @@ class ServiceMessages {
   operationComplex(input) {
 
   }
+
+  /**
+   * @function operationComplex2
+   * @memberof aNamespace.ServiceMessages
+   *
+   * @param {aNamespace.ServiceMessages~ComplexMessage} input the input
+   */
+  operationComplex2(input) {
+
+  }
 }
 
 

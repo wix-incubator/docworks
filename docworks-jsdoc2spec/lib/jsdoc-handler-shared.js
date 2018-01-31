@@ -48,7 +48,7 @@ export function handleType(type, find, onError, context) {
     let typeNames = type.names;
 
     let handleTypeName = (name) => {
-        name = name.trim();
+        name = name.trim().replace('~', '.');
         let generic = testGeneric.exec(name);
         if (generic) {
             return GeneticType(handleTypeName(generic[1]),

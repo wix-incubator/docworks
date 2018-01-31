@@ -119,6 +119,22 @@ describe('docs', function() {
       });
     });
 
+    it.only('should support a function with a complex message type referenced using aNamespace.ServiceMessages~ComplexMessage', function() {
+
+      expect(jsDocRes).to.containSubset({
+        services: [
+          {
+            name: 'ServiceMessages',
+            operations: [
+              {name: 'operationComplex2', nameParams: [], params: [
+                {name: 'input', type: 'aNamespace.ServiceMessages.ComplexMessage'}
+              ], ret: {type: 'void'}}
+            ]
+          }
+        ]
+      });
+    });
+
     it('should support a complex message', function() {
 
       expect(jsDocRes).to.containSubset({
