@@ -181,7 +181,7 @@ describe('generate tern', function() {
 
       expect(tern).to.containSubset({
         "onViewportEnter": {
-          "!type": "fn(handler: fn()) -> +$w.Element",
+          "!type": "fn(handler: callbacks.EventHandler) -> +$w.Element",
           "!doc": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
           "!url": "http://www.wix.com/reference/callbacks.html#onViewportEnter"
         } } );
@@ -194,11 +194,38 @@ describe('generate tern', function() {
 
       expect(tern).to.containSubset({
         "onViewportEnter2": {
-          "!type": "fn(handler: fn(event: +Event, $w: +$w.$w) -> number) -> +$w.Element",
+          "!type": "fn(handler: callbacks.EventHandler2) -> +$w.Element",
           "!doc": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
           "!url": "http://www.wix.com/reference/callbacks.html#onViewportEnter2"
         } } );
     });
+
+    it('callback(): void', function() {
+      let operation = service.callbacks.find(_ => _.name === 'EventHandler');
+
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
+
+      expect(tern).to.containSubset({
+        "EventHandler": {
+          "!type": "fn()",
+          "!doc": "",
+          "!url": "http://www.wix.com/reference/callbacks.html#EventHandler"
+        } } );
+    });
+
+    it('callback(Event, $w): number', function() {
+      let operation = service.callbacks.find(_ => _.name === 'EventHandler2');
+
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
+
+      expect(tern).to.containSubset({
+        "EventHandler2": {
+          "!type": "fn(event: +Event, $w: +$w.$w) -> number",
+          "!doc": "",
+          "!url": "http://www.wix.com/reference/callbacks.html#EventHandler2"
+        } } );
+    });
+    //
   });
 
   describe('for messages', function() {

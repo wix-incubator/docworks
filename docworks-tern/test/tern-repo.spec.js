@@ -219,11 +219,11 @@ describe('generate tern', function() {
           '!url': 'http://www.wix.com/reference/callbacks.html',
           prototype:
             { onViewportEnter:
-              { '!type': 'fn(handler: fn()) -> +$w.Element',
+              { '!type': 'fn(handler: callbacks.EventHandler) -> +$w.Element',
                 '!doc': 'Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.',
                 '!url': 'http://www.wix.com/reference/callbacks.html#onViewportEnter' },
               onViewportEnter2:
-                { '!type': 'fn(handler: fn(event: +Event, $w: +$w.$w) -> number) -> +$w.Element',
+                { '!type': 'fn(handler: callbacks.EventHandler2) -> +$w.Element',
                   '!doc': 'Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.',
                   '!url': 'http://www.wix.com/reference/callbacks.html#onViewportEnter2' } } },
         "functions": {
