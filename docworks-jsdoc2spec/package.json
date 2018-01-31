@@ -13,7 +13,7 @@
   "dependencies": {
     "docworks-model": "^1.1.0",
     "intercept-stdout": "^0.1.2",
-    "jsdoc": "^3.5.4",
+    "jsdoc": "3.4.3",
     "requizzle": "^0.2.1"
   },
   "devDependencies": {

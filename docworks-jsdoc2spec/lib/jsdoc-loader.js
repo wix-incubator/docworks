@@ -7,6 +7,8 @@ var ogRequire = require;
         var targetPath = ogRequire.resolve('jsdoc/lib/jsdoc/app.js');
         var rootPath = targetPath.replace('lib/jsdoc/app.js', '');
 
+      // we should be on Node.js
+      args = [rootPath, process.cwd()];
         require = require('requizzle')({
             requirePaths: {
                 before: [targetPath.replace('jsdoc/app.js', '')],
@@ -15,6 +17,7 @@ var ogRequire = require;
             infect: true
         });
     }
+  require(ogRequire.resolve('jsdoc/lib/jsdoc/util/runtime')).initialize(args);
 })(Array.prototype.slice.call(arguments, 0));
 
 const env = (function() {
