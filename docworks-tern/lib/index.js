@@ -18,7 +18,7 @@ export default async function runCli(sources, url, name, outputFileName) {
   let repo = await readFromDir(sources);
   let ternOutput = tern(repo.services, name, makeUrlGenerator(url));
   let ternFileContent =
-    `define([], function() { return {\n${JSON.stringify(ternOutput, null, "\t")}; });`;
+    `define([], function() { return ${JSON.stringify(ternOutput, null, "\t")}; });`;
   return new Promise((fulfill, reject) => {
     fs.writeFile(outputFileName, ternFileContent, {}, (err) => {
       if (err)
