@@ -476,10 +476,18 @@ describe('generate tern', function() {
                   { '!type': 'bool',
                     '!doc': 'prop',
                     '!url': 'http://www.wix.com/reference/$w.child.html#prop' },
+                overrideProp:
+                  { '!type': 'string',
+                    '!doc': 'override prop overridden',
+                    '!url': 'http://www.wix.com/reference/$w.child.html#overrideProp' },
                 op:
                   { '!type': 'fn() -> string',
                     '!doc': 'op',
-                    '!url': 'http://www.wix.com/reference/$w.child.html#op' } },
+                    '!url': 'http://www.wix.com/reference/$w.child.html#op' },
+                overrideOp:
+                  { '!type': 'fn() -> +Promise',
+                    '!doc': 'override op overridden',
+                    '!url': 'http://www.wix.com/reference/$w.child.html#overrideOp' }},
             childCallback:
               { '!type': 'fn() -> string',
                 '!doc': 'op',

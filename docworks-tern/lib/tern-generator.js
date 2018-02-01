@@ -112,7 +112,7 @@ export function ternService(service, urlGenerator, findCallback, findMixin) {
   let gatherMixes = mix => {
     let mixinService = findMixin(mix);
     if (mixinService) {
-      parentServices.push(mixinService);
+      parentServices.unshift(mixinService);
       mixinService.mixes.forEach(gatherMixes);
     }
   };

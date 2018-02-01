@@ -36,7 +36,6 @@ export default function tern(services, apiName, urlGenerator) {
       return undefined;
   };
 
-
   services.forEach(service => {
     let serviceTern = ternService(service, urlGenerator, findCallback, findService);
     let ternParent = ternModel;
