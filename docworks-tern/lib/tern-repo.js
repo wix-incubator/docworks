@@ -1,4 +1,4 @@
-import {ternService} from './tern-generator';
+import {ternService, validTernName} from './tern-generator';
 
 function mergeObjects(path, object1, object2) {
   if (typeof object1 !== 'object' && typeof object2 !== 'object')
@@ -39,7 +39,9 @@ export default function tern(services, apiName, urlGenerator) {
   services.forEach(service => {
     let serviceTern = ternService(service, urlGenerator, findCallback, findService);
     let ternParent = ternModel;
-    let namespaces = (service.memberOf || '').split('.');
+    let namespaces = (service.memberOf || '')
+      .split('.')
+      .map(validTernName);
     namespaces.forEach(namespace => {
       if (namespace)
         ternParent = ternParent[namespace] = ternParent[namespace] || {};

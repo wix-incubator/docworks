@@ -24,7 +24,7 @@ export function typeTern(type) {
   }
 }
 
-function validTernName(name) {
+export function validTernName(name) {
   return name.replace(/[^\w$<>\.:!]/g, '_');
 }
 

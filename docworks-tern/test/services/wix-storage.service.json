@@ -1,4 +1,5 @@
 { "name": "wix-storage",
+  "memberOf": "wix-underscore-namespace",
   "mixes": [],
   "labels":
   [ "new" ],

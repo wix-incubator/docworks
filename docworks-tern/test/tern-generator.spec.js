@@ -439,17 +439,17 @@ describe('generate tern', function() {
       expect(tern).to.containSubset({
         "wix_storage": {
           "!doc": "The wix-storage module contains functionality for the persistent\n storage of key/value data in the user's browser.",
-          "!url": "http://www.wix.com/reference/wix-storage.html",
+          "!url": "http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html",
           "prototype": {
             "local": {
               "!doc": "Used for local storage of data.",
               "!type": "+wix-storage.Storage",
-              "!url": "http://www.wix.com/reference/wix-storage.html#local",
+              "!url": "http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html#local",
             },
             "session": {
               "!doc": "Used for session storage of data.",
               "!type": "+wix-storage.Storage",
-              "!url": "http://www.wix.com/reference/wix-storage.html#session"
+              "!url": "http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html#session"
             }
           }
         },

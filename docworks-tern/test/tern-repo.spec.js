@@ -21,6 +21,8 @@ describe('generate tern', function() {
 
     let ternModel = tern(repo.services, 'Wix APIs', urlGenerator);
 
+    console.log(require('util').inspect(ternModel, {depth: 9, colors: true}));
+
     expect(ternModel).to.containSubset({
       "!define": {
         "$w": {
@@ -271,8 +273,20 @@ describe('generate tern', function() {
               arrayProp:
                 { '!type': '[string]',
                   '!doc': 'Summary of arrayProp',
-                  '!url': 'http://www.wix.com/reference/properties.html#arrayProp' } } }
-      },
+                  '!url': 'http://www.wix.com/reference/properties.html#arrayProp' } } },
+        'wix_underscore_namespace':
+          { wix_storage:
+            { '!doc': 'The wix-storage module contains functionality for the persistent\n storage of key/value data in the user\'s browser.',
+              '!url': 'http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html',
+              prototype:
+                { local:
+                  { '!type': '+wix-storage.Storage',
+                    '!doc': 'Used for local storage of data.',
+                    '!url': 'http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html#local' },
+                  session:
+                    { '!type': '+wix-storage.Storage',
+                      '!doc': 'Used for session storage of data.',
+                      '!url': 'http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html#session' } } } } },
       "!name": "Wix APIs"
     });
   });
