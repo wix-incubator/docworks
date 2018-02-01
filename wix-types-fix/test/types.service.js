@@ -62,6 +62,23 @@ class Service {
   anAsyncFunction() {}
 
   /**
+   * @function anAsyncFunctionNoReturnDoc
+   * @returns {external:Promise} 
+   * @fulfill {external:String} fulfill docs
+   * @reject {external:String} error docs
+   * @memberof Service
+   */
+  anAsyncFunctionNoReturnDoc() {}
+
+  /**
+   * @callback anAsyncCallback
+   * @returns {external:Promise} abcd
+   * @fulfill {external:String} fulfill docs
+   * @reject {external:String} error docs
+   * @memberof Service
+   */
+
+  /**
    * @function onEvent
    * @param {Service.Event} event function
    * @memberof Service

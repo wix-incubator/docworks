@@ -119,7 +119,7 @@ describe('integration test', function() {
 
   });
 
-  it('should rename external:Promise to Promise<>, incorporating the @reject and @fulfill tags', function() {
+  it('should rename external:Promise in functions to Promise<>, incorporating the @reject and @fulfill tags', function() {
 
     expect(jsDocRes).to.containSubset({
       services:
@@ -129,6 +129,34 @@ describe('integration test', function() {
                 ret: {
                   type: {name: 'Promise', typeParams: ['string'] },
                   doc: 'abcd. on fulfilled - fulfill docs. on rejected - error docs' } } ]
+        } ] } );
+
+  });
+
+  it('should handle external:Promise without return doc', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
+          operations:
+            [ { name: 'anAsyncFunctionNoReturnDoc',
+                ret: {
+                  type: {name: 'Promise', typeParams: ['string'] },
+                  doc: 'on fulfilled - fulfill docs. on rejected - error docs' } } ]
+        } ] } );
+
+  });
+
+  it('should rename external:Promise in callbacks to Promise<>, incorporating the @reject and @fulfill tags', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
+          callbacks:
+            [ { name: 'anAsyncCallback',
+              ret: {
+                type: {name: 'Promise', typeParams: ['string'] },
+                doc: 'abcd. on fulfilled - fulfill docs. on rejected - error docs' } } ]
         } ] } );
 
   });
