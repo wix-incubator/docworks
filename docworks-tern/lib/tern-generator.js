@@ -121,7 +121,10 @@ export function ternService(service, urlGenerator, findCallback, findMixin) {
       Object.assign(servicePrototype, propTern(service, prop,urlGenerator));
     });
     parentService.operations.forEach(operation => {
-      Object.assign(servicePrototype, operationTern(service, operation,urlGenerator, findCallback));
+      Object.assign(servicePrototype, operationTern(service, operation, urlGenerator, findCallback));
+    });
+    parentService.callbacks.forEach(callback => {
+      Object.assign(tern[service.name], operationTern(service, callback, urlGenerator, findCallback));
     });
     parentService.messages.forEach(message => {
       Object.assign(tern[service.name], messageTern(service, message,urlGenerator));

@@ -225,7 +225,17 @@ describe('generate tern', function() {
               onViewportEnter2:
                 { '!type': 'fn(handler: callbacks.EventHandler2) -> +$w.Element',
                   '!doc': 'Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.',
-                  '!url': 'http://www.wix.com/reference/callbacks.html#onViewportEnter2' } } },
+                  '!url': 'http://www.wix.com/reference/callbacks.html#onViewportEnter2' } },
+          EventHandler: {
+            '!type': 'fn()',
+            '!doc': '',
+            '!url': 'http://www.wix.com/reference/callbacks.html#EventHandler'
+          },
+          EventHandler2: {
+            '!type': 'fn(event: +Event, $w: +$w.$w) -> number',
+            '!doc': '',
+            '!url': 'http://www.wix.com/reference/callbacks.html#EventHandler2'
+          } },
         "functions": {
           '!doc': '',
           '!url': 'http://www.wix.com/reference/functions.html',
