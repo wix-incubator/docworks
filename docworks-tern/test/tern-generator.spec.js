@@ -263,6 +263,8 @@ describe('generate tern', function() {
     let button2 = require('./services/button2.service.json');
     let dropdown = require('./services/dropdown.service.json');
     let wixStorage = require('./services/wix-storage.service.json');
+    let parent = require('./services/parent.service.json');
+    let child = require('./services/child.service.json');
 
     let findMixin = (fullName) => {
       if (fullName === '$w.CollapsedMixin')
@@ -271,6 +273,8 @@ describe('generate tern', function() {
         return hiddenMixin;
       if (fullName === '$w.HiddenCollapsedMixin')
         return hiddenCollapsedMixin;
+      if (fullName === '$w.parent')
+        return parent;
     };
 
     it('CollapsedMixin', function() {
@@ -451,5 +455,59 @@ describe('generate tern', function() {
         },
       });
     });
+
+    it('mixed services', function() {
+      let tern = ternService(child, urlGenerator, () => {}, findMixin);
+
+      expect(tern).to.containSubset(
+        { child:
+          { '!doc': 'parent',
+            '!url': 'http://www.wix.com/reference/$w.child.html',
+            prototype:
+              { childProp:
+                { '!type': 'bool',
+                  '!doc': 'prop',
+                  '!url': 'http://www.wix.com/reference/$w.child.html#childProp' },
+                childOp:
+                  { '!type': 'fn() -> string',
+                    '!doc': 'op',
+                    '!url': 'http://www.wix.com/reference/$w.child.html#childOp' },
+                prop:
+                  { '!type': 'bool',
+                    '!doc': 'prop',
+                    '!url': 'http://www.wix.com/reference/$w.child.html#prop' },
+                op:
+                  { '!type': 'fn() -> string',
+                    '!doc': 'op',
+                    '!url': 'http://www.wix.com/reference/$w.child.html#op' } },
+            childCallback:
+              { '!type': 'fn() -> string',
+                '!doc': 'op',
+                '!url': 'http://www.wix.com/reference/$w.child.html#childCallback' },
+            childMessage:
+              { '!doc': 'op',
+                '!url': 'http://www.wix.com/reference/$w.child.html#childMessage',
+                value:
+                  { '!type': 'string',
+                    '!doc': '...',
+                    '!url': 'http://www.wix.com/reference/$w.child.html#childMessage' } } } });
+
+      expect(tern).to.not.containSubset(
+        { child:
+          { '!doc': 'parent',
+            '!url': 'http://www.wix.com/reference/$w.child.html',
+            callback:
+              { '!type': 'fn() -> string',
+                '!doc': 'op',
+                '!url': 'http://www.wix.com/reference/$w.child.html#callback' },
+            message:
+              { '!doc': 'op',
+                '!url': 'http://www.wix.com/reference/$w.child.html#message',
+                value:
+                  { '!type': 'string',
+                    '!doc': '...',
+                    '!url': 'http://www.wix.com/reference/$w.child.html#message' } } }
+        })
+    })
   });
 });

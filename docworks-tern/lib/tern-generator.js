@@ -127,12 +127,12 @@ export function ternService(service, urlGenerator, findCallback, findMixin) {
     parentService.operations.forEach(operation => {
       Object.assign(servicePrototype, operationTern(service, operation, urlGenerator, findCallback));
     });
-    parentService.callbacks.forEach(callback => {
-      Object.assign(tern[validTernName(service.name)], operationTern(service, callback, urlGenerator, findCallback));
-    });
-    parentService.messages.forEach(message => {
-      Object.assign(tern[validTernName(service.name)], messageTern(service, message,urlGenerator));
-    });
+  });
+  service.callbacks.forEach(callback => {
+    Object.assign(tern[validTernName(service.name)], operationTern(service, callback, urlGenerator, findCallback));
+  });
+  service.messages.forEach(message => {
+    Object.assign(tern[validTernName(service.name)], messageTern(service, message,urlGenerator));
   });
 
   return tern;
