@@ -262,6 +262,7 @@ describe('generate tern', function() {
     let button = require('./services/button.service.json');
     let button2 = require('./services/button2.service.json');
     let dropdown = require('./services/dropdown.service.json');
+    let wixStorage = require('./services/wix-storage.service.json');
 
     let findMixin = (fullName) => {
       if (fullName === '$w.CollapsedMixin')
@@ -384,7 +385,7 @@ describe('generate tern', function() {
           }
         },
       });
-    })
+    });
 
     it('Dropdown - with messages', function() {
       let tern = ternService(dropdown, urlGenerator, () => {}, findMixin);
@@ -426,6 +427,29 @@ describe('generate tern', function() {
           }
         },
       });
-    })
+    });
+
+    it('wix-storage - with messages', function() {
+      let tern = ternService(wixStorage, urlGenerator, () => {}, findMixin);
+
+      expect(tern).to.containSubset({
+        "wix_storage": {
+          "!doc": "The wix-storage module contains functionality for the persistent\n storage of key/value data in the user's browser.",
+          "!url": "http://www.wix.com/reference/wix-storage.html",
+          "prototype": {
+            "local": {
+              "!doc": "Used for local storage of data.",
+              "!type": "+wix-storage.Storage",
+              "!url": "http://www.wix.com/reference/wix-storage.html#local",
+            },
+            "session": {
+              "!doc": "Used for session storage of data.",
+              "!type": "+wix-storage.Storage",
+              "!url": "http://www.wix.com/reference/wix-storage.html#session"
+            }
+          }
+        },
+      });
+    });
   });
 });

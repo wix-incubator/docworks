@@ -24,6 +24,10 @@ export function typeTern(type) {
   }
 }
 
+function validTernName(name) {
+  return name.replace(/[^\w$<>\.:!]/g, '_');
+}
+
 function trimPara(text) {
   if(text) {
     return text.trim().replace(/<(?:.|\n)*?>/gm, '');
@@ -33,10 +37,10 @@ function trimPara(text) {
 
 export function propTern(service, prop, urlGenerator) {
   let tern = {};
-  tern[prop.name] = {
+  tern[validTernName(prop.name)] = {
       "!type": typeTern(prop.type),
       "!doc": trimPara(prop.srcDocs.summary),
-      "!url": urlGenerator(service, prop.name)
+      "!url": urlGenerator(service, validTernName(prop.name))
     };
 
   return tern;
@@ -52,9 +56,9 @@ function formatFunctionTern(operation, findCallback) {
     params = operation.params.map(param => {
       let callback = !builtInTypes[param.type] && !complexType(param.type) && findCallback(param.type);
       if (callback)
-        return `${param.name}: ${param.type}`;
+        return `${validTernName(param.name)}: ${param.type}`;
       else
-        return `${param.name}: ${typeTern(param.type)}`
+        return `${validTernName(param.name)}: ${typeTern(param.type)}`
     }).join(', ');
 
   let ret = '';
@@ -67,10 +71,10 @@ function formatFunctionTern(operation, findCallback) {
 export function operationTern(service, operation, urlGenerator, findCallback) {
   let tern = {};
 
-  tern[operation.name] = {
+  tern[validTernName(operation.name)] = {
     "!type": formatFunctionTern(operation, findCallback),
     "!doc": trimPara(operation.srcDocs.summary),
-    "!url": urlGenerator(service, operation.name)
+    "!url": urlGenerator(service, validTernName(operation.name))
   };
 
   return tern;
@@ -79,14 +83,14 @@ export function operationTern(service, operation, urlGenerator, findCallback) {
 export function messageTern(service, message, urlGenerator) {
   let tern = {};
 
-  const messageUrl = urlGenerator(service, message.name);
-  tern[message.name] = {
+  const messageUrl = urlGenerator(service, validTernName(message.name));
+  tern[validTernName(message.name)] = {
     "!doc": trimPara(message.srcDocs.summary),
     "!url": messageUrl
   };
 
   message.members.forEach(member => {
-     tern[message.name][member.name] = {
+     tern[validTernName(message.name)][validTernName(member.name)] = {
        "!type": typeTern(member.type),
        "!doc": trimPara(member.srcDocs),
        "!url": messageUrl
@@ -99,7 +103,7 @@ export function messageTern(service, message, urlGenerator) {
 export function ternService(service, urlGenerator, findCallback, findMixin) {
   let tern = {};
 
-  tern[service.name] = {
+  tern[validTernName(service.name)] = {
     "!doc": trimPara(service.srcDocs.summary),
     "!url": urlGenerator(service)
   };
@@ -114,7 +118,7 @@ export function ternService(service, urlGenerator, findCallback, findMixin) {
   };
   service.mixes.forEach(gatherMixes);
 
-  let servicePrototype = tern[service.name]["prototype"] = {};
+  let servicePrototype = tern[validTernName(service.name)]["prototype"] = {};
 
   parentServices.forEach(parentService => {
     parentService.properties.forEach(prop => {
@@ -124,10 +128,10 @@ export function ternService(service, urlGenerator, findCallback, findMixin) {
       Object.assign(servicePrototype, operationTern(service, operation, urlGenerator, findCallback));
     });
     parentService.callbacks.forEach(callback => {
-      Object.assign(tern[service.name], operationTern(service, callback, urlGenerator, findCallback));
+      Object.assign(tern[validTernName(service.name)], operationTern(service, callback, urlGenerator, findCallback));
     });
     parentService.messages.forEach(message => {
-      Object.assign(tern[service.name], messageTern(service, message,urlGenerator));
+      Object.assign(tern[validTernName(service.name)], messageTern(service, message,urlGenerator));
     });
   });
 
