@@ -164,7 +164,7 @@ describe('generate tern', function() {
         } } );
     });
 
-    it('func(Array<aType>): Promise<void>', function() {
+    it('func(EventHandler): Gallery | Slideshow', function() {
       let operation = service.operations.find(_ => _.name === 'onPause');
 
       let tern = operationTern(service, operation, urlGenerator, findCallback);
@@ -174,6 +174,19 @@ describe('generate tern', function() {
           "!type": "fn(handler: +$w.EventHandler) -> +$w.Gallery",
           "!doc": "Adds an event handler that runs when playback is paused.",
           "!url": "http://www.wix.com/reference/functions.html#onPause"
+        } } );
+    });
+
+    it('func(number, wix-data.Hooks.HookContext): Promise<number>', function() {
+      let operation = service.operations.find(_ => _.name === 'afterCount');
+
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
+
+      expect(tern).to.containSubset({
+        "afterCount": {
+          "!type": "fn(count: number, context: +wix_data.Hooks.HookContext) -> +Promise[value=number]",
+          "!doc": "A hook that is triggered after a `count()` operation.",
+          "!url": "http://www.wix.com/reference/functions.html#afterCount"
         } } );
     });
   });
@@ -413,7 +426,7 @@ describe('generate tern', function() {
           "!url": "http://www.wix.com/reference/$w.Dropdown.html",
           "prototype": {
             "options": {
-              "!type": "[+$w.Dropdown~Option]",
+              "!type": "[+$w.Dropdown.Option]",
               "!doc": "Sets or gets the options in a dropdown.",
               "!url": "http://www.wix.com/reference/$w.Dropdown.html#options"
             },
@@ -456,12 +469,12 @@ describe('generate tern', function() {
           "prototype": {
             "local": {
               "!doc": "Used for local storage of data.",
-              "!type": "+wix-storage.Storage",
+              "!type": "+wix_storage.Storage",
               "!url": "http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html#local",
             },
             "session": {
               "!doc": "Used for session storage of data.",
-              "!type": "+wix-storage.Storage",
+              "!type": "+wix_storage.Storage",
               "!url": "http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html#session"
             }
           }

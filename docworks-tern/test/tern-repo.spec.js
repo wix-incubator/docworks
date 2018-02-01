@@ -278,11 +278,11 @@ describe('generate tern', function() {
               '!url': 'http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html',
               prototype:
                 { local:
-                  { '!type': '+wix-storage.Storage',
+                  { '!type': '+wix_storage.Storage',
                     '!doc': 'Used for local storage of data.',
                     '!url': 'http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html#local' },
                   session:
-                    { '!type': '+wix-storage.Storage',
+                    { '!type': '+wix_storage.Storage',
                       '!doc': 'Used for session storage of data.',
                       '!url': 'http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html#session' } } } } },
       "!name": "Wix APIs"

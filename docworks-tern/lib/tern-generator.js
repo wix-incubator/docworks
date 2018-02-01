@@ -12,7 +12,7 @@ export function typeTern(type) {
     if (builtInTypes[type])
       return builtInTypes[type];
     else
-      return `+${type}`;
+      return `+${validTernName(type)}`;
   }
   else if (typeof type === 'object' && type.name) {
     if (type.name === 'Array') {

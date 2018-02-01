@@ -179,7 +179,29 @@
           "description": [], "links": [], "examples": [] },
       "srcDocs":
         { "summary": "Adds an event handler that runs when playback is paused.",
-          "description": [], "links": [], "examples": [] } }
-  ],
+          "description": [], "links": [], "examples": [] } },
+
+    { "name": "afterCount",
+      "labels": [],
+      "nameParams": [],
+      "params":
+      [ { "name": "count",
+          "type": "number",
+          "doc": "The number of items the count operation has found.",
+          "srcDoc": "The number of items the count operation has found." },
+        { "name": "context",
+          "type": "wix-data.Hooks.HookContext",
+          "doc": "Contextual information about the hook.",
+          "srcDoc": "Contextual information about the hook." } ],
+      "ret": { "type": { "name": "Promise", "typeParams": [ "number" ] }, "doc": "...", "srcDoc": "..." },
+      "locations": [ { "filename": "hooks.es6", "lineno": 42 } ],
+      "docs":
+      { "summary": "A hook that is triggered after a `count()` operation.",
+        "description": [], "links": [], "examples": [] },
+      "srcDocs":
+      { "summary": "A hook that is triggered after a `count()` operation.",
+        "description": [], "links": [], "examples": [] } }
+
+      ],
   "callbacks": [],
   "messages": [] }

@@ -17,7 +17,7 @@
     "examples": [] },
   "properties":
     [ { "name": "options", "labels": [], "get": true, "set": false,
-        "type": { "name": "Array", "typeParams": [ "$w.Dropdown~Option" ] },
+        "type": { "name": "Array", "typeParams": [ "$w.Dropdown.Option" ] },
         "locations": [ { "filename": "DropDown.es6", "lineno": 54 } ],
         "docs":
           { "summary": "Sets or gets the options in a dropdown.",
