@@ -163,6 +163,19 @@ describe('generate tern', function() {
           "!url": "http://www.wix.com/reference/functions.html#complexType"
         } } );
     });
+
+    it('func(Array<aType>): Promise<void>', function() {
+      let operation = service.operations.find(_ => _.name === 'onPause');
+
+      let tern = operationTern(service, operation, urlGenerator, findCallback);
+
+      expect(tern).to.containSubset({
+        "onPause": {
+          "!type": "fn(handler: +$w.EventHandler) -> +$w.Gallery",
+          "!doc": "Adds an event handler that runs when playback is paused.",
+          "!url": "http://www.wix.com/reference/functions.html#onPause"
+        } } );
+    });
   });
 
   describe('for callbacks', function() {

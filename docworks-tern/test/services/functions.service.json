@@ -156,7 +156,30 @@
       { "summary": "...",
         "description": [],
         "links": [],
-        "examples": [] } }
+        "examples": [] } },
+
+    { "name": "onPause",
+      "labels": [],
+      "nameParams": [],
+      "params":
+        [ { "name": "handler",
+            "type": "$w.EventHandler",
+            "doc": "...",
+            "srcDoc": "..." } ],
+      "ret":
+        { "type":
+          [ "$w.Gallery",
+            "$w.Slideshow" ],
+          "doc": "...",
+          "srcDoc": "..." },
+      "locations":
+        [ { "filename": "PlayableMixin.es6","lineno": 72 } ],
+      "docs":
+        { "summary": "Adds an event handler that runs when playback is paused.",
+          "description": [], "links": [], "examples": [] },
+      "srcDocs":
+        { "summary": "Adds an event handler that runs when playback is paused.",
+          "description": [], "links": [], "examples": [] } }
   ],
   "callbacks": [],
   "messages": [] }

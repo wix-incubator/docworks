@@ -21,8 +21,6 @@ describe('generate tern', function() {
 
     let ternModel = tern(repo.services, 'Wix APIs', urlGenerator);
 
-    console.log(require('util').inspect(ternModel, {depth: 9, colors: true}));
-
     expect(ternModel).to.containSubset({
       "!define": {
         "$w": {

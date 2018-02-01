@@ -22,6 +22,9 @@ export function typeTern(type) {
       return `+Promise[value=${typeTern(type.typeParams[0])}]`;
     }
   }
+  else if (Array.isArray(type) && type.length > 0) {
+    return typeTern(type[0]);  
+  }
 }
 
 export function validTernName(name) {
