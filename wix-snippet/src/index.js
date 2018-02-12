@@ -3,6 +3,7 @@ let fs = require('fs');
 let logger = console;
 
 exports.setSnippetsDir = function(value) {
+  // jsdoc with requizzle loads the modules twice - so the only way to move config between the two runs is using global
   global.wixJsDocPluginSnippetsDir = value;
 };
 
