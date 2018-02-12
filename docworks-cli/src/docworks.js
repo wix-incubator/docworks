@@ -53,29 +53,32 @@ function resolvePlugins(plugins) {
 function ecp() {
   let argv = optimist
     .usage('Usage: $0 ecp -r [remote repo] -s [local sources] -p [file pattern]')
-    .demand('r')
-    .alias('r', 'remote')
+    .demand(  'r')
+    .alias(   'r', 'remote')
     .describe('r', 'remote repository to merge docs into')
-    .demand('fs')
-    .alias('fs', 'sources')
-    .describe('fs', 'folder containing the source files to extract docs from')
-    .demand('p')
-    .alias('p', 'project')
-    .describe('p', 'project folder name in the docs repo')
-    .default('fp', ".+\\.js?$")
-    .alias('fp', 'pattern')
+    .demand(  'fs')
+    .alias(   'fs', 'sources')
+    .describe('fs', 'one or more folders containing the source files to extract docs from')
+    .alias(   'fx', 'excludes')
+    .describe('fx', 'one or more folders to exclude (including their children) from extracting docs')
+    .default( 'fp', ".+\\.js?$")
+    .alias(   'fp', 'pattern')
     .describe('fp', 'file pattern, defaults to ".+\\.js$"')
+    .demand(  'p')
+    .alias(   'p', 'project')
+    .describe('p', 'project folder name in the docs repo')
     .describe('plug', 'a module name that is a jsdoc plugin')
     .parse(process.argv.slice(3));
 
   let remote = argv.remote;
   let sources = argv.sources;
+  let excludes = argv.excludes?(Array.isArray(argv.excludes)?argv.excludes:[argv.excludes]):[];
   let pattern = argv.pattern;
   let project = argv.project;
   let plugins = resolvePlugins(argv.plug);
 
   tmp.dir().then(o => {
-    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern}, plugins);
+    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins);
   })
     .catch(() => {
       process.exit(1);
