@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel src/docworks.js --out-file .bin/docworks.js && babel src --out-dir dist --ignore docworks.js",
     "prepublish": "babel src/docworks.js --out-file .bin/docworks.js && babel src --out-dir dist --ignore docworks.js",
-    "test": "mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js"
+    "test": "npm run build & mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js"
   },
   "bin": {
     "docworks": "./.bin/docworks.js"
