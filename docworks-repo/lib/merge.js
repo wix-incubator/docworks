@@ -96,7 +96,7 @@ function mergeParam(newParam, repoParam, messages, key) {
     messages.push(`Service ${key} has changed param name from ${repoParam.name} to ${newParam.name}`);
   }
   let changedType = !compareType(newParam.type, repoParam.type, messages, key, `param ${newParam.name}`);
-  let changedDoc = !compareAttribute(newParam.doc, repoParam.doc, messages, key, `param ${newParam.name} doc`);
+  let changedDoc = !compareAttribute(newParam.srcDoc, repoParam.srcDoc, messages, key, `param ${newParam.name} doc`);
 
   let changed = changedName || changedType || changedDoc;
   let item = copy(repoParam, {
@@ -129,7 +129,7 @@ function mergeParams(newParams, repoParams, messages, key) {
 function mergeOperation(newOperation, repoOperation, messages, key) {
   let paramsMerge = mergeParams(newOperation.params, repoOperation.params, messages, key);
   let changedReturn = !compareType(newOperation.ret.type, repoOperation.ret.type, messages, key, 'return');
-  let changedDoc = !compareAttribute(newOperation.ret.doc, repoOperation.ret.doc, messages, key, `return doc`);
+  let changedDoc = !compareAttribute(newOperation.ret.srcDoc, repoOperation.ret.srcDoc, messages, key, `return doc`);
   let docsChanged = !compareDocs(newOperation.srcDocs, repoOperation.srcDocs, messages, key);
 
   let changed = paramsMerge.changed || docsChanged || changedReturn || changedDoc;
