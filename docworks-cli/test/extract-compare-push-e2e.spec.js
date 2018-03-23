@@ -85,19 +85,28 @@ async function runDocWorks(args) {
   let child = spawn('node', args);
 
   return new Promise((fulfill, reject) => {
-    child.on('exit', fulfill);
-    child.on('error', reject);
-    child.stdout.on('data', (data) => {
-      process.stdout.write(data.toString('utf8'));
-    });
+    let stdout = '';
+    let stderr = '';
 
-    child.stderr.on('data', (data) => {
-      process.stderr.write(data.toString('utf8'));
-    });
+    let stdoutLog = (data) => {
+      const line = data.toString('utf8');
+      stdout += line;
+      process.stdout.write(line);
+    };
+    let stderrLog = (data) => {
+      const line = data.toString('utf8');
+      stderr += line;
+      process.stderr.write(line);
+    };
+
+    child.on('exit', () => fulfill({stdout, stderr}));
+    child.on('error', reject);
+    child.stdout.on('data', stdoutLog);
+    child.stderr.on('data', stderrLog);
   })
 }
 
-describe.only('extract compare push workflow e2e', function() {
+describe('extract compare push workflow e2e', function() {
 
   beforeEach(() => {
     logger.reset();
@@ -132,6 +141,27 @@ describe.only('extract compare push workflow e2e', function() {
     expect(service1).to.be.true;
     expect(service2).to.be.false;
     expect(service3).to.be.true;
+  });
+
+  it('dryrun including test/include/folder1, should include service 1 and 3', async function() {
+    await createRemoteOnVer1();
+    logger.log('run test');
+    logger.log('--------');
+    let output = await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$ --dryrun`.split(' '));
+
+    let remoteRepo = git(remote);
+    let service1 = await fileExists(remoteRepo, join(project2, "Service1.service.json"));
+    let service2 = await fileExists(remoteRepo, join(project2, "Service2.service.json"));
+    let service3 = await fileExists(remoteRepo, join(project2, "Service3.service.json"));
+    let message = await getCommitMessage(remoteRepo);
+
+    expect(output.stdout).to.include('Service Service1 is new');
+    expect(output.stdout).to.not.include('Service Service2 is new');
+    expect(output.stdout).to.include('Service Service3 is new');
+    expect(message).to.include('initial commit');
+    expect(service1).to.be.false;
+    expect(service2).to.be.false;
+    expect(service3).to.be.false;
   });
 
   it('including test/include/folder1 and folder2, should include service 1, 2, 3 and 4', async function() {

@@ -92,7 +92,7 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], false, logger);
 
     let remoteRepo = git(remote);
     let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
@@ -104,11 +104,27 @@ describe('extract compare push workflow', function() {
     });
   });
 
+  it('dryrun should not update remote with changes from v2 over v1, but should detect them', async function() {
+    await createRemoteOnVer1();
+    logger.log('run test');
+    logger.log('--------');
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], true, logger);
+
+    let remoteRepo = git(remote);
+    let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
+    let message = await getCommitMessage(remoteRepo);
+
+    expect(message).to.equal('initial commit\n');
+    expect(service).to.not.containSubset({
+      labels: ['changed']
+    });
+  });
+
   it('should push files to a bare remote', async function() {
     await createBareRemote();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], false, logger);
 
     let remoteRepo = git(remote);
     let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
@@ -124,9 +140,9 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], logger);
-    await extractComparePush(remote, './tmp/local2', project1, {"include": ver3, "includePattern": ".+\\.(js)?$"}, [], logger);
-    await extractComparePush(remote, './tmp/local3', project1, {"include": ver4, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], false, logger);
+    await extractComparePush(remote, './tmp/local2', project1, {"include": ver3, "includePattern": ".+\\.(js)?$"}, [], false, logger);
+    await extractComparePush(remote, './tmp/local3', project1, {"include": ver4, "includePattern": ".+\\.(js)?$"}, [], false, logger);
 
     let remoteRepo = git(remote);
     let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
@@ -142,7 +158,7 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver1, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver1, "includePattern": ".+\\.(js)?$"}, [], false, logger);
 
     let remoteRepo = git(remote);
     let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
@@ -158,8 +174,8 @@ describe('extract compare push workflow', function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
-    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], logger);
-    await extractComparePush(remote, './tmp/local2', project2, {"include": project2_ver1, "includePattern": ".+\\.(js)?$"}, [], logger);
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], false, logger);
+    await extractComparePush(remote, './tmp/local2', project2, {"include": project2_ver1, "includePattern": ".+\\.(js)?$"}, [], false, logger);
 
     let remoteRepo = git(remote);
     let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));

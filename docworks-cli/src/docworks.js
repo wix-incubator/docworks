@@ -52,7 +52,7 @@ function resolvePlugins(plugins) {
 
 function ecp() {
   let argv = optimist
-    .usage('Usage: $0 ecp -r [remote repo] -s [local sources] -p [file pattern]')
+    .usage('Usage: $0 ecp -r [remote repo] -s [local sources] -p [file pattern] [--plug [plugin]] [--dryrun]')
     .demand(  'r')
     .alias(   'r', 'remote')
     .describe('r', 'remote repository to merge docs into')
@@ -68,6 +68,7 @@ function ecp() {
     .alias(   'p', 'project')
     .describe('p', 'project folder name in the docs repo')
     .describe('plug', 'a module name that is a jsdoc plugin')
+    .describe('dryrun', 'dry run - do not push to remote repo')
     .parse(process.argv.slice(3));
 
   let remote = argv.remote;
@@ -75,10 +76,11 @@ function ecp() {
   let excludes = argv.excludes?(Array.isArray(argv.excludes)?argv.excludes:[argv.excludes]):[];
   let pattern = argv.pattern;
   let project = argv.project;
+  let dryrun = !!argv.dryrun;
   let plugins = resolvePlugins(argv.plug);
 
   tmp.dir().then(o => {
-    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins);
+    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
   })
     .catch(() => {
       process.exit(1);

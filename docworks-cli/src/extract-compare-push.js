@@ -44,7 +44,7 @@ function logStatus(statuses, logger) {
   statuses.modified.forEach(file => logger.details(`  Modified:      ${file}`));
 }
 
-export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, plugins, logger) {
+export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, plugins, dryrun, logger) {
   logger = logger || defaultLogger;
   logger.config(`remote repo url:   `, remoteRepo);
   logger.config(`working dir:       `, workingDir);
@@ -82,7 +82,12 @@ export default async function extractComparePush(remoteRepo, workingDir, project
 
     logStatus(statuses, logger);
 
-    if (files.length > 0) {
+    if (dryrun) {
+      logger.command('# git', `add ${files.join(' ')}`);
+      logger.rawLog(`    ${chalk.white('# git commit -m')} '${chalk.gray(commitMessage(merged.messages, errors, '      '))}'`);
+      logger.command('# git push', 'origin master', );
+    }
+    else if (files.length > 0) {
       logger.command('git', `add ${files.join(' ')}`);
       await asPromise(localRepo, localRepo.add)(files);
 
