@@ -165,7 +165,7 @@ function mergeMessageMember(newMessageMember, repoMessageMember, messages, key) 
   let changed = changedType || docsChanged;
   let item = copy(repoMessageMember, {
     type: newMessageMember.type,
-    docs: newMessageMember.docs
+    srcDocs: newMessageMember.srcDocs
   });
   return {changed, item}
 }

@@ -739,7 +739,7 @@ describe('compare repo', function() {
         expect(message.members).to.containSubset(newMessage.members);
       });
 
-      it('should report change in message member doc', function() {
+      it.only('should report change in message member doc', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
         let newService = newRepo.find(serviceByName('ChangeServiceMessages2'));
         let repoService = repo.find(serviceByName('ChangeServiceMessages2'));
@@ -755,8 +755,8 @@ describe('compare repo', function() {
 
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
-        expect(member.srcDoc).to.containSubset(newMember.srcDoc);
-        expect(member.doc).to.containSubset(repoMember.doc);
+        expect(member.srcDocs).to.containSubset(newMember.srcDocs);
+        expect(member.docs).to.containSubset(repoMember.docs);
       });
 
       it('should report changed message docs, preserve docs and update srcDocs', function() {
