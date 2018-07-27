@@ -66,7 +66,7 @@ function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem, addL
     let newItem = _[0];
     let repoItem = _[1];
     if (newItem && repoItem) {
-      var mergedItem = mergeItem(newItem, repoItem, messages, `${sKey} ${itemName} ${newItem.name}`);
+      let mergedItem = mergeItem(newItem, repoItem, messages, `${sKey} ${itemName} ${newItem.name}`);
       changed = changed || mergedItem.changed;
       return mergedItem.item;
     }
@@ -79,11 +79,22 @@ function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem, addL
       return mergedItem;
     }
     else {
-      let mergedItem = addLabels?
-        copy(repoItem, {labels: addUniqueToArray(repoItem.labels, 'removed')}):
-        copy(repoItem);
-      messages.push(`Service ${sKey} ${itemName} ${mergedItem.name} was removed`);
-      changed = true;
+      let mergedItem;
+      if (addLabels) {
+        if (!repoItem.labels.find(_ => _ === 'removed')) {
+          mergedItem = copy(repoItem, {labels: addUniqueToArray(repoItem.labels, 'removed')});
+          messages.push(`Service ${sKey} ${itemName} ${mergedItem.name} was removed`);
+          changed = true;
+          return mergedItem;
+        }
+        else
+          mergedItem = copy(repoItem);
+      }
+      else {
+        mergedItem = copy(repoItem);
+        messages.push(`Service ${sKey} ${itemName} ${mergedItem.name} was removed`);
+        changed = true;
+      }
       return mergedItem;
     }
   });

@@ -166,6 +166,21 @@ describe('compare repo', function() {
         expect(prop2).to.containSubset(repoProp2);
       });
 
+      it.only('should not report removed properties if they have the removed label', function() {
+        let repoService = repo.find(serviceByName('ChangeServiceProperties2'));
+        let repoProp2 = repoService.properties.find(memberByName('prop2'));
+        repoProp2.labels.push('removed');
+        let customMergedRepo = merge(newRepo, repo);
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties2'));
+        let prop2 = service.properties.find(memberByName('prop2'));
+
+        expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('Service ChangeServiceProperties2 property prop2 was removed') > -1));
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(prop2.labels).to.include.members(['removed']);
+        expect(prop2).to.containSubset(repoProp2);
+      });
+
       it('should report changed property type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties3'));
         let newService = newRepo.find(serviceByName('ChangeServiceProperties3'));
