@@ -166,7 +166,7 @@ describe('compare repo', function() {
         expect(prop2).to.containSubset(repoProp2);
       });
 
-      it.only('should not report removed properties if they have the removed label', function() {
+      it('should not report removed properties if they have the removed label', function() {
         let repoService = repo.find(serviceByName('ChangeServiceProperties2'));
         let repoProp2 = repoService.properties.find(memberByName('prop2'));
         repoProp2.labels.push('removed');
