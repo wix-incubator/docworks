@@ -170,6 +170,19 @@ class ServiceOperations {
      */
     brokenParam(param) {
     }
+
+  /**
+   * @function promiseVoid
+   * @memberof aNamespace.ServiceOperations
+   * @summary an operation
+   * @description
+   * the description of the operation
+   *
+   * @returns {Promise<void>} the result
+   */
+  promiseVoid() {
+
+  }
 }
 
 

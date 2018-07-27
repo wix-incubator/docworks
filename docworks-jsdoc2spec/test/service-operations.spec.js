@@ -132,6 +132,20 @@ describe('docs', function() {
           expect(jsDocRes.errors).to.not.containError('Operation returnsPromise');
         });
 
+      it('should return a method with a promise return void', function() {
+        expect(jsDocRes).to.containSubset({
+          services: [
+            {
+              name: 'ServiceOperations',
+              operations: [
+                {name: 'promiseVoid', nameParams: [], params: [], ret: {type: {name: 'Promise', typeParams: ['void']}}}
+              ]
+            }
+          ]
+        });
+        expect(jsDocRes.errors).to.not.containError('Operation promiseVoid');
+      });
+
         it('should error on multiple returns', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
