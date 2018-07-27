@@ -7,7 +7,7 @@ import * as defaultLogger from './logger';
 import asPromise from './as-promise';
 import chalk from 'chalk';
 
-function commitMessage(messages, errors, indent) {
+function commitMessage(projectSubdir, messages, errors, indent) {
   let newLineIndent = `\n${indent}`;
   let changesSummary;
   if (messages.length === 0)
@@ -23,8 +23,8 @@ function commitMessage(messages, errors, indent) {
   else if (errors.length > 1)
     errorsSummary = `, but ${errors.length} issue detected`;
 
-  let commitMessage = `DocWorks  - ${changesSummary}${errorsSummary}`;
-  commitMessage += newLineIndent + 'changes:' + newLineIndent+ messages.join(newLineIndent);
+  let formattedMessage = `DocWorks for ${projectSubdir} - ${changesSummary}${errorsSummary}`;
+  formattedMessage += newLineIndent + 'changes:' + newLineIndent+ messages.join(newLineIndent);
 
   if (errors.length > 0) {
     let formattedErrors = errors.map(_ => {
@@ -33,9 +33,9 @@ function commitMessage(messages, errors, indent) {
       else
         return `${_.message}`;
     });
-    commitMessage += newLineIndent + newLineIndent + 'issues:' + newLineIndent + formattedErrors.join(newLineIndent);
+    formattedMessage += newLineIndent + newLineIndent + 'issues:' + newLineIndent + formattedErrors.join(newLineIndent);
   }
-  return commitMessage;
+  return formattedMessage;
 }
 
 function logStatus(statuses, logger) {
@@ -84,15 +84,15 @@ export default async function extractComparePush(remoteRepo, workingDir, project
 
     if (dryrun) {
       logger.command('# git', `add ${files.join(' ')}`);
-      logger.rawLog(`    ${chalk.white('# git commit -m')} '${chalk.gray(commitMessage(merged.messages, errors, '      '))}'`);
+      logger.rawLog(`    ${chalk.white('# git commit -m')} '${chalk.gray(commitMessage(projectSubdir, merged.messages, errors, '      '))}'`);
       logger.command('# git push', 'origin master', );
     }
     else if (files.length > 0) {
       logger.command('git', `add ${files.join(' ')}`);
       await asPromise(localRepo, localRepo.add)(files);
 
-      logger.rawLog(`    ${chalk.white('git commit -m')} '${chalk.gray(commitMessage(merged.messages, errors, '      '))}'`);
-      await asPromise(localRepo, localRepo.commit)(commitMessage(merged.messages, errors, ''));
+      logger.rawLog(`    ${chalk.white('git commit -m')} '${chalk.gray(commitMessage(projectSubdir, merged.messages, errors, '      '))}'`);
+      await asPromise(localRepo, localRepo.commit)(commitMessage(projectSubdir, merged.messages, errors, ''));
 
       logger.command('git push', 'origin master', );
       await asPromise(localRepo, localRepo.push)('origin', 'master', []);

@@ -98,7 +98,7 @@ describe('extract compare push workflow', function() {
     let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
     let message = await getCommitMessage(remoteRepo);
 
-    expect(message).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service operation operation has a new param param2\n');
+    expect(message).to.equal('DocWorks for project1 - 1 change detected\nchanges:\nService Service operation operation has a new param param2\n');
     expect(service).to.containSubset({
       labels: ['changed']
     });
@@ -130,7 +130,7 @@ describe('extract compare push workflow', function() {
     let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
     let message = await getCommitMessage(remoteRepo);
 
-    expect(message).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service is new\n');
+    expect(message).to.equal('DocWorks for project1 - 1 change detected\nchanges:\nService Service is new\n');
     expect(service).to.containSubset({
       labels: ['new']
     });
@@ -148,7 +148,7 @@ describe('extract compare push workflow', function() {
     let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
     let message = await getCommitMessage(remoteRepo);
 
-    expect(message).to.equal('DocWorks  - 1 change detected\nchanges:\nService Service has a new operation newOperation\n');
+    expect(message).to.equal('DocWorks for project1 - 1 change detected\nchanges:\nService Service has a new operation newOperation\n');
     expect(service).to.containSubset({
       labels: ['changed']
     });
@@ -182,7 +182,7 @@ describe('extract compare push workflow', function() {
     let anotherService = await readServiceFromCommit(remoteRepo, join(project2, "AnotherService.service.json"));
     let message = await getCommitMessage(remoteRepo);
 
-    expect(message).to.equal('DocWorks  - 1 change detected\nchanges:\nService AnotherService is new\n');
+    expect(message).to.equal('DocWorks for project2 - 1 change detected\nchanges:\nService AnotherService is new\n');
     expect(service).to.containSubset({
       labels: ['changed']
     });
