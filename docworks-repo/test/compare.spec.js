@@ -739,7 +739,7 @@ describe('compare repo', function() {
         expect(message.members).to.containSubset(newMessage.members);
       });
 
-      it.only('should report change in message member doc', function() {
+      it('should report change in message member doc', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
         let newService = newRepo.find(serviceByName('ChangeServiceMessages2'));
         let repoService = repo.find(serviceByName('ChangeServiceMessages2'));
