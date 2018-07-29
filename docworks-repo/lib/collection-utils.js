@@ -17,10 +17,21 @@ export function zipByKey(arr1, arr2, makeKey) {
   return res;
 }
 
-export function addUniqueToArray(arr, item) {
+export function addRemoveLabels(arr, toAdd, toRemove) {
   let newLabels = arr.slice();
-  if (newLabels.indexOf(item) == -1)
-    newLabels.push(item);
+  toAdd = !!toAdd?(Array.isArray(toAdd)?toAdd:[toAdd]):[];
+  toRemove = !!toRemove?(Array.isArray(toRemove)?toRemove:[toRemove]):[];
+
+  toAdd.forEach(item => {
+    if (newLabels.indexOf(item) === -1)
+      newLabels.push(item);
+  });
+
+  toRemove.forEach(item => {
+    let index = newLabels.indexOf(item);
+    if (index > -1)
+      newLabels.splice(index, 1);
+  });
   return newLabels;
 }
 

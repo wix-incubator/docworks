@@ -55,6 +55,37 @@ describe('compare repo', function() {
     expect(serviceC.labels).to.include.members(['removed']);
   });
 
+  it('should remove the removed label from a re-added service ServiceB', async function() {
+    let newRepo = extractServices('./test/compare/newVersion/changeServices');
+    let repo = extractServices('./test/compare/repoVersion/changeServices');
+    // simulate existing service that is marked as removed
+    let newServiceBClone = Object.assign({}, newRepo.find(serviceByName('ServiceB')));
+    newServiceBClone.labels = ['removed'];
+    repo.push(newServiceBClone);
+
+    let mergedRepo = merge(newRepo, repo);
+
+    let serviceB = mergedRepo.repo.find(serviceByName('ServiceB'));
+
+    expect(serviceB.labels).to.not.include.members(['removed']);
+    expect(serviceB.labels).to.not.include.members(['new']);
+  });
+
+  it('should remove the new label from a new service that is removed', async function() {
+    let newRepo = extractServices('./test/compare/newVersion/changeServices');
+    let repo = extractServices('./test/compare/repoVersion/changeServices');
+    // simulate existing serviceC as new
+    let repoServiceC = repo.find(serviceByName('ServiceC'));
+    repoServiceC.labels = ['new'];
+
+    let mergedRepo = merge(newRepo, repo);
+
+    let serviceB = mergedRepo.repo.find(serviceByName('ServiceC'));
+
+    expect(serviceB.labels).to.include.members(['removed']);
+    expect(serviceB.labels).to.not.include.members(['new']);
+  });
+
   it('should report added package1.ServiceB and removed ServiceB', async function() {
     let newRepo = extractServices('./test/compare/newVersion/changeNestedServices');
     let repo = extractServices('./test/compare/repoVersion/changeNestedServices');

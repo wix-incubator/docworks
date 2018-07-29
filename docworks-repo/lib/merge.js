@@ -1,4 +1,4 @@
-import {zipByKey, addUniqueToArray, copy, compareArraysAsSets} from './collection-utils';
+import {zipByKey, addRemoveLabels, copy, compareArraysAsSets} from './collection-utils';
 import isEqual from 'lodash.isequal';
 
 function serviceKey(service) {
@@ -49,7 +49,7 @@ function mergeProperty(newProperty, repoProperty, messages, key) {
 
   let changed = changedType || changedGetter || changedSetter || docsChanged;
   let item = copy(repoProperty, {
-    labels: changed?addUniqueToArray(repoProperty.labels, 'changed'): repoProperty.labels,
+    labels: changed?addRemoveLabels(repoProperty.labels, 'changed'): repoProperty.labels,
     type: newProperty.type,
     get: newProperty.get,
     set: newProperty.set,
@@ -71,7 +71,7 @@ function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem) {
       return mergedItem.item;
     }
     else if (newItem) {
-      let mergedItem = copy(newItem, {labels: addUniqueToArray(newItem.labels, 'new')});
+      let mergedItem = copy(newItem, {labels: addRemoveLabels(newItem.labels, 'new')});
       messages.push(`Service ${sKey} has a new ${itemName} ${mergedItem.name}`);
       changed = true;
       return mergedItem;
@@ -79,7 +79,7 @@ function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem) {
     else {
       let mergedItem;
       if (!repoItem.labels.find(_ => _ === 'removed')) {
-        mergedItem = copy(repoItem, {labels: addUniqueToArray(repoItem.labels, 'removed')});
+        mergedItem = copy(repoItem, {labels: addRemoveLabels(repoItem.labels, 'removed')});
         messages.push(`Service ${sKey} ${itemName} ${mergedItem.name} was removed`);
         changed = true;
         return mergedItem;
@@ -141,7 +141,7 @@ function mergeOperation(newOperation, repoOperation, messages, key) {
   });
   let item = copy(repoOperation, {
     params: paramsMerge.params,
-    labels: changed?addUniqueToArray(repoOperation.labels, 'changed'): repoOperation.labels,
+    labels: changed?addRemoveLabels(repoOperation.labels, 'changed'): repoOperation.labels,
     srcDocs: copy(newOperation.srcDocs),
     locations: newOperation.locations,
     ret: ret
@@ -195,7 +195,7 @@ function mergeMessage(newMessage, repoMessage, messages, key) {
 
   let changed = membersMerge.changed || docsChanged;
   let item = copy(repoMessage, {
-    labels: changed?addUniqueToArray(repoMessage.labels, 'changed'): repoMessage.labels,
+    labels: changed?addRemoveLabels(repoMessage.labels, 'changed'): repoMessage.labels,
     members: membersMerge.merged,
     srcDocs: copy(newMessage.srcDocs),
     locations: newMessage.locations
@@ -215,7 +215,7 @@ function mergeService(sNew, sRepo, messages) {
   let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed ||
     callbacksMerge.changed || messagesMerge.changed;
   return copy(sRepo, {
-    labels: changed?addUniqueToArray(sRepo.labels, 'changed'): sRepo.labels,
+    labels: addRemoveLabels(sRepo.labels, changed?'changed':undefined, ['new', 'removed']),
     mixes: sNew.mixes,
     srcDocs: copy(sNew.srcDocs),
     location: sNew.location,
@@ -236,12 +236,12 @@ export default function merge(newRepo, repo) {
       return mergeService(sNew, sRepo, messages);
     }
     else if (sNew) {
-      let newService = copy(sNew, {labels: addUniqueToArray(sNew.labels, 'new')});
+      let newService = copy(sNew, {labels: addRemoveLabels(sNew.labels, 'new')});
       messages.push(`Service ${serviceKey(newService)} is new`);
       return newService;
     }
     else {
-      let removedService = copy(sRepo, {labels: addUniqueToArray(sRepo.labels, 'removed')});
+      let removedService = copy(sRepo, {labels: addRemoveLabels(sRepo.labels, 'removed', 'new')});
       messages.push(`Service ${serviceKey(removedService)} was removed`);
       return removedService;
     }
