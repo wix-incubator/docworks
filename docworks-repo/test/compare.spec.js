@@ -55,7 +55,7 @@ describe('compare repo', function() {
     expect(serviceC.labels).to.include.members(['removed']);
   });
 
-  it('should remove the removed label from a re-added service ServiceB', async function() {
+  it('should remove the removed label from a re-added service', async function() {
     let newRepo = extractServices('./test/compare/newVersion/changeServices');
     let repo = extractServices('./test/compare/repoVersion/changeServices');
     // simulate existing service that is marked as removed
@@ -67,6 +67,20 @@ describe('compare repo', function() {
     let serviceB = mergedRepo.repo.find(serviceByName('ServiceA'));
 
     expect(serviceB.labels).to.not.include.members(['removed']);
+  });
+
+  it('should remove the changed label if a service did not change', async function() {
+    let newRepo = extractServices('./test/compare/newVersion/changeServices');
+    let repo = extractServices('./test/compare/repoVersion/changeServices');
+    // simulate existing service that is marked as changed
+    let repoServiceA = repo.find(serviceByName('ServiceA'));
+    repoServiceA.labels = ['changed'];
+
+    let mergedRepo = merge(newRepo, repo);
+
+    let serviceB = mergedRepo.repo.find(serviceByName('ServiceA'));
+
+    expect(serviceB.labels).to.not.include.members(['changed']);
   });
 
   it('should remove the new label from a new service that is removed', async function() {
@@ -101,10 +115,13 @@ describe('compare repo', function() {
   });
 
   describe("compare a service", function() {
-    let newRepo = extractServices('./test/compare/newVersion/serviceContent');
-    let repo = extractServices('./test/compare/repoVersion/serviceContent');
+    let newRepo, repo, mergedRepo;
+    beforeEach(() => {
+      newRepo = extractServices('./test/compare/newVersion/serviceContent');
+      repo = extractServices('./test/compare/repoVersion/serviceContent');
 
-    let mergedRepo = merge(newRepo, repo);
+      mergedRepo = merge(newRepo, repo);
+    });
 
     describe('service attributes', function() {
       it('should detect change in mixes', function() {
@@ -198,6 +215,7 @@ describe('compare repo', function() {
       it('should not report removed properties if they have the removed label', function() {
         let repoService = repo.find(serviceByName('ChangeServiceProperties2'));
         let repoProp2 = repoService.properties.find(memberByName('prop2'));
+        // simulate a property as marked as removed
         repoProp2.labels.push('removed');
         let customMergedRepo = merge(newRepo, repo);
         let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties2'));
@@ -208,6 +226,70 @@ describe('compare repo', function() {
         expect(service.labels).to.include.members(['changed']);
         expect(prop2.labels).to.include.members(['removed']);
         expect(prop2).to.containSubset(repoProp2);
+      });
+
+      // remove the removed label from re-added props
+      it('should remove the removed label from re-added props', function() {
+        let repoService = repo.find(serviceByName('ChangeServiceProperties1'));
+        let repoProp1 = repoService.properties.find(memberByName('prop1'));
+        // simulate a property as marked as removed
+        repoProp1.labels.push('removed');
+        let customMergedRepo = merge(newRepo, repo);
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
+        let prop2 = service.properties.find(memberByName('prop1'));
+
+        expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('Service ChangeServiceProperties1 property prop1 was removed') > -1));
+
+        expect(service.labels).to.not.include.members(['changed']);
+        expect(prop2.labels).to.include.members(['new']);
+        expect(prop2.labels).to.not.include.members(['removed']);
+      });
+
+      it('should remove the new label from removed props, and mark service as changed', function() {
+        let repoService = repo.find(serviceByName('ChangeServiceProperties2'));
+        let repoProp2 = repoService.properties.find(memberByName('prop2'));
+        // simulate a property as a new prop
+        repoProp2.labels.push('new');
+        let customMergedRepo = merge(newRepo, repo);
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties2'));
+        let prop2 = service.properties.find(memberByName('prop2'));
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceProperties2 property prop2 was removed']);
+
+        expect(service.labels).to.include.members(['changed']);
+        expect(prop2.labels).to.not.include.members(['new']);
+        expect(prop2.labels).to.include.members(['removed']);
+      });
+
+      it('should remove the new label from existing props', function() {
+        let repoService = repo.find(serviceByName('ChangeServiceProperties1'));
+        let repoProp1 = repoService.properties.find(memberByName('prop1'));
+        // simulate a property as marked as new
+        repoProp1.labels.push('new');
+        let customMergedRepo = merge(newRepo, repo);
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
+        let prop2 = service.properties.find(memberByName('prop1'));
+
+        expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('Service ChangeServiceProperties1 property prop1') > -1));
+
+        expect(service.labels).to.not.include.members(['changed']);
+        expect(prop2.labels).to.not.include.members(['new']);
+        expect(prop2.labels).to.not.include.members(['removed']);
+      });
+
+      it('should remove the changed label from unchanged props', function() {
+        let repoService = repo.find(serviceByName('ChangeServiceProperties1'));
+        let repoProp1 = repoService.properties.find(memberByName('prop1'));
+        // simulate a property as marked as changed
+        repoProp1.labels.push('changed');
+        let customMergedRepo = merge(newRepo, repo);
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
+        let prop2 = service.properties.find(memberByName('prop1'));
+
+        expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('Service ChangeServiceProperties1 property prop1') > -1));
+
+        expect(service.labels).to.not.include.members(['changed']);
+        expect(prop2.labels).to.not.include.members(['changed']);
       });
 
       it('should report changed property type', function() {

@@ -35,6 +35,10 @@ export function addRemoveLabels(arr, toAdd, toRemove) {
   return newLabels;
 }
 
+export function hasLabel(arr, label) {
+  return arr.indexOf(label) > -1;
+}
+
 export function copy() {
   return Object.assign({}, ...arguments);
 }

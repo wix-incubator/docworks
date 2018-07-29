@@ -1,4 +1,4 @@
-import {zipByKey, addRemoveLabels, copy, compareArraysAsSets} from './collection-utils';
+import {zipByKey, addRemoveLabels, hasLabel, copy, compareArraysAsSets} from './collection-utils';
 import isEqual from 'lodash.isequal';
 
 function serviceKey(service) {
@@ -41,6 +41,14 @@ function compareDocs(newDocs, repoDocs, messages, key) {
   return summaryEqual && descriptionEqual && linksEqual;
 }
 
+function updateLabels(labels, changed) {
+  return (changed && !hasLabel(labels, 'removed'))?
+    addRemoveLabels(labels, 'changed', ['new', 'removed']):
+    hasLabel(labels, 'removed')?
+      addRemoveLabels(labels, ['new'], ['removed', 'changed']):
+      addRemoveLabels(labels, [], ['new', 'removed', 'changed'])
+}
+
 function mergeProperty(newProperty, repoProperty, messages, key) {
   let changedType = !compareType(newProperty.type, repoProperty.type, messages, key);
   let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
@@ -49,7 +57,7 @@ function mergeProperty(newProperty, repoProperty, messages, key) {
 
   let changed = changedType || changedGetter || changedSetter || docsChanged;
   let item = copy(repoProperty, {
-    labels: changed?addRemoveLabels(repoProperty.labels, 'changed'): repoProperty.labels,
+    labels: updateLabels(repoProperty.labels, changed),
     type: newProperty.type,
     get: newProperty.get,
     set: newProperty.set,
@@ -79,7 +87,7 @@ function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem) {
     else {
       let mergedItem;
       if (!repoItem.labels.find(_ => _ === 'removed')) {
-        mergedItem = copy(repoItem, {labels: addRemoveLabels(repoItem.labels, 'removed')});
+        mergedItem = copy(repoItem, {labels: addRemoveLabels(repoItem.labels, 'removed', 'new')});
         messages.push(`Service ${sKey} ${itemName} ${mergedItem.name} was removed`);
         changed = true;
         return mergedItem;
@@ -215,7 +223,9 @@ function mergeService(sNew, sRepo, messages) {
   let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed ||
     callbacksMerge.changed || messagesMerge.changed;
   return copy(sRepo, {
-    labels: addRemoveLabels(sRepo.labels, changed?'changed':undefined, ['new', 'removed']),
+    labels: changed?
+      addRemoveLabels(sRepo.labels, 'changed', ['new', 'removed']):
+      addRemoveLabels(sRepo.labels, [], ['new', 'removed', 'changed']),
     mixes: sNew.mixes,
     srcDocs: copy(sNew.srcDocs),
     location: sNew.location,
