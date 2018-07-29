@@ -149,7 +149,7 @@ function mergeOperation(newOperation, repoOperation, messages, key) {
   });
   let item = copy(repoOperation, {
     params: paramsMerge.params,
-    labels: changed?addRemoveLabels(repoOperation.labels, 'changed'): repoOperation.labels,
+    labels: updateLabels(repoOperation.labels, changed),
     srcDocs: copy(newOperation.srcDocs),
     locations: newOperation.locations,
     ret: ret
@@ -203,7 +203,7 @@ function mergeMessage(newMessage, repoMessage, messages, key) {
 
   let changed = membersMerge.changed || docsChanged;
   let item = copy(repoMessage, {
-    labels: changed?addRemoveLabels(repoMessage.labels, 'changed'): repoMessage.labels,
+    labels: updateLabels(repoMessage.labels, changed),
     members: membersMerge.merged,
     srcDocs: copy(newMessage.srcDocs),
     locations: newMessage.locations
@@ -223,9 +223,7 @@ function mergeService(sNew, sRepo, messages) {
   let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed ||
     callbacksMerge.changed || messagesMerge.changed;
   return copy(sRepo, {
-    labels: changed?
-      addRemoveLabels(sRepo.labels, 'changed', ['new', 'removed']):
-      addRemoveLabels(sRepo.labels, [], ['new', 'removed', 'changed']),
+    labels: updateLabels(sRepo.labels, changed),
     mixes: sNew.mixes,
     srcDocs: copy(sNew.srcDocs),
     location: sNew.location,
