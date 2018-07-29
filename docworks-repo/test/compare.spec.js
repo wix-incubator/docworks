@@ -59,16 +59,14 @@ describe('compare repo', function() {
     let newRepo = extractServices('./test/compare/newVersion/changeServices');
     let repo = extractServices('./test/compare/repoVersion/changeServices');
     // simulate existing service that is marked as removed
-    let newServiceBClone = Object.assign({}, newRepo.find(serviceByName('ServiceB')));
-    newServiceBClone.labels = ['removed'];
-    repo.push(newServiceBClone);
+    let repoServiceA = repo.find(serviceByName('ServiceA'));
+    repoServiceA.labels = ['removed'];
 
     let mergedRepo = merge(newRepo, repo);
 
-    let serviceB = mergedRepo.repo.find(serviceByName('ServiceB'));
+    let serviceB = mergedRepo.repo.find(serviceByName('ServiceA'));
 
     expect(serviceB.labels).to.not.include.members(['removed']);
-    expect(serviceB.labels).to.not.include.members(['new']);
   });
 
   it('should remove the new label from a new service that is removed', async function() {
