@@ -48,7 +48,7 @@ export const handlers = {
     doclets = {};
     const options = {
       extensions: global.wixJsdocBabelExtensions,
-      filename: event.filename,
+      filename: event.filename
     };
 
     if (shouldProcessFile(event.filename, options)) {
