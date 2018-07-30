@@ -136,7 +136,24 @@ describe('extract compare push workflow', function() {
     });
   });
 
-  it('should update remote with changes from v2, v3 and v4 over v1', async function() {
+  it('should update remote with changes from v2 and v3 over v1', async function() {
+    await createRemoteOnVer1();
+    logger.log('run test');
+    logger.log('--------');
+    await extractComparePush(remote, './tmp/local', project1, {"include": ver2, "includePattern": ".+\\.(js)?$"}, [], false, logger);
+    await extractComparePush(remote, './tmp/local2', project1, {"include": ver3, "includePattern": ".+\\.(js)?$"}, [], false, logger);
+
+    let remoteRepo = git(remote);
+    let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
+    let message = await getCommitMessage(remoteRepo);
+
+    expect(message).to.equal('DocWorks for project1 - 1 change detected\nchanges:\nService Service has a new operation newOperation\n');
+    expect(service).to.containSubset({
+      labels: ['changed']
+    });
+  });
+
+  it.only('should update remote with changes from v2, v3 and v4 over v1', async function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
@@ -148,8 +165,8 @@ describe('extract compare push workflow', function() {
     let service = await readServiceFromCommit(remoteRepo, join(project1, "Service.service.json"));
     let message = await getCommitMessage(remoteRepo);
 
-    expect(message).to.equal('DocWorks for project1 - 1 change detected\nchanges:\nService Service has a new operation newOperation\n');
-    expect(service).to.containSubset({
+    expect(message).to.equal('DocWorks for project1 - no significant changes detected\n');
+    expect(service).to.not.containSubset({
       labels: ['changed']
     });
   });

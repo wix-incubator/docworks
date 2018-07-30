@@ -24,7 +24,9 @@ function commitMessage(projectSubdir, messages, errors, indent) {
     errorsSummary = `, but ${errors.length} issue detected`;
 
   let formattedMessage = `DocWorks for ${projectSubdir} - ${changesSummary}${errorsSummary}`;
-  formattedMessage += newLineIndent + 'changes:' + newLineIndent+ messages.join(newLineIndent);
+  if (messages.length > 0) {
+    formattedMessage += newLineIndent + 'changes:' + newLineIndent+ messages.join(newLineIndent);
+  }
 
   if (errors.length > 0) {
     let formattedErrors = errors.map(_ => {
