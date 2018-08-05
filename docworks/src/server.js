@@ -11,6 +11,7 @@ import App from '../src/apis/app';
 import React from 'react';
 import todoPage from './todoPage';
 import apisPage from './apisPage';
+import Page from './reference/page';
 
 import {readFromDir} from 'docworks-repo';
 
@@ -52,6 +53,32 @@ app.get('/api/apisPage', async function(req, res) {
   const page = apisPage(todos, initView);
 
   res.status(200).send(page);
+});
+
+const parsePageName = /((([$\w]+)\/)*)([$\w]+).[$\w]+/;
+app.get('/docs/*', async function(req, res) {
+  let pageName = req.params[0];
+  let repo = await readFromDir('public-docs');
+  if (!pageName) {
+    let index = repo.services.map(service => {
+      if (service.memberOf)
+        return `<a href="${service.memberOf}/${service.name}.html">${service.name}</a>`;
+      else
+        return `<a href="${service.name}.html">${service.name}</a>`;
+    })
+      .join('<br>');
+    res.status(200).send(index);
+  }
+  else {
+    let parsedPageName = parsePageName.exec(pageName);
+    let serviceName = parsedPageName[4];
+    let memberOf = (!!parsedPageName[1])?parsedPageName[1].slice(0, -1).replace(/\//g, '.'):undefined;
+    let service = repo.services.find(_ => _.name === serviceName && _.memberOf === memberOf);
+
+//    console.log(serviceName, memberOf, service);
+    const page = Page(service);
+    res.status(200).send(page);
+  }
 });
 
 app.post('/api/todos', function(req, res) {
