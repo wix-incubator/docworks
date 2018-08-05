@@ -51,8 +51,11 @@ export default function run(source, plugins) {
     unhook = interceptStdout(interceptor, interceptor);
     // run jsdoc
     cli.scanFiles()
-      .createParser()
-      .parseFiles()
+      .createParser();
+    // copy the resolved plugins
+    env.opts.plugins = env.conf.plugins;
+
+    cli.parseFiles()
       .processParseResults();
 
     unhook();

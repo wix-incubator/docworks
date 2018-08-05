@@ -3,41 +3,48 @@ import {Service} from 'docworks-model';
 import handleProperties from './jsdoc-handler-props';
 import handleMessages from './jsdoc-handler-messages';
 import handleMixins from './jsdoc-handler-mixins';
+import handlePlugins from './docworks-plugins';
 import {handleFunctions, handleCallbacks} from './jsdoc-handler-operations';
 import {handleMeta, handleDoc} from './jsdoc-handler-shared';
 import {dump} from './util';
 
 
+function loadPlugins(plugins) {
+  return plugins.map(require);
+}
+
 
 //noinspection JSUnusedGlobalSymbols
 export function publish(taffyData, opts) {
-    opts.serviceModel.clear();
+  opts.serviceModel.clear();
 
-    let data = helper.prune(taffyData);
-    let members = helper.getMembers(data);
-    function find(spec) {
-        return helper.find(data, spec);
-    }
+  let data = helper.prune(taffyData);
+  let members = helper.getMembers(data);
+  function find(spec) {
+    return helper.find(data, spec);
+  }
 
-    const onError = (jsDocError) => opts.serviceModel.addError(jsDocError);
+  const plugins = loadPlugins(opts.plugins);
+  const onError = (jsDocError) => opts.serviceModel.addError(jsDocError);
 
-    opts.serviceModel.add(members.classes.map(handleService(find, onError)));
-    opts.serviceModel.add(members.namespaces.map(handleService(find, onError)));
-    opts.serviceModel.add(members.mixins.map(handleService(find, onError)));
+  opts.serviceModel.add(members.classes.map(handleService(find, onError, plugins)));
+  opts.serviceModel.add(members.namespaces.map(handleService(find, onError, plugins)));
+  opts.serviceModel.add(members.mixins.map(handleService(find, onError, plugins)));
 }
 
 
 
-function handleService(find, onError) {
-    return (service) => {
-        let operations = handleFunctions(find, service, onError);
-        let properties = handleProperties(find, service, onError);
-        let callbacks = handleCallbacks(find, service, onError);
-        let messages = handleMessages(find, service, onError);
-        let mixes = handleMixins(find, service, onError);
-        let location = handleMeta(service.meta);
-        let docs = handleDoc(service);
-        return Service(service.name, service.memberof, mixes, [], properties, operations, callbacks, messages, location, docs, docs);
-    }
+function handleService(find, onError, plugins) {
+  return (serviceDoclet) => {
+    let operations = handleFunctions(find, serviceDoclet, onError, plugins);
+    let properties = handleProperties(find, serviceDoclet, onError, plugins);
+    let callbacks = handleCallbacks(find, serviceDoclet, onError, plugins);
+    let messages = handleMessages(find, serviceDoclet, onError, plugins);
+    let mixes = handleMixins(find, serviceDoclet, onError);
+    let location = handleMeta(serviceDoclet.meta);
+    let docs = handleDoc(serviceDoclet);
+    let extra = handlePlugins(plugins, 'extendDocworksService', serviceDoclet);
+    return Service(serviceDoclet.name, serviceDoclet.memberof, mixes, [], properties, operations, callbacks, messages, location, docs, docs, extra);
+  }
 }
 

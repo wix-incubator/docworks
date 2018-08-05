@@ -44,6 +44,14 @@ class Service {
     operation(input) {
 
     }
+
+  /**
+   * @typedef InMessage
+   * @memberof aNamespace.Service
+   * @property {string} name
+   * @property {string|number} age
+   */
+
 }
 
 export default Service;

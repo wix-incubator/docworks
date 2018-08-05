@@ -1,5 +1,6 @@
 import {handleMeta, handleType, typeContext, handleDoc} from './jsdoc-handler-shared';
 import {Message, MessageMember, JsDocError} from 'docworks-model';
+import handlePlugins from './docworks-plugins';
 import {dump} from './util';
 
 const groupByName = (groups, message) => {
@@ -19,7 +20,7 @@ const handleProp = (find, onError, context) => (prop) => {
     );
 };
 
-const processMessages = (find, onError) => (messages) => {
+const processMessages = (find, onError, plugins) => (messages) => {
     if (messages.length > 0) {
         let message = messages[0];
         let members = (message.properties || [])
@@ -27,11 +28,13 @@ const processMessages = (find, onError) => (messages) => {
 
         if (messages.length > 1)
             onError(JsDocError(`Message ${message.name} is defined two or more times`, messages.map(mes => handleMeta(mes.meta))));
-        return Message(message.name, [], members, messages.map(mes => handleMeta(mes.meta)), handleDoc(message), handleDoc(message));
+
+        let extra = handlePlugins(plugins, 'extendDocworksMessage', message);
+        return Message(message.name, [], members, messages.map(mes => handleMeta(mes.meta)), handleDoc(message), handleDoc(message), extra);
     }
 };
 
-export default function handleMessages(find, service, onError) {
+export default function handleMessages(find, service, onError, plugins) {
     let typedefs = find({kind: 'typedef', memberof: service.longname});
     if (!typedefs)
         return [];
@@ -42,6 +45,6 @@ export default function handleMessages(find, service, onError) {
     let groups = messages.reduce(groupByName, {});
     return Object.keys(groups)
         .map((group) => groups[group])
-        .map(processMessages(find, onError));
+        .map(processMessages(find, onError, plugins));
 
 }
