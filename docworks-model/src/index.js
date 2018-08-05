@@ -13,7 +13,7 @@ export function Service(name, memberOf, mixes, labels, properties, operations, c
     location: location,
     docs: docs,
     srcDocs: srcDocs,
-    extra: extra
+    extra: extra || {}
   }
 }
 
@@ -54,7 +54,7 @@ export function Operation(name, labels, nameParams, params, ret, locations, docs
     locations: locations,
     docs: docs,
     srcDocs: srcDocs,
-    extra: extra
+    extra: extra || {}
   }
 }
 
@@ -80,7 +80,7 @@ export function Property(name, labels, isGet, isSet, type, locations, docs, srcD
     locations: locations,
     docs: docs,
     srcDocs: srcDocs,
-    extra: extra
+    extra: extra || {}
   }
 }
 
@@ -92,7 +92,7 @@ export function Message(name, labels, members, locations, docs, srcDocs, extra) 
     locations: locations,
     docs: docs,
     srcDocs: srcDocs,
-    extra: extra
+    extra: extra || {}
   }
 }
 

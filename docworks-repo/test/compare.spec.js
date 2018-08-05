@@ -181,18 +181,37 @@ describe('compare repo', function() {
       });
 
       it('should detect change in extra but not report the service has changed', function() {
-        let repoService = repo.find(serviceByName('ChangeServiceAttributes6'));
+        let customNewRepo = extractServices('./test/compare/newVersion/serviceContent');
+        let customRepo = extractServices('./test/compare/repoVersion/serviceContent');
+        let repoService = customRepo.find(serviceByName('ChangeServiceAttributes6'));
         repoService.extra = {me: 'old'};
-        let newService = newRepo.find(serviceByName('ChangeServiceAttributes6'));
+        let newService = customNewRepo.find(serviceByName('ChangeServiceAttributes6'));
         newService.extra = {me: 'new'};
 
-        let customMergedRepo = merge(newRepo, repo);
+        let customMergedRepo = merge(customNewRepo, customRepo);
 
         expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceAttributes6') > -1));
 
         let service = customMergedRepo.repo.find(serviceByName('ChangeServiceAttributes6'));
         expect(service.extra).to.deep.equal(newService.extra);
         expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should detect change in extra and let plugin control the merge', function() {
+        let customNewRepo = extractServices('./test/compare/newVersion/serviceContent');
+        let customRepo = extractServices('./test/compare/repoVersion/serviceContent');
+        let repoService = customRepo.find(serviceByName('ChangeServiceAttributes6'));
+        repoService.extra = {thePlugin: 'old'};
+        let newService = customNewRepo.find(serviceByName('ChangeServiceAttributes6'));
+        newService.extra = {thePlugin: 'new'};
+
+        let customMergedRepo = merge(customNewRepo, customRepo, ['../test/plugin']);
+
+        expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes6 has changed extra.thePlugin']);
+
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceAttributes6'));
+        expect(service.extra).to.deep.equal(newService.extra);
+        expect(service.labels).to.include.members(['changed']);
       });
     });
 

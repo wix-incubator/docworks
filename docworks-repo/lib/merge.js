@@ -1,5 +1,6 @@
 import {zipByKey, addRemoveLabels, hasLabel, copy, compareArraysAsSets} from './collection-utils';
 import isEqual from 'lodash.isequal';
+import {loadPlugins, runPlugins} from './plugins';
 
 function serviceKey(service) {
   return service.memberOf?`${service.memberOf}.${service.name}`:service.name;
@@ -211,7 +212,7 @@ function mergeMessage(newMessage, repoMessage, messages, key) {
   return {changed, item}
 }
 
-function mergeService(sNew, sRepo, messages) {
+function mergeService(sNew, sRepo, messages, plugins) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
   let docsChanged = !compareDocs(sNew.srcDocs, sRepo.srcDocs, messages, sKey);
@@ -219,9 +220,10 @@ function mergeService(sNew, sRepo, messages) {
   let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeOperation);
   let callbacksMerge = mergeLists(sNew.callbacks, sRepo.callbacks, messages, sKey, 'callback', mergeOperation);
   let messagesMerge = mergeLists(sNew.messages, sRepo.messages, messages, sKey, 'message', mergeMessage);
+  let extraMerge = runPlugins(plugins, 'docworksMergeService', sNew.extra || {}, sRepo.extra || {}, messages, sKey);
 
   let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed ||
-    callbacksMerge.changed || messagesMerge.changed;
+    callbacksMerge.changed || messagesMerge.changed || extraMerge.changed;
   return copy(sRepo, {
     labels: updateLabels(sRepo.labels, changed),
     mixes: sNew.mixes,
@@ -231,18 +233,19 @@ function mergeService(sNew, sRepo, messages) {
     operations: operationsMerge.merged,
     callbacks: callbacksMerge.merged,
     messages: messagesMerge.merged,
-    extra: sNew.extra
+    extra: extraMerge.merged
   });
 }
 
-export default function merge(newRepo, repo) {
+export default function merge(newRepo, repo, pluginModules) {
   let zippedServices = zipByKey(newRepo, repo, serviceKey);
   let messages = [];
+  let plugins = loadPlugins(pluginModules);
   let updatedRepo = zippedServices.map(_ => {
     let sNew = _[0];
     let sRepo = _[1];
     if (sNew && sRepo) {
-      return mergeService(sNew, sRepo, messages);
+      return mergeService(sNew, sRepo, messages, plugins);
     }
     else if (sNew) {
       let newService = copy(sNew, {labels: addRemoveLabels(sNew.labels, 'new')});
