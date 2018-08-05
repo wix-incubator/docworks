@@ -3,9 +3,11 @@
 export default function handlePlugins(plugins, pluginFunction, doclet) {
   let extra = {};
   if (plugins) {
-    plugins.filter(plugin => !!plugin[pluginFunction])
+    plugins.filter(plugin => !!plugin[pluginFunction] && !!plugin.extendDocworksKey)
       .forEach(plugin => {
-        extra = Object.assign(extra, plugin[pluginFunction](doclet))
+        let extraValue = plugin[pluginFunction](doclet);
+        if (extraValue)
+          extra[plugin.extendDocworksKey] = extraValue;
       })
   }
   return extra;
