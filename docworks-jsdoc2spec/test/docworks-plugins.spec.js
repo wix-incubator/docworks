@@ -5,7 +5,7 @@ const expect = chai.expect;
 chai.use(chaiSubset);
 
 describe('jsdoc plugins', function() {
-  it.only('run with plugin', function() {
+  it('run with plugin', function() {
     let jsDocRes = runJsDoc({
       "include": [
         "test/service-plugin.js"

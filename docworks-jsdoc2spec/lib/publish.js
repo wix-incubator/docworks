@@ -10,7 +10,7 @@ import {dump} from './util';
 
 
 function loadPlugins(plugins) {
-  return plugins.map(require);
+  return (plugins || []).map(require);
 }
 
 
