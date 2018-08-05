@@ -44,3 +44,10 @@ export class ChangeServiceAttributes4 {
 
 }
 
+/**
+ * @class ChangeServiceAttributes6
+ * @summary A test service
+ */
+export class ChangeServiceAttributes6 {
+
+}

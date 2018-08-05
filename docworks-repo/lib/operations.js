@@ -26,7 +26,8 @@ const propertySpec = {
   type: {pos: 5},
   locations: Object.assign({pos: 6}, locationSpec),
   docs: Object.assign({pos: 7}, docSpec),
-  srcDocs: Object.assign({pos: 8}, docSpec)
+  srcDocs: Object.assign({pos: 8}, docSpec),
+  extra: {pos: 9}
 };
 const paramSpec = {
   name: {pos: 1},
@@ -45,7 +46,8 @@ const operationSpec = {
   ret: {pos: 5, type: {pos: 1}, doc: {pos: 2}, srcDoc: {pos: 3}},
   locations: Object.assign({pos: 6}, locationSpec),
   docs: Object.assign({pos: 7}, docSpec),
-  srcDocs: Object.assign({pos: 8}, docSpec)
+  srcDocs: Object.assign({pos: 8}, docSpec),
+  extra: {pos: 9}
 };
 const messageSpec = {
   name: {pos: 1},
@@ -55,7 +57,8 @@ const messageSpec = {
   members: {pos: 5,
     name: {pos: 1},
     type: {pos: 2}
-  }
+  },
+  extra: {pos: 6}
 };
 const serviceSpec = {
   name: {pos: 1},
@@ -68,7 +71,8 @@ const serviceSpec = {
   properties: Object.assign({pos: 8, orderBy:'name'}, propertySpec),
   operations: Object.assign({pos: 9, orderBy:'name'}, operationSpec),
   callbacks: Object.assign({pos: 10, orderBy:'name'}, operationSpec),
-  messages: Object.assign({pos: 11, orderBy:'name'}, messageSpec)
+  messages: Object.assign({pos: 11, orderBy:'name'}, messageSpec),
+  extra: {pos: 12}
 };
 
 export function serviceToRepoName(service) {

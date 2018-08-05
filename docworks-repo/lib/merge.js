@@ -230,7 +230,8 @@ function mergeService(sNew, sRepo, messages) {
     properties: propertiesMerge.merged,
     operations: operationsMerge.merged,
     callbacks: callbacksMerge.merged,
-    messages: messagesMerge.merged
+    messages: messagesMerge.merged,
+    extra: sNew.extra
   });
 }
 
