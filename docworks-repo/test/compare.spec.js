@@ -23,6 +23,12 @@ function memberByName(name) {
   return (_) => (_.name === name);
 }
 
+function getRepoService(baseRepo, serviceName) {
+  let repo = baseRepo.filter(_ => _.name === serviceName);
+  let service = repo.find(serviceByName(serviceName));
+  return {repo, service};
+}
+
 function repoServiceProp(baseRepo, serviceName, propName) {
   let repo = baseRepo.filter(_ => _.name === serviceName);
   let service = repo.find(serviceByName(serviceName));
@@ -143,67 +149,78 @@ describe('compare repo', function() {
   });
 
   describe("compare a service", function() {
-    let baseNewRepo, baseRepo, defaultMergedRepo;
+    let baseNewRepo, baseRepo;
     beforeEach(() => {
       baseNewRepo = extractServices('./test/compare/newVersion/serviceContent');
       baseRepo = extractServices('./test/compare/repoVersion/serviceContent');
-
-      defaultMergedRepo = merge(baseNewRepo, baseRepo);
     });
 
     describe('service attributes', function() {
       it('should detect change in mixes', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceAttributes1'));
+        let {repo} = getRepoService(baseRepo, 'ChangeServiceAttributes1');
+        let {repo: newRepo} = getRepoService(baseNewRepo, 'ChangeServiceAttributes1');
 
-        expect(defaultMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes1 has a new mixes a',
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes1 has a new mixes a',
           'Service ChangeServiceAttributes1 mixes b was removed']);
 
+        let {service} = getRepoService(mergedRepo.repo, 'ChangeServiceAttributes1');
         expect(service.mixes).to.have.members(['a']);
         expect(service.labels).to.include.members(['changed']);
       });
 
       it('should detect change in summary', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceAttributes2'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes2'));
-        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes2'));
+        let {repo, service: repoService} = getRepoService(baseRepo, 'ChangeServiceAttributes2');
+        let {repo: newRepo, service: newService} = getRepoService(baseNewRepo, 'ChangeServiceAttributes2');
 
-        expect(defaultMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes2 has changed summary']);
+        let mergedRepo = merge(newRepo, repo);
 
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes2 has changed summary']);
+
+        let {service} = getRepoService(mergedRepo.repo, 'ChangeServiceAttributes2');
         expect(service.docs.summary).to.equal(repoService.docs.summary);
         expect(service.srcDocs.summary).to.equal(newService.srcDocs.summary);
         expect(service.labels).to.include.members(['changed']);
       });
 
       it('should detect change in description', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceAttributes3'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes3'));
-        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes3'));
+        let {repo, service: repoService} = getRepoService(baseRepo, 'ChangeServiceAttributes3');
+        let {repo: newRepo, service: newService} = getRepoService(baseNewRepo, 'ChangeServiceAttributes3');
 
-        expect(defaultMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes3 has changed description']);
+        let mergedRepo = merge(newRepo, repo);
 
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes3 has changed description']);
+
+        let {service} = getRepoService(mergedRepo.repo, 'ChangeServiceAttributes3');
         expect(service.docs.description).to.equal(repoService.docs.description);
         expect(service.srcDocs.description).to.equal(newService.srcDocs.description);
         expect(service.labels).to.include.members(['changed']);
       });
 
       it('should detect change in a link', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceAttributes4'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes4'));
-        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes4'));
+        let {repo, service: repoService} = getRepoService(baseRepo, 'ChangeServiceAttributes4');
+        let {repo: newRepo, service: newService} = getRepoService(baseNewRepo, 'ChangeServiceAttributes4');
 
-        expect(defaultMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes4 has a new link http://someplace']);
+        let mergedRepo = merge(newRepo, repo);
 
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes4 has a new link http://someplace']);
+
+        let {service} = getRepoService(mergedRepo.repo, 'ChangeServiceAttributes4');
         expect(service.docs.links).to.have.members(repoService.docs.links);
         expect(service.srcDocs.links).to.have.members(newService.srcDocs.links);
         expect(service.labels).to.include.members(['changed']);
       });
 
       it('should detect change in location but not report the service has changed', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceAttributes5'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes5'));
+        let {repo} = getRepoService(baseRepo, 'ChangeServiceAttributes5');
+        let {repo: newRepo, service: newService} = getRepoService(baseNewRepo, 'ChangeServiceAttributes5');
 
-        expect(defaultMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceAttributes5') > -1));
+        let mergedRepo = merge(newRepo, repo);
 
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceAttributes5') > -1));
+
+        let {service} = getRepoService(mergedRepo.repo, 'ChangeServiceAttributes5');
         expect(service.location).to.deep.equal(newService.location);
         expect(service.labels).to.not.include.members(['changed']);
       });
