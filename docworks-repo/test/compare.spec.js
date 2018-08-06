@@ -23,6 +23,13 @@ function memberByName(name) {
   return (_) => (_.name === name);
 }
 
+function repoServiceProp(baseRepo, serviceName, propName) {
+  let repo = baseRepo.filter(_ => _.name === serviceName);
+  let service = repo.find(serviceByName(serviceName));
+  let prop = service.properties.find(memberByName(propName));
+  return {repo, service, prop};
+}
+
 describe('compare repo', function() {
 
   beforeEach(() => {
@@ -115,12 +122,12 @@ describe('compare repo', function() {
   });
 
   describe("compare a service", function() {
-    let newRepo, repo, mergedRepo;
+    let baseNewRepo, baseRepo, mergedRepo;
     beforeEach(() => {
-      newRepo = extractServices('./test/compare/newVersion/serviceContent');
-      repo = extractServices('./test/compare/repoVersion/serviceContent');
+      baseNewRepo = extractServices('./test/compare/newVersion/serviceContent');
+      baseRepo = extractServices('./test/compare/repoVersion/serviceContent');
 
-      mergedRepo = merge(newRepo, repo);
+      mergedRepo = merge(baseNewRepo, baseRepo);
     });
 
     describe('service attributes', function() {
@@ -136,8 +143,8 @@ describe('compare repo', function() {
 
       it('should detect change in summary', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes2'));
-        let newService = newRepo.find(serviceByName('ChangeServiceAttributes2'));
-        let repoService = repo.find(serviceByName('ChangeServiceAttributes2'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes2'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes2'));
 
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes2 has changed summary']);
 
@@ -148,8 +155,8 @@ describe('compare repo', function() {
 
       it('should detect change in description', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceAttributes3'));
-        let repoService = repo.find(serviceByName('ChangeServiceAttributes3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes3'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes3'));
 
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes3 has changed description']);
 
@@ -160,8 +167,8 @@ describe('compare repo', function() {
 
       it('should detect change in a link', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes4'));
-        let newService = newRepo.find(serviceByName('ChangeServiceAttributes4'));
-        let repoService = repo.find(serviceByName('ChangeServiceAttributes4'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes4'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes4'));
 
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes4 has a new link http://someplace']);
 
@@ -172,7 +179,7 @@ describe('compare repo', function() {
 
       it('should detect change in location but not report the service has changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceAttributes5'));
-        let newService = newRepo.find(serviceByName('ChangeServiceAttributes5'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes5'));
 
         expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceAttributes5') > -1));
 
@@ -181,12 +188,12 @@ describe('compare repo', function() {
       });
 
       it('should update extra but not report the service has changed', function() {
-        let repoService = repo.find(serviceByName('ChangeServiceAttributes6'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes6'));
         repoService.extra = {me: 'old'};
-        let newService = newRepo.find(serviceByName('ChangeServiceAttributes6'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes6'));
         newService.extra = {me: 'new'};
 
-        let customMergedRepo = merge(newRepo, repo);
+        let customMergedRepo = merge(baseNewRepo, baseRepo);
 
         expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceAttributes6') > -1));
 
@@ -196,12 +203,12 @@ describe('compare repo', function() {
       });
 
       it('should detect change in extra and let plugin control the merge', function() {
-        let repoService = repo.find(serviceByName('ChangeServiceAttributes6'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes6'));
         repoService.extra = {thePlugin: 'old'};
-        let newService = newRepo.find(serviceByName('ChangeServiceAttributes6'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes6'));
         newService.extra = {thePlugin: 'new'};
 
-        let customMergedRepo = merge(newRepo, repo, ['../test/plugin']);
+        let customMergedRepo = merge(baseNewRepo, baseRepo, ['../test/plugin']);
 
         expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes6 has changed extra.thePlugin']);
 
@@ -214,7 +221,7 @@ describe('compare repo', function() {
     describe('service properties', function() {
       it('should not report any change if no properties has changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
-        let newService = newRepo.find(serviceByName('ChangeServiceProperties1'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceProperties1'));
         let prop = service.properties.find(memberByName('prop1'));
         let newProp = newService.properties.find(memberByName('prop1'));
 
@@ -225,8 +232,8 @@ describe('compare repo', function() {
 
       it('should report added and removed properties', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties2'));
-        let newService = newRepo.find(serviceByName('ChangeServiceProperties2'));
-        let repoService = repo.find(serviceByName('ChangeServiceProperties2'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceProperties2'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceProperties2'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let prop2 = service.properties.find(memberByName('prop2'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
@@ -243,11 +250,11 @@ describe('compare repo', function() {
       });
 
       it('should not report removed properties if they have the removed label', function() {
-        let repoService = repo.find(serviceByName('ChangeServiceProperties2'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceProperties2'));
         let repoProp2 = repoService.properties.find(memberByName('prop2'));
         // simulate a property as marked as removed
         repoProp2.labels.push('removed');
-        let customMergedRepo = merge(newRepo, repo);
+        let customMergedRepo = merge(baseNewRepo, baseRepo);
         let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties2'));
         let prop2 = service.properties.find(memberByName('prop2'));
 
@@ -259,11 +266,11 @@ describe('compare repo', function() {
       });
 
       it('should remove the removed label from re-added props', function() {
-        let repoService = repo.find(serviceByName('ChangeServiceProperties1'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceProperties1'));
         let repoProp1 = repoService.properties.find(memberByName('prop1'));
         // simulate a property as marked as removed
         repoProp1.labels.push('removed');
-        let customMergedRepo = merge(newRepo, repo);
+        let customMergedRepo = merge(baseNewRepo, baseRepo);
         let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
         let prop2 = service.properties.find(memberByName('prop1'));
 
@@ -275,11 +282,11 @@ describe('compare repo', function() {
       });
 
       it('should remove the new label from removed props, and mark service as changed', function() {
-        let repoService = repo.find(serviceByName('ChangeServiceProperties2'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceProperties2'));
         let repoProp2 = repoService.properties.find(memberByName('prop2'));
         // simulate a property as a new prop
         repoProp2.labels.push('new');
-        let customMergedRepo = merge(newRepo, repo);
+        let customMergedRepo = merge(baseNewRepo, baseRepo);
         let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties2'));
         let prop2 = service.properties.find(memberByName('prop2'));
 
@@ -291,11 +298,11 @@ describe('compare repo', function() {
       });
 
       it('should remove the new label from existing props', function() {
-        let repoService = repo.find(serviceByName('ChangeServiceProperties1'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceProperties1'));
         let repoProp1 = repoService.properties.find(memberByName('prop1'));
         // simulate a property as marked as new
         repoProp1.labels.push('new');
-        let customMergedRepo = merge(newRepo, repo);
+        let customMergedRepo = merge(baseNewRepo, baseRepo);
         let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
         let prop2 = service.properties.find(memberByName('prop1'));
 
@@ -307,11 +314,11 @@ describe('compare repo', function() {
       });
 
       it('should remove the changed label from unchanged props', function() {
-        let repoService = repo.find(serviceByName('ChangeServiceProperties1'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceProperties1'));
         let repoProp1 = repoService.properties.find(memberByName('prop1'));
         // simulate a property as marked as changed
         repoProp1.labels.push('changed');
-        let customMergedRepo = merge(newRepo, repo);
+        let customMergedRepo = merge(baseNewRepo, baseRepo);
         let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
         let prop2 = service.properties.find(memberByName('prop1'));
 
@@ -323,7 +330,7 @@ describe('compare repo', function() {
 
       it('should report changed property type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceProperties3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceProperties3'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
 
@@ -336,7 +343,7 @@ describe('compare repo', function() {
 
       it('should report changed property get/set', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties4'));
-        let newService = newRepo.find(serviceByName('ChangeServiceProperties4'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceProperties4'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
 
@@ -350,8 +357,8 @@ describe('compare repo', function() {
 
       it('should report changed property docs, preserve docs and update srcDocs', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties5'));
-        let newService = newRepo.find(serviceByName('ChangeServiceProperties5'));
-        let repoService = repo.find(serviceByName('ChangeServiceProperties5'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceProperties5'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceProperties5'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
         let repoProp1 = repoService.properties.find(memberByName('prop1'));
@@ -369,7 +376,7 @@ describe('compare repo', function() {
 
       it('should detect change in property location but not report the service or property as changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceProperties6'));
-        let newService = newRepo.find(serviceByName('ChangeServiceProperties6'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceProperties6'));
         let prop1 = service.properties.find(memberByName('prop1'));
         let newProp1 = newService.properties.find(memberByName('prop1'));
 
@@ -381,41 +388,31 @@ describe('compare repo', function() {
       })
 
       it('should update property extra but not report the service has changed', function() {
-        let repoSmall = repo.filter(_ => _.name === 'ChangeServiceProperties1');
-        let newRepoSmall = newRepo.filter(_ => _.name === 'ChangeServiceProperties1');
-        let repoService = repoSmall.find(serviceByName('ChangeServiceProperties1'));
-        let repoProp = repoService.properties.find(memberByName('prop1'));
+        let {repo: repo, prop: repoProp} = repoServiceProp(baseRepo, 'ChangeServiceProperties1', 'prop1');
+        let {repo: newRepo, prop: newProp} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties1', 'prop1');
         repoProp.extra = {thePlugin: 'old'};
-        let newService = newRepoSmall.find(serviceByName('ChangeServiceProperties1'));
-        let newProp = newService.properties.find(memberByName('prop1'));
         newProp.extra = {thePlugin: 'new'};
 
-        let customMergedRepo = merge(newRepoSmall, repoSmall);
+        let customMergedRepo = merge(newRepo, repo);
 
         expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceProperties1') > -1));
 
-        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
-        let prop = service.properties.find(memberByName('prop1'));
+        let {service, prop} = repoServiceProp(customMergedRepo.repo, 'ChangeServiceProperties1', 'prop1');
         expect(prop.extra).to.deep.equal(newProp.extra);
         expect(service.labels).to.not.include.members(['changed']);
       });
 
       it('should detect change in property extra and let plugin control the merge', function() {
-        let repoSmall = repo.filter(_ => _.name === 'ChangeServiceProperties1');
-        let newRepoSmall = newRepo.filter(_ => _.name === 'ChangeServiceProperties1');
-        let repoService = repoSmall.find(serviceByName('ChangeServiceProperties1'));
-        let repoProp = repoService.properties.find(memberByName('prop1'));
+        let {repo: repo, prop: repoProp} = repoServiceProp(baseRepo, 'ChangeServiceProperties1', 'prop1');
+        let {repo: newRepo, prop: newProp} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties1', 'prop1');
         repoProp.extra = {thePlugin: 'old'};
-        let newService = newRepoSmall.find(serviceByName('ChangeServiceProperties1'));
-        let newProp = newService.properties.find(memberByName('prop1'));
         newProp.extra = {thePlugin: 'new'};
 
-        let customMergedRepo = merge(newRepoSmall, repoSmall, ['../test/plugin']);
+        let customMergedRepo = merge(newRepo, repo, ['../test/plugin']);
 
         expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceProperties1 property prop1 has changed extra.thePlugin']);
 
-        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
-        let prop = service.properties.find(memberByName('prop1'));
+        let {service, prop} = repoServiceProp(customMergedRepo.repo, 'ChangeServiceProperties1', 'prop1');
         expect(prop.extra).to.deep.equal(newProp.extra);
         expect(service.labels).to.include.members(['changed']);
       });
@@ -424,7 +421,7 @@ describe('compare repo', function() {
     describe('service operations', function() {
       it('should not report any change if no operations has changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations1'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations1'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations1'));
         let operation = service.operations.find(memberByName('operations1'));
         let newOperation = newService.operations.find(memberByName('operations1'));
 
@@ -435,8 +432,8 @@ describe('compare repo', function() {
 
       it('should report added and removed operations', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations2'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations2'));
-        let repoService = repo.find(serviceByName('ChangeServiceOperations2'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations2'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceOperations2'));
         let operation3 = service.operations.find(memberByName('operation3'));
         let operation2 = service.operations.find(memberByName('operation2'));
         let newOperation3 = newService.operations.find(memberByName('operation3'));
@@ -454,7 +451,7 @@ describe('compare repo', function() {
 
       it('should report changes in param type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations3'));
         let operation1 = service.operations.find(memberByName('operation1'));
         let newOperation1 = newService.operations.find(memberByName('operation1'));
 
@@ -470,7 +467,7 @@ describe('compare repo', function() {
 
       it('should report changes in param name', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations3'));
         let operation2 = service.operations.find(memberByName('operation2'));
         let newOperation2 = newService.operations.find(memberByName('operation2'));
 
@@ -487,8 +484,8 @@ describe('compare repo', function() {
 
       it('should report changes in param doc', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
-        let repoService = repo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations3'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceOperations3'));
         let operation3 = service.operations.find(memberByName('operation3'));
         let newOperation3 = newService.operations.find(memberByName('operation3'));
         let repoOperation3 = repoService.operations.find(memberByName('operation3'));
@@ -507,8 +504,8 @@ describe('compare repo', function() {
 
       it('should report new params', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
-        let repoService = repo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations3'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceOperations3'));
         let operation4 = service.operations.find(memberByName('operation4'));
         let newOperation4 = newService.operations.find(memberByName('operation4'));
         let repoOperation4 = repoService.operations.find(memberByName('operation4'));
@@ -528,7 +525,7 @@ describe('compare repo', function() {
 
       it('should report removed params', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations3'));
         let operation5 = service.operations.find(memberByName('operation5'));
         let newOperation5 = newService.operations.find(memberByName('operation5'));
 
@@ -542,7 +539,7 @@ describe('compare repo', function() {
 
       it('should report changes in complex param type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations3'));
         let operation6 = service.operations.find(memberByName('operation6'));
         let newOperation6 = newService.operations.find(memberByName('operation6'));
 
@@ -558,7 +555,7 @@ describe('compare repo', function() {
 
       it('should report changes in return type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations6'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations6'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations6'));
         let operation1 = service.operations.find(memberByName('operation1'));
         let newOperation1 = newService.operations.find(memberByName('operation1'));
 
@@ -571,7 +568,7 @@ describe('compare repo', function() {
 
       it('should report changes in complex return type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations6'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations6'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations6'));
         let operation2 = service.operations.find(memberByName('operation2'));
         let newOperation2 = newService.operations.find(memberByName('operation2'));
 
@@ -584,8 +581,8 @@ describe('compare repo', function() {
 
       it('should report changes in return doc', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations7'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations7'));
-        let repoService = repo.find(serviceByName('ChangeServiceOperations7'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations7'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceOperations7'));
         let operation1 = service.operations.find(memberByName('operation1'));
         let newOperation1 = newService.operations.find(memberByName('operation1'));
         let repoOperation1 = repoService.operations.find(memberByName('operation1'));
@@ -601,7 +598,7 @@ describe('compare repo', function() {
 
       it('should not report any change if no operations has changed - for complex typed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations3'));
         let operation = service.operations.find(memberByName('operations7'));
         let newOperation = newService.operations.find(memberByName('operations7'));
 
@@ -612,8 +609,8 @@ describe('compare repo', function() {
 
       it('should report changed operation docs, preserve docs and update srcDocs', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations4'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations4'));
-        let repoService = repo.find(serviceByName('ChangeServiceOperations4'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations4'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceOperations4'));
         let operation = service.operations.find(memberByName('operation1'));
         let newOperation = newService.operations.find(memberByName('operation1'));
         let repoOperation = repoService.operations.find(memberByName('operation1'));
@@ -629,7 +626,7 @@ describe('compare repo', function() {
 
       it('should detect change in operation location but not report the service or property as changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceOperations5'));
-        let newService = newRepo.find(serviceByName('ChangeServiceOperations5'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceOperations5'));
         let operation = service.operations.find(memberByName('operation1'));
         let newOperation = newService.operations.find(memberByName('operation1'));
 
@@ -644,7 +641,7 @@ describe('compare repo', function() {
     describe('service callbacks', function() {
       it('should not report any change if no callbacks has changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks1'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks1'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks1'));
         let callback = service.callbacks.find(memberByName('callbacks1'));
         let newCallback = newService.callbacks.find(memberByName('callbacks1'));
 
@@ -655,8 +652,8 @@ describe('compare repo', function() {
 
       it('should report added and removed callbacks', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks2'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks2'));
-        let repoService = repo.find(serviceByName('ChangeServiceCallbacks2'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks2'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceCallbacks2'));
         let callback3 = service.callbacks.find(memberByName('callback3'));
         let callback2 = service.callbacks.find(memberByName('callback2'));
         let newCallback3 = newService.callbacks.find(memberByName('callback3'));
@@ -674,7 +671,7 @@ describe('compare repo', function() {
 
       it('should report changes in param type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks3'));
         let callback1 = service.callbacks.find(memberByName('callback1'));
         let newCallback1 = newService.callbacks.find(memberByName('callback1'));
 
@@ -690,7 +687,7 @@ describe('compare repo', function() {
 
       it('should report changes in param name', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks3'));
         let callback2 = service.callbacks.find(memberByName('callback2'));
         let newCallback2 = newService.callbacks.find(memberByName('callback2'));
 
@@ -707,8 +704,8 @@ describe('compare repo', function() {
 
       it('should report changes in param doc', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
-        let repoService = repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceCallbacks3'));
         let callback3 = service.callbacks.find(memberByName('callback3'));
         let newCallback3 = newService.callbacks.find(memberByName('callback3'));
         let repoCallback3 = repoService.callbacks.find(memberByName('callback3'));
@@ -727,8 +724,8 @@ describe('compare repo', function() {
 
       it('should report new params', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
-        let repoService = repo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceCallbacks3'));
         let callback4 = service.callbacks.find(memberByName('callback4'));
         let newCallback4 = newService.callbacks.find(memberByName('callback4'));
         let repoCallback4 = repoService.callbacks.find(memberByName('callback4'));
@@ -748,7 +745,7 @@ describe('compare repo', function() {
 
       it('should report removed params', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks3'));
         let callback5 = service.callbacks.find(memberByName('callback5'));
         let newCallback5 = newService.callbacks.find(memberByName('callback5'));
 
@@ -762,7 +759,7 @@ describe('compare repo', function() {
 
       it('should report changes in complex param type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks3'));
         let callback6 = service.callbacks.find(memberByName('callback6'));
         let newCallback6 = newService.callbacks.find(memberByName('callback6'));
 
@@ -778,7 +775,7 @@ describe('compare repo', function() {
 
       it('should report changes in return type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks6'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks6'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks6'));
         let callback1 = service.callbacks.find(memberByName('callback1'));
         let newCallback1 = newService.callbacks.find(memberByName('callback1'));
 
@@ -791,7 +788,7 @@ describe('compare repo', function() {
 
       it('should report changes in complex return type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks6'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks6'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks6'));
         let callback2 = service.callbacks.find(memberByName('callback2'));
         let newCallback2 = newService.callbacks.find(memberByName('callback2'));
 
@@ -804,8 +801,8 @@ describe('compare repo', function() {
 
       it('should report changes in return doc', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks7'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks7'));
-        let repoService = repo.find(serviceByName('ChangeServiceCallbacks7'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks7'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceCallbacks7'));
         let callback1 = service.callbacks.find(memberByName('callback1'));
         let newCallback1 = newService.callbacks.find(memberByName('callback1'));
         let repoCallback1 = repoService.callbacks.find(memberByName('callback1'));
@@ -821,7 +818,7 @@ describe('compare repo', function() {
 
       it('should not report any change if no callbacks has changed - for complex typed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks3'));
         let callback = service.callbacks.find(memberByName('callbacks7'));
         let newCallback = newService.callbacks.find(memberByName('callbacks7'));
 
@@ -832,8 +829,8 @@ describe('compare repo', function() {
 
       it('should report changed callback docs, preserve docs and update srcDocs', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks4'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks4'));
-        let repoService = repo.find(serviceByName('ChangeServiceCallbacks4'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks4'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceCallbacks4'));
         let callback = service.callbacks.find(memberByName('callback1'));
         let newCallback = newService.callbacks.find(memberByName('callback1'));
         let repoCallback = repoService.callbacks.find(memberByName('callback1'));
@@ -849,7 +846,7 @@ describe('compare repo', function() {
 
       it('should detect change in callback location but not report the service or property as changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceCallbacks5'));
-        let newService = newRepo.find(serviceByName('ChangeServiceCallbacks5'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceCallbacks5'));
         let callback = service.callbacks.find(memberByName('callback1'));
         let newCallback = newService.callbacks.find(memberByName('callback1'));
 
@@ -864,7 +861,7 @@ describe('compare repo', function() {
     describe('service messages', function() {
       it('should not report any change if no messages has changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages1'));
-        let newService = newRepo.find(serviceByName('ChangeServiceMessages1'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages1'));
         let message = service.messages.find(memberByName('Message1'));
         let newMessage = newService.messages.find(memberByName('Message1'));
 
@@ -875,8 +872,8 @@ describe('compare repo', function() {
 
       it('should added and removed messages', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages3'));
-        let newService = newRepo.find(serviceByName('ChangeServiceMessages3'));
-        let repoService = repo.find(serviceByName('ChangeServiceMessages3'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages3'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceMessages3'));
         let removedMessage = service.messages.find(memberByName('Message3'));
         let addedMessage = service.messages.find(memberByName('Message4'));
         let newMessage = newService.messages.find(memberByName('Message4'));
@@ -894,7 +891,7 @@ describe('compare repo', function() {
 
       it('should added and removed message properties', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
-        let newService = newRepo.find(serviceByName('ChangeServiceMessages2'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages2'));
         let message = service.messages.find(memberByName('Message2'));
         let newMessage = newService.messages.find(memberByName('Message2'));
         let oldProperty = message.members.find(memberByName('oldProperty'));
@@ -912,7 +909,7 @@ describe('compare repo', function() {
 
       it('should report change in message member type', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
-        let newService = newRepo.find(serviceByName('ChangeServiceMessages2'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages2'));
         let message = service.messages.find(memberByName('Message5'));
         let newMessage = newService.messages.find(memberByName('Message5'));
 
@@ -925,8 +922,8 @@ describe('compare repo', function() {
 
       it('should report change in message member doc', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
-        let newService = newRepo.find(serviceByName('ChangeServiceMessages2'));
-        let repoService = repo.find(serviceByName('ChangeServiceMessages2'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages2'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceMessages2'));
         let message = service.messages.find(memberByName('Message6'));
         let newMessage = newService.messages.find(memberByName('Message6'));
         let repoMessage = repoService.messages.find(memberByName('Message6'));
@@ -945,8 +942,8 @@ describe('compare repo', function() {
 
       it('should report changed message docs, preserve docs and update srcDocs', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
-        let newService = newRepo.find(serviceByName('ChangeServiceMessages2'));
-        let repoService = repo.find(serviceByName('ChangeServiceMessages2'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages2'));
+        let repoService = baseRepo.find(serviceByName('ChangeServiceMessages2'));
         let message = service.messages.find(memberByName('Message7'));
         let newMessage = newService.messages.find(memberByName('Message7'));
         let repoMessage = repoService.messages.find(memberByName('Message7'));
@@ -962,7 +959,7 @@ describe('compare repo', function() {
 
       it('should detect change in message location but not report is has changed', function() {
         let service = mergedRepo.repo.find(serviceByName('ChangeServiceMessages4'));
-        let newService = newRepo.find(serviceByName('ChangeServiceMessages4'));
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages4'));
         let message = service.messages.find(memberByName('Message8'));
         let newMessage = newService.messages.find(memberByName('Message8'));
 
