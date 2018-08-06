@@ -44,6 +44,13 @@ function repoServiceCallback(baseRepo, serviceName, operationName) {
   return {repo, service, callback};
 }
 
+function repoServiceMessages(baseRepo, serviceName, messageName) {
+  let repo = baseRepo.filter(_ => _.name === serviceName);
+  let service = repo.find(serviceByName(serviceName));
+  let message = service.messages.find(memberByName(messageName));
+  return {repo, service, message};
+}
+
 describe('compare repo', function() {
 
   beforeEach(() => {
@@ -937,28 +944,28 @@ describe('compare repo', function() {
 
     describe('service messages', function() {
       it('should not report any change if no messages has changed', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceMessages1'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages1'));
-        let message = service.messages.find(memberByName('Message1'));
-        let newMessage = newService.messages.find(memberByName('Message1'));
+        let {repo} = repoServiceMessages(baseRepo, 'ChangeServiceMessages1', 'Message1');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages1', 'Message1');
 
-        expect(defaultMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceMessages1') > -1));
+        let mergedRepo = merge(newRepo, repo);
 
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceMessages1') > -1));
+
+        let {message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages1', 'Message1');
         expect(message).to.containSubset(newMessage);
       });
 
       it('should added and removed messages', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceMessages3'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages3'));
-        let repoService = baseRepo.find(serviceByName('ChangeServiceMessages3'));
-        let removedMessage = service.messages.find(memberByName('Message3'));
-        let addedMessage = service.messages.find(memberByName('Message4'));
-        let newMessage = newService.messages.find(memberByName('Message4'));
-        let repoMessage = repoService.messages.find(memberByName('Message3'));
+        let {repo, message: repoMessage} = repoServiceMessages(baseRepo, 'ChangeServiceMessages3', 'Message3');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages3', 'Message4');
 
-        expect(defaultMergedRepo.messages).to.containSubset(['Service ChangeServiceMessages3 has a new message Message4',
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages3 has a new message Message4',
           'Service ChangeServiceMessages3 message Message3 was removed']);
 
+        let {service, message: removedMessage} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages3', 'Message3');
+        let {message: addedMessage} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages3', 'Message4');
         expect(service.labels).to.include.members(['changed']);
         expect(addedMessage.labels).to.include.members(['new']);
         expect(addedMessage).to.containSubset(newMessage);
@@ -967,16 +974,17 @@ describe('compare repo', function() {
       });
 
       it('should added and removed message properties', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages2'));
-        let message = service.messages.find(memberByName('Message2'));
-        let newMessage = newService.messages.find(memberByName('Message2'));
-        let oldProperty = message.members.find(memberByName('oldProperty'));
-        let newProperty = message.members.find(memberByName('newProperty'));
+        let {repo} = repoServiceMessages(baseRepo, 'ChangeServiceMessages2', 'Message2');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages2', 'Message2');
 
-        expect(defaultMergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message2 has a new member newProperty',
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message2 has a new member newProperty',
           'Service ChangeServiceMessages2 message Message2 member oldProperty was removed']);
 
+        let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages2', 'Message2');
+        let oldProperty = message.members.find(memberByName('oldProperty'));
+        let newProperty = message.members.find(memberByName('newProperty'));
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
         expect(message.members).to.containSubset(newMessage.members);
@@ -985,32 +993,31 @@ describe('compare repo', function() {
       });
 
       it('should report change in message member type', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages2'));
-        let message = service.messages.find(memberByName('Message5'));
-        let newMessage = newService.messages.find(memberByName('Message5'));
+        let {repo} = repoServiceMessages(baseRepo, 'ChangeServiceMessages2', 'Message5');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages2', 'Message5');
 
-        expect(defaultMergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message5 member name has changed type']);
+        let mergedRepo = merge(newRepo, repo);
 
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message5 member name has changed type']);
+
+        let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages2', 'Message5');
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
         expect(message.members).to.containSubset(newMessage.members);
       });
 
       it('should report change in message member doc', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages2'));
-        let repoService = baseRepo.find(serviceByName('ChangeServiceMessages2'));
-        let message = service.messages.find(memberByName('Message6'));
-        let newMessage = newService.messages.find(memberByName('Message6'));
-        let repoMessage = repoService.messages.find(memberByName('Message6'));
-
-        let member = message.members.find(_ => _.name === 'name');
+        let {repo, message: repoMessage} = repoServiceMessages(baseRepo, 'ChangeServiceMessages2', 'Message6');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages2', 'Message6');
         let repoMember = repoMessage.members.find(_ => _.name === 'name');
         let newMember = newMessage.members.find(_ => _.name === 'name');
 
-        expect(defaultMergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message6 member name has changed doc']);
+        let mergedRepo = merge(newRepo, repo);
 
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message6 member name has changed doc']);
+
+        let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages2', 'Message6');
+        let member = message.members.find(_ => _.name === 'name');
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
         expect(member.srcDocs).to.containSubset(newMember.srcDocs);
@@ -1018,16 +1025,15 @@ describe('compare repo', function() {
       });
 
       it('should report changed message docs, preserve docs and update srcDocs', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceMessages2'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages2'));
-        let repoService = baseRepo.find(serviceByName('ChangeServiceMessages2'));
-        let message = service.messages.find(memberByName('Message7'));
-        let newMessage = newService.messages.find(memberByName('Message7'));
-        let repoMessage = repoService.messages.find(memberByName('Message7'));
+        let {repo, message: repoMessage} = repoServiceMessages(baseRepo, 'ChangeServiceMessages2', 'Message7');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages2', 'Message7');
 
-        expect(defaultMergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message7 has changed summary',
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message7 has changed summary',
           'Service ChangeServiceMessages2 message Message7 has changed description']);
 
+        let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages2', 'Message7');
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
         expect(message.srcDocs).to.deep.equal(newMessage.srcDocs);
@@ -1035,17 +1041,49 @@ describe('compare repo', function() {
       });
 
       it('should detect change in message location but not report is has changed', function() {
-        let service = defaultMergedRepo.repo.find(serviceByName('ChangeServiceMessages4'));
-        let newService = baseNewRepo.find(serviceByName('ChangeServiceMessages4'));
-        let message = service.messages.find(memberByName('Message8'));
-        let newMessage = newService.messages.find(memberByName('Message8'));
+        let {repo} = repoServiceMessages(baseRepo, 'ChangeServiceMessages4', 'Message8');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages4', 'Message8');
 
-        expect(defaultMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceMessages4') > -1));
+        let mergedRepo = merge(newRepo, repo);
 
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceMessages4') > -1));
+
+        let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages4', 'Message8');
         expect(service.labels).to.not.include.members(['changed']);
         expect(message.labels).to.not.include.members(['changed']);
         expect(message.locations).to.deep.equal(newMessage.locations);
       });
+
+      it('should update message extra but not report the service has changed', function() {
+        let {repo: repo, message: repoMessage} = repoServiceMessages(baseRepo, 'ChangeServiceMessages1', 'Message1');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages1', 'Message1');
+        repoMessage.extra = {thePlugin: 'old'};
+        newMessage.extra = {thePlugin: 'new'};
+
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServicemessages1') > -1));
+
+        let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages1', 'Message1');
+        expect(message.extra).to.deep.equal(newMessage.extra);
+        expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should detect change in message extra and let plugin control the merge', function() {
+        let {repo: repo, message: repoMessage} = repoServiceMessages(baseRepo, 'ChangeServiceMessages1', 'Message1');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages1', 'Message1');
+        repoMessage.extra = {thePlugin: 'old'};
+        newMessage.extra = {thePlugin: 'new'};
+
+        let mergedRepo = merge(newRepo, repo, ['../test/plugin']);
+        
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages1 message Message1 has changed extra.thePlugin']);
+
+        let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages1', 'Message1');
+        expect(message.extra).to.deep.equal(newMessage.extra);
+        expect(service.labels).to.include.members(['changed']);
+      });
+      
     });
   });
 });

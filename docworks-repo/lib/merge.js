@@ -202,16 +202,18 @@ function mergeMessageMembers(newMembers, repoMembers, messages, sKey) {
   return {changed, merged}
 }
 
-function mergeMessage(newMessage, repoMessage, messages, key) {
+function mergeMessage(newMessage, repoMessage, messages, key, plugins) {
   let membersMerge = mergeMessageMembers(newMessage.members, repoMessage.members, messages, key);
   let docsChanged = !compareDocs(newMessage.srcDocs, repoMessage.srcDocs, messages, key);
+  let extraMerge = runPlugins(plugins, 'docworksMergeMessage', newMessage.extra || {}, repoMessage.extra || {}, messages, key);
 
-  let changed = membersMerge.changed || docsChanged;
+  let changed = membersMerge.changed || docsChanged || extraMerge.changed;
   let item = copy(repoMessage, {
     labels: updateLabels(repoMessage.labels, changed),
     members: membersMerge.merged,
     srcDocs: copy(newMessage.srcDocs),
-    locations: newMessage.locations
+    locations: newMessage.locations,
+    extra: extraMerge.merged
   });
   return {changed, item}
 }
