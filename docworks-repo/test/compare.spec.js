@@ -649,6 +649,35 @@ describe('compare repo', function() {
         expect(operation.locations).to.deep.equal(newOperation.locations);
       });
 
+      it('should update callback extra but not report the service has changed', function() {
+        let {repo: repo, operation: repoOperation} = repoServiceOperation(baseRepo, 'ChangeServiceOperations1', 'operations1');
+        let {repo: newRepo, operation: newOperation} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations1', 'operations1');
+        repoOperation.extra = {thePlugin: 'old'};
+        newOperation.extra = {thePlugin: 'new'};
+
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceOperations1') > -1));
+
+        let {service, operation} = repoServiceOperation(mergedRepo.repo, 'ChangeServiceOperations1', 'operations1');
+        expect(operation.extra).to.deep.equal(newOperation.extra);
+        expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should detect change in callback extra and let plugin control the merge', function() {
+        let {repo: repo, operation: repoOperation} = repoServiceOperation(baseRepo, 'ChangeServiceOperations1', 'operations1');
+        let {repo: newRepo, operation: newOperation} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations1', 'operations1');
+        repoOperation.extra = {thePlugin: 'old'};
+        newOperation.extra = {thePlugin: 'new'};
+
+        let mergedRepo = merge(newRepo, repo, ['../test/plugin']);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations1 operation operations1 has changed extra.thePlugin']);
+
+        let {service, operation} = repoServiceOperation(mergedRepo.repo, 'ChangeServiceOperations1', 'operations1');
+        expect(operation.extra).to.deep.equal(newOperation.extra);
+        expect(service.labels).to.include.members(['changed']);
+      });
     });
 
     describe('service callbacks', function() {
@@ -874,7 +903,7 @@ describe('compare repo', function() {
         expect(callback.locations).to.deep.equal(newCallback.locations);
       });
 
-      it('should update property extra but not report the service has changed', function() {
+      it('should update callback extra but not report the service has changed', function() {
         let {repo: repo, callback: repoCallback} = repoServiceCallback(baseRepo, 'ChangeServiceCallbacks1', 'callbacks1');
         let {repo: newRepo, callback: newCallback} = repoServiceCallback(baseNewRepo, 'ChangeServiceCallbacks1', 'callbacks1');
         repoCallback.extra = {thePlugin: 'old'};
@@ -889,7 +918,7 @@ describe('compare repo', function() {
         expect(service.labels).to.not.include.members(['changed']);
       });
 
-      it('should detect change in property extra and let plugin control the merge', function() {
+      it('should detect change in callback extra and let plugin control the merge', function() {
         let {repo: repo, callback: repoCallback} = repoServiceCallback(baseRepo, 'ChangeServiceCallbacks1', 'callbacks1');
         let {repo: newRepo, callback: newCallback} = repoServiceCallback(baseNewRepo, 'ChangeServiceCallbacks1', 'callbacks1');
         repoCallback.extra = {thePlugin: 'old'};
