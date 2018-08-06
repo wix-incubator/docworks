@@ -139,13 +139,14 @@ function mergeParams(newParams, repoParams, messages, key) {
   return {changed, params};
 }
 
-function mergeOperation(newOperation, repoOperation, messages, key) {
+function mergeOperation(newOperation, repoOperation, messages, key, plugins) {
   let paramsMerge = mergeParams(newOperation.params, repoOperation.params, messages, key);
   let changedReturn = !compareType(newOperation.ret.type, repoOperation.ret.type, messages, key, 'return');
   let changedDoc = !compareAttribute(newOperation.ret.srcDoc, repoOperation.ret.srcDoc, messages, key, `return doc`);
   let docsChanged = !compareDocs(newOperation.srcDocs, repoOperation.srcDocs, messages, key);
+  let extraMerge = runPlugins(plugins, 'docworksMergeOperation', newOperation.extra || {}, repoOperation.extra || {}, messages, key);
 
-  let changed = paramsMerge.changed || docsChanged || changedReturn || changedDoc;
+  let changed = paramsMerge.changed || docsChanged || changedReturn || changedDoc || extraMerge.changed;
   let ret = copy(repoOperation.ret, {
     type: newOperation.ret.type,
     srcDoc: newOperation.ret.srcDoc
@@ -155,7 +156,8 @@ function mergeOperation(newOperation, repoOperation, messages, key) {
     labels: updateLabels(repoOperation.labels, changed),
     srcDocs: copy(newOperation.srcDocs),
     locations: newOperation.locations,
-    ret: ret
+    ret: ret,
+    extra: extraMerge.merged
   });
   return {changed, item}
 }

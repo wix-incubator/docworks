@@ -648,6 +648,7 @@ describe('compare repo', function() {
         expect(operation.labels).to.not.include.members(['changed']);
         expect(operation.locations).to.deep.equal(newOperation.locations);
       });
+
     });
 
     describe('service callbacks', function() {
@@ -872,6 +873,37 @@ describe('compare repo', function() {
         expect(callback.labels).to.not.include.members(['changed']);
         expect(callback.locations).to.deep.equal(newCallback.locations);
       });
+
+      it('should update property extra but not report the service has changed', function() {
+        let {repo: repo, callback: repoCallback} = repoServiceCallback(baseRepo, 'ChangeServiceCallbacks1', 'callbacks1');
+        let {repo: newRepo, callback: newCallback} = repoServiceCallback(baseNewRepo, 'ChangeServiceCallbacks1', 'callbacks1');
+        repoCallback.extra = {thePlugin: 'old'};
+        newCallback.extra = {thePlugin: 'new'};
+
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceCallbacks1') > -1));
+
+        let {service, callback} = repoServiceCallback(mergedRepo.repo, 'ChangeServiceCallbacks1', 'callbacks1');
+        expect(callback.extra).to.deep.equal(newCallback.extra);
+        expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should detect change in property extra and let plugin control the merge', function() {
+        let {repo: repo, callback: repoCallback} = repoServiceCallback(baseRepo, 'ChangeServiceCallbacks1', 'callbacks1');
+        let {repo: newRepo, callback: newCallback} = repoServiceCallback(baseNewRepo, 'ChangeServiceCallbacks1', 'callbacks1');
+        repoCallback.extra = {thePlugin: 'old'};
+        newCallback.extra = {thePlugin: 'new'};
+
+        let mergedRepo = merge(newRepo, repo, ['../test/plugin']);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceCallbacks1 callback callbacks1 has changed extra.thePlugin']);
+
+        let {service, callback} = repoServiceCallback(mergedRepo.repo, 'ChangeServiceCallbacks1', 'callbacks1');
+        expect(callback.extra).to.deep.equal(newCallback.extra);
+        expect(service.labels).to.include.members(['changed']);
+      });
+
     });
 
     describe('service messages', function() {
