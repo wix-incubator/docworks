@@ -649,7 +649,7 @@ describe('compare repo', function() {
         expect(operation.locations).to.deep.equal(newOperation.locations);
       });
 
-      it('should update callback extra but not report the service has changed', function() {
+      it('should update operation extra but not report the service has changed', function() {
         let {repo: repo, operation: repoOperation} = repoServiceOperation(baseRepo, 'ChangeServiceOperations1', 'operations1');
         let {repo: newRepo, operation: newOperation} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations1', 'operations1');
         repoOperation.extra = {thePlugin: 'old'};
@@ -664,7 +664,7 @@ describe('compare repo', function() {
         expect(service.labels).to.not.include.members(['changed']);
       });
 
-      it('should detect change in callback extra and let plugin control the merge', function() {
+      it('should detect change in operation extra and let plugin control the merge', function() {
         let {repo: repo, operation: repoOperation} = repoServiceOperation(baseRepo, 'ChangeServiceOperations1', 'operations1');
         let {repo: newRepo, operation: newOperation} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations1', 'operations1');
         repoOperation.extra = {thePlugin: 'old'};
