@@ -20,5 +20,5 @@ export function runPlugins(plugins, pluginFunction, newExtra, repoExtra, message
         extraChanged = extraChanged || changed;
       })
   }
-  return {changed: extraChanged, merged: hasExtra?extra:undefined};
+  return {changed: extraChanged, merged: extra};
 }

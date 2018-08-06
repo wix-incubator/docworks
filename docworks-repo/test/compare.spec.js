@@ -180,7 +180,7 @@ describe('compare repo', function() {
         expect(service.labels).to.not.include.members(['changed']);
       });
 
-      it('should detect change in extra but not report the service has changed', function() {
+      it('should update extra but not report the service has changed', function() {
         let repoService = repo.find(serviceByName('ChangeServiceAttributes6'));
         repoService.extra = {me: 'old'};
         let newService = newRepo.find(serviceByName('ChangeServiceAttributes6'));
@@ -379,6 +379,46 @@ describe('compare repo', function() {
         expect(prop1.labels).to.not.include.members(['changed']);
         expect(prop1.locations).to.deep.equal(newProp1.locations);
       })
+
+      it('should update property extra but not report the service has changed', function() {
+        let repoSmall = repo.filter(_ => _.name === 'ChangeServiceProperties1');
+        let newRepoSmall = newRepo.filter(_ => _.name === 'ChangeServiceProperties1');
+        let repoService = repoSmall.find(serviceByName('ChangeServiceProperties1'));
+        let repoProp = repoService.properties.find(memberByName('prop1'));
+        repoProp.extra = {thePlugin: 'old'};
+        let newService = newRepoSmall.find(serviceByName('ChangeServiceProperties1'));
+        let newProp = newService.properties.find(memberByName('prop1'));
+        newProp.extra = {thePlugin: 'new'};
+
+        let customMergedRepo = merge(newRepoSmall, repoSmall);
+
+        expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceProperties1') > -1));
+
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
+        let prop = service.properties.find(memberByName('prop1'));
+        expect(prop.extra).to.deep.equal(newProp.extra);
+        expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should detect change in property extra and let plugin control the merge', function() {
+        let repoSmall = repo.filter(_ => _.name === 'ChangeServiceProperties1');
+        let newRepoSmall = newRepo.filter(_ => _.name === 'ChangeServiceProperties1');
+        let repoService = repoSmall.find(serviceByName('ChangeServiceProperties1'));
+        let repoProp = repoService.properties.find(memberByName('prop1'));
+        repoProp.extra = {thePlugin: 'old'};
+        let newService = newRepoSmall.find(serviceByName('ChangeServiceProperties1'));
+        let newProp = newService.properties.find(memberByName('prop1'));
+        newProp.extra = {thePlugin: 'new'};
+
+        let customMergedRepo = merge(newRepoSmall, repoSmall, ['../test/plugin']);
+
+        expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceProperties1 property prop1 has changed extra.thePlugin']);
+
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceProperties1'));
+        let prop = service.properties.find(memberByName('prop1'));
+        expect(prop.extra).to.deep.equal(newProp.extra);
+        expect(service.labels).to.include.members(['changed']);
+      });
     });
 
     describe('service operations', function() {

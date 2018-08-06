@@ -2,7 +2,7 @@
 
 exports.extendDocworksKey = 'thePlugin';
 
-exports.docworksMergeService = function(newValue, repoValue) {
+function mergeThePlugin(newValue, repoValue) {
   if (!!newValue && !!repoValue)
     return {
       value: newValue,
@@ -10,5 +10,9 @@ exports.docworksMergeService = function(newValue, repoValue) {
     };
   else
     return {changed: false}
-};
+}
+
+exports.docworksMergeService = mergeThePlugin;
+
+exports.docworksMergeProperty = mergeThePlugin;
 

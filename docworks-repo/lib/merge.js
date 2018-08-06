@@ -50,32 +50,34 @@ function updateLabels(labels, changed) {
       addRemoveLabels(labels, [], ['new', 'removed', 'changed'])
 }
 
-function mergeProperty(newProperty, repoProperty, messages, key) {
+function mergeProperty(newProperty, repoProperty, messages, key, plugins) {
   let changedType = !compareType(newProperty.type, repoProperty.type, messages, key);
   let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
   let changedSetter = !compareAttribute(newProperty.set, repoProperty.set, messages, key, 'setter');
   let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
+  let extraMerge = runPlugins(plugins, 'docworksMergeProperty', newProperty.extra || {}, repoProperty.extra || {}, messages, key);
 
-  let changed = changedType || changedGetter || changedSetter || docsChanged;
+  let changed = changedType || changedGetter || changedSetter || docsChanged || extraMerge.changed;
   let item = copy(repoProperty, {
     labels: updateLabels(repoProperty.labels, changed),
     type: newProperty.type,
     get: newProperty.get,
     set: newProperty.set,
     srcDocs: copy(newProperty.srcDocs),
-    locations: newProperty.locations
+    locations: newProperty.locations,
+    extra: extraMerge.merged
   });
   return {changed, item}
 }
 
-function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem) {
+function mergeLists(newList, repoList, messages, sKey, itemName, mergeItem, plugins) {
   let zipped = zipByKey(newList, repoList, _ => _.name);
   let changed = false;
   let merged = zipped.map(_ => {
     let newItem = _[0];
     let repoItem = _[1];
     if (newItem && repoItem) {
-      let mergedItem = mergeItem(newItem, repoItem, messages, `${sKey} ${itemName} ${newItem.name}`);
+      let mergedItem = mergeItem(newItem, repoItem, messages, `${sKey} ${itemName} ${newItem.name}`, plugins);
       changed = changed || mergedItem.changed;
       return mergedItem.item;
     }
@@ -216,10 +218,10 @@ function mergeService(sNew, sRepo, messages, plugins) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
   let docsChanged = !compareDocs(sNew.srcDocs, sRepo.srcDocs, messages, sKey);
-  let propertiesMerge = mergeLists(sNew.properties, sRepo.properties, messages, sKey, 'property', mergeProperty);
-  let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeOperation);
-  let callbacksMerge = mergeLists(sNew.callbacks, sRepo.callbacks, messages, sKey, 'callback', mergeOperation);
-  let messagesMerge = mergeLists(sNew.messages, sRepo.messages, messages, sKey, 'message', mergeMessage);
+  let propertiesMerge = mergeLists(sNew.properties, sRepo.properties, messages, sKey, 'property', mergeProperty, plugins);
+  let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeOperation, plugins);
+  let callbacksMerge = mergeLists(sNew.callbacks, sRepo.callbacks, messages, sKey, 'callback', mergeOperation, plugins);
+  let messagesMerge = mergeLists(sNew.messages, sRepo.messages, messages, sKey, 'message', mergeMessage, plugins);
   let extraMerge = runPlugins(plugins, 'docworksMergeService', sNew.extra || {}, sRepo.extra || {}, messages, sKey);
 
   let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed ||
