@@ -240,13 +240,28 @@ describe('compare repo', function() {
         expect(service.labels).to.not.include.members(['changed']);
       });
 
-      it('should detect change in extra and let plugin control the merge', function() {
+      it('should detect change in extra and let plugin (loaded with relative path) control the merge', function() {
         let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes6'));
         repoService.extra = {thePlugin: 'old'};
         let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes6'));
         newService.extra = {thePlugin: 'new'};
 
         let customMergedRepo = merge(baseNewRepo, baseRepo, ['../test/plugin']);
+
+        expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes6 has changed extra.thePlugin']);
+
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceAttributes6'));
+        expect(service.extra).to.deep.equal(newService.extra);
+        expect(service.labels).to.include.members(['changed']);
+      });
+
+      it('should detect change in extra and let plugin (loaded with relative path to cwd) control the merge', function() {
+        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes6'));
+        repoService.extra = {thePlugin: 'old'};
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes6'));
+        newService.extra = {thePlugin: 'new'};
+
+        let customMergedRepo = merge(baseNewRepo, baseRepo, ['test/plugin']);
 
         expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes6 has changed extra.thePlugin']);
 
