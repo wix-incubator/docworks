@@ -13,7 +13,7 @@ exports.defineTags = function(dictionary) {
 
 };
 
-exports.extendDocworksKey = 'note';
+exports.extendDocworksKey = 'notes';
 
 function extendDocworks(doclet) {
   return doclet.notes;

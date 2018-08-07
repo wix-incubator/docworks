@@ -19,7 +19,7 @@ class Service {
   }
 
   /**
-   * @function operation
+   * @function operation2
    * @memberof aNamespace.Service
    * @summary an operation
    * @description

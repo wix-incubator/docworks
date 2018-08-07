@@ -23,7 +23,7 @@ describe('integration test', function() {
               srcDocs: {
                 summary: 'an operation'
               },
-              more: {
+              extra: {
                 notes: ['this is a note about the member']
               }
             }
@@ -46,11 +46,11 @@ describe('integration test', function() {
       services: [
         {name: 'Service', memberOf: 'aNamespace',
           operations: [
-            { name: 'operation',
+            { name: 'operation2',
               srcDocs: {
                 summary: 'an operation'
               },
-              more: {
+              extra: {
                 notes: ['this is a note about the member', 'this is a second note']
               }
             }
