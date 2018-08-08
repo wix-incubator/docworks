@@ -103,6 +103,21 @@ describe('compare repo', function() {
     expect(serviceB.labels).to.not.include.members(['removed']);
   });
 
+  it('should not re-report removed on a removed service', async function() {
+    let emptyRepo = [];
+    let repo = extractServices('./test/compare/repoVersion/changeServices');
+    // simulate existing service that is marked as removed
+    let repoServiceA = repo.find(serviceByName('ServiceA'));
+    repoServiceA.labels = ['removed'];
+
+    let mergedRepo = merge(emptyRepo, [repoServiceA]);
+
+    expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ServiceA') > -1));
+
+    let serviceB = mergedRepo.repo.find(serviceByName('ServiceA'));
+    expect(serviceB.labels).to.include.members(['removed']);
+  });
+
   it('should remove the changed label if a service did not change', async function() {
     let newRepo = extractServices('./test/compare/newVersion/changeServices');
     let repo = extractServices('./test/compare/repoVersion/changeServices');

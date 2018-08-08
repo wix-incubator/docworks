@@ -260,7 +260,8 @@ export default function merge(newRepo, repo, pluginModules) {
     }
     else {
       let removedService = copy(sRepo, {labels: addRemoveLabels(sRepo.labels, 'removed', 'new')});
-      messages.push(`Service ${serviceKey(removedService)} was removed`);
+      if (!sRepo.labels.find(_ => _ === 'removed')) 
+        messages.push(`Service ${serviceKey(removedService)} was removed`);
       return removedService;
     }
   });
