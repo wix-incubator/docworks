@@ -1,6 +1,6 @@
 {
   "name": "wix-note",
-  "version": "1.3.11",
+  "version": "1.4.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "chai": "^3.5.0",
     "chai-subset": "^1.5.0",
     "docworks-jsdoc2spec": "^1.3.11",
-    "docworks-repo": "^1.3.11",
+    "docworks-repo": "^1.4.0",
     "mocha": "^3.3.0"
   }
 }
