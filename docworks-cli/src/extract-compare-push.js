@@ -72,7 +72,7 @@ export default async function extractComparePush(remoteRepo, workingDir, project
     logger.jsDocErrors(errors);
     
     logger.command('docworks', `merge`);
-    let merged = merge(services, repoContent.services);
+    let merged = merge(services, repoContent.services, plugins);
 
     logger.command('docworks', `saveServices ${workingSubdir}`);
     await saveToDir(workingSubdir, merged.repo);
