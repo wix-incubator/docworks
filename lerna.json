@@ -6,10 +6,11 @@
     "docworks-json",
     "docworks-model",
     "docworks-repo",
+    "wix-event-type",
     "wix-snippet",
     "wix-note",
     "wix-types-fix",
     "wix-jsdoc-babel"
   ],
-  "version": "1.4.0"
+  "version": "1.4.1"
 }
