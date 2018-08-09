@@ -1,0 +1,25 @@
+{
+  "name": "wix-event-type",
+  "version": "1.4.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "prepublish": "babel src --out-dir dist",
+    "test": "mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js"
+  },
+  "author": "Yoav Abrahami",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "chai": "^3.5.0",
+    "chai-subset": "^1.5.0",
+    "docworks-jsdoc2spec": "^1.3.11",
+    "docworks-repo": "^1.4.0",
+    "mocha": "^3.3.0"
+  }
+}
