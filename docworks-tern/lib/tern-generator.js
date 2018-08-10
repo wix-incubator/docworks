@@ -1,3 +1,4 @@
+import {runPlugins} from './plugins';
 
 const builtInTypes = {
   'string': 'string',
@@ -38,13 +39,16 @@ function trimPara(text) {
   return '';
 }
 
-export function propTern(service, prop, urlGenerator) {
+export function propTern(service, prop, urlGenerator, plugins) {
   let tern = {};
-  tern[validTernName(prop.name)] = {
+  const propName = validTernName(prop.name);
+  tern[propName] = {
       "!type": typeTern(prop.type),
       "!doc": trimPara(prop.srcDocs.summary),
-      "!url": urlGenerator(service, validTernName(prop.name))
+      "!url": urlGenerator(service, propName)
     };
+
+  runPlugins(plugins, 'ternProperty', prop.extra, tern[propName]);
 
   return tern;
 }
@@ -71,14 +75,17 @@ function formatFunctionTern(operation, findCallback) {
   return `fn(${params})${ret}`;
 }
 
-export function operationTern(service, operation, urlGenerator, findCallback) {
+export function operationTern(service, operation, urlGenerator, findCallback, plugins) {
   let tern = {};
 
-  tern[validTernName(operation.name)] = {
+  const operationName = validTernName(operation.name);
+  tern[operationName] = {
     "!type": formatFunctionTern(operation, findCallback),
     "!doc": trimPara(operation.srcDocs.summary),
-    "!url": urlGenerator(service, validTernName(operation.name))
+    "!url": urlGenerator(service, operationName)
   };
+
+  runPlugins(plugins, 'ternOperation', operation.extra, tern[operationName]);
 
   return tern;
 }

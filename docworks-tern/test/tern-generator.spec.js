@@ -13,6 +13,22 @@ function urlGenerator(service, member) {
     return `http://www.wix.com/reference/${serviceFullName}.html`;
 }
 
+function findByName(arr, name) {
+  return arr.find(_ => _.name === name)
+}
+
+let plugins = [
+  {
+    extendDocworksKey: 'eventType',
+    ternProperty: function(extraData, tern) {
+      tern['!eventType'] = extraData;
+    },
+    ternOperation: function(extraData, tern) {
+      tern['!eventType'] = extraData;
+    }
+  }
+];
+
 describe('generate tern', function() {
 
   describe('for type', function() {
@@ -56,7 +72,7 @@ describe('generate tern', function() {
     let service = require('./services/properties.service.json');
 
     it('read-only property', function() {
-      let prop = service.properties.find(_ => _.name === 'prop1');
+      let prop = findByName(service.properties, 'prop1');
 
       let tern = propTern(service, prop, urlGenerator);
 
@@ -69,7 +85,7 @@ describe('generate tern', function() {
     });
 
     it('read-write property', function() {
-      let prop = service.properties.find(_ => _.name === 'prop2');
+      let prop = findByName(service.properties, 'prop2');
 
       let tern = propTern(service, prop, urlGenerator);
 
@@ -82,7 +98,7 @@ describe('generate tern', function() {
     });
 
     it('array property', function() {
-      let prop = service.properties.find(_ => _.name === 'arrayProp');
+      let prop = findByName(service.properties, 'arrayProp');
 
       let tern = propTern(service, prop, urlGenerator);
 
@@ -93,6 +109,21 @@ describe('generate tern', function() {
           "!url": "http://www.wix.com/reference/properties.html#arrayProp"
         } } );
     });
+
+    it('property with a plugin adding eventType', function() {
+      let prop = Object.assign({}, findByName(service.properties, 'prop1'), {extra: {'eventType': 'onClick'}});
+
+      let tern = propTern(service, prop, urlGenerator, plugins);
+
+      expect(tern).to.containSubset({
+        "prop1": {
+          "!type": "string",
+          "!doc": "Summary of prop 1",
+          "!url": "http://www.wix.com/reference/properties.html#prop1",
+          "!eventType": "onClick"
+        } } );
+    });
+
   });
 
   describe('for functions', function() {
@@ -187,6 +218,20 @@ describe('generate tern', function() {
           "!type": "fn(count: number, context: +wix_data.Hooks.HookContext) -> +Promise[value=number]",
           "!doc": "A hook that is triggered after a `count()` operation.",
           "!url": "http://www.wix.com/reference/functions.html#afterCount"
+        } } );
+    });
+
+    it('func with a plugin adding eventType', function() {
+      let operation = Object.assign({}, service.operations.find(_ => _.name === 'to'), {extra: {'eventType': 'onClick'}});
+
+      let tern = operationTern(service, operation, urlGenerator, findCallback, plugins);
+
+      expect(tern).to.containSubset({
+        "to": {
+          "!type": "fn(url: string)",
+          "!doc": "Directs the browser to navigate to the specified URL.",
+          "!url": "http://www.wix.com/reference/functions.html#to",
+          "!eventType": "onClick"
         } } );
     });
   });
