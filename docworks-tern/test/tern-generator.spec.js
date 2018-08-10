@@ -363,6 +363,7 @@ describe('generate tern', function() {
     let wixStorage = require('./services/wix-storage.service.json');
     let parent = require('./services/parent.service.json');
     let child = require('./services/child.service.json');
+    let clickableMixin = require('./services/ClickableMixin.service.json');
 
     let findMixin = (fullName) => {
       if (fullName === '$w.CollapsedMixin')
@@ -528,6 +529,31 @@ describe('generate tern', function() {
             }
           }
         },
+      });
+    });
+
+    it('Service with Tern Plugins', function() {
+      let tern = ternService(clickableMixin, urlGenerator, () => {}, findMixin, plugins);
+
+      expect(tern).to.containSubset({
+        "ClickableMixin": {
+          "!doc": "",
+          "!url": "http://www.wix.com/reference/$w.ClickableMixin.html",
+          "prototype": {
+            "onClick": {
+              "!doc": "Adds an event handler that runs when the element is clicked.",
+              "!type": "fn(handler: +$w.MouseEventHandler) -> +$w.Element",
+              "!url": "http://www.wix.com/reference/$w.ClickableMixin.html#onClick",
+              "!eventType": "onClick"
+            },
+            "onDblClick": {
+              "!doc": "Adds an event handler that runs when the element is double-clicked.",
+              "!type": "fn(handler: +$w.MouseEventHandler) -> +$w.Element",
+              "!url": "http://www.wix.com/reference/$w.ClickableMixin.html#onDblClick",
+              "!eventType": "onDblClick"
+            }
+          },
+        }
       });
     });
 

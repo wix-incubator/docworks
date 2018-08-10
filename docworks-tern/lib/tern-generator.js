@@ -113,10 +113,11 @@ export function messageTern(service, message, urlGenerator, plugins) {
   return tern;
 }
 
-export function ternService(service, urlGenerator, findCallback, findMixin) {
+export function ternService(service, urlGenerator, findCallback, findMixin, plugins) {
   let tern = {};
 
-  tern[validTernName(service.name)] = {
+  const serviceName = validTernName(service.name);
+  tern[serviceName] = {
     "!doc": trimPara(service.srcDocs.summary),
     "!url": urlGenerator(service)
   };
@@ -131,21 +132,21 @@ export function ternService(service, urlGenerator, findCallback, findMixin) {
   };
   service.mixes.forEach(gatherMixes);
 
-  let servicePrototype = tern[validTernName(service.name)]["prototype"] = {};
+  let servicePrototype = tern[serviceName]["prototype"] = {};
 
   parentServices.forEach(parentService => {
     parentService.properties.forEach(prop => {
-      Object.assign(servicePrototype, propTern(service, prop,urlGenerator));
+      Object.assign(servicePrototype, propTern(service, prop,urlGenerator, plugins));
     });
     parentService.operations.forEach(operation => {
-      Object.assign(servicePrototype, operationTern(service, operation, urlGenerator, findCallback));
+      Object.assign(servicePrototype, operationTern(service, operation, urlGenerator, findCallback, plugins));
     });
   });
   service.callbacks.forEach(callback => {
-    Object.assign(tern[validTernName(service.name)], operationTern(service, callback, urlGenerator, findCallback));
+    Object.assign(tern[serviceName], operationTern(service, callback, urlGenerator, findCallback, plugins));
   });
   service.messages.forEach(message => {
-    Object.assign(tern[validTernName(service.name)], messageTern(service, message,urlGenerator));
+    Object.assign(tern[serviceName], messageTern(service, message,urlGenerator, plugins));
   });
 
   return tern;
