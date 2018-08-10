@@ -25,6 +25,9 @@ let plugins = [
     },
     ternOperation: function(extraData, tern) {
       tern['!eventType'] = extraData;
+    },
+    ternMessage: function(extraData, tern) {
+      tern['!eventType'] = extraData;
     }
   }
 ];
@@ -321,6 +324,30 @@ describe('generate tern', function() {
             "!doc": "The value of the dropdown option. This is what you use in code and is what is stored in your collections.",
             "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option"
           }
+        }
+      });
+    });
+
+    it('message with a plugin adding eventType', function() {
+      let message = Object.assign({}, service.messages.find(_ => _.name === 'Option'), {extra: {'eventType': 'onClick'}});
+
+      let tern = messageTern(service, message, urlGenerator, plugins);
+
+      expect(tern).to.containSubset({
+        "Option": {
+          "!doc": "An object used by the `options` property that contains the attributes of a dropdown list item.",
+          "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option",
+          "label": {
+            "!type": "string",
+            "!doc": "The label of the dropdown option. This is what a user sees.",
+            "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option"
+          },
+          "value": {
+            "!type": "string",
+            "!doc": "The value of the dropdown option. This is what you use in code and is what is stored in your collections.",
+            "!url": "http://www.wix.com/reference/$w.Dropdown.html#Option"
+          },
+          "!eventType": "onClick"
         }
       });
     });

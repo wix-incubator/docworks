@@ -90,22 +90,25 @@ export function operationTern(service, operation, urlGenerator, findCallback, pl
   return tern;
 }
 
-export function messageTern(service, message, urlGenerator) {
+export function messageTern(service, message, urlGenerator, plugins) {
   let tern = {};
 
-  const messageUrl = urlGenerator(service, validTernName(message.name));
-  tern[validTernName(message.name)] = {
+  const messageName = validTernName(message.name);
+  const messageUrl = urlGenerator(service, messageName);
+  tern[messageName] = {
     "!doc": trimPara(message.srcDocs.summary),
     "!url": messageUrl
   };
 
   message.members.forEach(member => {
-     tern[validTernName(message.name)][validTernName(member.name)] = {
+    tern[messageName][validTernName(member.name)] = {
        "!type": typeTern(member.type),
        "!doc": trimPara(member.srcDocs),
        "!url": messageUrl
      }
   });
+
+  runPlugins(plugins, 'ternMessage', message.extra, tern[messageName]);
 
   return tern;
 }
