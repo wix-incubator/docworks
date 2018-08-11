@@ -117,4 +117,32 @@ describe('tern workflow e2e', function() {
     );
   });
 
+  it('generate tern from a remote repo with a tern plugin', async function() {
+    await createRemoteOnVer1();
+    logger.log('run test');
+    logger.log('--------');
+    await runTern(`.bin/docworks tern -r ${remote} -u http://base-url.com -n apiname -o ./tmp/tern.js --plug ./test/tern-plugin.js`.split(' '));
+
+    let content = await fs.readFile('tmp/tern.js', 'utf-8');
+
+    expect(content).to.equal(
+      `define([], function() { return {
+	"!define": {
+		"Service": {
+			"!doc": "this is a service",
+			"!url": "http://base-url.com/Service.html",
+			"prototype": {
+				"operation": {
+					"!type": "fn(param: string)",
+					"!doc": "",
+					"!url": "http://base-url.com/Service.html#operation",
+					"!eventType": "hello"
+				}
+			}
+		}
+	},
+	"!name": "apiname"
+}; });`
+    );
+  });
 });

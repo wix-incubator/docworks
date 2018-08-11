@@ -48,8 +48,10 @@ export default async function runTern(remote, local, baseUrl, apiName, outputFil
     logger.config(`plugins:           `, plugins.join(', '));
     logger.newLine();
 
+    let pluginModules = plugins.map(require);
+
     logger.command('docworks tern', '');
-    let ternContent = tern(repo.services, baseUrl, apiName, plugins);
+    let ternContent = tern(repo.services, baseUrl, apiName, pluginModules);
 
     logger.command('tern save to file', outputFileName);
     return writeOutput(outputFileName, ternContent);
