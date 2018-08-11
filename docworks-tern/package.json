@@ -1,6 +1,6 @@
 {
   "name": "docworks-tern",
-  "version": "1.0.0",
+  "version": "1.4.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -13,8 +13,8 @@
   "dependencies": {
     "docworks-model": "^1.1.0",
     "docworks-repo": "^1.2.3",
-    "resolve": "^1.5.0",
-    "optimist": "^0.6.1"
+    "optimist": "^0.6.1",
+    "resolve": "^1.5.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
