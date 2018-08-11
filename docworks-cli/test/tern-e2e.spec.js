@@ -89,7 +89,7 @@ describe('tern workflow e2e', function() {
     }
   });
 
-  it.only('generate tern from a remote repo', async function() {
+  it('generate tern from a remote repo', async function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
