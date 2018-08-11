@@ -1,8 +1,6 @@
 "use strict";
 
 import tern from './tern-repo';
-import fs from 'fs';
-import {readFromDir} from 'docworks-repo';
 
 function makeUrlGenerator(url) {
   return function urlGenerator(service, member) {
@@ -14,20 +12,16 @@ function makeUrlGenerator(url) {
   }
 }
 
-export default async function runCli(sources, url, name, outputFileName, plugins) {
-  let repo = await readFromDir(sources);
-  let ternOutput = tern(repo.services, name, makeUrlGenerator(url), plugins);
-  let ternFileContent =
-    `define([], function() { return ${JSON.stringify(ternOutput, null, "\t")}; });`;
-  return new Promise((fulfill, reject) => {
-    fs.writeFile(outputFileName, ternFileContent, {}, (err) => {
-      if (err)
-        reject(err);
-      else
-        fulfill();
-    })
-  })
+export default function runTern(services, baseUrl, apiName, plugins) {
+  let ternOutput = tern(services, apiName, makeUrlGenerator(baseUrl), plugins);
+  return `define([], function() { return ${JSON.stringify(ternOutput, null, "\t")}; });`;
 }
+
+
+
+
+
+
 
 
 

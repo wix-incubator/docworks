@@ -6,6 +6,7 @@
     "docworks-json",
     "docworks-model",
     "docworks-repo",
+    "docworks-tern",
     "wix-event-type",
     "wix-snippet",
     "wix-note",

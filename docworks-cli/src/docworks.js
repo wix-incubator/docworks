@@ -5,6 +5,7 @@ let extractComparePush = require('../dist/extract-compare-push').default;
 let validate = require('../dist/validate').default;
 let optimist = require('optimist');
 let resolve = require('resolve');
+import runTern from '../dist/run-tern';
 
 if (process.argv.length < 3) {
   printUsage();
@@ -19,6 +20,9 @@ if (command === 'ecp') {
 else if (command === 'validate' || command === 'val') {
   validateCommand();
 }
+else if (command === 'tern') {
+  tern();
+}
 else {
   printUsage(1);
   process.exit(1);
@@ -29,7 +33,8 @@ function printUsage() {
   console.log('');
   console.log('Commands:');
   console.log('  ecp              extract, compare and push docs from sources to a docs git repository');
-  console.log('  val | validate   validate the jsDoc annotations ');
+  console.log('  val | validate   validate the jsDoc annotations');
+  console.log('  tern             generate tern file from docworks repo');
 }
 
 function resolvePlugins(plugins) {
@@ -106,4 +111,42 @@ function validateCommand() {
 
   if (!validate({"include": sources, "includePattern": pattern}, plugins))
     process.exit(1);
+}
+
+function tern() {
+  const cmdDefinition = optimist
+    .usage('Usage: $0 tern (-r [remote repo] | -s [services repo] ) -u [base url] -n [api name] -o [output file]')
+    .alias(   'r', 'remote')
+    .describe('r', 'remote repository to read docworks services files from')
+    .alias(   'l', 'local')
+    .describe('l', 'folder containing docwork service files')
+    .demand(  'u')
+    .alias(   'u', 'url')
+    .describe('u', 'base url for the urls generated in tern')
+    .demand(  'n')
+    .alias(   'n', 'name')
+    .describe('n', 'API name')
+    .demand(  'o')
+    .alias(   'o', 'out')
+    .describe('o', 'output file')
+    .describe('plug', 'a module name that is a docworks tern plugin');
+  let argv = cmdDefinition
+    .argv;
+
+  let remote = argv.remote;
+  let local = argv.local;
+  let baseUrl = argv.url;
+  let apiName = argv.name;
+  let outputFileName = argv.out;
+  let plugins = resolvePlugins(argv.plug);
+
+  if (!remote && !local || (!!remote && !!local)) {
+    console.log(cmdDefinition.help());
+    process.exit(1);
+  }
+
+  return runTern(remote, local, baseUrl, apiName, outputFileName, plugins)
+    .catch(() => {
+      process.exit(1);
+    });
 }
