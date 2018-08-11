@@ -14,7 +14,7 @@ function mergeObjects(path, object1, object2) {
   return object1;
 }
 
-export default function tern(services, apiName, urlGenerator) {
+export default function tern(services, apiName, urlGenerator, plugins) {
   let ternModel = {};
 
   let findService = (fullName) => {
@@ -37,7 +37,7 @@ export default function tern(services, apiName, urlGenerator) {
   };
 
   services.forEach(service => {
-    let serviceTern = ternService(service, urlGenerator, findCallback, findService);
+    let serviceTern = ternService(service, urlGenerator, findCallback, findService, plugins);
     let ternParent = ternModel;
     let namespaces = (service.memberOf || '')
       .split('.')

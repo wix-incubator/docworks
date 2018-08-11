@@ -14,9 +14,9 @@ function makeUrlGenerator(url) {
   }
 }
 
-export default async function runCli(sources, url, name, outputFileName) {
+export default async function runCli(sources, url, name, outputFileName, plugins) {
   let repo = await readFromDir(sources);
-  let ternOutput = tern(repo.services, name, makeUrlGenerator(url));
+  let ternOutput = tern(repo.services, name, makeUrlGenerator(url), plugins);
   let ternFileContent =
     `define([], function() { return ${JSON.stringify(ternOutput, null, "\t")}; });`;
   return new Promise((fulfill, reject) => {

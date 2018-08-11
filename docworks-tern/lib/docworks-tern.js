@@ -2,6 +2,7 @@
 import 'babel-polyfill';
 import optimist from 'optimist';
 import runCli from "./index";
+import {resolvePlugins} from './plugins';
 
 let argv = optimist
   .usage('Usage: $0 docworks-tern -s [services repo] -u [base url]')
@@ -17,15 +18,17 @@ let argv = optimist
   .demand('o')
   .alias('o', 'out')
   .describe('o', 'output file')
+  .describe('plug', 'a module name that is a docworks tern plugin')
   .argv;
 
 let sources = argv.sources;
 let url = argv.url;
 let name = argv.name;
 let outputFileName = argv.out;
+let plugins = resolvePlugins(argv.plug);
 
 function start() {
-  runCli(sources, url, name, outputFileName)
+  runCli(sources, url, name, outputFileName, plugins)
     .then(() => {
       console.log('tern file saved to ' + outputFileName);
     })

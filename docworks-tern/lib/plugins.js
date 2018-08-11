@@ -1,35 +1,21 @@
-import path from 'path';
-import fs from 'fs';
+import resolve from 'resolve';
 
-function getResourcePath(dirname) {
-  return ['', process.cwd(), __dirname]
-    .map(basePath => path.resolve(basePath, dirname))
-    .find(dirPath => fs.existsSync(dirPath));
-
-  // ['', process.cwd()].forEach(basePath => {
-  //   let dirPath = path.resolve(basePath, dirname);
-  //   if (fs.existsSync(dirPath))
-  //     return dirPath
-  // });
-  // return undefined;
-}
-
-function resolvePluginPath(plugin) {
-  let basename = path.basename(plugin);
-  let dirname = path.dirname(plugin);
-  let pluginPath = getResourcePath(dirname);
-
-  if (!pluginPath) {
-    throw new Error(`Unable to find the plugin ${plugin}`);
-  }
-
-  return path.join(pluginPath, basename)
-}
-
-export function loadPlugins(plugins) {
-  return (plugins || [])
-    .map(resolvePluginPath)
-    .map(require)
+export function resolvePlugins(plugins) {
+  return (plugins?(Array.isArray(plugins)?plugins:[plugins]):[])
+    .map(pluginCmd => {
+        let [plugin, param] = pluginCmd.split(/:(.+)/);
+        plugin = resolve.sync(plugin, {basedir: '.'});
+        try {
+          let pluginModule = require(plugin);
+          if (param && pluginModule.init)
+            pluginModule.init(param);
+          return pluginModule;
+        }
+        catch (err) {
+          throw new Error(`plugins ${plugin} not found`)
+        }
+      }
+    );
 }
 
 export function runPlugins(plugins, pluginFunction, extra, tern) {
