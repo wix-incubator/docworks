@@ -153,7 +153,7 @@ describe('extract compare push workflow', function() {
     });
   });
 
-  it.only('should update remote with changes from v2, v3 and v4 over v1', async function() {
+  it('should update remote with changes from v2, v3 and v4 over v1', async function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');
