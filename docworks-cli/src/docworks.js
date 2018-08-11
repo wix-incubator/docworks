@@ -67,7 +67,7 @@ function ecp() {
     .demand(  'p')
     .alias(   'p', 'project')
     .describe('p', 'project folder name in the docs repo')
-    .describe('plug', 'a module name that is a jsdoc plugin')
+    .describe('plug', 'a module name that is a jsdoc or docworks plugin')
     .describe('dryrun', 'dry run - do not push to remote repo')
     .parse(process.argv.slice(3));
 
