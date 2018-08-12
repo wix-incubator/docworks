@@ -127,3 +127,25 @@ export class ChangeServiceProperties6 {
   set prop1(value) {
   }
 }
+
+/**
+ * @class ChangeServiceProperties7
+ */
+export class ChangeServiceProperties7 {
+  /**
+   * @member prop1
+   * @memberof ChangeServiceProperties7
+   * @type {String}
+   * @default abc
+   */
+  get prop1() {
+  }
+
+  /**
+   * @member prop1
+   * @memberof ChangeServiceProperties7
+   * @param {String} value The new label to display.
+   */
+  set prop1(value) {
+  }
+}

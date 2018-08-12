@@ -54,15 +54,17 @@ function mergeProperty(newProperty, repoProperty, messages, key, plugins) {
   let changedType = !compareType(newProperty.type, repoProperty.type, messages, key);
   let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
   let changedSetter = !compareAttribute(newProperty.set, repoProperty.set, messages, key, 'setter');
+  let defaultValue = !compareAttribute(newProperty.defaultValue, repoProperty.defaultValue, messages, key, 'default value');
   let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
   let extraMerge = runPlugins(plugins, 'docworksMergeProperty', newProperty.extra || {}, repoProperty.extra || {}, messages, key);
 
-  let changed = changedType || changedGetter || changedSetter || docsChanged || extraMerge.changed;
+  let changed = changedType || changedGetter || changedSetter || defaultValue || docsChanged || extraMerge.changed;
   let item = copy(repoProperty, {
     labels: updateLabels(repoProperty.labels, changed),
     type: newProperty.type,
     get: newProperty.get,
     set: newProperty.set,
+    defaultValue: newProperty.defaultValue,
     srcDocs: copy(newProperty.srcDocs),
     locations: newProperty.locations,
     extra: extraMerge.merged

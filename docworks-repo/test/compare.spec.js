@@ -408,6 +408,20 @@ describe('compare repo', function() {
         expect(prop1.type).to.equal(newProp1.type);
       });
 
+      it('should report changed property default value', function() {
+        let {repo: newRepo, prop: newProp1} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties7', 'prop1');
+        let {repo} = repoServiceProp(baseRepo, 'ChangeServiceProperties7', 'prop1');
+
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceProperties7 property prop1 has changed default value']);
+
+        let {service, prop: prop1} = repoServiceProp(mergedRepo.repo, 'ChangeServiceProperties7', 'prop1');
+        expect(service.labels).to.include.members(['changed']);
+        expect(prop1.labels).to.include.members(['changed']);
+        expect(prop1.defaultValue).to.equal(newProp1.defaultValue);
+      });
+
       it('should report changed property get/set', function() {
         let {repo: newRepo, prop: newProp1} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties4', 'prop1');
         let {repo} = repoServiceProp(baseRepo, 'ChangeServiceProperties4', 'prop1');

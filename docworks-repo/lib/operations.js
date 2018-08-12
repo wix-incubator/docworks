@@ -24,10 +24,11 @@ const propertySpec = {
   get: {pos: 3},
   set: {pos: 4},
   type: {pos: 5},
-  locations: Object.assign({pos: 6}, locationSpec),
-  docs: Object.assign({pos: 7}, docSpec),
-  srcDocs: Object.assign({pos: 8}, docSpec),
-  extra: {pos: 9}
+  defaultValue: {pos: 6},
+  locations: Object.assign({pos: 7}, locationSpec),
+  docs: Object.assign({pos: 8}, docSpec),
+  srcDocs: Object.assign({pos: 9}, docSpec),
+  extra: {pos: 10}
 };
 const paramSpec = {
   name: {pos: 1},
