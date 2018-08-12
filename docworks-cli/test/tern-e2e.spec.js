@@ -98,7 +98,7 @@ describe('tern workflow e2e', function() {
     let content = await fs.readFile('tmp/tern.js', 'utf-8');
 
     expect(content).to.equal(
-      `define([], function() { return {
+      `{
 	"!define": {
 		"Service": {
 			"!doc": "this is a service",
@@ -113,7 +113,7 @@ describe('tern workflow e2e', function() {
 		}
 	},
 	"!name": "apiname"
-}; });`
+}`
     );
   });
 
@@ -126,7 +126,7 @@ describe('tern workflow e2e', function() {
     let content = await fs.readFile('tmp/tern.js', 'utf-8');
 
     expect(content).to.equal(
-      `define([], function() { return {
+      `{
 	"!define": {
 		"Service": {
 			"!doc": "this is a service",
@@ -142,7 +142,7 @@ describe('tern workflow e2e', function() {
 		}
 	},
 	"!name": "apiname"
-}; });`
+}`
     );
   });
 });
