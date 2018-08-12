@@ -1,6 +1,6 @@
 {
   "name": "docworks-tern",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -11,8 +11,8 @@
   "author": "Yoav Abrahami",
   "license": "ISC",
   "dependencies": {
-    "docworks-model": "^1.1.0",
-    "docworks-repo": "^1.2.3",
+    "docworks-model": "^1.4.3",
+    "docworks-repo": "^1.4.3",
     "optimist": "^0.6.1",
     "resolve": "^1.5.0"
   },
