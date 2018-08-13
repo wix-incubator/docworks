@@ -3,9 +3,8 @@ import fs from 'fs';
 import fsExtra from 'fs-extra';
 import {readFromDir} from 'docworks-repo';
 import * as defaultLogger from './logger';
-import git from 'simple-git';
+import Git from './git';
 import tmp from 'tmp-promise';
-import asPromise from './as-promise';
 
 function writeOutput(outputFileName, ternFileContent) {
   return new Promise((fulfill, reject) => {
@@ -31,9 +30,9 @@ export default async function runTern(remote, local, baseUrl, apiName, outputFil
       await fsExtra.ensureDir(workingDir);
       logger.config(`working dir:       `, workingDir);
 
-      let baseGit = git();
+      let baseGit = new Git();
       logger.command('git', `clone ${remote} ${workingDir}`);
-      await asPromise(baseGit, baseGit.clone)(remote, workingDir, []);
+      await baseGit.clone(remote, workingDir);
 
       localServicesDir = workingDir;
     }
