@@ -49,26 +49,6 @@ async function createRemoteOnVer1() {
   await baseGit.clone(remoteBuild, remote, ['--bare']);
 }
 
-async function getCommitMessage(remoteRepo) {
-  let listLogSummary = await asPromise(remoteRepo, remoteRepo.log)(['-1', '--pretty=format:%H;%ai;%B;%aN;%ae']);
-  return listLogSummary.latest.message;
-}
-
-async function readServiceFromCommit(remoteRepo, fileName) {
-  let fileJson = await asPromise(remoteRepo, remoteRepo.catFile)(['-p', `HEAD:${fileName}`]);
-  return serviceFromJson(fileJson);
-}
-
-async function fileExists(remoteRepo, fileName) {
-  try {
-    await readServiceFromCommit(remoteRepo, fileName);
-    return true;
-  }
-  catch (e) {
-    return false;
-  }
-}
-
 async function runDocWorks(args) {
   let child = spawn('node', args);
 
