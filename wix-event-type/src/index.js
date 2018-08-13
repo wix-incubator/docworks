@@ -29,3 +29,11 @@ exports.docworksMergeService = mergeEventType;
 exports.docworksMergeProperty = mergeEventType;
 exports.docworksMergeOperation = mergeEventType;
 exports.docworksMergeMessage = mergeEventType;
+
+function ternEventType(extraData, tern) {
+  tern['!eventType'] = extraData;
+}
+
+exports.ternProperty = ternEventType;
+exports.ternOperation = ternEventType;
+exports.ternMessage = ternEventType;

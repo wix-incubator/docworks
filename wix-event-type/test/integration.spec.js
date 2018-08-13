@@ -1,7 +1,9 @@
 import runJsDoc from 'docworks-jsdoc2spec';
 import {merge} from 'docworks-repo';
+import runTern from 'docworks-tern';
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
+
 
 const expect = chai.expect;
 chai.use(chaiSubset);
@@ -94,5 +96,15 @@ describe('integration test', function() {
         ]
       });
     });
+  });
+
+  describe('tern', function() {
+    it('should add eventType to tern', function() {
+      let repo = runJsDoc(SOURCE_integration_SERVICE, ['src/index']);
+
+      let tern = runTern(repo.services, 'http://base.com', 'api', [require('../src/index')]);
+
+      expect(tern).to.contain(`"!eventType": "onClick"`);
+    })
   })
 });
