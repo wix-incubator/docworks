@@ -6,7 +6,6 @@ import {spawn} from 'child_process';
 import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, serviceFromJson} from 'docworks-repo';
 import Git from '../src/git';
-import asPromise from '../src/as-promise';
 import * as logger from './test-logger';
 
 chai.use(chaiSubset);

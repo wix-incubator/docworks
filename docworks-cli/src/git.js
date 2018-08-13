@@ -31,6 +31,10 @@ export default class Git {
     return asPromise(this._git, this._git.push)(remote, branch, [])
   }
 
+  async readFile(fileName) {
+    return await asPromise(this._git, this._git.catFile)(['-p', `HEAD:${fileName}`]);
+  }
+
   async getCommitMessage() {
     let listLogSummary = await asPromise(this._git, this._git.log)(['-1', '--pretty=format:%H;%ai;%B;%aN;%ae']);
     return listLogSummary.latest.message;
@@ -38,7 +42,7 @@ export default class Git {
 
   async fileExists(fileName) {
     try {
-      await asPromise(this._git, this._git.catFile)(['-p', `HEAD:${fileName}`]);
+      await this.readFile(fileName);
       return true;
     }
     catch (e) {
