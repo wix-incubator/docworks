@@ -1,10 +1,9 @@
 import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, readFromDir, merge} from 'docworks-repo';
 import {join} from 'path';
-import git from 'simple-git';
+import Git from './git';
 import fs from 'fs-extra';
 import * as defaultLogger from './logger';
-import asPromise from './as-promise';
 import chalk from 'chalk';
 
 function commitMessage(projectSubdir, messages, errors, indent) {
@@ -58,11 +57,11 @@ export default async function extractComparePush(remoteRepo, workingDir, project
   try {
 
     await fs.ensureDir(workingDir);
-    let baseGit = git();
+    let baseGit = new Git();
     logger.command('git', `clone ${remoteRepo} ${workingDir}`);
-    await asPromise(baseGit, baseGit.clone)(remoteRepo, workingDir, []);
+    await baseGit.clone(remoteRepo, workingDir);
 
-    let localRepo = git(workingDir);
+    let localGit = new Git(workingDir);
 
     logger.command('docworks', `readServices ${workingSubdir}`);
     let repoContent = await readFromDir(workingSubdir);
@@ -78,7 +77,7 @@ export default async function extractComparePush(remoteRepo, workingDir, project
     await saveToDir(workingSubdir, merged.repo);
 
     logger.command('git status', '');
-    let statuses = await asPromise(localRepo, localRepo.status)();
+    let statuses = await localGit.status();
     let files = [];
     files.push(...statuses.created, ...statuses.not_added, ...statuses.modified);
 
@@ -91,13 +90,13 @@ export default async function extractComparePush(remoteRepo, workingDir, project
     }
     else if (files.length > 0) {
       logger.command('git', `add ${files.join(' ')}`);
-      await asPromise(localRepo, localRepo.add)(files);
+      await localGit.add(files);
 
       logger.rawLog(`    ${chalk.white('git commit -m')} '${chalk.gray(commitMessage(projectSubdir, merged.messages, errors, '      '))}'`);
-      await asPromise(localRepo, localRepo.commit)(commitMessage(projectSubdir, merged.messages, errors, ''));
+      await localGit.commit(commitMessage(projectSubdir, merged.messages, errors, ''));
 
       logger.command('git push', 'origin master', );
-      await asPromise(localRepo, localRepo.push)('origin', 'master', []);
+      await localGit.push('origin', 'master');
     }
     else {
       logger.log('no changes detected');
