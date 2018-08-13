@@ -14,7 +14,7 @@ function makeUrlGenerator(url) {
 
 export default function runTern(services, baseUrl, apiName, plugins) {
   let ternOutput = tern(services, apiName, makeUrlGenerator(baseUrl), plugins);
-  return `define([], function() { return ${JSON.stringify(ternOutput, null, "\t")}; });`;
+  return JSON.stringify(ternOutput, null, "\t");
 }
 
 

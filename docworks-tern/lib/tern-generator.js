@@ -20,7 +20,7 @@ export function typeTern(type) {
       return `[${typeTern(type.typeParams[0])}]`;
     }
     else if (type.name === 'Promise') {
-      return `+Promise[value=${typeTern(type.typeParams[0])}]`;
+      return `+Promise[:t=${typeTern(type.typeParams[0])}]`;
     }
   }
   else if (Array.isArray(type) && type.length > 0) {

@@ -65,7 +65,7 @@ describe('generate tern', function() {
     });
 
     it('Promise<obj>', function() {
-      expect(typeTern({name: "Promise", typeParams: [ "Object" ]})).to.equal('+Promise[value=obj]');
+      expect(typeTern({name: "Promise", typeParams: [ "Object" ]})).to.equal('+Promise[:t=obj]');
     });
 
 //    Function
@@ -166,7 +166,7 @@ describe('generate tern', function() {
 
       expect(tern).to.containSubset({
         "openLightbox": {
-          "!type": "fn(name: string, data: obj) -> +Promise[value=obj]",
+          "!type": "fn(name: string, data: obj) -> +Promise[:t=obj]",
           "!doc": "Opens a lightbox and optionally passes it the given data.",
           "!url": "http://www.wix.com/reference/functions.html#openLightbox"
         } } );
@@ -179,7 +179,7 @@ describe('generate tern', function() {
 
       expect(tern).to.containSubset({
         "scrollBy": {
-          "!type": "fn(x: number, y: number) -> +Promise[value=+void]",
+          "!type": "fn(x: number, y: number) -> +Promise[:t=+void]",
           "!doc": "Scrolls the page by a given number of pixels.",
           "!url": "http://www.wix.com/reference/functions.html#scrollBy"
         } } );
@@ -192,7 +192,7 @@ describe('generate tern', function() {
 
       expect(tern).to.containSubset({
         "complexType": {
-          "!type": "fn(x: [+aType]) -> +Promise[value=+void]",
+          "!type": "fn(x: [+aType]) -> +Promise[:t=+void]",
           "!doc": "...",
           "!url": "http://www.wix.com/reference/functions.html#complexType"
         } } );
@@ -218,7 +218,7 @@ describe('generate tern', function() {
 
       expect(tern).to.containSubset({
         "afterCount": {
-          "!type": "fn(count: number, context: +wix_data.Hooks.HookContext) -> +Promise[value=number]",
+          "!type": "fn(count: number, context: +wix_data.Hooks.HookContext) -> +Promise[:t=number]",
           "!doc": "A hook that is triggered after a `count()` operation.",
           "!url": "http://www.wix.com/reference/functions.html#afterCount"
         } } );
@@ -385,12 +385,12 @@ describe('generate tern', function() {
           "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html",
           "prototype": {
             "collapse": {
-              "!type": "fn() -> +Promise[value=+void]",
+              "!type": "fn() -> +Promise[:t=+void]",
               "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
               "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapse"
             },
             "expand": {
-              "!type": "fn() -> +Promise[value=+void]",
+              "!type": "fn() -> +Promise[:t=+void]",
               "!doc": "Expands the element and sets its `collapsed` property to `false`.",
               "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#expand"
             },
@@ -418,12 +418,12 @@ describe('generate tern', function() {
               "!url": "http://www.wix.com/reference/$w.Button.html#label"
             },
             "collapse": {
-              "!type": "fn() -> +Promise[value=+void]",
+              "!type": "fn() -> +Promise[:t=+void]",
               "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
               "!url": "http://www.wix.com/reference/$w.Button.html#collapse"
             },
             "expand": {
-              "!type": "fn() -> +Promise[value=+void]",
+              "!type": "fn() -> +Promise[:t=+void]",
               "!doc": "Expands the element and sets its `collapsed` property to `false`.",
               "!url": "http://www.wix.com/reference/$w.Button.html#expand"
             },
@@ -451,12 +451,12 @@ describe('generate tern', function() {
               "!url": "http://www.wix.com/reference/$w.Button2.html#label"
             },
             "collapse": {
-              "!type": "fn() -> +Promise[value=+void]",
+              "!type": "fn() -> +Promise[:t=+void]",
               "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
               "!url": "http://www.wix.com/reference/$w.Button2.html#collapse"
             },
             "expand": {
-              "!type": "fn() -> +Promise[value=+void]",
+              "!type": "fn() -> +Promise[:t=+void]",
               "!doc": "Expands the element and sets its `collapsed` property to `false`.",
               "!url": "http://www.wix.com/reference/$w.Button2.html#expand"
             },
@@ -466,12 +466,12 @@ describe('generate tern', function() {
               "!url": "http://www.wix.com/reference/$w.Button2.html#collapsed"
             },
             "hide": {
-              "!type": "fn(animationName: string) -> +Promise[value=+void]",
+              "!type": "fn(animationName: string) -> +Promise[:t=+void]",
               "!doc": "Hides the element and sets its `hidden` property\n to `true`, using an animation if specified.",
               "!url": "http://www.wix.com/reference/$w.Button2.html#hide"
             },
             "show": {
-              "!type": "fn(animationName: string) -> +Promise[value=+void]",
+              "!type": "fn(animationName: string) -> +Promise[:t=+void]",
               "!doc": "Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.",
               "!url": "http://www.wix.com/reference/$w.Button2.html#show"
             },
