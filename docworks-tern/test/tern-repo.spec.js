@@ -37,11 +37,11 @@ describe('generate tern', function() {
                     '!doc': 'Indicates if the element is actually visible.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenCollapsedMixin.html#isVisible' },
                 hide:
-                  { '!type': 'fn(animationName: string) -> +Promise[value=+void]',
+                  { '!type': 'fn(animationName: string) -> +Promise[:t=+void]',
                     '!doc': 'Hides the element and sets its `hidden` property\n to `true`, using an animation if specified.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenCollapsedMixin.html#hide' },
                 show:
-                  { '!type': 'fn(animationName: string) -> +Promise[value=+void]',
+                  { '!type': 'fn(animationName: string) -> +Promise[:t=+void]',
                     '!doc': 'Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenCollapsedMixin.html#show' },
                 collapsed:
@@ -49,11 +49,11 @@ describe('generate tern', function() {
                     '!doc': 'Indicates if the element is collapsed or expanded.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenCollapsedMixin.html#collapsed' },
                 collapse:
-                  { '!type': 'fn() -> +Promise[value=+void]',
+                  { '!type': 'fn() -> +Promise[:t=+void]',
                     '!doc': 'Collapses the element and sets its `collapsed` property to `true`.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenCollapsedMixin.html#collapse' },
                 expand:
-                  { '!type': 'fn() -> +Promise[value=+void]',
+                  { '!type': 'fn() -> +Promise[:t=+void]',
                     '!doc': 'Expands the element and sets its `collapsed` property to `false`.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenCollapsedMixin.html#expand' } } },
           "HiddenMixin": {
@@ -69,11 +69,11 @@ describe('generate tern', function() {
                     '!doc': 'Indicates if the element is actually visible.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenMixin.html#isVisible' },
                 hide:
-                  { '!type': 'fn(animationName: string) -> +Promise[value=+void]',
+                  { '!type': 'fn(animationName: string) -> +Promise[:t=+void]',
                     '!doc': 'Hides the element and sets its `hidden` property\n to `true`, using an animation if specified.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenMixin.html#hide' },
                 show:
-                  { '!type': 'fn(animationName: string) -> +Promise[value=+void]',
+                  { '!type': 'fn(animationName: string) -> +Promise[:t=+void]',
                     '!doc': 'Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenMixin.html#show' } } },
           "CollapsedMixin": {
@@ -81,12 +81,12 @@ describe('generate tern', function() {
             "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html",
             "prototype": {
               "collapse": {
-                "!type": "fn() -> +Promise[value=+void]",
+                "!type": "fn() -> +Promise[:t=+void]",
                 "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
                 "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapse"
               },
               "expand": {
-                "!type": "fn() -> +Promise[value=+void]",
+                "!type": "fn() -> +Promise[:t=+void]",
                 "!doc": "Expands the element and sets its `collapsed` property to `false`.",
                 "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#expand"
               },
@@ -107,12 +107,12 @@ describe('generate tern', function() {
                 "!url": "http://www.wix.com/reference/$w.Button.html#label"
               },
               "collapse": {
-                "!type": "fn() -> +Promise[value=+void]",
+                "!type": "fn() -> +Promise[:t=+void]",
                 "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
                 "!url": "http://www.wix.com/reference/$w.Button.html#collapse"
               },
               "expand": {
-                "!type": "fn() -> +Promise[value=+void]",
+                "!type": "fn() -> +Promise[:t=+void]",
                 "!doc": "Expands the element and sets its `collapsed` property to `false`.",
                 "!url": "http://www.wix.com/reference/$w.Button.html#expand"
               },
@@ -133,12 +133,12 @@ describe('generate tern', function() {
                 "!url": "http://www.wix.com/reference/$w.Button2.html#label"
               },
               "collapse": {
-                "!type": "fn() -> +Promise[value=+void]",
+                "!type": "fn() -> +Promise[:t=+void]",
                 "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
                 "!url": "http://www.wix.com/reference/$w.Button2.html#collapse"
               },
               "expand": {
-                "!type": "fn() -> +Promise[value=+void]",
+                "!type": "fn() -> +Promise[:t=+void]",
                 "!doc": "Expands the element and sets its `collapsed` property to `false`.",
                 "!url": "http://www.wix.com/reference/$w.Button2.html#expand"
               },
@@ -148,12 +148,12 @@ describe('generate tern', function() {
                 "!url": "http://www.wix.com/reference/$w.Button2.html#collapsed"
               },
               "hide": {
-                "!type": "fn(animationName: string) -> +Promise[value=+void]",
+                "!type": "fn(animationName: string) -> +Promise[:t=+void]",
                 "!doc": "Hides the element and sets its `hidden` property\n to `true`, using an animation if specified.",
                 "!url": "http://www.wix.com/reference/$w.Button2.html#hide"
               },
               "show": {
-                "!type": "fn(animationName: string) -> +Promise[value=+void]",
+                "!type": "fn(animationName: string) -> +Promise[:t=+void]",
                 "!doc": "Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.",
                 "!url": "http://www.wix.com/reference/$w.Button2.html#show"
               },
@@ -182,11 +182,11 @@ describe('generate tern', function() {
                     '!doc': 'Indicates if the element is actually visible.',
                     '!url': 'http://www.wix.com/reference/$w.Dropdown.html#isVisible' },
                 hide:
-                  { '!type': 'fn(animationName: string) -> +Promise[value=+void]',
+                  { '!type': 'fn(animationName: string) -> +Promise[:t=+void]',
                     '!doc': 'Hides the element and sets its `hidden` property\n to `true`, using an animation if specified.',
                     '!url': 'http://www.wix.com/reference/$w.Dropdown.html#hide' },
                 show:
-                  { '!type': 'fn(animationName: string) -> +Promise[value=+void]',
+                  { '!type': 'fn(animationName: string) -> +Promise[:t=+void]',
                     '!doc': 'Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.',
                     '!url': 'http://www.wix.com/reference/$w.Dropdown.html#show' },
                 collapsed:
@@ -194,11 +194,11 @@ describe('generate tern', function() {
                     '!doc': 'Indicates if the element is collapsed or expanded.',
                     '!url': 'http://www.wix.com/reference/$w.Dropdown.html#collapsed' },
                 collapse:
-                  { '!type': 'fn() -> +Promise[value=+void]',
+                  { '!type': 'fn() -> +Promise[:t=+void]',
                     '!doc': 'Collapses the element and sets its `collapsed` property to `true`.',
                     '!url': 'http://www.wix.com/reference/$w.Dropdown.html#collapse' },
                 expand:
-                  { '!type': 'fn() -> +Promise[value=+void]',
+                  { '!type': 'fn() -> +Promise[:t=+void]',
                     '!doc': 'Expands the element and sets its `collapsed` property to `false`.',
                     '!url': 'http://www.wix.com/reference/$w.Dropdown.html#expand' } },
             Option:
@@ -249,11 +249,11 @@ describe('generate tern', function() {
                   '!doc': 'Directs the browser to navigate to the specified URL.',
                   '!url': 'http://www.wix.com/reference/functions.html#to' },
               openLightbox:
-                { '!type': 'fn(name: string, data: obj) -> +Promise[value=obj]',
+                { '!type': 'fn(name: string, data: obj) -> +Promise[:t=obj]',
                   '!doc': 'Opens a lightbox and optionally passes it the given data.',
                   '!url': 'http://www.wix.com/reference/functions.html#openLightbox' },
               scrollBy:
-                { '!type': 'fn(x: number, y: number) -> +Promise[value=+void]',
+                { '!type': 'fn(x: number, y: number) -> +Promise[:t=+void]',
                   '!doc': 'Scrolls the page by a given number of pixels.',
                   '!url': 'http://www.wix.com/reference/functions.html#scrollBy' } } },
         "properties": {
