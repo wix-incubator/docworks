@@ -198,6 +198,26 @@ describe('extract compare push workflow e2e', function() {
     expect(service2).to.be.true;
     expect(service3).to.be.false;
     expect(service4).to.be.false;
-  })
+  });
+
+  it('should work on a branch', async function() {
+    await createRemoteOnVer1();
+    logger.log('run test');
+    logger.log('--------');
+    await runDocWorks(`.bin/docworks ecp -r ${remote} -b branch --fs test/include/folder1 -p ${project2} --fp .+\\.js?$`.split(' '));
+
+    let remoteRepo = new Git(remote);
+    let service1 = await remoteRepo.fileExists(join(project2, "Service1.service.json"), 'branch');
+    let service2 = await remoteRepo.fileExists(join(project2, "Service2.service.json"), 'branch');
+    let service3 = await remoteRepo.fileExists(join(project2, "Service3.service.json"), 'branch');
+    let message = await remoteRepo.getCommitMessage('branch');
+
+    expect(message).to.include('Service Service1 is new');
+    expect(message).to.not.include('Service Service2 is new');
+    expect(message).to.include('Service Service3 is new');
+    expect(service1).to.be.true;
+    expect(service2).to.be.false;
+    expect(service3).to.be.true;
+  });
 
 });

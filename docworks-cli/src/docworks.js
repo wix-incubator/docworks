@@ -57,10 +57,12 @@ function resolvePlugins(plugins) {
 
 function ecp() {
   let argv = optimist
-    .usage('Usage: $0 ecp -r [remote repo] -s [local sources] -p [file pattern] [--plug [plugin]] [--dryrun]')
+    .usage('Usage: $0 ecp -r [remote repo] [-b [remote branch]] -s [local sources] -p [file pattern] [--plug [plugin]] [--dryrun]')
     .demand(  'r')
     .alias(   'r', 'remote')
     .describe('r', 'remote repository to merge docs into')
+    .alias(   'b', 'branch')
+    .describe('b', 'branch on the remote repository to work with')
     .demand(  'fs')
     .alias(   'fs', 'sources')
     .describe('fs', 'one or more folders containing the source files to extract docs from')
@@ -77,6 +79,7 @@ function ecp() {
     .parse(process.argv.slice(3));
 
   let remote = argv.remote;
+  let branch = argv.branch;
   let sources = argv.sources;
   let excludes = argv.excludes?(Array.isArray(argv.excludes)?argv.excludes:[argv.excludes]):[];
   let pattern = argv.pattern;
@@ -85,7 +88,7 @@ function ecp() {
   let plugins = resolvePlugins(argv.plug);
 
   tmp.dir().then(o => {
-    return extractComparePush(remote, o.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
+    return extractComparePush(remote, branch, o.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
   })
     .catch(() => {
       process.exit(1);

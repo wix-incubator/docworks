@@ -15,6 +15,10 @@ export default class Git {
     return asPromise(this._git, this._git.clone)(remoteRepo, workingDir, options || []);
   }
 
+  checkout(branchName) {
+    return asPromise(this._git, this._git.checkout)(branchName);
+  }
+
   status() {
     return asPromise(this._git, this._git.status)()
   }
@@ -31,18 +35,22 @@ export default class Git {
     return asPromise(this._git, this._git.push)(remote, branch, [])
   }
 
-  async readFile(fileName) {
-    return await asPromise(this._git, this._git.catFile)(['-p', `HEAD:${fileName}`]);
+  async readFile(fileName, branch) {
+    return await asPromise(this._git, this._git.catFile)(['-p', `${branch?branch:'HEAD'}:${fileName}`]);
   }
 
-  async getCommitMessage() {
-    let listLogSummary = await asPromise(this._git, this._git.log)(['-1', '--pretty=format:%H;%ai;%B;%aN;%ae']);
+  async getCommitMessage(branch) {
+    let options = [];
+    if (branch)
+      options.push(branch);
+    options = options.concat(['-1', '--pretty=format:%H;%ai;%B;%aN;%ae']);
+    let listLogSummary = await asPromise(this._git, this._git.log)(options);
     return listLogSummary.latest.message;
   }
 
-  async fileExists(fileName) {
+  async fileExists(fileName, branch) {
     try {
-      await this.readFile(fileName);
+      await this.readFile(fileName, branch);
       return true;
     }
     catch (e) {

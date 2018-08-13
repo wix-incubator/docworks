@@ -4,12 +4,10 @@ import fs from 'fs-extra';
 import {join} from 'path';
 import {spawn} from 'child_process';
 import runJsDoc from 'docworks-jsdoc2spec';
-import {saveToDir, serviceFromJson} from 'docworks-repo';
+import {saveToDir} from 'docworks-repo';
 import git from 'simple-git';
 import asPromise from '../src/as-promise';
 import * as logger from './test-logger';
-
-import extractComparePush from '../src/extract-compare-push';
 
 chai.use(chaiSubset);
 const expect = chai.expect;

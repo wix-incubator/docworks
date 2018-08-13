@@ -45,9 +45,10 @@ function logStatus(statuses, logger) {
   statuses.modified.forEach(file => logger.details(`  Modified:      ${file}`));
 }
 
-export default async function extractComparePush(remoteRepo, workingDir, projectSubdir, jsDocSources, plugins, dryrun, logger) {
+export default async function extractComparePush(remoteRepo, remoteBranch, workingDir, projectSubdir, jsDocSources, plugins, dryrun, logger) {
   logger = logger || defaultLogger;
   logger.config(`remote repo url:   `, remoteRepo);
+  logger.config(`remote repo branch:`, remoteBranch);
   logger.config(`working dir:       `, workingDir);
   logger.config(`project dir:       `, projectSubdir);
   logger.config(`jsdoc sources:     `, JSON.stringify(jsDocSources));
@@ -62,6 +63,17 @@ export default async function extractComparePush(remoteRepo, workingDir, project
     await baseGit.clone(remoteRepo, workingDir);
 
     let localGit = new Git(workingDir);
+
+    if (remoteBranch) {
+      try {
+        logger.command('git', `checkout ${remoteBranch}`);
+        let x = await localGit.checkout(remoteBranch);
+      }
+      catch (e) {
+        logger.command('git', `checkout -b ${remoteBranch}`);
+        await localGit.checkout(`-b${remoteBranch}`);
+      }
+    }
 
     logger.command('docworks', `readServices ${workingSubdir}`);
     let repoContent = await readFromDir(workingSubdir);
@@ -95,8 +107,8 @@ export default async function extractComparePush(remoteRepo, workingDir, project
       logger.rawLog(`    ${chalk.white('git commit -m')} '${chalk.gray(commitMessage(projectSubdir, merged.messages, errors, '      '))}'`);
       await localGit.commit(commitMessage(projectSubdir, merged.messages, errors, ''));
 
-      logger.command('git push', 'origin master', );
-      await localGit.push('origin', 'master');
+      logger.command('git push', `origin ${remoteBranch?remoteBranch:'master'}`);
+      await localGit.push('origin', remoteBranch?remoteBranch:'master');
     }
     else {
       logger.log('no changes detected');
