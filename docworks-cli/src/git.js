@@ -7,8 +7,12 @@ export default class Git {
     this._git = workingDir?simpleGit(workingDir):simpleGit();
   }
 
-  clone(remoteRepo, workingDir, branch) {
-    return asPromise(this._git, this._git.clone)(remoteRepo, workingDir, branch?['-b', branch] :[]);
+  init(bare) {
+    return asPromise(this._git, this._git.init)(bare);
+  }
+
+  clone(remoteRepo, workingDir, options) {
+    return asPromise(this._git, this._git.clone)(remoteRepo, workingDir, options || []);
   }
 
   status() {
@@ -26,4 +30,21 @@ export default class Git {
   push(remote, branch) {
     return asPromise(this._git, this._git.push)(remote, branch, [])
   }
+
+  async getCommitMessage() {
+    let listLogSummary = await asPromise(this._git, this._git.log)(['-1', '--pretty=format:%H;%ai;%B;%aN;%ae']);
+    return listLogSummary.latest.message;
+  }
+
+  async fileExists(fileName) {
+    try {
+      await asPromise(this._git, this._git.catFile)(['-p', `HEAD:${fileName}`]);
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+
 }

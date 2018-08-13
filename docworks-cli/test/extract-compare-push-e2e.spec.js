@@ -5,11 +5,9 @@ import {join} from 'path';
 import {spawn} from 'child_process';
 import runJsDoc from 'docworks-jsdoc2spec';
 import {saveToDir, serviceFromJson} from 'docworks-repo';
-import git from 'simple-git';
+import Git from '../src/git';
 import asPromise from '../src/as-promise';
 import * as logger from './test-logger';
-
-import extractComparePush from '../src/extract-compare-push';
 
 chai.use(chaiSubset);
 const expect = chai.expect;
@@ -22,7 +20,7 @@ const ver4 = './test/ver4';
 const project2_ver1 = './test/project2-ver1';
 const project1 = 'project1';
 const project2 = 'project2';
-let baseGit = git();
+let baseGit = new Git();
 
 async function createRemoteOnVer1() {
   const remoteBuild = './tmp/remoteBuild';
@@ -31,8 +29,8 @@ async function createRemoteOnVer1() {
   logger.log('------------------');
   logger.log('git init');
   await fs.ensureDir(remoteBuild);
-  let remoteBuildRepo = git(remoteBuild);
-  await asPromise(remoteBuildRepo, remoteBuildRepo.init)();
+  let remoteBuildRepo = new Git(remoteBuild);
+  await remoteBuildRepo.init();
   // run js doc
   logger.log('jsdoc ./test/ver1');
 
@@ -41,24 +39,14 @@ async function createRemoteOnVer1() {
 
   logger.log('git add files');
   // git add files
-  await asPromise(remoteBuildRepo, remoteBuildRepo.add)(files.map(file => join(project1, file)));
+  await remoteBuildRepo.add(files.map(file => join(project1, file)));
 
   logger.log('git commit');
   // commit
-  await asPromise(remoteBuildRepo, remoteBuildRepo.commit)("initial commit");
+  await remoteBuildRepo.commit("initial commit");
 
   logger.log(`git clone ${remoteBuild} ${remote} --bare`);
-  await asPromise(baseGit, baseGit.clone)(remoteBuild, remote, ['--bare']);
-}
-
-async function createBareRemote() {
-  // setup
-  logger.log('create bare remote');
-  logger.log('------------------');
-  logger.log('git init --bare');
-  await fs.ensureDir(remote);
-  let remoteRepo = git(remote);
-  await asPromise(remoteRepo, remoteRepo.init)(true);
+  await baseGit.clone(remoteBuild, remote, ['--bare']);
 }
 
 async function getCommitMessage(remoteRepo) {
@@ -129,11 +117,11 @@ describe('extract compare push workflow e2e', function() {
     logger.log('--------');
     await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$`.split(' '));
 
-    let remoteRepo = git(remote);
-    let service1 = await fileExists(remoteRepo, join(project2, "Service1.service.json"));
-    let service2 = await fileExists(remoteRepo, join(project2, "Service2.service.json"));
-    let service3 = await fileExists(remoteRepo, join(project2, "Service3.service.json"));
-    let message = await getCommitMessage(remoteRepo);
+    let remoteRepo = new Git(remote);
+    let service1 = await remoteRepo.fileExists(join(project2, "Service1.service.json"));
+    let service2 = await remoteRepo.fileExists(join(project2, "Service2.service.json"));
+    let service3 = await remoteRepo.fileExists(join(project2, "Service3.service.json"));
+    let message = await remoteRepo.getCommitMessage();
 
     expect(message).to.include('Service Service1 is new');
     expect(message).to.not.include('Service Service2 is new');
@@ -149,11 +137,11 @@ describe('extract compare push workflow e2e', function() {
     logger.log('--------');
     let output = await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$ --dryrun`.split(' '));
 
-    let remoteRepo = git(remote);
-    let service1 = await fileExists(remoteRepo, join(project2, "Service1.service.json"));
-    let service2 = await fileExists(remoteRepo, join(project2, "Service2.service.json"));
-    let service3 = await fileExists(remoteRepo, join(project2, "Service3.service.json"));
-    let message = await getCommitMessage(remoteRepo);
+    let remoteRepo = new Git(remote);
+    let service1 = await remoteRepo.fileExists(join(project2, "Service1.service.json"));
+    let service2 = await remoteRepo.fileExists(join(project2, "Service2.service.json"));
+    let service3 = await remoteRepo.fileExists(join(project2, "Service3.service.json"));
+    let message = await remoteRepo.getCommitMessage();
 
     expect(output.stdout).to.include('Service Service1 is new');
     expect(output.stdout).to.not.include('Service Service2 is new');
@@ -170,12 +158,12 @@ describe('extract compare push workflow e2e', function() {
     logger.log('--------');
     await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 -p ${project2} --fp .+\\.js?$`.split(' '));
 
-    let remoteRepo = git(remote);
-    let service1 = await fileExists(remoteRepo, join(project2, "Service1.service.json"));
-    let service2 = await fileExists(remoteRepo, join(project2, "Service2.service.json"));
-    let service3 = await fileExists(remoteRepo, join(project2, "Service3.service.json"));
-    let service4 = await fileExists(remoteRepo, join(project2, "Service4.service.json"));
-    let message = await getCommitMessage(remoteRepo);
+    let remoteRepo = new Git(remote);
+    let service1 = await remoteRepo.fileExists(join(project2, "Service1.service.json"));
+    let service2 = await remoteRepo.fileExists(join(project2, "Service2.service.json"));
+    let service3 = await remoteRepo.fileExists(join(project2, "Service3.service.json"));
+    let service4 = await remoteRepo.fileExists(join(project2, "Service4.service.json"));
+    let message = await remoteRepo.getCommitMessage();
 
     expect(message).to.include('Service Service1 is new');
     expect(message).to.include('Service Service2 is new');
@@ -193,12 +181,12 @@ describe('extract compare push workflow e2e', function() {
     logger.log('--------');
     await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 --fx test/include/folder1/folder3 -p ${project2} --fp .+\\.js?$`.split(' '));
 
-    let remoteRepo = git(remote);
-    let service1 = await fileExists(remoteRepo, join(project2, "Service1.service.json"));
-    let service2 = await fileExists(remoteRepo, join(project2, "Service2.service.json"));
-    let service3 = await fileExists(remoteRepo, join(project2, "Service3.service.json"));
-    let service4 = await fileExists(remoteRepo, join(project2, "Service4.service.json"));
-    let message = await getCommitMessage(remoteRepo);
+    let remoteRepo = new Git(remote);
+    let service1 = await remoteRepo.fileExists(join(project2, "Service1.service.json"));
+    let service2 = await remoteRepo.fileExists(join(project2, "Service2.service.json"));
+    let service3 = await remoteRepo.fileExists(join(project2, "Service3.service.json"));
+    let service4 = await remoteRepo.fileExists(join(project2, "Service4.service.json"));
+    let message = await remoteRepo.getCommitMessage();
 
     expect(message).to.include('Service Service1 is new');
     expect(message).to.include('Service Service2 is new');
@@ -216,12 +204,12 @@ describe('extract compare push workflow e2e', function() {
     logger.log('--------');
     await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 --fx test/include/folder1/folder3 --fx test/include/folder2/folder4 -p ${project2} --fp .+\\.js?$`.split(' '));
 
-    let remoteRepo = git(remote);
-    let service1 = await fileExists(remoteRepo, join(project2, "Service1.service.json"));
-    let service2 = await fileExists(remoteRepo, join(project2, "Service2.service.json"));
-    let service3 = await fileExists(remoteRepo, join(project2, "Service3.service.json"));
-    let service4 = await fileExists(remoteRepo, join(project2, "Service4.service.json"));
-    let message = await getCommitMessage(remoteRepo);
+    let remoteRepo = new Git(remote);
+    let service1 = await remoteRepo.fileExists(join(project2, "Service1.service.json"));
+    let service2 = await remoteRepo.fileExists(join(project2, "Service2.service.json"));
+    let service3 = await remoteRepo.fileExists(join(project2, "Service3.service.json"));
+    let service4 = await remoteRepo.fileExists(join(project2, "Service4.service.json"));
+    let message = await remoteRepo.getCommitMessage();
 
     expect(message).to.include('Service Service1 is new');
     expect(message).to.include('Service Service2 is new');
