@@ -434,9 +434,9 @@ describe('compare repo', function() {
         expect(prop1.set).to.equal(newProp1.set);
       });
 
-      it('should report changed property docs, preserve docs and update srcDocs', function() {
+      it('should report changed property docs, update docs', function() {
         let {repo: newRepo, prop: newProp1} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties5', 'prop1');
-        let {repo, prop: repoProp1} = repoServiceProp(baseRepo, 'ChangeServiceProperties5', 'prop1');
+        let {repo} = repoServiceProp(baseRepo, 'ChangeServiceProperties5', 'prop1');
 
         let mergedRepo = merge(newRepo, repo);
 
@@ -448,8 +448,7 @@ describe('compare repo', function() {
         let {service, prop: prop1} = repoServiceProp(mergedRepo.repo, 'ChangeServiceProperties5', 'prop1');
         expect(service.labels).to.include.members(['changed']);
         expect(prop1.labels).to.include.members(['changed']);
-        expect(prop1.srcDocs).to.deep.equal(newProp1.srcDocs);
-        expect(prop1.src).to.deep.equal(repoProp1.src);
+        expect(prop1.docs).to.deep.equal(newProp1.docs);
       });
 
       it('should detect change in property location but not report the service or property as changed', function() {
@@ -687,8 +686,8 @@ describe('compare repo', function() {
         expect(operation).to.containSubset(newOperation);
       });
 
-      it('should report changed operation docs, preserve docs and update srcDocs', function() {
-        let {repo: repo, operation: repoOperation} = repoServiceOperation(baseRepo, 'ChangeServiceOperations4', 'operation1');
+      it('should report changed operation docs, update docs', function() {
+        let {repo: repo} = repoServiceOperation(baseRepo, 'ChangeServiceOperations4', 'operation1');
         let {repo: newRepo, operation: newOperation} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations4', 'operation1');
 
         let mergedRepo = merge(newRepo, repo);
@@ -699,8 +698,7 @@ describe('compare repo', function() {
         let {service, operation} = repoServiceOperation(mergedRepo.repo, 'ChangeServiceOperations4', 'operation1');
         expect(service.labels).to.include.members(['changed']);
         expect(operation.labels).to.include.members(['changed']);
-        expect(operation.srcDocs).to.deep.equal(newOperation.srcDocs);
-        expect(operation.src).to.deep.equal(repoOperation.src);
+        expect(operation.docs).to.deep.equal(newOperation.docs);
       });
 
       it('should detect change in operation location but not report the service or property as changed', function() {
@@ -938,9 +936,9 @@ describe('compare repo', function() {
         expect(callback).to.containSubset(newCallback);
       });
 
-      it('should report changed callback docs, preserve docs and update srcDocs', function() {
+      it('should report changed callback docs, update docs', function() {
         let {repo: newRepo, callback: newCallback} = repoServiceCallback(baseNewRepo, 'ChangeServiceCallbacks4', 'callback1');
-        let {repo: repo, callback: repoCallback} = repoServiceCallback(baseRepo, 'ChangeServiceCallbacks4', 'callback1');
+        let {repo: repo} = repoServiceCallback(baseRepo, 'ChangeServiceCallbacks4', 'callback1');
 
         let mergedRepo = merge(newRepo, repo);
 
@@ -950,8 +948,7 @@ describe('compare repo', function() {
         let {service: service, callback: callback} = repoServiceCallback(mergedRepo.repo, 'ChangeServiceCallbacks4', 'callback1');
         expect(service.labels).to.include.members(['changed']);
         expect(callback.labels).to.include.members(['changed']);
-        expect(callback.srcDocs).to.deep.equal(newCallback.srcDocs);
-        expect(callback.src).to.deep.equal(repoCallback.src);
+        expect(callback.docs).to.deep.equal(newCallback.docs);
       });
 
       it('should detect change in callback location but not report the service or property as changed', function() {
@@ -1078,12 +1075,11 @@ describe('compare repo', function() {
         let member = message.members.find(_ => _.name === 'name');
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
-        expect(member.srcDocs).to.containSubset(newMember.srcDocs);
-        expect(member.docs).to.containSubset(repoMember.docs);
+        expect(member.doc).to.containSubset(newMember.doc);
       });
 
-      it('should report changed message docs, preserve docs and update srcDocs', function() {
-        let {repo, message: repoMessage} = repoServiceMessages(baseRepo, 'ChangeServiceMessages2', 'Message7');
+      it('should report changed message docs, update docs', function() {
+        let {repo} = repoServiceMessages(baseRepo, 'ChangeServiceMessages2', 'Message7');
         let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages2', 'Message7');
 
         let mergedRepo = merge(newRepo, repo);
@@ -1094,8 +1090,7 @@ describe('compare repo', function() {
         let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages2', 'Message7');
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
-        expect(message.srcDocs).to.deep.equal(newMessage.srcDocs);
-        expect(message.src).to.deep.equal(repoMessage.src);
+        expect(message.docs).to.deep.equal(newMessage.docs);
       });
 
       it('should detect change in message location but not report is has changed', function() {
