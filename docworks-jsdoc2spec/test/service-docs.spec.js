@@ -61,17 +61,6 @@ describe('docs', function() {
                                         {title: undefined, body: '// returns 2\nlet z = x.propertyWithDocs;'},
                                         {title: 'the example caption', body: '// returns 3\nlet z = y.propertyWithDocs;'}
                                     ]
-                                },
-                                srcDocs: {
-                                    summary: 'the summary for propertyWithDocs',
-                                    description: 'the description for propertyWithDocs\nanother line of description',
-                                    links: ["aNamespace.ServiceProperties a related service",
-                                        "{@link aNamespace.ServiceOperations) another related service",
-                                        "{@link http://somedomain.com} a related site"],
-                                    examples: [
-                                        {title: undefined, body: '// returns 2\nlet z = x.propertyWithDocs;'},
-                                        {title: 'the example caption', body: '// returns 3\nlet z = y.propertyWithDocs;'}
-                                    ]
                                 }
                             }
                         ]
@@ -90,11 +79,6 @@ describe('docs', function() {
                         properties: [
                             {name: 'label', get: true, set: true, type: 'string',
                                 docs: {
-                                    summary: 'summary from the getter',
-                                    description: 'desc from the getter',
-                                    links: []
-                                },
-                                srcDocs: {
                                     summary: 'summary from the getter',
                                     description: 'desc from the getter',
                                     links: []

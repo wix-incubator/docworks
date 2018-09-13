@@ -66,7 +66,7 @@ export function Param(name, type, doc, optional, defaultValue, spread) {
   }
 }
 
-export function Property(name, labels, isGet, isSet, type, defaultValue, locations, docs, srcDocs, extra) {
+export function Property(name, labels, isGet, isSet, type, defaultValue, locations, docs, extra) {
   return {
     name: name,
     labels: labels,
@@ -76,7 +76,6 @@ export function Property(name, labels, isGet, isSet, type, defaultValue, locatio
     defaultValue: defaultValue,
     locations: locations,
     docs: docs,
-    srcDocs: srcDocs,
     extra: extra || {}
   }
 }

@@ -12,14 +12,14 @@ const extractMembers = (find, onError, plugins) => (member) => {
     let extra = handlePlugins(plugins, 'extendDocworksProperty', member);
     let defaultValue = member.defaultvalue;
     if (member.type)
-        return Property(member.name, [], true, false, handleType(member.type, find, onError, context), defaultValue, [location], handleDoc(member), handleDoc(member), extra);
+        return Property(member.name, [], true, false, handleType(member.type, find, onError, context), defaultValue, [location], handleDoc(member), extra);
 
     // handle write property
     if (member.params && member.params.length > 0)
-        return Property(member.name, [], false, true, handleType(member.params[0].type, find, onError, context), defaultValue, [location], handleDoc(member), handleDoc(member), extra);
+        return Property(member.name, [], false, true, handleType(member.params[0].type, find, onError, context), defaultValue, [location], handleDoc(member), extra);
 
     onError(JsDocError(`Property ${member.name} is missing a type annotation`, [location]));
-    return Property(member.name, [], false, false, Void, defaultValue, [location], handleDoc(member), handleDoc(member), extra);
+    return Property(member.name, [], false, false, Void, defaultValue, [location], handleDoc(member), extra);
 
 };
 
@@ -52,7 +52,7 @@ const mergeProperties = (service, onError) => (properties) => {
             prop1.get !== prop2.get &&
             prop1.set !== prop2.set) {
             let docs = prop1.get?prop1.docs:prop2.docs;
-            return Property(prop1.name, [], true, true, prop1.type, prop1.defaultValue, locations, docs, docs, extra);
+            return Property(prop1.name, [], true, true, prop1.type, prop1.defaultValue, locations, docs, extra);
         }
 
         if (prop1.type !== prop2.type &&
@@ -68,7 +68,7 @@ const mergeProperties = (service, onError) => (properties) => {
         onError(JsDocError(
             `Property ${prop1.name} is defined two or more times`,
             locations));
-        return Property(prop1.name, [], true, true, prop1.type, prop1.defaultValue, locations, prop1.docs, prop1.docs, prop1.extra)
+        return Property(prop1.name, [], true, true, prop1.type, prop1.defaultValue, locations, prop1.docs, prop1.extra)
 
     }
     let locations = [].concat(...properties.map(_ => _.locations));
