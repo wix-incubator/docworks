@@ -55,7 +55,7 @@ function mergeProperty(newProperty, repoProperty, messages, key, plugins) {
   let changedGetter = !compareAttribute(newProperty.get, repoProperty.get, messages, key, 'getter');
   let changedSetter = !compareAttribute(newProperty.set, repoProperty.set, messages, key, 'setter');
   let defaultValue = !compareAttribute(newProperty.defaultValue, repoProperty.defaultValue, messages, key, 'default value');
-  let docsChanged = !compareDocs(newProperty.srcDocs, repoProperty.srcDocs, messages, key);
+  let docsChanged = !compareDocs(newProperty.docs, repoProperty.docs, messages, key);
   let extraMerge = runPlugins(plugins, 'docworksMergeProperty', newProperty.extra || {}, repoProperty.extra || {}, messages, key);
 
   let changed = changedType || changedGetter || changedSetter || defaultValue || docsChanged || extraMerge.changed;
@@ -65,10 +65,11 @@ function mergeProperty(newProperty, repoProperty, messages, key, plugins) {
     get: newProperty.get,
     set: newProperty.set,
     defaultValue: newProperty.defaultValue,
-    srcDocs: copy(newProperty.srcDocs),
+    docs: copy(newProperty.docs),
     locations: newProperty.locations,
     extra: extraMerge.merged
   });
+  delete item.srcDocs;
   return {changed, item}
 }
 
@@ -111,14 +112,15 @@ function mergeParam(newParam, repoParam, messages, key) {
     messages.push(`Service ${key} has changed param name from ${repoParam.name} to ${newParam.name}`);
   }
   let changedType = !compareType(newParam.type, repoParam.type, messages, key, `param ${newParam.name}`);
-  let changedDoc = !compareAttribute(newParam.srcDoc, repoParam.srcDoc, messages, key, `param ${newParam.name} doc`);
+  let changedDoc = !compareAttribute(newParam.doc, repoParam.doc, messages, key, `param ${newParam.name} doc`);
 
   let changed = changedName || changedType || changedDoc;
   let item = copy(repoParam, {
     name: newParam.name,
     type: newParam.type,
-    srcDoc: newParam.srcDoc
+    doc: newParam.doc
   });
+  delete item.srcDoc;
 
   return {changed, item}
 }
@@ -144,35 +146,39 @@ function mergeParams(newParams, repoParams, messages, key) {
 function mergeOperation(newOperation, repoOperation, messages, key, plugins) {
   let paramsMerge = mergeParams(newOperation.params, repoOperation.params, messages, key);
   let changedReturn = !compareType(newOperation.ret.type, repoOperation.ret.type, messages, key, 'return');
-  let changedDoc = !compareAttribute(newOperation.ret.srcDoc, repoOperation.ret.srcDoc, messages, key, `return doc`);
-  let docsChanged = !compareDocs(newOperation.srcDocs, repoOperation.srcDocs, messages, key);
+  let changedDoc = !compareAttribute(newOperation.ret.doc, repoOperation.ret.doc, messages, key, `return doc`);
+  let docsChanged = !compareDocs(newOperation.docs, repoOperation.docs, messages, key);
   let extraMerge = runPlugins(plugins, 'docworksMergeOperation', newOperation.extra || {}, repoOperation.extra || {}, messages, key);
 
   let changed = paramsMerge.changed || docsChanged || changedReturn || changedDoc || extraMerge.changed;
   let ret = copy(repoOperation.ret, {
     type: newOperation.ret.type,
-    srcDoc: newOperation.ret.srcDoc
+    doc: newOperation.ret.doc
   });
+  delete ret.srcDoc;
   let item = copy(repoOperation, {
     params: paramsMerge.params,
     labels: updateLabels(repoOperation.labels, changed),
-    srcDocs: copy(newOperation.srcDocs),
+    docs: copy(newOperation.docs),
     locations: newOperation.locations,
     ret: ret,
     extra: extraMerge.merged
   });
+  delete item.srcDocs;
   return {changed, item}
 }
 
 function mergeMessageMember(newMessageMember, repoMessageMember, messages, key) {
   let changedType = !compareType(newMessageMember.type, repoMessageMember.type, messages, key);
-  let docsChanged = !compareAttribute(newMessageMember.srcDocs, repoMessageMember.srcDocs, messages, key, 'doc');
+  let docsChanged = !compareAttribute(newMessageMember.doc, repoMessageMember.doc, messages, key, 'doc');
 
   let changed = changedType || docsChanged;
   let item = copy(repoMessageMember, {
     type: newMessageMember.type,
-    srcDocs: newMessageMember.srcDocs
+    doc: newMessageMember.doc
   });
+  delete item.docs;
+  delete item.srcDocs;
   return {changed, item}
 }
 
@@ -206,24 +212,25 @@ function mergeMessageMembers(newMembers, repoMembers, messages, sKey) {
 
 function mergeMessage(newMessage, repoMessage, messages, key, plugins) {
   let membersMerge = mergeMessageMembers(newMessage.members, repoMessage.members, messages, key);
-  let docsChanged = !compareDocs(newMessage.srcDocs, repoMessage.srcDocs, messages, key);
+  let docsChanged = !compareDocs(newMessage.docs, repoMessage.docs, messages, key);
   let extraMerge = runPlugins(plugins, 'docworksMergeMessage', newMessage.extra || {}, repoMessage.extra || {}, messages, key);
 
   let changed = membersMerge.changed || docsChanged || extraMerge.changed;
   let item = copy(repoMessage, {
     labels: updateLabels(repoMessage.labels, changed),
     members: membersMerge.merged,
-    srcDocs: copy(newMessage.srcDocs),
+    docs: copy(newMessage.docs),
     locations: newMessage.locations,
     extra: extraMerge.merged
   });
+  delete item.srcDocs;
   return {changed, item}
 }
 
 function mergeService(sNew, sRepo, messages, plugins) {
   let sKey = serviceKey(sNew);
   let mixesChanged = !compareArrays(sNew.mixes, sRepo.mixes, messages, sKey, 'mixes');
-  let docsChanged = !compareDocs(sNew.srcDocs, sRepo.srcDocs, messages, sKey);
+  let docsChanged = !compareDocs(sNew.docs, sRepo.docs, messages, sKey);
   let propertiesMerge = mergeLists(sNew.properties, sRepo.properties, messages, sKey, 'property', mergeProperty, plugins);
   let operationsMerge = mergeLists(sNew.operations, sRepo.operations, messages, sKey, 'operation', mergeOperation, plugins);
   let callbacksMerge = mergeLists(sNew.callbacks, sRepo.callbacks, messages, sKey, 'callback', mergeOperation, plugins);
@@ -232,10 +239,10 @@ function mergeService(sNew, sRepo, messages, plugins) {
 
   let changed = mixesChanged || docsChanged || propertiesMerge.changed || operationsMerge.changed ||
     callbacksMerge.changed || messagesMerge.changed || extraMerge.changed;
-  return copy(sRepo, {
+  const service = copy(sRepo, {
     labels: updateLabels(sRepo.labels, changed),
     mixes: sNew.mixes,
-    srcDocs: copy(sNew.srcDocs),
+    docs: copy(sNew.docs),
     location: sNew.location,
     properties: propertiesMerge.merged,
     operations: operationsMerge.merged,
@@ -243,6 +250,9 @@ function mergeService(sNew, sRepo, messages, plugins) {
     messages: messagesMerge.merged,
     extra: extraMerge.merged
   });
+  delete service.srcDocs;
+  return service;
+
 }
 
 export default function merge(newRepo, repo, pluginModules) {

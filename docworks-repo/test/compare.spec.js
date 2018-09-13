@@ -186,7 +186,7 @@ describe('compare repo', function() {
       });
 
       it('should detect change in summary', function() {
-        let {repo, service: repoService} = getRepoService(baseRepo, 'ChangeServiceAttributes2');
+        let {repo} = getRepoService(baseRepo, 'ChangeServiceAttributes2');
         let {repo: newRepo, service: newService} = getRepoService(baseNewRepo, 'ChangeServiceAttributes2');
 
         let mergedRepo = merge(newRepo, repo);
@@ -194,13 +194,12 @@ describe('compare repo', function() {
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes2 has changed summary']);
 
         let {service} = getRepoService(mergedRepo.repo, 'ChangeServiceAttributes2');
-        expect(service.docs.summary).to.equal(repoService.docs.summary);
-        expect(service.srcDocs.summary).to.equal(newService.srcDocs.summary);
+        expect(service.docs.summary).to.equal(newService.docs.summary);
         expect(service.labels).to.include.members(['changed']);
       });
 
       it('should detect change in description', function() {
-        let {repo, service: repoService} = getRepoService(baseRepo, 'ChangeServiceAttributes3');
+        let {repo} = getRepoService(baseRepo, 'ChangeServiceAttributes3');
         let {repo: newRepo, service: newService} = getRepoService(baseNewRepo, 'ChangeServiceAttributes3');
 
         let mergedRepo = merge(newRepo, repo);
@@ -208,13 +207,12 @@ describe('compare repo', function() {
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes3 has changed description']);
 
         let {service} = getRepoService(mergedRepo.repo, 'ChangeServiceAttributes3');
-        expect(service.docs.description).to.equal(repoService.docs.description);
-        expect(service.srcDocs.description).to.equal(newService.srcDocs.description);
+        expect(service.docs.description).to.equal(newService.docs.description);
         expect(service.labels).to.include.members(['changed']);
       });
 
       it('should detect change in a link', function() {
-        let {repo, service: repoService} = getRepoService(baseRepo, 'ChangeServiceAttributes4');
+        let {repo} = getRepoService(baseRepo, 'ChangeServiceAttributes4');
         let {repo: newRepo, service: newService} = getRepoService(baseNewRepo, 'ChangeServiceAttributes4');
 
         let mergedRepo = merge(newRepo, repo);
@@ -222,8 +220,7 @@ describe('compare repo', function() {
         expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes4 has a new link http://someplace']);
 
         let {service} = getRepoService(mergedRepo.repo, 'ChangeServiceAttributes4');
-        expect(service.docs.links).to.have.members(repoService.docs.links);
-        expect(service.srcDocs.links).to.have.members(newService.srcDocs.links);
+        expect(service.docs.links).to.have.members(newService.docs.links);
         expect(service.labels).to.include.members(['changed']);
       });
 
@@ -579,9 +576,7 @@ describe('compare repo', function() {
         expect(operation3.labels).to.include.members(['changed']);
         operation3.params.forEach((param, index) => {
           let newParam = newOperation3.params[index];
-          let repoParam = repoOperation3.params[index];
-          expect(param.doc).to.equal(repoParam.doc);
-          expect(param.srcDoc).to.equal(newParam.srcDoc);
+          expect(param.doc).to.equal(newParam.doc);
         })
       });
 
@@ -666,7 +661,7 @@ describe('compare repo', function() {
       });
 
       it('should report changes in return doc', function() {
-        let {repo: repo, operation: repoOperation1} = repoServiceOperation(baseRepo, 'ChangeServiceOperations7', 'operation1');
+        let {repo: repo} = repoServiceOperation(baseRepo, 'ChangeServiceOperations7', 'operation1');
         let {repo: newRepo, operation: newOperation1} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations7', 'operation1');
 
         let mergedRepo = merge(newRepo, repo);
@@ -676,8 +671,7 @@ describe('compare repo', function() {
         let {service, operation: operation1} = repoServiceOperation(mergedRepo.repo, 'ChangeServiceOperations7', 'operation1');
         expect(service.labels).to.include.members(['changed']);
         expect(operation1.labels).to.include.members(['changed']);
-        expect(operation1.ret.doc).to.equal(repoOperation1.ret.doc);
-        expect(operation1.ret.srcDoc).to.equal(newOperation1.ret.srcDoc);
+        expect(operation1.ret.doc).to.equal(newOperation1.ret.doc);
 
       });
 
@@ -833,9 +827,7 @@ describe('compare repo', function() {
         expect(callback3.labels).to.include.members(['changed']);
         callback3.params.forEach((param, index) => {
           let newParam = newCallback3.params[index];
-          let repoParam = repoCallback3.params[index];
-          expect(param.doc).to.equal(repoParam.doc);
-          expect(param.srcDoc).to.equal(newParam.srcDoc);
+          expect(param.doc).to.equal(newParam.doc);
         })
       });
 
@@ -921,7 +913,7 @@ describe('compare repo', function() {
 
       it('should report changes in return doc', function() {
         let {repo: newRepo, callback: newCallback1} = repoServiceCallback(baseNewRepo, 'ChangeServiceCallbacks7', 'callback1');
-        let {repo: repo, callback: repoCallback1} = repoServiceCallback(baseRepo, 'ChangeServiceCallbacks7', 'callback1');
+        let {repo: repo} = repoServiceCallback(baseRepo, 'ChangeServiceCallbacks7', 'callback1');
 
         let mergedRepo = merge(newRepo, repo);
 
@@ -930,8 +922,7 @@ describe('compare repo', function() {
         let {service: service, callback: callback1} = repoServiceCallback(mergedRepo.repo, 'ChangeServiceCallbacks7', 'callback1');
         expect(service.labels).to.include.members(['changed']);
         expect(callback1.labels).to.include.members(['changed']);
-        expect(callback1.ret.doc).to.equal(repoCallback1.ret.doc);
-        expect(callback1.ret.srcDoc).to.equal(newCallback1.ret.srcDoc);
+        expect(callback1.ret.doc).to.equal(newCallback1.ret.doc);
 
       });
 
