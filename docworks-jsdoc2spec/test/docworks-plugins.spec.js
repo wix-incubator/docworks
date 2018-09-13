@@ -4,7 +4,7 @@ import chaiSubset from 'chai-subset';
 const expect = chai.expect;
 chai.use(chaiSubset);
 
-describe('jsdoc plugins', function() {
+describe('docworks plugins', function() {
   it('run with plugin', function() {
     let jsDocRes = runJsDoc({
       "include": [

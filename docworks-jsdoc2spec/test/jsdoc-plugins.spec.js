@@ -16,10 +16,10 @@ describe('jsdoc plugins', function() {
       services: [
         {name: 'Service', memberOf: 'aNamespace',
           operations: [
-            {name: 'operation', srcDocs: {summary: 'this is another new summary'}}
+            {name: 'operation', docs: {summary: 'this is another new summary'}}
           ],
           properties: [
-            {name: 'label', srcDocs: {summary: 'this is the new summary'}}
+            {name: 'label', docs: {summary: 'this is the new summary'}}
           ]
         }
       ]

@@ -36,11 +36,6 @@ describe('docs', function() {
                             summary: 'this is a docs test service',
                             description: 'this class is used to test how service docs work',
                             links: ["{@link http://somedomain2.com} a related site"]
-                        },
-                        srcDocs: {
-                            summary: 'this is a docs test service',
-                            description: 'this class is used to test how service docs work',
-                            links: ["{@link http://somedomain2.com} a related site"]
                         }
                     }
                 ]

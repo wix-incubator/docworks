@@ -1,6 +1,6 @@
 
 
-export function Service(name, memberOf, mixes, labels, properties, operations, callbacks, messages, location, docs, srcDocs, extra) {
+export function Service(name, memberOf, mixes, labels, properties, operations, callbacks, messages, location, docs, extra) {
   return {
     name: name,
     memberOf: memberOf,
@@ -12,7 +12,6 @@ export function Service(name, memberOf, mixes, labels, properties, operations, c
     messages: messages,
     location: location,
     docs: docs,
-    srcDocs: srcDocs,
     extra: extra || {}
   }
 }
