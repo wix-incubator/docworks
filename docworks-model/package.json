@@ -1,6 +1,6 @@
 {
   "name": "docworks-model",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "The model objects for docworks json files",
   "main": "dist/index.js",
   "scripts": {
