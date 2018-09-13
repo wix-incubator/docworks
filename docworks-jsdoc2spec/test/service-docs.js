@@ -16,8 +16,8 @@ class ServiceDocs {
      * @summary a Message with docs
      * @description
      * the description of the message
-     * @property {string} name
-     * @property {string|number} age
+     * @property {string} name the name
+     * @property {string|number} age the age
      */
 
     /**

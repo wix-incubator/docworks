@@ -128,11 +128,10 @@ describe('docs', function() {
                                     description: 'the description of the message',
                                     links: []
                                 },
-                                srcDocs: {
-                                    summary: 'a Message with docs',
-                                    description: 'the description of the message',
-                                    links: []
-                                }
+                                members: [
+                                  {name: 'name', type: 'string', doc: 'the name'},
+                                  {name: 'age', type: ['string', 'number'], doc: 'the age'}
+                                ]
                             }
                         ]
                     }

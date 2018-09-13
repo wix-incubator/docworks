@@ -16,7 +16,7 @@ const groupByName = (groups, message) => {
 const handleProp = (find, onError, context) => (prop) => {
     return MessageMember(prop.name,
         handleType(prop.type, find, onError, context),
-        prop.description, prop.description
+        prop.description
     );
 };
 
@@ -30,7 +30,7 @@ const processMessages = (find, onError, plugins) => (messages) => {
             onError(JsDocError(`Message ${message.name} is defined two or more times`, messages.map(mes => handleMeta(mes.meta))));
 
         let extra = handlePlugins(plugins, 'extendDocworksMessage', message);
-        return Message(message.name, [], members, messages.map(mes => handleMeta(mes.meta)), handleDoc(message), handleDoc(message), extra);
+        return Message(message.name, [], members, messages.map(mes => handleMeta(mes.meta)), handleDoc(message), extra);
     }
 };
 

@@ -80,24 +80,22 @@ export function Property(name, labels, isGet, isSet, type, defaultValue, locatio
   }
 }
 
-export function Message(name, labels, members, locations, docs, srcDocs, extra) {
+export function Message(name, labels, members, locations, docs, extra) {
   return {
     name: name,
     labels: labels,
     members: members,
     locations: locations,
     docs: docs,
-    srcDocs: srcDocs,
     extra: extra || {}
   }
 }
 
-export function MessageMember(name, type, docs, srcDocs) {
+export function MessageMember(name, type, doc) {
   return {
     name: name,
     type: type,
-    docs: docs,
-    srcDocs: srcDocs
+    doc: doc
   }
 }
 
