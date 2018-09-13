@@ -19,7 +19,6 @@ const handleParam = (find, onError, context) => (param) => {
   return Param(param.name,
     handleType(param.type, find, onError, context),
     param.description,
-    param.description,
     param.optional,
     param.defaultvalue,
     param.variable
@@ -36,7 +35,7 @@ const processFunctions = (find, onError, kind, plugins) => (funcs) => {
       onError(JsDocError(`${kind} ${func.name} is defined two or more times`, funcs.map(func => handleMeta(func.meta))));
 
 
-    let ret = Return(Void, undefined, undefined);
+    let ret = Return(Void, undefined);
     if (func.returns && func.returns.length > 0) {
       if (func.returns.length > 1)
         onError(JsDocError(`${kind} ${func.name} has multiple returns annotations`, [handleMeta(func.meta)]));
@@ -44,7 +43,7 @@ const processFunctions = (find, onError, kind, plugins) => (funcs) => {
       if (!func.returns[0]) {
         onError(JsDocError(`${kind} ${func.name} has return without description or type`, [handleMeta(func.meta)]));
         ret =
-          Return('void', '', '');
+          Return('void', '');
       }
       else {
         if (func.returns[0].description && !func.returns[0].type)
@@ -52,14 +51,13 @@ const processFunctions = (find, onError, kind, plugins) => (funcs) => {
 
         ret =
           Return(handleType(func.returns[0].type, find, onError, typeContext(kind, func.name, 'return', func.memberof, handleMeta(func.meta))),
-            func.returns[0].description,
             func.returns[0].description);
       }
     }
 
     // todo handle name params
     let extra = handlePlugins(plugins, (kind==='Operation')?'extendDocworksOperation':'extendDocworksCallback', func);
-    return Operation(func.name, [], [], params, ret, funcs.map(func => handleMeta(func.meta)), handleDoc(func), handleDoc(func), extra);
+    return Operation(func.name, [], [], params, ret, funcs.map(func => handleMeta(func.meta)), handleDoc(func), extra);
   }
 };
 

@@ -107,7 +107,7 @@ describe('docs', function() {
           expect(jsDocRes.errors).to.not.containError('Property label');
         });
 
-        it.skip('should support docs on an operation', function() {
+        it('should support docs on an operation', function() {
             expect(jsDocRes).to.containSubset({
                 services: [
                     {
@@ -115,15 +115,10 @@ describe('docs', function() {
                         operations: [
                             {name: 'operationWithDocs',
                                 params: [
-                                    {name: 'input', type: 'string', doc: 'the input', srcDoc: 'the input'}
+                                    {name: 'input', type: 'string', doc: 'the input'}
                                 ],
-                                ret: {type: 'string', doc: 'the return value', srcDoc: 'the return value'},
+                                ret: {type: 'string', doc: 'the return value'},
                                 docs: {
-                                    summary: 'an operation',
-                                    description: 'the description of the operation',
-                                    links: []
-                                },
-                                srcDocs: {
                                     summary: 'an operation',
                                     description: 'the description of the operation',
                                     links: []
