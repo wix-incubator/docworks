@@ -44,7 +44,7 @@ export function propTern(service, prop, urlGenerator, plugins) {
   const propName = validTernName(prop.name);
   tern[propName] = {
       "!type": typeTern(prop.type),
-      "!doc": trimPara(prop.srcDocs.summary),
+      "!doc": trimPara(prop.docs.summary),
       "!url": urlGenerator(service, propName)
     };
 
@@ -81,7 +81,7 @@ export function operationTern(service, operation, urlGenerator, findCallback, pl
   const operationName = validTernName(operation.name);
   tern[operationName] = {
     "!type": formatFunctionTern(operation, findCallback),
-    "!doc": trimPara(operation.srcDocs.summary),
+    "!doc": trimPara(operation.docs.summary),
     "!url": urlGenerator(service, operationName)
   };
 
@@ -96,14 +96,14 @@ export function messageTern(service, message, urlGenerator, plugins) {
   const messageName = validTernName(message.name);
   const messageUrl = urlGenerator(service, messageName);
   tern[messageName] = {
-    "!doc": trimPara(message.srcDocs.summary),
+    "!doc": trimPara(message.docs.summary),
     "!url": messageUrl
   };
 
   message.members.forEach(member => {
     tern[messageName][validTernName(member.name)] = {
        "!type": typeTern(member.type),
-       "!doc": trimPara(member.srcDocs),
+       "!doc": trimPara(member.docs),
        "!url": messageUrl
      }
   });
@@ -118,7 +118,7 @@ export function ternService(service, urlGenerator, findCallback, findMixin, plug
 
   const serviceName = validTernName(service.name);
   tern[serviceName] = {
-    "!doc": trimPara(service.srcDocs.summary),
+    "!doc": trimPara(service.docs.summary),
     "!url": urlGenerator(service)
   };
 

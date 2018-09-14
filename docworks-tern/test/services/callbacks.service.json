@@ -5,7 +5,6 @@
     { "filename": "functions.es6",
       "lineno": 9 },
   "docs": { "summary": "", "description": [], "links": [], "examples": [] },
-  "srcDocs":{ "summary": "", "description": [], "links": [], "examples": [] },
   "properties": [],
   "operations":
     [ { "name": "onViewportEnter",
@@ -14,19 +13,14 @@
         "params":
           [ { "name": "handler",
               "type": "callbacks.EventHandler",
-              "doc": "The name of the function or\n the function expression to run when the element enters the viewport.",
-              "srcDoc": "The name of the function or\n the function expression to run when the element enters the viewport." } ],
+              "doc": "The name of the function or\n the function expression to run when the element enters the viewport." } ],
         "ret":
           { "type": "$w.Element",
-            "doc": "The element on which the event is now registered.",
-            "srcDoc": "The element on which the event is now registered." },
+            "doc": "The element on which the event is now registered." },
         "locations":
           [ { "filename": "ViewportMixin.es6",
               "lineno": 12 } ],
         "docs":
-          { "summary": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
-            "description": [], "links": [], "examples": [] },
-        "srcDocs":
           { "summary": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
             "description": [], "links": [], "examples": [] } },
       { "name": "onViewportEnter2",
@@ -35,21 +29,14 @@
         "params":
           [ { "name": "handler",
               "type": "callbacks.EventHandler2",
-              "doc": "The name of the function or\n the function expression to run when the element enters the viewport.",
-              "srcDoc": "The name of the function or\n the function expression to run when the element enters the viewport." } ],
+              "doc": "The name of the function or\n the function expression to run when the element enters the viewport." } ],
         "ret":
           { "type": "$w.Element",
-            "doc": "The element on which the event is now registered.",
-            "srcDoc": "The element on which the event is now registered." },
+            "doc": "The element on which the event is now registered." },
         "locations":
           [ { "filename": "ViewportMixin.es6",
               "lineno": 12 } ],
         "docs":
-          { "summary": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
-            "description": [],
-            "links": [],
-            "examples": [] },
-        "srcDocs":
           { "summary": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
             "description": [],
             "links": [],
@@ -63,33 +50,27 @@
         "params": [],
         "ret":
           { "type": "void",
-            "doc": "",
-            "srcDoc": "" },
+            "doc": "" },
         "locations":
           [ { "filename": "xxx.es6",
               "lineno": 12 } ],
-      "docs": { "summary": "", "description": [], "links": [], "examples": [] },
-      "srcDocs":{ "summary": "", "description": [], "links": [], "examples": [] } },
+      "docs": { "summary": "", "description": [], "links": [], "examples": [] } },
       { "name": "EventHandler2",
         "labels": [],
         "nameParams": [],
         "params":
           [ { "name": "event",
               "type": "Event",
-              "doc": "",
-              "srcDoc": "" },
+              "doc": "" },
             { "name": "$w",
               "type": "$w.$w",
-              "doc": "",
-              "srcDoc": "" } ],
+              "doc": "" } ],
         "ret":
           { "type": "number",
-            "doc": "",
-            "srcDoc": "" },
+            "doc": "" },
         "locations":
           [ { "filename": "xxx.es6",
               "lineno": 12 } ],
-        "docs": { "summary": "", "description": [], "links": [], "examples": [] },
-        "srcDocs":{ "summary": "", "description": [], "links": [], "examples": [] } }
+        "docs": { "summary": "", "description": [], "links": [], "examples": [] } }
   ],
   "messages": [] }

@@ -9,11 +9,6 @@
       "description": [],
       "links": [],
       "examples": [] },
-  "srcDocs":
-    { "summary": "",
-      "description": [],
-      "links": [],
-      "examples": [] },
   "properties":
   [ { "name": "prop1",
       "labels": [],
@@ -24,11 +19,6 @@
         [ { "filename": "location.es6",
             "lineno": 247 } ],
       "docs":
-        { "summary": "Summary of prop 1",
-          "description": [],
-          "links": [],
-          "examples": [] },
-      "srcDocs":
         { "summary": "Summary of prop 1",
           "description": [],
           "links": [],
@@ -45,11 +35,6 @@
         { "summary": "Summary of prop 2",
           "description": [],
           "links": [],
-          "examples": [] },
-      "srcDocs":
-        { "summary": "Summary of prop 2",
-          "description": [],
-          "links": [],
           "examples": [] } },
     { "name": "arrayProp",
       "labels": [],
@@ -63,11 +48,6 @@
         [ { "filename": "location.es6",
             "lineno": 247 } ],
       "docs":
-        { "summary": "Summary of arrayProp",
-          "description": [],
-          "links": [],
-          "examples": [] },
-      "srcDocs":
         { "summary": "Summary of arrayProp",
           "description": [],
           "links": [],

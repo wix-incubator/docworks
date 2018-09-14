@@ -21,7 +21,7 @@ describe('integration test', function() {
       services: [
         {name: 'Service', memberOf: 'aNamespace',
           operations: [
-            {name: 'operation', srcDocs: {
+            {name: 'operation', docs: {
               summary: 'an operation',
               examples: [{title: 'The example', body: 'function example() {\n  console.log(\'hi\');\n}'}]
             }}

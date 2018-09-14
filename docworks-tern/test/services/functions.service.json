@@ -9,11 +9,6 @@
       "description": [],
       "links": [],
       "examples": [] },
-  "srcDocs":
-    { "summary": "",
-      "description": [],
-      "links": [],
-      "examples": [] },
   "properties": [],
   "operations": [
     { "name": "resetValidityIndication",
@@ -29,11 +24,6 @@
       { "summary": "Resets the element's visual validity indication.",
         "description": [],
         "links": [],
-        "examples": [] },
-      "srcDocs":
-      { "summary": "Resets the element's visual validity indication.",
-        "description": [],
-        "links": [],
         "examples": [] } },
 
     { "name": "to",
@@ -42,19 +32,13 @@
       "params":
       [ { "name": "url",
           "type": "string",
-          "doc": "The URL of the page or website to navigate to.",
-          "srcDoc": "The URL of the page or website to navigate to." } ],
+          "doc": "The URL of the page or website to navigate to." } ],
       "ret":
       { "type": "void" },
       "locations":
       [ { "filename": "location.es6",
         "lineno": 272 } ],
       "docs":
-      { "summary": "Directs the browser to navigate to the specified URL.",
-        "description": [],
-        "links": [],
-        "examples": [] },
-      "srcDocs":
       { "summary": "Directs the browser to navigate to the specified URL.",
         "description": [],
         "links": [],
@@ -66,29 +50,21 @@
       "params":
       [ { "name": "name",
           "type": "string",
-          "doc": "The name of the lightbox to open.",
-          "srcDoc": "The name of the lightbox to open." },
+          "doc": "The name of the lightbox to open." },
         { "name": "data",
           "type": "Object",
           "doc": "The data to pass to the lightbox.",
-          "srcDoc": "The data to pass to the lightbox.",
           "optional": true } ],
       "ret":
       { "type":
       { "name": "Promise",
         "typeParams":
         [ "Object" ] },
-        "doc": "undefined. on fulfilled - The returned data from the lightbox.. on rejected - The error that caused the rejection.",
-        "srcDoc": "undefined. on fulfilled - The returned data from the lightbox.. on rejected - The error that caused the rejection." },
+        "doc": "undefined. on fulfilled - The returned data from the lightbox.. on rejected - The error that caused the rejection." },
       "locations":
       [ { "filename": "window.es6",
         "lineno": 391 } ],
       "docs":
-      { "summary": "Opens a lightbox and optionally passes it the given data.",
-        "description": [],
-        "links": [],
-        "examples": [] },
-      "srcDocs":
       { "summary": "Opens a lightbox and optionally passes it the given data.",
         "description": [],
         "links": [],
@@ -100,28 +76,20 @@
       "params":
       [ { "name": "x",
         "type": "number",
-        "doc": "The horizontal offset, in pixels, to scroll by.",
-        "srcDoc": "The horizontal offset, in pixels, to scroll by." },
+        "doc": "The horizontal offset, in pixels, to scroll by." },
         { "name": "y",
           "type": "number",
-          "doc": "The vertical offset, in pixels, to scroll by.",
-          "srcDoc": "The vertical offset, in pixels, to scroll by." } ],
+          "doc": "The vertical offset, in pixels, to scroll by." } ],
       "ret":
       { "type":
       { "name": "Promise",
         "typeParams":
         [ "void" ] },
-        "doc": "on fulfilled - When the scroll is complete.",
-        "srcDoc": "on fulfilled - When the scroll is complete." },
+        "doc": "on fulfilled - When the scroll is complete." },
       "locations":
       [ { "filename": "window.es6",
         "lineno": 282 } ],
       "docs":
-      { "summary": "Scrolls the page by a given number of pixels.",
-        "description": [],
-        "links": [],
-        "examples": [] },
-      "srcDocs":
       { "summary": "Scrolls the page by a given number of pixels.",
         "description": [],
         "links": [],
@@ -135,24 +103,17 @@
         "type": { "name": "Array",
           "typeParams":
           [ "aType" ] },
-        "doc": "a Complex param",
-        "srcDoc": "a Complex param" } ],
+        "doc": "a Complex param" } ],
       "ret":
       { "type":
       { "name": "Promise",
         "typeParams":
         [ "void" ] },
-        "doc": "on fulfilled - When the scroll is complete.",
-        "srcDoc": "on fulfilled - When the scroll is complete." },
+        "doc": "on fulfilled - When the scroll is complete." },
       "locations":
       [ { "filename": "window.es6",
         "lineno": 282 } ],
       "docs":
-      { "summary": "...",
-        "description": [],
-        "links": [],
-        "examples": [] },
-      "srcDocs":
       { "summary": "...",
         "description": [],
         "links": [],
@@ -164,20 +125,15 @@
       "params":
         [ { "name": "handler",
             "type": "$w.EventHandler",
-            "doc": "...",
-            "srcDoc": "..." } ],
+            "doc": "..." } ],
       "ret":
         { "type":
           [ "$w.Gallery",
             "$w.Slideshow" ],
-          "doc": "...",
-          "srcDoc": "..." },
+          "doc": "..." },
       "locations":
         [ { "filename": "PlayableMixin.es6","lineno": 72 } ],
       "docs":
-        { "summary": "Adds an event handler that runs when playback is paused.",
-          "description": [], "links": [], "examples": [] },
-      "srcDocs":
         { "summary": "Adds an event handler that runs when playback is paused.",
           "description": [], "links": [], "examples": [] } },
 
@@ -187,18 +143,13 @@
       "params":
       [ { "name": "count",
           "type": "number",
-          "doc": "The number of items the count operation has found.",
-          "srcDoc": "The number of items the count operation has found." },
+          "doc": "The number of items the count operation has found." },
         { "name": "context",
           "type": "wix-data.Hooks.HookContext",
-          "doc": "Contextual information about the hook.",
-          "srcDoc": "Contextual information about the hook." } ],
-      "ret": { "type": { "name": "Promise", "typeParams": [ "number" ] }, "doc": "...", "srcDoc": "..." },
+          "doc": "Contextual information about the hook." } ],
+      "ret": { "type": { "name": "Promise", "typeParams": [ "number" ] }, "doc": "..." },
       "locations": [ { "filename": "hooks.es6", "lineno": 42 } ],
       "docs":
-      { "summary": "A hook that is triggered after a `count()` operation.",
-        "description": [], "links": [], "examples": [] },
-      "srcDocs":
       { "summary": "A hook that is triggered after a `count()` operation.",
         "description": [], "links": [], "examples": [] } }
 

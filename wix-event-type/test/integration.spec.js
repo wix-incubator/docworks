@@ -30,7 +30,7 @@ describe('integration test', function() {
           {name: 'Service', memberOf: 'aNamespace',
             operations: [
               { name: 'operation',
-                srcDocs: {
+                docs: {
                   summary: 'an operation'
                 },
                 extra: {
@@ -58,7 +58,7 @@ describe('integration test', function() {
           {name: 'Service', memberOf: 'aNamespace',
             operations: [
               { name: 'operation',
-                srcDocs: {
+                docs: {
                   summary: 'an operation'
                 },
                 extra: {
@@ -84,7 +84,7 @@ describe('integration test', function() {
           {name: 'Service', memberOf: 'aNamespace',
             operations: [
               { name: 'operation2',
-                srcDocs: {
+                docs: {
                   summary: 'an operation'
                 },
                 extra: {

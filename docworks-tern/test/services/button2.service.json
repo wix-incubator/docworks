@@ -11,10 +11,6 @@
   { "summary": "A text button or an icon button.",
     "links": [],
     "examples": [] },
-  "srcDocs":
-  { "summary": "A text button or an icon button.",
-    "links": [],
-    "examples": [] },
   "properties":
   [ { "name": "label",
     "labels": [],
@@ -25,16 +21,6 @@
     [ { "filename": "Button.es6",
       "lineno": 34 } ],
     "docs":
-    { "summary": "Sets or gets the label of a text button.",
-      "links": [],
-      "examples":
-      [ { "title": "Get a button's label",
-        "body":
-        [ "let buttonLabel = $w(\"#myButton\").label;  // \"Submit\"" ] },
-        { "title": "Set a button's label",
-          "body":
-          [ "$w(\"#myButton\").label = \"New Label\";" ] } ] },
-    "srcDocs":
     { "summary": "Sets or gets the label of a text button.",
       "links": [],
       "examples":
