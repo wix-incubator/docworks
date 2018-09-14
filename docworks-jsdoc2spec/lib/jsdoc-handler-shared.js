@@ -96,5 +96,5 @@ export function handleDoc(doclet) {
         else
             return Example(undefined, ex);
     });
-    return Docs(doclet.summary, doclet.description, doclet.see?doclet.see:[], examples);
+    return Docs(doclet.summary, doclet.description || doclet.classdesc, doclet.see?doclet.see:[], examples);
 }
