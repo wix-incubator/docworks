@@ -162,6 +162,26 @@ describe('docs', function() {
       });
     });
 
+    it.only('should support a optional members of a message', function() {
+
+      expect(jsDocRes).to.containSubset({
+        services: [
+          {
+            name: 'ServiceMessages',
+            messages: [
+              {
+                name: 'MessageWithOptionalMembers',
+                members: [
+                  {name: 'name', type: 'string', doc: 'is mandatory'},
+                  {name: 'age', type: ['string', 'number'], doc: 'is optional', optional: true}
+                ]
+              }
+            ]
+          }
+        ]
+      });
+    });
+
     it('should support messages defined using @typedef namespace~message', function() {
 
       expect(jsDocRes).to.containSubset({

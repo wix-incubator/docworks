@@ -66,3 +66,9 @@ export class ChangeServiceMessages4 {
  * @memberOf ChangeServiceMessages4
  * @property {string} name
  */
+
+/**
+ * @typedef Message9
+ * @memberOf ChangeServiceMessages2
+ * @property {string} [name]
+ */

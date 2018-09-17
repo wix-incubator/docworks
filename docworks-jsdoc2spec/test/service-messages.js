@@ -35,6 +35,13 @@ class ServiceMessages {
    */
 
   /**
+   * @typedef MessageWithOptionalMembers
+   * @memberof aNamespace.ServiceMessages
+   * @property {string} name is mandatory
+   * @property {string|number} [age] is optional
+   */
+
+  /**
    * @member prop
    * @memberof aNamespace.ServiceMessages
    * @type {aNamespace.ServiceMessages.OutMessage}

@@ -171,11 +171,13 @@ function mergeOperation(newOperation, repoOperation, messages, key, plugins) {
 function mergeMessageMember(newMessageMember, repoMessageMember, messages, key) {
   let changedType = !compareType(newMessageMember.type, repoMessageMember.type, messages, key);
   let docsChanged = !compareAttribute(newMessageMember.doc, repoMessageMember.doc, messages, key, 'doc');
+  let optionalChanged = !compareAttribute(newMessageMember.optional, repoMessageMember.optional, messages, key, 'optional');
 
-  let changed = changedType || docsChanged;
+  let changed = changedType || docsChanged || optionalChanged;
   let item = copy(repoMessageMember, {
     type: newMessageMember.type,
-    doc: newMessageMember.doc
+    doc: newMessageMember.doc,
+    optional: newMessageMember.optional
   });
   delete item.docs;
   delete item.srcDocs;

@@ -1064,7 +1064,6 @@ describe('compare repo', function() {
       it('should report change in message member doc', function() {
         let {repo, message: repoMessage} = repoServiceMessages(baseRepo, 'ChangeServiceMessages2', 'Message6');
         let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages2', 'Message6');
-        let repoMember = repoMessage.members.find(_ => _.name === 'name');
         let newMember = newMessage.members.find(_ => _.name === 'name');
 
         let mergedRepo = merge(newRepo, repo);
@@ -1076,6 +1075,22 @@ describe('compare repo', function() {
         expect(service.labels).to.include.members(['changed']);
         expect(message.labels).to.include.members(['changed']);
         expect(member.doc).to.containSubset(newMember.doc);
+      });
+
+      it('should report change in message member optional', function() {
+        let {repo} = repoServiceMessages(baseRepo, 'ChangeServiceMessages2', 'Message9');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages2', 'Message9');
+        let newMember = newMessage.members.find(_ => _.name === 'name');
+
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceMessages2 message Message9 member name has changed optional']);
+
+        let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages2', 'Message9');
+        let member = message.members.find(_ => _.name === 'name');
+        expect(service.labels).to.include.members(['changed']);
+        expect(message.labels).to.include.members(['changed']);
+        expect(member.optional).to.containSubset(newMember.optional);
       });
 
       it('should report changed message docs, update docs', function() {

@@ -91,11 +91,12 @@ export function Message(name, labels, members, locations, docs, extra) {
   }
 }
 
-export function MessageMember(name, type, doc) {
+export function MessageMember(name, type, doc, optional) {
   return {
     name: name,
     type: type,
-    doc: doc
+    doc: doc,
+    optional: optional
   }
 }
 

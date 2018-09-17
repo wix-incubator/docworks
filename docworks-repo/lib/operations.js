@@ -57,7 +57,9 @@ const messageSpec = {
   srcDocs: Object.assign({pos: 4}, docSpec),
   members: {pos: 5,
     name: {pos: 1},
-    type: {pos: 2}
+    type: {pos: 2},
+    doc: {pos: 3},
+    optional: {pos: 4}
   },
   extra: {pos: 6}
 };

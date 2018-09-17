@@ -16,7 +16,7 @@ const groupByName = (groups, message) => {
 const handleProp = (find, onError, context) => (prop) => {
     return MessageMember(prop.name,
         handleType(prop.type, find, onError, context),
-        prop.description
+        prop.description, prop.optional
     );
 };
 
