@@ -1,6 +1,6 @@
 {
   "name": "wix-event-type",
-  "version": "1.5.1",
+  "version": "1.5.3",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -18,9 +18,9 @@
     "babel-register": "^6.24.1",
     "chai": "^3.5.0",
     "chai-subset": "^1.5.0",
-    "docworks-jsdoc2spec": "^1.5.1",
-    "docworks-repo": "^1.5.1",
-    "docworks-tern": "^1.5.1",
+    "docworks-jsdoc2spec": "^1.5.3",
+    "docworks-repo": "^1.5.3",
+    "docworks-tern": "^1.5.3",
     "mocha": "^3.3.0"
   }
 }
