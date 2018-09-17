@@ -41,7 +41,7 @@ function fixReturnPromise(doclet) {
         if (doclet.reject.description)
           doc.push('on rejected - ' + doclet.reject.description);
 
-      doclet.returns[0].description = doc.join('. ');
+      doclet.returns[0].description = doc.join('\n');
     }
   }
 }

@@ -128,7 +128,7 @@ describe('integration test', function() {
             [ { name: 'anAsyncFunction',
                 ret: {
                   type: {name: 'Promise', typeParams: ['string'] },
-                  doc: 'abcd. on fulfilled - fulfill docs. on rejected - error docs' } } ]
+                  doc: 'abcd\non fulfilled - fulfill docs\non rejected - error docs' } } ]
         } ] } );
 
   });
@@ -142,7 +142,7 @@ describe('integration test', function() {
             [ { name: 'anAsyncFunctionNoReturnDoc',
                 ret: {
                   type: {name: 'Promise', typeParams: ['string'] },
-                  doc: 'on fulfilled - fulfill docs. on rejected - error docs' } } ]
+                  doc: 'on fulfilled - fulfill docs\non rejected - error docs' } } ]
         } ] } );
 
   });
@@ -156,7 +156,7 @@ describe('integration test', function() {
             [ { name: 'anAsyncCallback',
               ret: {
                 type: {name: 'Promise', typeParams: ['string'] },
-                doc: 'abcd. on fulfilled - fulfill docs. on rejected - error docs' } } ]
+                doc: 'abcd\non fulfilled - fulfill docs\non rejected - error docs' } } ]
         } ] } );
 
   });
