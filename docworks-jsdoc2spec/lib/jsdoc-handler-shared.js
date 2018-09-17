@@ -16,6 +16,8 @@ const builtInTypes = {
     'Function': 'Function',
     'Promise': 'Promise',
     'Object': 'Object',
+    'any': 'any',
+    'Any': 'any',
     'void': Void
 };
 
