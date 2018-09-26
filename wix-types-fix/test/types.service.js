@@ -47,6 +47,20 @@ class Service {
 
 
   /**
+   * @member readWrite
+   * @type {external:String}
+   * @memberof Service
+   */
+  get readWrite() {}
+
+  /**
+   * @member readWrite
+   * @param {external:String} param
+   * @memberof Service
+   */
+  set readWrite(param) {}
+
+  /**
    * @callback Service.Event
    * @param {external:String|external:Boolean} value
    * @param {external:Function} reject

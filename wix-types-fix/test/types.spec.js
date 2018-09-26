@@ -25,9 +25,20 @@ describe('integration test', function() {
         [ { name: 'Service',
           properties:
             [ { name: 'label',
-              type: 'string' },
+                type: 'string' },
               { name: 'valid',
                 type: 'boolean' } ]
+        } ] } );
+
+  });
+
+  it('should rename read write property types with prefix external: to the native type name', function() {
+
+    expect(jsDocRes).to.containSubset({
+      services:
+        [ { name: 'Service',
+          properties:
+            [ { name: 'readWrite', type: 'string', set:true, get: true } ]
         } ] } );
 
   });

@@ -62,6 +62,7 @@ exports.handlers = {
     else if (e.doclet.kind === 'member') {
       if (e.doclet.type && e.doclet.type.names)
         e.doclet.type.names = e.doclet.type.names.map(fixTypeName)
+      fixTypes(e.doclet, 'params');
     }
   }
 };
