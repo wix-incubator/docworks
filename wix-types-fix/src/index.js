@@ -35,11 +35,11 @@ function fixReturnPromise(doclet) {
         let type = fixType(doclet.fulfill.type);
         doclet.returns[0].type.names[0] = `Promise.<${type.names.join('|')}>`;
         if (doclet.fulfill.description)
-          doc.push('on fulfilled - ' + doclet.fulfill.description);
+          doc.push('Fulfilled - ' + doclet.fulfill.description);
       }
       if (doclet.reject)
         if (doclet.reject.description)
-          doc.push('on rejected - ' + doclet.reject.description);
+          doc.push('Rejected - ' + doclet.reject.description);
 
       doclet.returns[0].description = doc.join('\n');
     }

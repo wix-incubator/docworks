@@ -139,7 +139,7 @@ describe('integration test', function() {
             [ { name: 'anAsyncFunction',
                 ret: {
                   type: {name: 'Promise', typeParams: ['string'] },
-                  doc: 'abcd\non fulfilled - fulfill docs\non rejected - error docs' } } ]
+                  doc: 'abcd\nFulfilled - fulfill docs\nRejected - error docs' } } ]
         } ] } );
 
   });
@@ -153,7 +153,7 @@ describe('integration test', function() {
             [ { name: 'anAsyncFunctionNoReturnDoc',
                 ret: {
                   type: {name: 'Promise', typeParams: ['string'] },
-                  doc: 'on fulfilled - fulfill docs\non rejected - error docs' } } ]
+                  doc: 'Fulfilled - fulfill docs\nRejected - error docs' } } ]
         } ] } );
 
   });
@@ -167,7 +167,7 @@ describe('integration test', function() {
             [ { name: 'anAsyncCallback',
               ret: {
                 type: {name: 'Promise', typeParams: ['string'] },
-                doc: 'abcd\non fulfilled - fulfill docs\non rejected - error docs' } } ]
+                doc: 'abcd\nFulfilled - fulfill docs\nRejected - error docs' } } ]
         } ] } );
 
   });
