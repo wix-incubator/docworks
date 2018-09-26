@@ -1,6 +1,6 @@
 {
   "name": "docworks-repo",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "description": "manage service files in a git repo",
   "main": "dist/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "array-flatten": "^2.1.1",
-    "docworks-jsdoc2spec": "^1.5.5",
+    "docworks-jsdoc2spec": "^1.5.6",
     "docworks-json": "^1.4.4",
     "fs-extra": "^3.0.1",
     "lodash.isequal": "^4.5.0"
