@@ -128,6 +128,25 @@ class ServiceProperties {
    */
   set hasDefaultValue(value) {
   }
+
+  /**
+   * @member complex
+   * @memberof aNamespace.ServiceProperties
+   * @type {string[] | Number[]}
+   * @summary a complex property type
+   */
+  get complex() {
+
+  }
+
+  /**
+   * @member complex
+   * @memberof aNamespace.ServiceProperties
+   * @param {string[] | Number[]} value
+   */
+  set complex(value) {
+
+  }
 }
 
 

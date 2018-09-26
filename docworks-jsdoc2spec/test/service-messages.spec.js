@@ -162,7 +162,7 @@ describe('docs', function() {
       });
     });
 
-    it.only('should support a optional members of a message', function() {
+    it('should support a optional members of a message', function() {
 
       expect(jsDocRes).to.containSubset({
         services: [

@@ -1,7 +1,7 @@
-
 import {Property, Void, JsDocError} from 'docworks-model';
 import {handleMeta, handleType, typeContext, handleDoc} from './jsdoc-handler-shared';
 import handlePlugins from './docworks-plugins';
+import isEqual from 'lodash.isequal';
 import {dump} from './util';
 
 
@@ -48,14 +48,14 @@ const mergeProperties = (service, onError) => (properties) => {
         let prop2 = properties[1];
         let extra = Object.assign({}, prop1.extra, prop2.extra);
         let locations = prop1.locations.concat(prop2.locations);
-        if (prop1.type === prop2.type &&
+        if (isEqual(prop1.type, prop2.type) &&
             prop1.get !== prop2.get &&
             prop1.set !== prop2.set) {
             let docs = prop1.get?prop1.docs:prop2.docs;
             return Property(prop1.name, [], true, true, prop1.type, prop1.defaultValue, locations, docs, extra);
         }
 
-        if (prop1.type !== prop2.type &&
+        if (!isEqual(prop1.type, prop2.type) &&
             prop1.get !== prop2.get &&
             prop1.set !== prop2.set) {
             onError(JsDocError(

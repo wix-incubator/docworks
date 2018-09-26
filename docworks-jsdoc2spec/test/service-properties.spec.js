@@ -168,5 +168,20 @@ describe('docs', function() {
       });
       expect(jsDocRes.errors).to.not.containError('Property withDefaultValue');
     });
+
+    it('should support property with a complex type', function() {
+
+      expect(jsDocRes).to.containSubset({
+        services: [
+          {
+            name: 'ServiceProperties',
+            properties: [
+              {name: 'complex', get: true, set: true, type: [{name: 'Array', typeParams: ['string']}, {name: 'Array', typeParams: ['number']}]}
+            ]
+          }
+        ]
+      });
+      expect(jsDocRes.errors).to.not.containError('Property complex');
+    });
   });
 });
