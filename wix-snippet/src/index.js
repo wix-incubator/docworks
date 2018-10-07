@@ -13,7 +13,7 @@ exports.setLogger = function(value) {
 
 exports.init = function(param) {
   exports.setSnippetsDir(param);
-}
+};
 
 let reportedConfigError = false;
 exports.defineTags = function(dictionary) {
@@ -32,14 +32,10 @@ exports.defineTags = function(dictionary) {
       let snippet = tag.value;
       let p = path.join(global.wixJsDocPluginSnippetsDir, snippet.name);
       try {
-        let ext = path.extname(p);
-        let lang = "javascript";
-        if(ext === 'html' || ext === '.html') {
-          lang = "html";
-        }
         let contents = fs.readFileSync(p, 'utf8');
+        const description = snippet.description?`<description>${snippet.description}</description>`:'';
         doclet.examples = doclet.examples || [];
-        doclet.examples.push(`<caption>${snippet.defaultvalue}</caption>\n${contents}`);
+        doclet.examples.push(`<caption>${snippet.defaultvalue}</caption>${description}\n${contents}`);
       } catch(error) {
         if (error.code === 'ENOENT')
           logger.error('ERROR: The @snippet tag - file \'' + p + '\' not found. File: ' + doclet.meta.filename + ' line: ' + doclet.meta.lineno);

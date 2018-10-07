@@ -46,8 +46,8 @@ describe('wix-snippet', function() {
     }
   }
 
-  function makeTag() {
-    return {
+  function makeTag(withDescription) {
+    const tag = {
       originalTitle: 'snippet',
       title: 'snippet',
       text: '[example.js=The example]',
@@ -56,7 +56,10 @@ describe('wix-snippet', function() {
         defaultvalue: 'The example',
         name: 'example.js'
       }
-    }
+    };
+    if (withDescription)
+      tag.value.description = 'a description';
+    return tag
   }
 
 
@@ -71,6 +74,21 @@ describe('wix-snippet', function() {
     expect(doclet).to.containSubset({
       examples:
         [ '<caption>The example</caption>\nfunction example() {\n  console.log(\'hi\');\n}']
+    });
+    expect(log).to.be.empty;
+  });
+
+  it('should read example with a description', function() {
+    let dictionary = makeDict();
+    defineTags(dictionary);
+
+    let doclet = makeDoclet();
+    let tag = makeTag(true);
+    dictionary.tags['snippet'].onTagged(doclet, tag);
+
+    expect(doclet).to.containSubset({
+      examples:
+        [ '<caption>The example</caption><description>a description</description>\nfunction example() {\n  console.log(\'hi\');\n}']
     });
     expect(log).to.be.empty;
   });

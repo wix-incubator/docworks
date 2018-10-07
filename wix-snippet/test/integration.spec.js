@@ -15,8 +15,6 @@ describe('integration test', function() {
       ],
     }, ['src/index']);
 
-
-
     expect(jsDocRes).to.containSubset({
       services: [
         {name: 'Service', memberOf: 'aNamespace',
@@ -31,6 +29,29 @@ describe('integration test', function() {
     });
 
   });
+
+  it('should load an example with a description, adding it to the processed service', function() {
+    setSnippetsDir('./test');
+    let jsDocRes = runJsDoc({
+      "include": [
+        "test/integration.service.js"
+      ],
+    }, ['src/index']);
+
+    expect(jsDocRes).to.containSubset({
+      services: [
+        {name: 'Service', memberOf: 'aNamespace',
+          operations: [
+            {name: 'operation2', docs: {
+              summary: 'an operation 2',
+              examples: [{title: 'The example', body: '<description>this is the example description</description>\nfunction example() {\n  console.log(\'hi\');\n}'}]
+            }}
+          ]
+        }
+      ]
+    });
+
+  })
 
   it('should report error if snippet dir not set', function() {
     setSnippetsDir(undefined);
