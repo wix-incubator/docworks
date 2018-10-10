@@ -5,6 +5,7 @@ import Git from './git';
 import fs from 'fs-extra';
 import * as defaultLogger from './logger';
 import chalk from 'chalk';
+import {runPlugins} from './plugins';
 
 function commitMessage(projectSubdir, messages, errors, indent) {
   let newLineIndent = `\n${indent}`;
@@ -87,6 +88,9 @@ export default async function extractComparePush(remoteRepo, remoteBranch, worki
 
     logger.command('docworks', `saveServices ${workingSubdir}`);
     await saveToDir(workingSubdir, merged.repo);
+
+    logger.log('  running ecpAfterMerge plugins');
+    await runPlugins(plugins, 'ecpAfterMerge', workingDir, projectSubdir);
 
     logger.command('git status', '');
     let statuses = await localGit.status();

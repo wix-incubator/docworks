@@ -220,4 +220,14 @@ describe('extract compare push workflow e2e', function() {
     expect(service3).to.be.true;
   });
 
+  it.only('run ecpAfterMerge plugin', async function() {
+    await createRemoteOnVer1();
+    logger.log('run test');
+    logger.log('--------');
+    await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$ --plug ./test/ecp-plugin`.split(' '));
+
+    let remoteRepo = new Git(remote);
+    let createdByPlugins = await remoteRepo.fileExists(join(project2, "created-by-plugin"));
+    expect(createdByPlugins).to.be.true;
+  });
 });

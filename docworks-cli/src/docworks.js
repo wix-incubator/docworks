@@ -4,7 +4,7 @@ let tmp = require('tmp-promise');
 let extractComparePush = require('../dist/extract-compare-push').default;
 let validate = require('../dist/validate').default;
 let optimist = require('optimist');
-let resolve = require('resolve');
+let {resolveAndInitPlugins} = require('../dist/plugins');
 import runTern from '../dist/run-tern';
 
 if (process.argv.length < 3) {
@@ -37,23 +37,6 @@ function printUsage() {
   console.log('  tern             generate tern file from docworks repo');
 }
 
-function resolvePlugins(plugins) {
-  return (plugins?(Array.isArray(plugins)?plugins:[plugins]):[])
-    .map(pluginCmd => {
-      let [plugin, param] = pluginCmd.split(/:(.+)/);
-      plugin = resolve.sync(plugin, {basedir: '.'});
-      try {
-        let pluginModule = require(plugin);
-        if (param && pluginModule.init)
-          pluginModule.init(param);
-      }
-      catch (err) {
-
-      }
-      return plugin;
-    }
-    );
-}
 
 function ecp() {
   let argv = optimist
@@ -85,7 +68,7 @@ function ecp() {
   let pattern = argv.pattern;
   let project = argv.project;
   let dryrun = !!argv.dryrun;
-  let plugins = resolvePlugins(argv.plug);
+  let plugins = resolveAndInitPlugins(argv.plug);
 
   tmp.dir().then(o => {
     return extractComparePush(remote, branch, o.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
@@ -110,7 +93,7 @@ function validateCommand() {
 
   let sources = argv.sources;
   let pattern = argv.pattern;
-  let plugins = resolvePlugins(argv.jsdocplugin);
+  let plugins = resolveAndInitPlugins(argv.jsdocplugin);
 
   if (!validate({"include": sources, "includePattern": pattern}, plugins))
     process.exit(1);
@@ -141,7 +124,7 @@ function tern() {
   let baseUrl = argv.url;
   let apiName = argv.name;
   let outputFileName = argv.out;
-  let plugins = resolvePlugins(argv.plug);
+  let plugins = resolveAndInitPlugins(argv.plug);
 
   if (!remote && !local || (!!remote && !!local)) {
     console.log(cmdDefinition.help());
