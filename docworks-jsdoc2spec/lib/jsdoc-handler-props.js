@@ -12,14 +12,14 @@ const extractMembers = (find, onError, plugins) => (member) => {
     let extra = handlePlugins(plugins, 'extendDocworksProperty', member);
     let defaultValue = member.defaultvalue;
     if (member.type)
-        return Property(member.name, [], true, false, handleType(member.type, find, onError, context), defaultValue, [location], handleDoc(member), extra);
+        return Property(member.name, [], true, false, handleType(member.type, find, onError, context), defaultValue, [location], handleDoc(member, plugins), extra);
 
     // handle write property
     if (member.params && member.params.length > 0)
-        return Property(member.name, [], false, true, handleType(member.params[0].type, find, onError, context), defaultValue, [location], handleDoc(member), extra);
+        return Property(member.name, [], false, true, handleType(member.params[0].type, find, onError, context), defaultValue, [location], handleDoc(member, plugins), extra);
 
     onError(JsDocError(`Property ${member.name} is missing a type annotation`, [location]));
-    return Property(member.name, [], false, false, Void, defaultValue, [location], handleDoc(member), extra);
+    return Property(member.name, [], false, false, Void, defaultValue, [location], handleDoc(member, plugins), extra);
 
 };
 

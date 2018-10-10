@@ -19,3 +19,7 @@ exports.docworksMergeProperty = mergeThePlugin;
 exports.docworksMergeOperation = mergeThePlugin;
 
 exports.docworksMergeMessage = mergeThePlugin;
+
+exports.docworksMergeDocs = mergeThePlugin;
+
+exports.docworksMergeExample = mergeThePlugin;

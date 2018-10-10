@@ -16,3 +16,11 @@ exports.extendDocworksOperation = function(doclet) {
 exports.extendDocworksMessage = function(doclet) {
   return 'message plugin visited'
 };
+
+exports.extendDocworksDocs = function(doclet) {
+  return 'docs plugin visited'
+};
+
+exports.extendDocworksDocsExample = function(doclet) {
+  return 'example plugin visited'
+};

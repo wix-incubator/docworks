@@ -3,6 +3,8 @@
 /**
  * @class Service
  * @summary A test service
+ * @example <caption>name</caption>
+ * the example
  * @memberof aNamespace
  */
 class Service {
@@ -18,6 +20,8 @@ class Service {
      *
      *  Getting the value of the `label` property returns the value of the
      *  button's text label.
+     * @example <caption>name</caption>
+     * the example
      * @overrideSummary this is the new summary
      */
     get label() {
@@ -38,6 +42,8 @@ class Service {
      * @description
      * the description of the operation
      *
+     * @example <caption>name</caption>
+     * the example
      * @param {string} input the input
      * @overrideSummary this is another new summary
      */
@@ -48,6 +54,8 @@ class Service {
   /**
    * @typedef InMessage
    * @memberof aNamespace.Service
+   * @example <caption>name</caption>
+   * the example
    * @property {string} name
    * @property {string|number} age
    */

@@ -19,19 +19,21 @@ export function Service(name, memberOf, mixes, labels, properties, operations, c
 export const Void = 'void';
 export const Any = '*';
 
-export function Docs(summary, description, links, examples) {
+export function Docs(summary, description, links, examples, extra) {
   return {
     summary: summary,
     description: description,
     links: links,
-    examples: examples
+    examples: examples,
+    extra: extra || {}
   }
 }
 
-export function Example(title, body) {
+export function Example(title, body, extra) {
   return {
     title: title,
-    body: body
+    body: body,
+    extra: extra || {}
   }
 }
 

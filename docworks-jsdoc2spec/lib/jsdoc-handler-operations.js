@@ -57,7 +57,7 @@ const processFunctions = (find, onError, kind, plugins) => (funcs) => {
 
     // todo handle name params
     let extra = handlePlugins(plugins, (kind==='Operation')?'extendDocworksOperation':'extendDocworksCallback', func);
-    return Operation(func.name, [], [], params, ret, funcs.map(func => handleMeta(func.meta)), handleDoc(func), extra);
+    return Operation(func.name, [], [], params, ret, funcs.map(func => handleMeta(func.meta)), handleDoc(func, plugins), extra);
   }
 };
 

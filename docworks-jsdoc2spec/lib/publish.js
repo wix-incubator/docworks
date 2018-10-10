@@ -42,7 +42,7 @@ function handleService(find, onError, plugins) {
     let messages = handleMessages(find, serviceDoclet, onError, plugins);
     let mixes = handleMixins(find, serviceDoclet, onError);
     let location = handleMeta(serviceDoclet.meta);
-    let docs = handleDoc(serviceDoclet);
+    let docs = handleDoc(serviceDoclet, plugins);
     let extra = handlePlugins(plugins, 'extendDocworksService', serviceDoclet);
     return Service(serviceDoclet.name, serviceDoclet.memberof, mixes, [], properties, operations, callbacks, messages, location, docs, extra);
   }

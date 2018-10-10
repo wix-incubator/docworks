@@ -252,6 +252,24 @@ describe('compare repo', function() {
         expect(service.labels).to.not.include.members(['changed']);
       });
 
+      it('should update docs extra but not report the service has changed', function() {
+        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes6'));
+        repoService.docs.extra = {me: 'old'};
+        repoService.docs.examples = [{title: 'title', body: 'body', extra: {me: 'old'}}];
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes6'));
+        newService.docs.extra = {me: 'new'};
+        newService.docs.examples = [{title: 'title', body: 'body', extra: {me: 'new'}}];
+
+        let customMergedRepo = merge(baseNewRepo, baseRepo);
+
+        expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceAttributes6') > -1));
+
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceAttributes6'));
+        expect(service.docs.extra).to.deep.equal(newService.docs.extra);
+        expect(service.docs.examples[0].extra).to.deep.equal(newService.docs.examples[0].extra);
+        expect(service.labels).to.not.include.members(['changed']);
+      });
+
       it('should detect change in extra and let plugin (loaded with relative path) control the merge', function() {
         let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes6'));
         repoService.extra = {thePlugin: 'old'};
@@ -264,6 +282,38 @@ describe('compare repo', function() {
 
         let service = customMergedRepo.repo.find(serviceByName('ChangeServiceAttributes6'));
         expect(service.extra).to.deep.equal(newService.extra);
+        expect(service.labels).to.include.members(['changed']);
+      });
+
+      it('should update docs extra and let plugin control the merge', function() {
+        let repoService = baseRepo.find(serviceByName('ChangeServiceAttributes6'));
+        repoService.docs.extra = {thePlugin: 'old'};
+        repoService.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'old'}}];
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes6'));
+        newService.docs.extra = {thePlugin: 'new'};
+        newService.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'new'}}];
+
+        let customMergedRepo = merge(baseNewRepo, baseRepo, ['../test/plugin']);
+
+        expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes6.docs has changed extra.thePlugin',
+          'Service ChangeServiceAttributes6.examples[0] has changed extra.thePlugin']);
+
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceAttributes6'));
+        expect(service.docs.extra).to.deep.equal(newService.docs.extra);
+        expect(service.docs.examples[0].extra).to.deep.equal(newService.docs.examples[0].extra);
+        expect(service.labels).to.include.members(['changed']);
+      });
+
+      it('should compare docs examples', function() {
+        let newService = baseNewRepo.find(serviceByName('ChangeServiceAttributes7'));
+
+        let customMergedRepo = merge(baseNewRepo, baseRepo);
+
+        expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceAttributes7.examples[1] has changed body',
+          'Service ChangeServiceAttributes7.examples has 1 examples removed']);
+
+        let service = customMergedRepo.repo.find(serviceByName('ChangeServiceAttributes7'));
+        expect(service.docs).to.deep.equal(newService.docs);
         expect(service.labels).to.include.members(['changed']);
       });
 
@@ -480,6 +530,43 @@ describe('compare repo', function() {
         expect(service.labels).to.not.include.members(['changed']);
       });
 
+      it('should update property docs extra but not report the service has changed', function() {
+        let {repo: repo, prop: repoProp} = repoServiceProp(baseRepo, 'ChangeServiceProperties1', 'prop1');
+        let {repo: newRepo, prop: newProp} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties1', 'prop1');
+        repoProp.docs.extra = {thePlugin: 'old'};
+        repoProp.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'old'}}];
+        newProp.docs.extra = {thePlugin: 'new'};
+        newProp.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'new'}}];
+
+        let customMergedRepo = merge(newRepo, repo);
+
+        expect(customMergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceProperties1') > -1));
+
+        let {service, prop} = repoServiceProp(customMergedRepo.repo, 'ChangeServiceProperties1', 'prop1');
+        expect(prop.docs.extra).to.deep.equal(newProp.docs.extra);
+        expect(prop.docs.examples[0].extra).to.deep.equal(newProp.docs.examples[0].extra);
+        expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should update property docs extra and let plugin control the merge', function() {
+        let {repo: repo, prop: repoProp} = repoServiceProp(baseRepo, 'ChangeServiceProperties1', 'prop1');
+        let {repo: newRepo, prop: newProp} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties1', 'prop1');
+        repoProp.docs.extra = {thePlugin: 'old'};
+        repoProp.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'old'}}];
+        newProp.docs.extra = {thePlugin: 'new'};
+        newProp.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'new'}}];
+
+        let customMergedRepo = merge(newRepo, repo, ['../test/plugin']);
+
+        expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceProperties1 property prop1.docs has changed extra.thePlugin',
+          'Service ChangeServiceProperties1 property prop1.examples[0] has changed extra.thePlugin']);
+
+        let {service, prop} = repoServiceProp(customMergedRepo.repo, 'ChangeServiceProperties1', 'prop1');
+        expect(prop.docs.extra).to.deep.equal(newProp.docs.extra);
+        expect(prop.docs.examples[0].extra).to.deep.equal(newProp.docs.examples[0].extra);
+        expect(service.labels).to.include.members(['changed']);
+      });
+
       it('should detect change in property extra and let plugin control the merge', function() {
         let {repo: repo, prop: repoProp} = repoServiceProp(baseRepo, 'ChangeServiceProperties1', 'prop1');
         let {repo: newRepo, prop: newProp} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties1', 'prop1');
@@ -563,7 +650,7 @@ describe('compare repo', function() {
       });
 
       it('should report changes in param doc', function() {
-        let {repo: repo, operation: repoOperation3} = repoServiceOperation(baseRepo, 'ChangeServiceOperations3', 'operation3');
+        let {repo: repo} = repoServiceOperation(baseRepo, 'ChangeServiceOperations3', 'operation3');
         let {repo: newRepo, operation: newOperation3} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations3', 'operation3');
 
         let mergedRepo = merge(newRepo, repo);
@@ -728,6 +815,43 @@ describe('compare repo', function() {
         let {service, operation} = repoServiceOperation(mergedRepo.repo, 'ChangeServiceOperations1', 'operations1');
         expect(operation.extra).to.deep.equal(newOperation.extra);
         expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should update operation docs extra but not report the service has changed', function() {
+        let {repo: repo, operation: repoOperation} = repoServiceOperation(baseRepo, 'ChangeServiceOperations1', 'operations1');
+        let {repo: newRepo, operation: newOperation} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations1', 'operations1');
+        repoOperation.docs.extra = {thePlugin: 'old'};
+        repoOperation.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'old'}}];
+        newOperation.docs.extra = {thePlugin: 'new'};
+        newOperation.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'new'}}];
+
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceOperations1') > -1));
+
+        let {service, operation} = repoServiceOperation(mergedRepo.repo, 'ChangeServiceOperations1', 'operations1');
+        expect(operation.docs.extra).to.deep.equal(newOperation.docs.extra);
+        expect(operation.docs.examples[0].extra).to.deep.equal(newOperation.docs.examples[0].extra);
+        expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should update operation docs extra and let plugin control the merge', function() {
+        let {repo: repo, operation: repoOperation} = repoServiceOperation(baseRepo, 'ChangeServiceOperations1', 'operations1');
+        let {repo: newRepo, operation: newOperation} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations1', 'operations1');
+        repoOperation.docs.extra = {thePlugin: 'old'};
+        repoOperation.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'old'}}];
+        newOperation.docs.extra = {thePlugin: 'new'};
+        newOperation.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'new'}}];
+
+        let customMergedRepo = merge(newRepo, repo, ['../test/plugin']);
+
+        expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceOperations1 operation operations1.docs has changed extra.thePlugin',
+          'Service ChangeServiceOperations1 operation operations1.examples[0] has changed extra.thePlugin']);
+
+        let {service, operation} = repoServiceOperation(customMergedRepo.repo, 'ChangeServiceOperations1', 'operations1');
+        expect(operation.docs.extra).to.deep.equal(newOperation.docs.extra);
+        expect(operation.docs.examples[0].extra).to.deep.equal(newOperation.docs.examples[0].extra);
+        expect(service.labels).to.include.members(['changed']);
       });
 
       it('should detect change in operation extra and let plugin control the merge', function() {
@@ -1135,6 +1259,43 @@ describe('compare repo', function() {
         let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages1', 'Message1');
         expect(message.extra).to.deep.equal(newMessage.extra);
         expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should update message docs extra but not report the service has changed', function() {
+        let {repo: repo, message: repoMessage} = repoServiceMessages(baseRepo, 'ChangeServiceMessages1', 'Message1');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages1', 'Message1');
+        repoMessage.docs.extra = {thePlugin: 'old'};
+        repoMessage.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'old'}}];
+        newMessage.docs.extra = {thePlugin: 'new'};
+        newMessage.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'new'}}];
+
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.satisfy((messages) => !messages.find(_ => _.indexOf('ChangeServiceMessages1') > -1));
+
+        let {service, message} = repoServiceMessages(mergedRepo.repo, 'ChangeServiceMessages1', 'Message1');
+        expect(message.docs.extra).to.deep.equal(newMessage.docs.extra);
+        expect(message.docs.examples[0].extra).to.deep.equal(newMessage.docs.examples[0].extra);
+        expect(service.labels).to.not.include.members(['changed']);
+      });
+
+      it('should update message docs extra and let plugin control the merge', function() {
+        let {repo: repo, message: repoMessage} = repoServiceMessages(baseRepo, 'ChangeServiceMessages1', 'Message1');
+        let {repo: newRepo, message: newMessage} = repoServiceMessages(baseNewRepo, 'ChangeServiceMessages1', 'Message1');
+        repoMessage.docs.extra = {thePlugin: 'old'};
+        repoMessage.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'old'}}];
+        newMessage.docs.extra = {thePlugin: 'new'};
+        newMessage.docs.examples = [{title: 'title', body: 'body', extra: {thePlugin: 'new'}}];
+
+        let customMergedRepo = merge(newRepo, repo, ['../test/plugin']);
+
+        expect(customMergedRepo.messages).to.containSubset(['Service ChangeServiceMessages1 message Message1.docs has changed extra.thePlugin',
+          'Service ChangeServiceMessages1 message Message1.examples[0] has changed extra.thePlugin']);
+
+        let {service, message} = repoServiceMessages(customMergedRepo.repo, 'ChangeServiceMessages1', 'Message1');
+        expect(message.docs.extra).to.deep.equal(newMessage.docs.extra);
+        expect(message.docs.examples[0].extra).to.deep.equal(newMessage.docs.examples[0].extra);
+        expect(service.labels).to.include.members(['changed']);
       });
 
       it('should detect change in message extra and let plugin control the merge', function() {

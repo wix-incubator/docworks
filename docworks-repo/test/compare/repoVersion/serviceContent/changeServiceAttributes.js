@@ -51,3 +51,17 @@ export class ChangeServiceAttributes4 {
 export class ChangeServiceAttributes6 {
 
 }
+
+/**
+ * @class ChangeServiceAttributes7
+ * @summary A test service
+ * @example <caption>name</caption>
+ * this is the example
+ * @example <caption>second</caption>
+ * this is the second updated example
+ * @example <caption>third</caption>
+ * this is the third example
+ */
+export class ChangeServiceAttributes7 {
+
+}

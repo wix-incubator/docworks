@@ -17,20 +17,36 @@ describe('docworks plugins', function() {
         {name: 'Service', memberOf: 'aNamespace',
           operations: [
             { name: 'operation',
-              extra: {pluginGenerated: 'operation plugin visited'}}
+              extra: {pluginGenerated: 'operation plugin visited'},
+              docs: {
+                examples: [
+                  {title: 'name', body: 'the example', extra: {pluginGenerated: 'example plugin visited'}}],
+                extra: {pluginGenerated: 'docs plugin visited'}}}
           ],
           properties: [
             { name: 'label',
-              extra: {pluginGenerated: 'property plugin visited'}}
+              extra: {pluginGenerated: 'property plugin visited'},
+              docs: {
+                examples: [
+                  {title: 'name', body: 'the example', extra: {pluginGenerated: 'example plugin visited'}}],
+                extra: {pluginGenerated: 'docs plugin visited'}}}
           ],
           messages: [
             { name: 'InMessage',
-              extra: {pluginGenerated: 'message plugin visited'}}
+              extra: {pluginGenerated: 'message plugin visited'},
+              docs: {
+                examples: [
+                  {title: 'name', body: 'the example', extra: {pluginGenerated: 'example plugin visited'}}],
+                extra: {pluginGenerated: 'docs plugin visited'}}}
           ],
-          extra: {pluginGenerated: 'service plugin visited'}
+          extra: {pluginGenerated: 'service plugin visited'},
+          docs: {
+            examples: [
+              {title: 'name', body: 'the example', extra: {pluginGenerated: 'example plugin visited'}}],
+            extra: {pluginGenerated: 'docs plugin visited'}}
         }
       ]
     });
 
-  })
+  });
 });

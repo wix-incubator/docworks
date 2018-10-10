@@ -11,8 +11,10 @@ const docSpec = {
   links: {pos: 3},
   examples: {pos: 4,
     title: {pos: 1},
-    body: {pos: 2, multiLine:true}
-  }
+    body: {pos: 2, multiLine:true},
+    extra: {pos: 3}
+  },
+  extra: {pos: 5}
 };
 const locationSpec = {
   filename: {pos: 1},
