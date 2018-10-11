@@ -48,7 +48,7 @@ exports.defineTags = function(dictionary) {
 
 exports.extendDocworksKey = 'description';
 
-const exampleDescription = /<caption>(.*)<\/caption><description>(.*)<\/description>\n([\s\S]*)/;
+const exampleDescription = /<caption>([\s\S]*)<\/caption><description>([\s\S]*)<\/description>\n([\s\S]*)/;
 exports.extendDocworksDocsExample = function(doclet) {
   let found;
   if (found = exampleDescription.exec(doclet)) {

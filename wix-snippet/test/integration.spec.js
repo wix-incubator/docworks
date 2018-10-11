@@ -75,6 +75,37 @@ describe('integration test', function() {
 
     });
 
+    it('should load an example with a multiline description', function () {
+      setSnippetsDir('./test');
+      let jsDocRes = runJsDoc(SOURCE_integration_SERVICE, ['src/index']);
+
+      expect(jsDocRes).to.containSubset({
+        services: [
+          {
+            name: 'Service', memberOf: 'aNamespace',
+            operations: [{
+              name: 'operation3',
+              docs: {
+                summary: 'an operation 3',
+                examples: [{
+                  title: 'The example',
+                  body: '<description>this is a multi line\nexample description</description>\nfunction example() {\n  console.log(\'hi\');\n}',
+                  extra: {
+                    description: {
+                      description: 'this is a multi line\nexample description',
+                      body: 'function example() {\n  console.log(\'hi\');\n}'
+                    }
+                  }
+                }]
+              }
+            }
+            ]
+          }
+        ]
+      });
+
+    })
+
     it('should report error if snippet dir not set', function () {
       setSnippetsDir(undefined);
       let jsDocRes = runJsDoc(SOURCE_integration_SERVICE, ['src/index']);

@@ -32,6 +32,22 @@ class Service {
   operation2(input) {
 
   }
+
+  /**
+   * @function operation3
+   * @memberof aNamespace.Service
+   * @summary an operation 3
+   * @description
+   * the description of the operation
+   *
+   * @param {string} input the input
+   * @snippet [example.js=The example]
+   * this is a multi line
+   * example description
+   */
+  operation3(input) {
+
+  }
 }
 
 export default Service;
