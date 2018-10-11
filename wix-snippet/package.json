@@ -6,18 +6,20 @@
   "scripts": {
     "build": "babel src --out-dir dist",
     "prepublish": "babel src --out-dir dist",
-    "test": "mocha --compilers js:babel-core/register ./test/**/*.spec.js"
+    "test": "mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js"
   },
   "author": "Yoav Abrahami",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.24.1",
     "chai": "^3.5.0",
     "chai-subset": "^1.5.0",
     "docworks-jsdoc2spec": "^1.5.7",
+    "docworks-repo": "^1.5.7",
     "mocha": "^3.3.0"
   }
 }

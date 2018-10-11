@@ -45,3 +45,31 @@ exports.defineTags = function(dictionary) {
     }
   });
 };
+
+exports.extendDocworksKey = 'description';
+
+const exampleDescription = /<caption>(.*)<\/caption><description>(.*)<\/description>\n([\s\S]*)/;
+exports.extendDocworksDocsExample = function(doclet) {
+  let found;
+  if (found = exampleDescription.exec(doclet)) {
+    return {description: found[2], body: found[3]};
+  }
+  else
+    return undefined;
+};
+
+exports.docworksMergeExample = function(newExampleExtra, repoExampleExtra) {
+  if (!newExampleExtra && !repoExampleExtra)
+    return {changed: false};
+  else if (!repoExampleExtra && !!newExampleExtra)
+    return {changed: true, value: newExampleExtra};
+  else if (!!repoExampleExtra && !newExampleExtra)
+    return {changed: true, value: undefined};
+  else {
+    return {
+      changed: newExampleExtra.description !== repoExampleExtra.description ||
+       newExampleExtra.body !== repoExampleExtra.body,
+      value: newExampleExtra
+    }
+  }
+};
