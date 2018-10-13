@@ -16,7 +16,7 @@ exports.defineTags = function(dictionary) {
 exports.extendDocworksKey = 'notes';
 
 function extendDocworks(doclet) {
-  return doclet.notes;
+  return {extraValue: doclet.notes};
 }
 exports.extendDocworksService = extendDocworks;
 exports.extendDocworksProperty = extendDocworks;

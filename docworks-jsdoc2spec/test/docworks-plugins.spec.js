@@ -19,8 +19,9 @@ describe('docworks plugins', function() {
             { name: 'operation',
               extra: {pluginGenerated: 'operation plugin visited'},
               docs: {
+                summary: 'plugin updated summary',
                 examples: [
-                  {title: 'name', body: 'the example', extra: {pluginGenerated: 'example plugin visited'}}],
+                  {title: 'name', body: 'plugin updated body', extra: {pluginGenerated: 'example plugin visited'}}],
                 extra: {pluginGenerated: 'docs plugin visited'}}}
           ],
           properties: [
@@ -28,7 +29,7 @@ describe('docworks plugins', function() {
               extra: {pluginGenerated: 'property plugin visited'},
               docs: {
                 examples: [
-                  {title: 'name', body: 'the example', extra: {pluginGenerated: 'example plugin visited'}}],
+                  {title: 'name', body: 'plugin updated body', extra: {pluginGenerated: 'example plugin visited'}}],
                 extra: {pluginGenerated: 'docs plugin visited'}}}
           ],
           messages: [
@@ -36,13 +37,13 @@ describe('docworks plugins', function() {
               extra: {pluginGenerated: 'message plugin visited'},
               docs: {
                 examples: [
-                  {title: 'name', body: 'the example', extra: {pluginGenerated: 'example plugin visited'}}],
+                  {title: 'name', body: 'plugin updated body', extra: {pluginGenerated: 'example plugin visited'}}],
                 extra: {pluginGenerated: 'docs plugin visited'}}}
           ],
           extra: {pluginGenerated: 'service plugin visited'},
           docs: {
             examples: [
-              {title: 'name', body: 'the example', extra: {pluginGenerated: 'example plugin visited'}}],
+              {title: 'name', body: 'plugin updated body', extra: {pluginGenerated: 'example plugin visited'}}],
             extra: {pluginGenerated: 'docs plugin visited'}}
         }
       ]

@@ -1,14 +1,19 @@
 
 
-export default function handlePlugins(plugins, pluginFunction, doclet) {
+export default function handlePlugins(plugins, pluginFunction, doclet, element) {
   let extra = {};
   if (plugins) {
     plugins.filter(plugin => !!plugin[pluginFunction] && !!plugin.extendDocworksKey)
       .forEach(plugin => {
-        let extraValue = plugin[pluginFunction](doclet);
-        if (extraValue)
-          extra[plugin.extendDocworksKey] = extraValue;
+        const pluginResult = plugin[pluginFunction](doclet, element);
+        if (pluginResult) {
+          let {extraValue, element: newElement} = pluginResult;
+          if (extraValue)
+            extra[plugin.extendDocworksKey] = extraValue;
+          element = newElement || element;
+        }
       })
   }
-  return extra;
+  element.extra = extra;
+  return element;
 }

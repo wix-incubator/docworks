@@ -14,7 +14,7 @@ exports.defineTags = function(dictionary) {
 exports.extendDocworksKey = 'eventType';
 
 function extendDocworks(doclet) {
-  return doclet.eventType;
+  return {extraValue: doclet.eventType};
 }
 exports.extendDocworksService = extendDocworks;
 exports.extendDocworksProperty = extendDocworks;

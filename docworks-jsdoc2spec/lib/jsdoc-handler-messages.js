@@ -29,8 +29,8 @@ const processMessages = (find, onError, plugins) => (messages) => {
         if (messages.length > 1)
             onError(JsDocError(`Message ${message.name} is defined two or more times`, messages.map(mes => handleMeta(mes.meta))));
 
-        let extra = handlePlugins(plugins, 'extendDocworksMessage', message);
-        return Message(message.name, [], members, messages.map(mes => handleMeta(mes.meta)), handleDoc(message, plugins), extra);
+        const messageElement = Message(message.name, [], members, messages.map(mes => handleMeta(mes.meta)), handleDoc(message, plugins));
+        return handlePlugins(plugins, 'extendDocworksMessage', message, messageElement);
     }
 };
 

@@ -93,14 +93,16 @@ const exampleCaption = /<caption>(.*)<\/caption>([\s\S]*)/;
 export function handleDoc(doclet, plugins) {
   let rawExamples = doclet.examples || [];
   let examples = rawExamples.map((ex) => {
-    let exExtra = handlePlugins(plugins, 'extendDocworksDocsExample', ex);
     let found;
+    let example;
     if (found = exampleCaption.exec(ex)) {
-      return Example(found[1], found[2].trim(), exExtra)
+      example = Example(found[1], found[2].trim())
     }
     else
-      return Example(undefined, ex, exExtra);
+      example = Example(undefined, ex);
+
+    return handlePlugins(plugins, 'extendDocworksDocsExample', ex, example);
   });
-  let extra = handlePlugins(plugins, 'extendDocworksDocs', doclet);
-  return Docs(doclet.summary, doclet.description || doclet.classdesc, doclet.see?doclet.see:[], examples, extra);
+  const docs = Docs(doclet.summary, doclet.description || doclet.classdesc, doclet.see?doclet.see:[], examples);
+  return handlePlugins(plugins, 'extendDocworksDocs', doclet, docs);
 }

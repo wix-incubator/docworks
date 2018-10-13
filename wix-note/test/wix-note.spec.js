@@ -58,7 +58,7 @@ describe('wix-note', function() {
 
   it('should extract notes from doclet', function() {
     let notes = extendDocworksService({notes: ['a', 'b']});
-    expect(notes).to.containSubset(['a', 'b']);
+    expect(notes).to.containSubset({extraValue: ['a', 'b']});
   });
 
   describe('merge', function() {

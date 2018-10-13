@@ -57,7 +57,7 @@ describe('wix-event-type', function() {
 
   it('should extract event types from doclet', function() {
     let eventType = extendDocworksService({eventType: 'onClick'});
-    expect(eventType).to.containSubset('onClick');
+    expect(eventType).to.containSubset({extraValue: 'onClick'});
   });
 
   describe('merge', function() {

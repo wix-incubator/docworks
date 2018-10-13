@@ -1,6 +1,7 @@
 let path = require('path');
 let fs = require('fs');
 let logger = console;
+import {Example} from 'docworks-model';
 
 exports.setSnippetsDir = function(value) {
   // jsdoc with requizzle loads the modules twice - so the only way to move config between the two runs is using global
@@ -49,27 +50,30 @@ exports.defineTags = function(dictionary) {
 exports.extendDocworksKey = 'description';
 
 const exampleDescription = /<caption>([\s\S]*)<\/caption><description>([\s\S]*)<\/description>\n([\s\S]*)/;
-exports.extendDocworksDocsExample = function(doclet) {
+exports.extendDocworksDocsExample = function(doclet, example) {
   let found;
   if (found = exampleDescription.exec(doclet)) {
-    return {description: found[2], body: found[3]};
+    const newExample = Example(example.title, found[3]);
+    return {extraValue: found[2], element: newExample};
   }
   else
     return undefined;
 };
 
 exports.docworksMergeExample = function(newExampleExtra, repoExampleExtra) {
-  if (!newExampleExtra && !repoExampleExtra)
-    return {changed: false};
-  else if (!repoExampleExtra && !!newExampleExtra)
-    return {changed: true, value: newExampleExtra};
-  else if (!!repoExampleExtra && !newExampleExtra)
-    return {changed: true, value: undefined};
-  else {
-    return {
-      changed: newExampleExtra.description !== repoExampleExtra.description ||
-       newExampleExtra.body !== repoExampleExtra.body,
-      value: newExampleExtra
-    }
-  }
+  let changed = newExampleExtra !== repoExampleExtra;
+  return {changed, value: newExampleExtra};
+  // if (!newExampleExtra && !repoExampleExtra)
+  //   return {changed: false};
+  // else if (!repoExampleExtra && !!newExampleExtra)
+  //   return {changed: true, value: newExampleExtra};
+  // else if (!!repoExampleExtra && !newExampleExtra)
+  //   return {changed: true, value: undefined};
+  // else {
+  //   return {
+  //     changed: newExampleExtra.description !== repoExampleExtra.description ||
+  //      newExampleExtra.body !== repoExampleExtra.body,
+  //     value: newExampleExtra
+  //   }
+  // }
 };

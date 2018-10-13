@@ -58,12 +58,9 @@ describe('integration test', function() {
                 summary: 'an operation 2',
                 examples: [{
                   title: 'The example',
-                  body: '<description>this is the example description</description>\nfunction example() {\n  console.log(\'hi\');\n}',
+                  body: 'function example() {\n  console.log(\'hi\');\n}',
                   extra: {
-                    description: {
-                      description: 'this is the example description',
-                      body: 'function example() {\n  console.log(\'hi\');\n}'
-                    }
+                    description: 'this is the example description'
                   }
                 }]
               }
@@ -89,12 +86,9 @@ describe('integration test', function() {
                 summary: 'an operation 3',
                 examples: [{
                   title: 'The example',
-                  body: '<description>this is a multi line\nexample description</description>\nfunction example() {\n  console.log(\'hi\');\n}',
+                  body: 'function example() {\n  console.log(\'hi\');\n}',
                   extra: {
-                    description: {
-                      description: 'this is a multi line\nexample description',
-                      body: 'function example() {\n  console.log(\'hi\');\n}'
-                    }
+                    description: 'this is a multi line\nexample description'
                   }
                 }]
               }
@@ -126,7 +120,8 @@ describe('integration test', function() {
 
       let mergeResult = merge(newRepo.services, repo.services, ['src/index']);
 
-      expect(mergeResult.messages).to.containSubset(['Service aNamespace.Service operation operation2.examples[0] has changed extra.description']);
+      expect(mergeResult.messages).to.containSubset([
+        'Service aNamespace.Service operation operation2.examples[0] has changed extra.description']);
 
       expect(mergeResult).to.containSubset({
         repo: [
@@ -137,12 +132,9 @@ describe('integration test', function() {
                   summary: 'an operation 2',
                   examples: [{
                     title: 'The example',
-                    body: '<description>this is a different description</description>\nfunction example() {\n  console.log(\'hi\');\n}',
+                    body: 'function example() {\n  console.log(\'hi\');\n}',
                     extra: {
-                      description: {
-                        description: 'this is a different description',
-                        body: 'function example() {\n  console.log(\'hi\');\n}'
-                      }
+                      description: 'this is a different description'
                     }
                   }]
                 }
