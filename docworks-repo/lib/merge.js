@@ -64,9 +64,9 @@ function mergeExamples(newExamples, repoExamples, messages, key, plugins) {
   }
   if (newExamples.length > repoExamples.length) {
     messages.push(`Service ${key} has ${newExamples.length - repoExamples.length} new examples`);
-    examples.concat(newExamples
+    examples = examples.concat(newExamples
       .slice(repoExamples.length)
-      .map(copy));
+      .map(_ => copy(_)));
   }
   else if (newExamples.length < repoExamples.length){
     messages.push(`Service ${key} has ${repoExamples.length - newExamples.length} examples removed`);

@@ -501,6 +501,20 @@ describe('compare repo', function() {
         expect(prop1.docs).to.deep.equal(newProp1.docs);
       });
 
+      it('should report changed property doc examples, update docs examples', function() {
+        let {repo: newRepo, prop: newProp1} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties5', 'prop2');
+        let {repo} = repoServiceProp(baseRepo, 'ChangeServiceProperties5', 'prop2');
+
+        let mergedRepo = merge(newRepo, repo);
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceProperties5 property prop2.examples has 1 new examples']);
+
+        let {service, prop: prop2} = repoServiceProp(mergedRepo.repo, 'ChangeServiceProperties5', 'prop2');
+        expect(service.labels).to.include.members(['changed']);
+        expect(prop2.labels).to.include.members(['changed']);
+        expect(prop2.docs.examples).to.deep.equal(newProp1.docs.examples);
+      });
+
       it('should detect change in property location but not report the service or property as changed', function() {
         let {repo: newRepo, prop: newProp1} = repoServiceProp(baseNewRepo, 'ChangeServiceProperties6', 'prop1');
         let {repo} = repoServiceProp(baseRepo, 'ChangeServiceProperties6', 'prop1');

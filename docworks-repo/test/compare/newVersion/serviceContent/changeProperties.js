@@ -113,6 +113,19 @@ export class ChangeServiceProperties5 {
    */
   set prop1(value) {
   }
+
+  /**
+   * @member prop2
+   * @memberof ChangeServiceProperties5
+   * @type {string}
+   * @summary repo summary
+   * @description repo description
+   * @example bla
+   * some code
+   */
+  get prop2() {
+  }
+
 }
 
 /**

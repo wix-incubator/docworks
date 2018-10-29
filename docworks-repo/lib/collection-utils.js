@@ -40,7 +40,8 @@ export function hasLabel(arr, label) {
 }
 
 export function copy() {
-  return Object.assign({}, ...arguments);
+  const assign = Object.assign({}, ...arguments);
+  return assign;
 }
 
 export function compareArraysAsSets(arr1, arr2) {
