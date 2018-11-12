@@ -246,6 +246,8 @@ describe('generate tern', function() {
         return service.callbacks.find(_ => _.name === 'EventHandler');
       if (aType === 'callbacks.EventHandler2')
         return service.callbacks.find(_ => _.name === 'EventHandler2');
+        if (aType === 'wix-dataset.Dataset.AfterSaveHandler')
+            return service.callbacks.find(_ => _.name === 'AfterSaveHandler');
     };
 
     it('func(func(): void): Element', function() {
@@ -299,7 +301,20 @@ describe('generate tern', function() {
           "!url": "http://www.wix.com/reference/callbacks.html#EventHandler2"
         } } );
     });
-    //
+
+    describe('function with a param of a type containing a hyphen', function () {
+      it('hyphens should be converted to underscore', function () {
+          let operation = service.operations.find(_ => _.name === 'onAfterSave');
+
+          let tern = operationTern(service, operation, urlGenerator, findCallback);
+
+          expect(tern).to.containSubset({
+                "onAfterSave": {
+                    "!type": "fn(handler: wix_dataset.Dataset.AfterSaveHandler)"
+              }
+          });
+      });
+    });
   });
 
   describe('for messages', function() {

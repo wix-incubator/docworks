@@ -63,7 +63,7 @@ function formatFunctionTern(operation, findCallback) {
     params = operation.params.map(param => {
       let callback = !builtInTypes[param.type] && !complexType(param.type) && findCallback(param.type);
       if (callback)
-        return `${validTernName(param.name)}: ${param.type}`;
+        return `${validTernName(param.name)}: ${validTernName(param.type)}`;
       else
         return `${validTernName(param.name)}: ${typeTern(param.type)}`
     }).join(', ');

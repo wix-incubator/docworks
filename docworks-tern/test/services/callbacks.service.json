@@ -40,7 +40,27 @@
           { "summary": "Adds an event handler that runs when an element is scrolled\n into the viewable part of the current window.",
             "description": [],
             "links": [],
-            "examples": [] } }
+            "examples": [] } },
+      { "name": "onAfterSave",
+        "labels": [],
+        "nameParams": [],
+        "params":
+        [ { "name": "handler",
+          "type": "wix-dataset.Dataset.AfterSaveHandler",
+          "doc": "The after save event handler." } ],
+        "ret":
+        { "type": "void" },
+        "locations":
+        [ { "filename": "datasetApi.js",
+          "lineno": 283 } ],
+        "docs":
+        { "summary": "Adds an event handler that runs just after a save.",
+          "description": [],
+          "links": [],
+          "examples": [],
+          "extra": {} },
+        "extra":
+        {  } }
 
   ],
   "callbacks":
@@ -71,6 +91,29 @@
         "locations":
           [ { "filename": "xxx.es6",
               "lineno": 12 } ],
-        "docs": { "summary": "", "description": [], "links": [], "examples": [] } }
+        "docs": { "summary": "", "description": [], "links": [], "examples": [] } },
+      { "name": "AfterSaveHandler",
+        "labels": [],
+        "nameParams": [],
+        "params":
+        [ { "name": "itemBeforeSave",
+          "type": "Object",
+          "doc": "The item before being saved." },
+          { "name": "itemAfterSave",
+            "type": "Object",
+            "doc": "The item after being saved." } ],
+        "ret":
+        { "type": "void" },
+        "locations":
+        [ { "filename": "datasetApi.js",
+          "lineno": 274 } ],
+        "docs":
+        { "summary": "An after save event handler.",
+          "links": [],
+          "examples": [],
+          "extra":
+          {  } },
+        "extra":
+        {  } }
   ],
   "messages": [] }
