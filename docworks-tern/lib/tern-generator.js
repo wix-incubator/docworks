@@ -48,7 +48,8 @@ export function propTern(service, prop, urlGenerator, plugins) {
       "!url": urlGenerator(service, propName)
     };
 
-  runPlugins(plugins, 'ternProperty', prop.extra, tern[propName]);
+  const propPath = `${service.name}.${propName}`;
+  runPlugins(plugins, 'ternProperty', prop.extra, tern[propName], propPath);
 
   return tern;
 }
@@ -85,7 +86,8 @@ export function operationTern(service, operation, urlGenerator, findCallback, pl
     "!url": urlGenerator(service, operationName)
   };
 
-  runPlugins(plugins, 'ternOperation', operation.extra, tern[operationName]);
+  const operationPath = `${service.name}.${operationName}`;
+  runPlugins(plugins, 'ternOperation', operation.extra, tern[operationName], operationPath);
 
   return tern;
 }
@@ -108,7 +110,9 @@ export function messageTern(service, message, urlGenerator, plugins) {
      }
   });
 
-  runPlugins(plugins, 'ternMessage', message.extra, tern[messageName]);
+  const messagePath = `${service.name}.${messageName}`;
+  runPlugins(plugins, 'ternMessage', message.extra, tern[messageName], messagePath);
+
 
   return tern;
 }
