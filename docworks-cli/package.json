@@ -1,6 +1,6 @@
 {
   "name": "docworks-cli",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "chalk": "^2.3.0",
     "docworks-jsdoc2spec": "^1.6.4",
     "docworks-repo": "^1.6.4",
-    "docworks-tern": "^1.6.4",
+    "docworks-tern": "^1.6.5",
     "fs-extra": "^5.0.0",
     "optimist": "^0.6.1",
     "resolve": "^1.5.0",
