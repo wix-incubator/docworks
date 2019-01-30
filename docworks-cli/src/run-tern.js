@@ -32,7 +32,7 @@ export default async function runTern(remote, local, baseUrl, apiName, outputFil
 
       let baseGit = new Git();
       logger.command('git', `clone ${remote} ${workingDir}`);
-      await baseGit.clone(remote, workingDir);
+      await baseGit.clone(remote, workingDir, ['--depth', 1]);
 
       localServicesDir = workingDir;
     }
