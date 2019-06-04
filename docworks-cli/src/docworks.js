@@ -144,7 +144,10 @@ function tern() {
 
 function ldw() {
     let argv = optimist
-        .usage('Usage: $0 local -d [local directory] -s [local sources] -p [file pattern] [--plug [plugin]] [--dryrun]')
+        .usage('Usage: $0 local -r [remote repo] -d [local directory] -s [local sources] -p [file pattern] [--plug [plugin]] [--dryrun]')
+        .demand(  'r')
+        .alias(   'r', 'remote')
+        .describe('r', 'remote repository to merge docs into')
         .demand(  'd')
         .alias(   'd', 'dist')
         .describe('d', 'local directory to output docs into')
@@ -163,6 +166,7 @@ function ldw() {
         .describe('dryrun', 'dry run - do not push to remote repo')
         .parse(process.argv.slice(3));
 
+    const remote = argv.remote;
     const dist = argv.dist;
     const sources = argv.sources;
     const excludes = argv.excludes?(Array.isArray(argv.excludes)?argv.excludes:[argv.excludes]):[];
@@ -173,7 +177,7 @@ function ldw() {
 
     tmp.dir()
         .then(wd => {
-          return localDocworks(dist, wd.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
+          return localDocworks(remote, dist, wd.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
         })
         .catch(() => {
             process.exit(1);

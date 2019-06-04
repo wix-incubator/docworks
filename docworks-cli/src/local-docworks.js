@@ -4,7 +4,7 @@ import {saveToDir, readFromDir, merge} from 'docworks-repo';
 import {join} from 'path';
 import fs from 'fs-extra';
 import * as logger from './logger';
-// import chalk from 'chalk';
+import Git from "./git";
 // import {runPlugins} from './plugins';
 
 function logStatus(statuses, logger) {
@@ -24,24 +24,107 @@ function logTaskConfig(outputDirectory, workingDir, projectSubdir, jsDocSources,
     logger.newLine();
 }
 
-function copyFilesToOutputDirectory(outputDirectory, filesToCopy) {
-    if (fs.existsSync(outputDirectory)) {
-        fs.rmdirSync(outputDirectory);
+const isFile = path => path && fs.statSync(path).isFile();
+const not = func => value => !func(value);
+
+function getAllFilesInDir(path) {
+    if (!path) {
+        return [];
     }
-    fs.mkdirSync(outputDirectory, {recursive: true});
-    console.log('writing files... ', filesToCopy.length);
-    // TODO 04/06/2019 NMO - enable when ready
-    // filesToCopy.forEach(file => fs.copyFileSync(file, `${outputDirectory}/${file}`));
+    const fsStat = fs.statSync(path);
+    if (fsStat.isFile()) {
+        return [path];
+    }
+    let result = [];
+    if (fsStat.isDirectory()) {
+        const items = fs.readdirSync(path).map(fileName => `${path}/${fileName}`);
+        const directoryFiles = items.filter(isFile);
+        result = result.concat(directoryFiles);
+        const subDirectories = items.filter(not(isFile));
+        for (let i=0; i < subDirectories.length; i++) {
+            result = result.concat(getAllFilesInDir(subDirectories[i]));
+        }
+        return result;
+    }
+    return result;
 }
 
-// TODO 02/06/2019 NMO - what is the difference between outputDir, workingDir, projDir & jsDocsSources????????
-export default async function localDocworks(outputDirectory, tmpDir, projectDir, jsDocSources, plugins) {
+function getDiffFiles(srcDir, targetDir) {
+    const differentFiles = [];
+    const allFilesInSrc = getAllFilesInDir(srcDir);
+    console.log('>>> all files = ', allFilesInSrc.length)
+    console.log('>>> targetDir:', targetDir)
+    for (let i=0; i < allFilesInSrc.length; i++) {
+        let srcFilePath = allFilesInSrc[i];
+        let targetFilePath = srcFilePath.replace(srcDir, targetDir);
+        if (fs.existsSync(targetFilePath)) {
+            if (areFilesDifferent(srcFilePath, targetFilePath)) {
+                differentFiles.push(srcFilePath);
+            }
+        } else {
+            differentFiles.push(srcFilePath);
+        }
+    }
+    console.log('---------------- number of missing/changed files:', differentFiles.length)
+    return differentFiles;
+}
+
+function areFilesDifferent(src, dest) {
+    return fs.readFileSync(src, 'utf8') !== fs.readFileSync(dest, 'utf8');
+}
+
+async function copyDiffFilesToOutputDirectory(srcDir, targetDir) {
+    const differentFiles = getDiffFiles(srcDir, targetDir);
+    if (!differentFiles || differentFiles.length === 0) {
+        return;
+    }
+
+    console.log('------------------ differentFiles.length', differentFiles.length)
+    console.log(differentFiles.slice(0, 10))
+    await fs.ensureDir(targetDir);
+
+    differentFiles.forEach(srcFileToCopy => {
+        fs.copySync(srcFileToCopy, srcFileToCopy.replace(srcDir, targetDir), {overwrite: true});
+    });
+}
+
+async function cloneGitRepoToDirectory(remoteRepo, targetDir) {
+    await fs.ensureDir(targetDir);
+
+    let baseGit = new Git();
+    logger.command('git', `clone ${remoteRepo} ${targetDir}`);
+    await baseGit.clone(remoteRepo, targetDir);
+
+}
+
+async function gitCheckoutNewBranch(repoDirectory, branchName) {
+    let localGit = new Git(repoDirectory);
+    if (branchName) {
+        try {
+            logger.command('git', `checkout -b ${branchName}`);
+            await localGit.checkout(`-b${branchName}`);
+        }
+        catch (e) {
+            console.log(`cant checkout branch ${branchName}. Terminating.`, e);
+            process.exit(1);
+        }
+    }
+}
+
+function createUniqueId(prefix) {
+    const suffix = Date.now().toString(36);
+    return (prefix + suffix).trim();
+}
+
+
+export default async function localDocworks(remoteRepo, outputDirectory, tmpDir, projectDir, jsDocSources, plugins) {
     logTaskConfig(outputDirectory, tmpDir, projectDir, jsDocSources, plugins);
 
-    const workingSubdir = join(tmpDir, projectDir);
-
     try {
-        await fs.ensureDir(tmpDir);
+        await cloneGitRepoToDirectory(remoteRepo, tmpDir);
+
+        const workingSubdir = join(tmpDir, projectDir);
+        await gitCheckoutNewBranch(workingSubdir, createUniqueId('localdocs-'));
 
         logger.command('docworks', `readServices ${workingSubdir}`);
         const repoContent = await readFromDir(workingSubdir);
@@ -60,17 +143,9 @@ export default async function localDocworks(outputDirectory, tmpDir, projectDir,
         logger.log('  running ecpAfterMerge plugins');
         // await runPlugins(plugins, 'ecpAfterMerge', tmpDir, projectDir); // TODO 04/06/2019 NMO - need to re-enable
 
-        // TODO 02/06/2019 NMO - get the files that the runJsDoc output created.. yay!
-        const files = [...services];
-        console.log('files = ', JSON.stringify(files[0]))
+        copyDiffFilesToOutputDirectory(tmpDir, outputDirectory);
 
-        if (files.length > 0) {
-            copyFilesToOutputDirectory(outputDirectory, files);
-        }
-        else {
-            logger.log('no changes detected');
-        }
-        logger.success('completed workflow');
+        logger.success('local docworks completed successfully, see output: ' + outputDirectory);
     }
     catch (error) {
         logger.error('failed to complete workflow\n' + error.stack);
