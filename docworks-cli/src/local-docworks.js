@@ -5,14 +5,9 @@ import {join} from 'path';
 import fs from 'fs-extra';
 import * as logger from './logger';
 import Git from "./git";
-// import {runPlugins} from './plugins';
+import {runPlugins} from './plugins';
 
-function logStatus(statuses, logger) {
-    statuses.created.forEach(file => logger.details(`  New:      ${file}`));
-    statuses.not_added.forEach(file => logger.details(`  New:      ${file}`));
-    statuses.modified.forEach(file => logger.details(`  Modified:      ${file}`));
-}
-
+const VEE_CHAR = '\u2713';
 
 function logTaskConfig(outputDirectory, workingDir, projectSubdir, jsDocSources, plugins) {
     logger.newLine();
@@ -49,11 +44,9 @@ function getAllFilesInDir(path) {
     return result;
 }
 
-function getDiffFiles(srcDir, targetDir) {
+function getChangedAndNewSrcFiles(srcDir, targetDir) {
     const differentFiles = [];
     const allFilesInSrc = getAllFilesInDir(srcDir);
-    console.log('>>> all files = ', allFilesInSrc.length)
-    console.log('>>> targetDir:', targetDir)
     for (let i=0; i < allFilesInSrc.length; i++) {
         let srcFilePath = allFilesInSrc[i];
         let targetFilePath = srcFilePath.replace(srcDir, targetDir);
@@ -65,7 +58,6 @@ function getDiffFiles(srcDir, targetDir) {
             differentFiles.push(srcFilePath);
         }
     }
-    console.log('---------------- number of missing/changed files:', differentFiles.length)
     return differentFiles;
 }
 
@@ -73,14 +65,12 @@ function areFilesDifferent(src, dest) {
     return fs.readFileSync(src, 'utf8') !== fs.readFileSync(dest, 'utf8');
 }
 
-async function copyDiffFilesToOutputDirectory(srcDir, targetDir) {
-    const differentFiles = getDiffFiles(srcDir, targetDir);
+async function copyDiffedFilesToOutputDirectory(srcDir, targetDir) {
+    const differentFiles = getChangedAndNewSrcFiles(srcDir, targetDir);
     if (!differentFiles || differentFiles.length === 0) {
         return;
     }
 
-    console.log('------------------ differentFiles.length', differentFiles.length)
-    console.log(differentFiles.slice(0, 10))
     await fs.ensureDir(targetDir);
 
     differentFiles.forEach(srcFileToCopy => {
@@ -105,7 +95,7 @@ async function gitCheckoutNewBranch(repoDirectory, branchName) {
             await localGit.checkout(`-b${branchName}`);
         }
         catch (e) {
-            console.log(`cant checkout branch ${branchName}. Terminating.`, e);
+            logger.error(`cant checkout branch ${branchName}. Terminating.`, e);
             process.exit(1);
         }
     }
@@ -133,7 +123,6 @@ export default async function localDocworks(remoteRepo, outputDirectory, tmpDir,
         const {services, errors} = runJsDoc(jsDocSources, plugins);
         logger.jsDocErrors(errors);
 
-        // TODO 02/06/2019 NMO - what is this for??? do i need it???
         logger.command('docworks', `merge`);
         let merged = merge(services, repoContent.services, plugins);
 
@@ -141,11 +130,12 @@ export default async function localDocworks(remoteRepo, outputDirectory, tmpDir,
         await saveToDir(workingSubdir, merged.repo);
 
         logger.log('  running ecpAfterMerge plugins');
-        // await runPlugins(plugins, 'ecpAfterMerge', tmpDir, projectDir); // TODO 04/06/2019 NMO - need to re-enable
+        await runPlugins(plugins, 'ecpAfterMerge', tmpDir, projectDir);
 
-        copyDiffFilesToOutputDirectory(tmpDir, outputDirectory);
+        copyDiffedFilesToOutputDirectory(tmpDir, outputDirectory);
 
-        logger.success('local docworks completed successfully, see output: ' + outputDirectory);
+        logger.newLine();
+        logger.success(VEE_CHAR, 'local docworks completed successfully, see output: ' + outputDirectory);
     }
     catch (error) {
         logger.error('failed to complete workflow\n' + error.stack);
