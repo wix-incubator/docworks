@@ -87,15 +87,23 @@ async function cloneGitRepoToDirectory(remoteRepo, targetDir) {
 
 }
 
-async function gitCheckoutNewBranch(repoDirectory, branchName) {
+async function gitCheckoutNewBranch(repoDirectory, branchName, fallbackBranchToCreate) {
     let localGit = new Git(repoDirectory);
     if (branchName) {
         try {
-            logger.command('git', `checkout -b ${branchName}`);
-            await localGit.checkout(`-b${branchName}`);
+            logger.command('git', `checkout ${branchName}`);
+            await localGit.checkout(branchName);
         }
         catch (e) {
-            logger.error(`cant checkout branch ${branchName}. Terminating.`, e);
+            await localGit.checkout(`-b${fallbackBranchToCreate}`);
+            logger.warn(`cant checkout branch ${branchName}. created ${fallbackBranchToCreate} on top of master`);
+        }
+    } else {
+        try {
+            logger.command('git', `checkout -b ${fallbackBranchToCreate}`);
+            await localGit.checkout(`-b${fallbackBranchToCreate}`);
+        } catch (e) {
+            logger.error('Failed to create a new branch on top of master. Aborting.');
             process.exit(1);
         }
     }
@@ -107,14 +115,14 @@ function createUniqueId(prefix) {
 }
 
 
-export default async function localDocworks(remoteRepo, outputDirectory, tmpDir, projectDir, jsDocSources, plugins) {
+export default async function localDocworks(remoteRepo, branch, outputDirectory, tmpDir, projectDir, jsDocSources, plugins) {
     logTaskConfig(outputDirectory, tmpDir, projectDir, jsDocSources, plugins);
 
     try {
         await cloneGitRepoToDirectory(remoteRepo, tmpDir);
 
         const workingSubdir = join(tmpDir, projectDir);
-        await gitCheckoutNewBranch(workingSubdir, createUniqueId('localdocs-'));
+        await gitCheckoutNewBranch(workingSubdir, branch, createUniqueId('localdocs-'));
 
         logger.command('docworks', `readServices ${workingSubdir}`);
         const repoContent = await readFromDir(workingSubdir);

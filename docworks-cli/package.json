@@ -4,12 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "____COMMENT____": "TODO NMO - why separate the build output to bin and dist? build anyway requires resources from dist",
     "build": "babel src/docworks.js --out-file .bin/docworks.js && babel src --out-dir dist --ignore ^docworks.js",
     "prepublish": "babel src/docworks.js --out-file .bin/docworks.js && babel src --out-dir dist --ignore docworks.js",
-    "test": "npm run build & mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js",
-    "testLocal": "node dist/docworks.js local -r git@github.com:wix-private/wix-code-docs.git -d ~/zzz/docworks-output-yyy --fs /Users/nirm/projects/docworks/mock-data-project/wix-data-core/src -p wix-data-core --fp .+\\.es6?$",
-    "___local": "node dist/docworks.js local -r git@github.com:wix-private/wix-code-docs.git -d ~/<WHERE_USER_WANTS_IT> --fs ./src -p wix-data-core --fp .+\\.es6?$"
+    "test": "npm run build & mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js"
   },
   "bin": {
     "docworks": "./.bin/docworks.js"

@@ -144,10 +144,12 @@ function tern() {
 
 function ldw() {
     let argv = optimist
-        .usage('Usage: $0 local -r [remote repo] -d [local directory] -s [local sources] -p [file pattern] [--plug [plugin]] [--dryrun]')
+        .usage('Usage: $0 local -r [remote repo] -d [local directory] -s [local sources] -p [file pattern] [--plug [plugin]]')
         .demand(  'r')
         .alias(   'r', 'remote')
         .describe('r', 'remote repository to merge docs into')
+        .alias(   'b', 'branch')
+        .describe('b', 'branch on the remote repository to work with')
         .demand(  'd')
         .alias(   'd', 'dist')
         .describe('d', 'local directory to output docs into')
@@ -163,10 +165,10 @@ function ldw() {
         .alias(   'p', 'project')
         .describe('p', 'project folder name in the docs repo')
         .describe('plug', 'a module name that is a jsdoc or docworks plugin')
-        .describe('dryrun', 'dry run - do not push to remote repo')
         .parse(process.argv.slice(3));
 
     const remote = argv.remote;
+    const branch = argv.branch;
     const dist = argv.dist;
     const sources = argv.sources;
     const excludes = argv.excludes?(Array.isArray(argv.excludes)?argv.excludes:[argv.excludes]):[];
@@ -177,7 +179,7 @@ function ldw() {
 
     tmp.dir()
         .then(wd => {
-          return localDocworks(remote, dist, wd.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
+          return localDocworks(remote, branch, dist, wd.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
         })
         .catch(() => {
             process.exit(1);
