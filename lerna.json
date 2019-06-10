@@ -9,10 +9,10 @@
     "docworks-tern",
     "docworks-wix-media",
     "wix-event-type",
-    "wix-snippet",
+    "wix-jsdoc-babel",
     "wix-note",
-    "wix-types-fix",
-    "wix-jsdoc-babel"
+    "wix-snippet",
+    "wix-types-fix"
   ],
-  "version": "1.6.5"
+  "version": "1.7.0"
 }
