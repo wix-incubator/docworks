@@ -220,7 +220,7 @@ describe('extract compare push workflow e2e', function() {
     expect(service3).to.be.true;
   });
 
-  it.only('run ecpAfterMerge plugin', async function() {
+  it('run ecpAfterMerge plugin', async function() {
     await createRemoteOnVer1();
     logger.log('run test');
     logger.log('--------');

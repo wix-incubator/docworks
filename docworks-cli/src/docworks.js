@@ -2,6 +2,7 @@
 import 'babel-polyfill';
 let tmp = require('tmp-promise');
 let extractComparePush = require('../dist/extract-compare-push').default;
+const localDocworks = require('../dist/local-docworks').default;
 let validate = require('../dist/validate').default;
 let optimist = require('optimist');
 let {resolveAndInitPlugins} = require('../dist/plugins');
@@ -23,6 +24,9 @@ else if (command === 'validate' || command === 'val') {
 else if (command === 'tern') {
   tern();
 }
+else if (command === 'local') {
+    ldw();
+}
 else {
   printUsage(1);
   process.exit(1);
@@ -35,6 +39,7 @@ function printUsage() {
   console.log('  ecp              extract, compare and push docs from sources to a docs git repository');
   console.log('  val | validate   validate the jsDoc annotations');
   console.log('  tern             generate tern file from docworks repo');
+  console.log('  local            extract, compare and copy output to a local directory');
 }
 
 
@@ -135,4 +140,48 @@ function tern() {
     .catch(() => {
       process.exit(1);
     });
+}
+
+function ldw() {
+    let argv = optimist
+        .usage('Usage: $0 local -r [remote repo] -d [local directory] -s [local sources] -p [file pattern] [--plug [plugin]]')
+        .demand(  'r')
+        .alias(   'r', 'remote')
+        .describe('r', 'remote repository to merge docs into')
+        .alias(   'b', 'branch')
+        .describe('b', 'branch on the remote repository to work with')
+        .demand(  'd')
+        .alias(   'd', 'dist')
+        .describe('d', 'local directory to output docs into')
+        .demand(  'fs')
+        .alias(   'fs', 'sources')
+        .describe('fs', 'one or more folders containing the source files to extract docs from')
+        .alias(   'fx', 'excludes')
+        .describe('fx', 'one or more folders to exclude (including their children) from extracting docs')
+        .default( 'fp', ".+\\.js?$")
+        .alias(   'fp', 'pattern')
+        .describe('fp', 'file pattern, defaults to ".+\\.js$"')
+        .demand(  'p')
+        .alias(   'p', 'project')
+        .describe('p', 'project folder name in the docs repo')
+        .describe('plug', 'a module name that is a jsdoc or docworks plugin')
+        .parse(process.argv.slice(3));
+
+    const remote = argv.remote;
+    const branch = argv.branch;
+    const dist = argv.dist;
+    const sources = argv.sources;
+    const excludes = argv.excludes?(Array.isArray(argv.excludes)?argv.excludes:[argv.excludes]):[];
+    const pattern = argv.pattern;
+    const project = argv.project;
+    const dryrun = !!argv.dryrun;
+    const plugins = resolveAndInitPlugins(argv.plug);
+
+    tmp.dir()
+        .then(wd => {
+          return localDocworks(remote, branch, dist, wd.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
+        })
+        .catch(() => {
+            process.exit(1);
+        });
 }
