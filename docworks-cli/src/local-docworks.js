@@ -131,7 +131,7 @@ export default async function localDocworks(remoteRepo, branch, outputDirectory,
         await cloneGitRepoToDirectory(remoteRepo, tmpDir);
 
         const workingSubdir = join(tmpDir, projectDir);
-        await gitCheckoutExistingOrNewBranch(workingSubdir, branch, createUniqueId('localdocs-'));
+        await gitCheckoutExistingOrNewBranch(tmpDir, branch, createUniqueId('localdocs-'));
 
         logger.command('docworks', `readServices ${workingSubdir}`);
         const repoContent = await readFromDir(workingSubdir);
