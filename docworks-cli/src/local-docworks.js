@@ -1,6 +1,6 @@
 'use strict';
 import runJsDoc from 'docworks-jsdoc2spec';
-import {saveToDir, readFromDir, merge} from 'docworks-repo';
+import {merge, readFromDir, saveToDir} from 'docworks-repo';
 import {join} from 'path';
 import fs from 'fs-extra';
 import * as logger from './logger';
@@ -36,7 +36,7 @@ function getAllFilesInDir(path) {
         const directoryFiles = items.filter(isFile);
         result = result.concat(directoryFiles);
         const subDirectories = items.filter(not(isFile));
-        for (let i=0; i < subDirectories.length; i++) {
+        for (let i = 0; i < subDirectories.length; i++) {
             result = result.concat(getAllFilesInDir(subDirectories[i]));
         }
         return result;
@@ -124,7 +124,35 @@ function createUniqueId(prefix) {
 }
 
 
-export default async function localDocworks(remoteRepo, branch, outputDirectory, tmpDir, projectDir, jsDocSources, plugins) {
+function enrichModel(mergedRepo, enrichingDocsDir) {
+    const enrichmentJSON = readServicesEnrichmentDataFromDir(enrichingDocsDir);
+    return enrichRepoModel(mergedRepo, enrichmentJSON)
+}
+
+function readServicesEnrichmentDataFromDir(enrichmentDataDirectoryPath) {
+    let filesInDocsDir = getAllFilesInDir(enrichmentDataDirectoryPath)
+    filesInDocsDir = filesInDocsDir.filter(filePath => filePath.toLowerCase().endsWith('ed.json'))
+    return filesInDocsDir.reduce((docMap, enrichmentDocFile) => {
+        const fileContent = fs.readFileSync(enrichmentDocFile, 'utf8')
+        const fileContentAsJSON = JSON.parse(fileContent)
+        docMap[fileContentAsJSON.name] = fileContentAsJSON.enrichment
+        return docMap
+    }, {});
+}
+
+function enrichRepoModel(repoToEnrich, enrichmentJSON) {
+    repoToEnrich = repoToEnrich.map(entry => {
+        const entryName = entry.name;
+        if (enrichmentJSON[entryName]) {
+            return Object.assign({}, entry, enrichmentJSON[entryName])
+        }
+        return entry
+    })
+    return repoToEnrich
+}
+
+
+export default async function localDocworks(remoteRepo, branch, outputDirectory, tmpDir, projectDir, jsDocSources, plugins, enrichmentDocsDir, dryRun) {
     logTaskConfig(outputDirectory, tmpDir, projectDir, jsDocSources, plugins);
 
     try {
@@ -133,26 +161,34 @@ export default async function localDocworks(remoteRepo, branch, outputDirectory,
         const workingSubdir = join(tmpDir, projectDir);
         await gitCheckoutExistingOrNewBranch(tmpDir, branch, createUniqueId('localdocs-'));
 
-        logger.command('docworks', `readServices ${workingSubdir}`);
-        const repoContent = await readFromDir(workingSubdir);
-
         logger.command('docworks', `extractDocs ${jsDocSources.include} ${jsDocSources.includePattern}`);
         const {services, errors} = runJsDoc(jsDocSources, plugins);
         logger.jsDocErrors(errors);
 
+        logger.command('docworks', `readServices ${workingSubdir}`);
+        const repoContent = await readFromDir(workingSubdir);
+
         logger.command('docworks', `merge`);
-        let merged = merge(services, repoContent.services, plugins);
+        const merged = merge(services, repoContent.services, plugins);
+
+        logger.command('docworks', 'enrichment');
+        const enriched = enrichModel(merged.repo, enrichmentDocsDir);
 
         logger.command('docworks', `saveServices ${workingSubdir}`);
-        await saveToDir(workingSubdir, merged.repo);
+        await saveToDir(workingSubdir, enriched);
 
         logger.log('  running ecpAfterMerge plugins');
         await runPlugins(plugins, 'ecpAfterMerge', tmpDir, projectDir);
 
-        copyDiffedFilesToOutputDirectory(tmpDir, outputDirectory);
+        if (dryRun) {
+            logger.newLine();
+            logger.success(VEE_CHAR, '[Dry run] local docworks completed successfully. No output.');
+        } else {
+            copyDiffedFilesToOutputDirectory(tmpDir, outputDirectory);
 
-        logger.newLine();
-        logger.success(VEE_CHAR, 'local docworks completed successfully, see output: ' + outputDirectory);
+            logger.newLine();
+            logger.success(VEE_CHAR, 'local docworks completed successfully, see output: ' + outputDirectory);
+        }
     }
     catch (error) {
         logger.error('Failed to complete workflow\n', error.stack);
