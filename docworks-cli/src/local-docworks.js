@@ -6,6 +6,8 @@ import fs from 'fs-extra';
 import * as logger from './logger';
 import Git from "./git";
 import {runPlugins} from './plugins';
+import {getAllFilesInDirSync} from "./utils/fsUtil";
+import {enrichModel} from "./modelEnrichment";
 
 const VEE_CHAR = '\u2713';
 
@@ -19,34 +21,9 @@ function logTaskConfig(outputDirectory, workingDir, projectSubdir, jsDocSources,
     logger.newLine();
 }
 
-const isFile = path => path && fs.statSync(path).isFile();
-const not = func => value => !func(value);
-
-function getAllFilesInDir(path) {
-    if (!path) {
-        return [];
-    }
-    const fsStat = fs.statSync(path);
-    if (fsStat.isFile()) {
-        return [path];
-    }
-    let result = [];
-    if (fsStat.isDirectory()) {
-        const items = fs.readdirSync(path).map(fileName => `${path}/${fileName}`);
-        const directoryFiles = items.filter(isFile);
-        result = result.concat(directoryFiles);
-        const subDirectories = items.filter(not(isFile));
-        for (let i = 0; i < subDirectories.length; i++) {
-            result = result.concat(getAllFilesInDir(subDirectories[i]));
-        }
-        return result;
-    }
-    return result;
-}
-
 function getChangedAndNewSrcFiles(srcDir, targetDir) {
     const differentFiles = [];
-    const allFilesInSrc = getAllFilesInDir(srcDir);
+    const allFilesInSrc = getAllFilesInDirSync(srcDir);
     for (let i = 0; i < allFilesInSrc.length; i++) {
         const srcFilePath = allFilesInSrc[i];
         const targetFilePath = srcFilePath.replace(srcDir, targetDir);
@@ -124,35 +101,7 @@ function createUniqueId(prefix) {
 }
 
 
-function enrichModel(mergedRepo, enrichingDocsDir) {
-    const enrichmentJSON = readServicesEnrichmentDataFromDir(enrichingDocsDir);
-    return enrichRepoModel(mergedRepo, enrichmentJSON)
-}
-
-function readServicesEnrichmentDataFromDir(enrichmentDataDirectoryPath) {
-    let filesInDocsDir = getAllFilesInDir(enrichmentDataDirectoryPath)
-    filesInDocsDir = filesInDocsDir.filter(filePath => filePath.toLowerCase().endsWith('ed.json'))
-    return filesInDocsDir.reduce((docMap, enrichmentDocFile) => {
-        const fileContent = fs.readFileSync(enrichmentDocFile, 'utf8')
-        const fileContentAsJSON = JSON.parse(fileContent)
-        docMap[fileContentAsJSON.name] = fileContentAsJSON.enrichment
-        return docMap
-    }, {});
-}
-
-function enrichRepoModel(repoToEnrich, enrichmentJSON) {
-    repoToEnrich = repoToEnrich.map(entry => {
-        const entryName = entry.name;
-        if (enrichmentJSON[entryName]) {
-            return Object.assign({}, entry, enrichmentJSON[entryName])
-        }
-        return entry
-    })
-    return repoToEnrich
-}
-
-
-export default async function localDocworks(remoteRepo, branch, outputDirectory, tmpDir, projectDir, jsDocSources, plugins, enrichmentDocsDir, dryRun) {
+export default async function localDocworks({remoteRepo, branch, outputDirectory, tmpDir, projectDir, jsDocSources, plugins, enrichmentDocsDir, dryRun}) {
     logTaskConfig(outputDirectory, tmpDir, projectDir, jsDocSources, plugins);
 
     try {
