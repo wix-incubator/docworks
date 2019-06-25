@@ -45,7 +45,7 @@ function printUsage() {
 
 function ecp() {
   let argv = optimist
-    .usage('Usage: $0 ecp -r [remote repo] [-b [remote branch]] -s [local sources] -p [file pattern] [--plug [plugin]] [--dryrun]')
+    .usage('Usage: $0 ecp -r [remote repo] [-b [remote branch]] -s [local sources] -p [file pattern] [-ed [enrichment docs directory]] [--plug [plugin]] [--dryrun]')
     .demand(  'r')
     .alias(   'r', 'remote')
     .describe('r', 'remote repository to merge docs into')
@@ -62,6 +62,7 @@ function ecp() {
     .demand(  'p')
     .alias(   'p', 'project')
     .describe('p', 'project folder name in the docs repo')
+    .describe('ed', 'project enrichment docs relative directory')
     .describe('plug', 'a module name that is a jsdoc or docworks plugin')
     .describe('dryrun', 'dry run - do not push to remote repo')
     .parse(process.argv.slice(3));
@@ -73,10 +74,20 @@ function ecp() {
   let pattern = argv.pattern;
   let project = argv.project;
   let dryrun = !!argv.dryrun;
+  let enrichmentDocsDir = argv.ed;
   let plugins = resolveAndInitPlugins(argv.plug);
 
   tmp.dir().then(o => {
-    return extractComparePush(remote, branch, o.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
+    return extractComparePush({
+        remote,
+        branch,
+        workingDir: o.path,
+        projectSubdir: project,
+        jsDocSources: {"include": sources, "includePattern": pattern, "exclude": excludes},
+        plugins,
+        enrichmentDocsDir,
+        dryrun
+    });
   })
     .catch(() => {
       process.exit(1);
@@ -144,7 +155,7 @@ function tern() {
 
 function ldw() {
     let argv = optimist
-        .usage('Usage: $0 local -r [remote repo] -d [local directory] -s [local sources] -p [file pattern] [--plug [plugin]]')
+        .usage('Usage: $0 local -r [remote repo] -d [local directory] -fs [local sources] -fp [file pattern] -p [project name] [-ed [enrichment docs directory]] [--plug [plugin]]')
         .demand(  'r')
         .alias(   'r', 'remote')
         .describe('r', 'remote repository to merge docs into')
@@ -164,6 +175,7 @@ function ldw() {
         .demand(  'p')
         .alias(   'p', 'project')
         .describe('p', 'project folder name in the docs repo')
+        .describe('ed', 'project enrichment docs relative directory')
         .describe('plug', 'a module name that is a jsdoc or docworks plugin')
         .parse(process.argv.slice(3));
 
@@ -175,11 +187,22 @@ function ldw() {
     const pattern = argv.pattern;
     const project = argv.project;
     const dryrun = !!argv.dryrun;
+    const enrichmentDocsDir = argv.ed;
     const plugins = resolveAndInitPlugins(argv.plug);
 
     tmp.dir()
         .then(wd => {
-          return localDocworks(remote, branch, dist, wd.path, project, {"include": sources, "includePattern": pattern, "exclude": excludes}, plugins, dryrun);
+          return localDocworks({
+              remoteRepo: remote,
+              branch,
+              outputDirectory: dist,
+              tmpDir: wd.path,
+              projectDir: project,
+              jsDocSources: {"include": sources, "includePattern": pattern, "exclude": excludes},
+              plugins,
+              enrichmentDocsDir,
+              dryrun
+          });
         })
         .catch(() => {
             process.exit(1);

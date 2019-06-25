@@ -6,6 +6,7 @@ import fs from 'fs-extra';
 import * as defaultLogger from './logger';
 import chalk from 'chalk';
 import {runPlugins} from './plugins';
+import {enrichModel} from "./modelEnrichment";
 
 function commitMessage(projectSubdir, messages, errors, indent) {
   let newLineIndent = `\n${indent}`;
@@ -46,13 +47,14 @@ function logStatus(statuses, logger) {
   statuses.modified.forEach(file => logger.details(`  Modified:      ${file}`));
 }
 
-export default async function extractComparePush(remoteRepo, remoteBranch, workingDir, projectSubdir, jsDocSources, plugins, dryrun, logger) {
+export default async function extractComparePush({remoteRepo, remoteBranch, workingDir, projectSubdir, jsDocSources, plugins, enrichmentDocsDir, dryrun}, logger) {
   logger = logger || defaultLogger;
   logger.config(`remote repo url:   `, remoteRepo);
   logger.config(`remote repo branch:`, remoteBranch);
   logger.config(`working dir:       `, workingDir);
   logger.config(`project dir:       `, projectSubdir);
   logger.config(`jsdoc sources:     `, JSON.stringify(jsDocSources));
+  logger.config(`enrichmentDocsDir: `, enrichmentDocsDir);
   logger.config(`plugins:           `, plugins.join(', '));
   logger.newLine();
   let workingSubdir = join(workingDir, projectSubdir);
@@ -82,12 +84,18 @@ export default async function extractComparePush(remoteRepo, remoteBranch, worki
     logger.command('docworks', `extractDocs ${jsDocSources.include}/**/${jsDocSources.includePattern}`);
     const {services, errors} = runJsDoc(jsDocSources, plugins);
     logger.jsDocErrors(errors);
-    
+
     logger.command('docworks', `merge`);
     let merged = merge(services, repoContent.services, plugins);
 
+    let enriched = merged.repo;
+    if (enrichmentDocsDir) {
+        logger.command('docworks', 'enrichment');
+        enriched = enrichModel(merged.repo, enrichmentDocsDir);
+    }
+
     logger.command('docworks', `saveServices ${workingSubdir}`);
-    await saveToDir(workingSubdir, merged.repo);
+    await saveToDir(workingSubdir, enriched);
 
     logger.log('  running ecpAfterMerge plugins');
     await runPlugins(plugins, 'ecpAfterMerge', workingDir, projectSubdir);
