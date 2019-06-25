@@ -79,8 +79,8 @@ function ecp() {
 
   tmp.dir().then(o => {
     return extractComparePush({
-        remote,
-        branch,
+        remoteRepo: remote,
+        remoteBranch: branch,
         workingDir: o.path,
         projectSubdir: project,
         jsDocSources: {"include": sources, "includePattern": pattern, "exclude": excludes},

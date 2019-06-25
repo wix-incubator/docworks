@@ -31,7 +31,8 @@ async function runLocalDocworks(dirToProcess, outputDir) {
     await fs.ensureDir(TMP_LDW_PROCESS_DIR);
     await fs.emptyDir(TMP_LDW_PROCESS_DIR);
 
-    await localDocworks(dirToProcess, '', outputDir, TMP_LDW_PROCESS_DIR, '', JSDOC_SRC_GLOB, []);
+    await localDocworks({remoteRepo: dirToProcess, branch: '', outputDirectory: outputDir,
+        tmpDir: TMP_LDW_PROCESS_DIR, projectDir: '', jsDocSources: JSDOC_SRC_GLOB, plugins: []});
 }
 
 async function makeSureLocaloutputDirContainsDocComments(outputDir, partialJsonToFind) {
