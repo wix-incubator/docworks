@@ -1,6 +1,6 @@
 {
   "name": "docworks-cli",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -34,5 +34,6 @@
     "chai-files": "^1.4.0",
     "chai-subset": "^1.5.0",
     "mocha": "^3.3.0"
-  }
+  },
+  "gitHead": "d56ca65a3a1c3e474fe632f909c6a8ad98493cf6"
 }
