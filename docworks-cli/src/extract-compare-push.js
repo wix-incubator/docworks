@@ -88,8 +88,11 @@ export default async function extractComparePush({remoteRepo, remoteBranch, work
     logger.command('docworks', `merge`);
     let merged = merge(services, repoContent.services, plugins);
 
-    logger.command('docworks', 'enrichment');
-    const enriched = enrichModel(merged.repo, enrichmentDocsDir);
+    let enriched = merged.repo;
+    if (enrichmentDocsDir) {
+        logger.command('docworks', 'enrichment');
+        enriched = enrichModel(merged.repo, enrichmentDocsDir);
+    }
 
     logger.command('docworks', `saveServices ${workingSubdir}`);
     await saveToDir(workingSubdir, enriched);

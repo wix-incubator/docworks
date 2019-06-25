@@ -120,8 +120,11 @@ export default async function localDocworks({remoteRepo, branch, outputDirectory
         logger.command('docworks', `merge`);
         const merged = merge(services, repoContent.services, plugins);
 
-        logger.command('docworks', 'enrichment');
-        const enriched = enrichModel(merged.repo, enrichmentDocsDir);
+        let enriched = merged.repo;
+        if (!!enrichmentDocsDir) {
+            logger.command('docworks', 'enrichment');
+            enriched = enrichModel(merged.repo, enrichmentDocsDir);
+        }
 
         logger.command('docworks', `saveServices ${workingSubdir}`);
         await saveToDir(workingSubdir, enriched);
