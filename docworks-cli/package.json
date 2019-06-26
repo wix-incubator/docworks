@@ -19,6 +19,7 @@
     "docworks-jsdoc2spec": "^1.6.4",
     "docworks-repo": "^1.6.4",
     "docworks-tern": "^1.6.5",
+    "docworks-dts": "^1.0.0",
     "fs-extra": "^5.0.0",
     "optimist": "^0.6.1",
     "resolve": "^1.5.0",

@@ -7,6 +7,7 @@ let validate = require('../dist/validate').default;
 let optimist = require('optimist');
 let {resolveAndInitPlugins} = require('../dist/plugins');
 import runTern from '../dist/run-tern';
+import runDts from '../dist/run-dts';
 
 if (process.argv.length < 3) {
   printUsage();
@@ -22,7 +23,10 @@ else if (command === 'validate' || command === 'val') {
   validateCommand();
 }
 else if (command === 'tern') {
-  tern();
+    tern();
+}
+else if (command === 'dts') {
+    dts();
 }
 else if (command === 'local') {
     ldw();
@@ -140,6 +144,42 @@ function tern() {
     .catch(() => {
       process.exit(1);
     });
+}
+
+function dts() {
+    const cmdDefinition = optimist
+        // .usage('Usage: $0 dts (-r [remote repo] | -s [services repo] ) -u [base url] -n [api name] -o [output file]')
+        .usage('Usage: $0 dts (-o [output file]')
+        // .alias(   'r', 'remote')
+        // .describe('r', 'remote repository to read docworks services files from')
+        // .alias(   'l', 'local')
+        // .describe('l', 'folder containing docwork service files')
+        // .demand(  'u')
+        // .alias(   'u', 'url')
+        // .describe('u', 'base url for the urls generated in dts')
+        // .demand(  'n')
+        // .alias(   'n', 'name')
+        // .describe('n', 'API name')
+        .demand(  'o')
+        .alias(   'o', 'out')
+        .describe('o', 'output file');
+        // .describe('plug', 'a module name that is a docworks dts plugin');
+    let argv = cmdDefinition
+        .argv;
+
+    // let remote = argv.remote;
+    // let local = argv.local;
+    let outputFileName = argv.out;
+
+    // if (!remote && !local || (!!remote && !!local)) {
+    //     console.log(cmdDefinition.help());
+    //     process.exit(1);
+    // }
+
+    return runDts(outputFileName)
+        .catch(() => {
+            process.exit(1);
+        });
 }
 
 function ldw() {
