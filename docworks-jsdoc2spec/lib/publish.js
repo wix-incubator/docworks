@@ -6,7 +6,6 @@ import handleMixins from './jsdoc-handler-mixins';
 import handlePlugins from './docworks-plugins';
 import {handleFunctions, handleCallbacks} from './jsdoc-handler-operations';
 import {handleMeta, handleDoc} from './jsdoc-handler-shared';
-import {dump} from './util';
 
 
 function loadPlugins(plugins) {
