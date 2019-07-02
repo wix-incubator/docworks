@@ -1,37 +1,38 @@
-import runJsDoc from '../lib/jsdoc-runner';
-import {dump} from '../lib/util';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-const expect = chai.expect;
-chai.use(chaiSubset);
+import runJsDoc from '../lib/jsdoc-runner'
+import {dump} from '../lib/util'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+const expect = chai.expect
+chai.use(chaiSubset)
 
 describe('docs', function() {
     describe('service', function() {
-        let jsDocRes;
+        let jsDocRes
         beforeEach(() => {
             jsDocRes = runJsDoc({
-                "include": [
-                    "test/jsdoc-errors.js"
+                'include': [
+                    'test/jsdoc-errors.js'
                 ]
-            });
-        });
+            })
+        })
 
         afterEach(function(){
             if (this.currentTest.state == 'failed') {
-                console.log('the jsDocRes:');
-                dump(jsDocRes);
+                // eslint-disable-next-line no-console
+                console.log('the jsDocRes:')
+                dump(jsDocRes)
             }
-        });
+        })
 
         it('should return the service for each class', function() {
 
             expect(jsDocRes).to.containSubset({
                 errors: [
-                  {message: 'ERROR: The @description tag requires a value. File: jsdoc-errors.js, line: 8'},
-                  {message: 'ERROR: The @description tag requires a value. File: jsdoc-errors.js, line: 16'}
+                  {message: 'ERROR: The @description tag requires a value. File: jsdoc-errors.js, line: 9'},
+                  {message: 'ERROR: The @description tag requires a value. File: jsdoc-errors.js, line: 17'}
                 ]
-            });
-        });
+            })
+        })
 
-    });
-});
+    })
+})

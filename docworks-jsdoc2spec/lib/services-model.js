@@ -1,27 +1,27 @@
 
 class ServiceModel {
     constructor() {
-        this.services = [];
-        this.errors = [];
+        this.services = []
+        this.errors = []
     }
 
     clear() {
-        this.services = [];
+        this.services = []
     }
 
     add(added) {
-        this.services = this.services.concat(added);
+        this.services = this.services.concat(added)
     }
 
     get() {
-        return this.services;
+        return this.services
     }
 
     addError(jsDocError) {
-        this.errors.push(jsDocError);
+        this.errors.push(jsDocError)
     }
 }
 
 
 
-export default ServiceModel;
+module.exports = ServiceModel

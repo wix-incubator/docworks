@@ -1,28 +1,29 @@
-import runJsDoc from '../lib/jsdoc-runner';
-import {dump} from '../lib/util';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-import './test-util';
-const expect = chai.expect;
-chai.use(chaiSubset);
+import runJsDoc from '../lib/jsdoc-runner'
+import {dump} from '../lib/util'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+import './test-util'
+const expect = chai.expect
+chai.use(chaiSubset)
 
 describe('docs', function() {
   describe('service', function() {
-    let jsDocRes;
+    let jsDocRes
     beforeEach(() => {
       jsDocRes = runJsDoc({
-        "include": [
-          "test/service-callbacks.js"
+        'include': [
+          'test/service-callbacks.js'
         ]
-      });
-    });
+      })
+    })
 
     afterEach(function(){
       if (this.currentTest.state == 'failed') {
-        console.log('the jsDocRes:');
-        dump(jsDocRes);
+        // eslint-disable-next-line no-console
+        console.log('the jsDocRes:')
+        dump(jsDocRes)
       }
-    });
+    })
 
 
     it('should support function callbacks', function() {
@@ -43,10 +44,10 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-      expect(jsDocRes.errors).to.not.containError('Operation operationWithCallback');
-      expect(jsDocRes.errors).to.not.containError('Callback aCallback');
-    });
+      })
+      expect(jsDocRes.errors).to.not.containError('Operation operationWithCallback')
+      expect(jsDocRes.errors).to.not.containError('Callback aCallback')
+    })
 
     it('should support function with complex callbacks', function() {
       expect(jsDocRes).to.containSubset({
@@ -71,10 +72,10 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-      expect(jsDocRes.errors).to.not.containError('Operation operationWithComplexCallback');
-      expect(jsDocRes.errors).to.not.containError('Callback aComplexCallback');
-    });
+      })
+      expect(jsDocRes.errors).to.not.containError('Operation operationWithComplexCallback')
+      expect(jsDocRes.errors).to.not.containError('Callback aComplexCallback')
+    })
 
     it('should report errors for callback with unknown types', function() {
       expect(jsDocRes).to.containSubset({
@@ -97,13 +98,13 @@ describe('docs', function() {
         errors: [
           {
             message: 'Callback AnErrorCallback has an unknown param type Unknown',
-            location: 'service-callbacks.js (59)'
+            location: 'service-callbacks.js (60)'
           }
         ]
 
-      });
-      expect(jsDocRes.errors).to.not.containError('Operation operationWithComplexCallback');
-    });
+      })
+      expect(jsDocRes.errors).to.not.containError('Operation operationWithComplexCallback')
+    })
 
     it('should report errors for unknown callback', function() {
       expect(jsDocRes).to.containSubset({
@@ -121,11 +122,11 @@ describe('docs', function() {
         errors: [
           {
             message: 'Operation operationWithUnknownCallback has an unknown param type UnknownCallback',
-            location: 'service-callbacks.js (79)'
+            location: 'service-callbacks.js (80)'
           }
         ]
 
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

@@ -1,4 +1,5 @@
-import fs from 'fs';
+/* eslint-disable no-unused-vars */
+import fs from 'fs'
 
 /**
  * @class ES6Code
@@ -14,8 +15,8 @@ class ES6Code {
    * @returns {Promise<string>}
    */
   async doSomething() {
-    let file = await new Promise(function(fulfill, reject) {fs.readFile('name', {}, (e) => e?reject(e):fulfill())});
-    return file;
+    let file = await new Promise(function(fulfill, reject) {fs.readFile('name', {}, (e) => e?reject(e):fulfill())})
+    return file
   }
 
   /**
@@ -27,6 +28,6 @@ class ES6Code {
    * @returns {Array}
    */
   concatArrays(arr, arr2) {
-    return new Array(...arr, ...arr2);
+    return new Array(...arr, ...arr2)
   }
 }

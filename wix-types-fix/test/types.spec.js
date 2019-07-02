@@ -1,22 +1,22 @@
-import runJsDoc from 'docworks-jsdoc2spec';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
+const runJsDoc = require('docworks-jsdoc2spec')
+const chai = require('chai')
+const chaiSubset = require('chai-subset')
 
-const expect = chai.expect;
-chai.use(chaiSubset);
+const expect = chai.expect
+chai.use(chaiSubset)
 
 
 describe('integration test', function() {
 
   let jsDocRes = runJsDoc({
-    "include": [
-      "test/types.service.js"
+    'include': [
+      'test/types.service.js'
     ],
-  }, ['src/index']);
+  }, ['src/index'])
 
   it('should have no errors', function() {
-    expect(jsDocRes.errors).to.be.deep.equal([]);
-  });
+    expect(jsDocRes.errors).to.be.deep.equal([])
+  })
 
   it('should rename property types with prefix external: to the native type name', function() {
 
@@ -28,9 +28,9 @@ describe('integration test', function() {
                 type: 'string' },
               { name: 'valid',
                 type: 'boolean' } ]
-        } ] } );
+        } ] } )
 
-  });
+  })
 
   it('should rename read write property types with prefix external: to the native type name', function() {
 
@@ -39,9 +39,9 @@ describe('integration test', function() {
         [ { name: 'Service',
           properties:
             [ { name: 'readWrite', type: 'string', set:true, get: true } ]
-        } ] } );
+        } ] } )
 
-  });
+  })
 
   it('should rename operation types with prefix external: to the native type name', function() {
 
@@ -58,9 +58,9 @@ describe('integration test', function() {
                   [ { name: 'param',
                       type: 'string' } ],
                 ret: { type: 'number'} } ]
-       } ] } );
+       } ] } )
 
-  });
+  })
 
   it('should rename callback types with prefix external: to the native type name', function() {
 
@@ -74,9 +74,9 @@ describe('integration test', function() {
                   type: [ 'string', 'boolean' ] },
                   { name: 'reject',
                     type: 'Function' }] } ]
-        } ] } );
+        } ] } )
 
-  });
+  })
 
   it('should rename message types with prefix external: to the native type name', function() {
 
@@ -90,9 +90,9 @@ describe('integration test', function() {
                   type: 'boolean' },
                   { name: 'stringProp',
                     type: 'string' } ] } ]
-        } ] } );
+        } ] } )
 
-  });
+  })
 
   it('should rename external:Date to the Date', function() {
 
@@ -102,9 +102,9 @@ describe('integration test', function() {
           properties:
             [ { name: 'date',
               type: 'Date' } ]
-        } ] } );
+        } ] } )
 
-  });
+  })
 
   it('should rename external:Number|$w.Slide to the number|$w.Slide', function() {
 
@@ -114,9 +114,9 @@ describe('integration test', function() {
           properties:
             [ { name: 'union',
               type: ['number','Service.aType'] } ]
-        } ] } );
+        } ] } )
 
-  });
+  })
 
   it('should rename external:String[] to Array.<string>', function() {
 
@@ -126,9 +126,9 @@ describe('integration test', function() {
           properties:
             [ { name: 'array',
               type: {name: 'Array', typeParams: ['string'] } } ]
-        } ] } );
+        } ] } )
 
-  });
+  })
 
   it('should rename external:Promise in functions to Promise<>, incorporating the @reject and @fulfill tags', function() {
 
@@ -140,9 +140,9 @@ describe('integration test', function() {
                 ret: {
                   type: {name: 'Promise', typeParams: ['string'] },
                   doc: 'abcd\nFulfilled - fulfill docs\nRejected - error docs' } } ]
-        } ] } );
+        } ] } )
 
-  });
+  })
 
   it('should handle external:Promise without return doc', function() {
 
@@ -154,9 +154,9 @@ describe('integration test', function() {
                 ret: {
                   type: {name: 'Promise', typeParams: ['string'] },
                   doc: 'Fulfilled - fulfill docs\nRejected - error docs' } } ]
-        } ] } );
+        } ] } )
 
-  });
+  })
 
   it('should rename external:Promise in callbacks to Promise<>, incorporating the @reject and @fulfill tags', function() {
 
@@ -168,7 +168,7 @@ describe('integration test', function() {
               ret: {
                 type: {name: 'Promise', typeParams: ['string'] },
                 doc: 'abcd\nFulfilled - fulfill docs\nRejected - error docs' } } ]
-        } ] } );
+        } ] } )
 
-  });
-});
+  })
+})

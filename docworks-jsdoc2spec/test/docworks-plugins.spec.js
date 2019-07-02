@@ -1,16 +1,16 @@
-import runJsDoc from '../lib/jsdoc-runner';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-const expect = chai.expect;
-chai.use(chaiSubset);
+import runJsDoc from '../lib/jsdoc-runner'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+const expect = chai.expect
+chai.use(chaiSubset)
 
 describe('docworks plugins', function() {
   it('run with plugin', function() {
     let jsDocRes = runJsDoc({
-      "include": [
-        "test/service-plugin.js"
+      'include': [
+        'test/service-plugin.js'
       ],
-    }, ['./test/docworks-plugin']);
+    }, ['./test/docworks-plugin'])
 
     expect(jsDocRes).to.containSubset({
       services: [
@@ -47,7 +47,7 @@ describe('docworks plugins', function() {
             extra: {pluginGenerated: 'docs plugin visited'}}
         }
       ]
-    });
+    })
 
-  });
-});
+  })
+})

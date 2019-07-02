@@ -1,29 +1,30 @@
-import runJsDoc from '../lib/jsdoc-runner';
-import {dump} from '../lib/util';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-import './test-util';
+import runJsDoc from '../lib/jsdoc-runner'
+import {dump} from '../lib/util'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+import './test-util'
 
-const expect = chai.expect;
-chai.use(chaiSubset);
+const expect = chai.expect
+chai.use(chaiSubset)
 
 describe('docs', function() {
   describe('service', function() {
-    let jsDocRes;
+    let jsDocRes
     beforeEach(() => {
       jsDocRes = runJsDoc({
-        "include": [
-          "test/service-messages.js"
+        'include': [
+          'test/service-messages.js'
         ]
-      });
-    });
+      })
+    })
 
     afterEach(function(){
       if (this.currentTest.state == 'failed') {
-        console.log('the jsDocRes:');
-        dump(jsDocRes);
+        // eslint-disable-next-line no-console
+        console.log('the jsDocRes:')
+        dump(jsDocRes)
       }
-    });
+    })
 
     it('should report service property of a message type', function() {
 
@@ -36,8 +37,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should support messages', function() {
 
@@ -63,8 +64,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should support message location', function() {
 
@@ -84,8 +85,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should support a function with message types', function() {
 
@@ -100,8 +101,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should support a function with a complex message type', function() {
 
@@ -116,8 +117,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should support a function with a complex message type referenced using aNamespace.ServiceMessages~ComplexMessage', function() {
 
@@ -132,8 +133,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should support a complex message', function() {
 
@@ -159,8 +160,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should support a optional members of a message', function() {
 
@@ -179,8 +180,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should support messages defined using @typedef namespace~message', function() {
 
@@ -199,8 +200,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should report service property of a message type defined as @typedef namespace~message', function() {
       expect(jsDocRes).to.containSubset({
@@ -212,9 +213,9 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-      expect(jsDocRes.errors).to.not.containError('Property prop2');
-    });
+      })
+      expect(jsDocRes.errors).to.not.containError('Property prop2')
+    })
 
-  });
-});
+  })
+})

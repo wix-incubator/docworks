@@ -1,29 +1,36 @@
-let resolve = require('resolve');
+const resolve = require('resolve')
+const logger = require('./logger')
 
-export function resolveAndInitPlugins(plugins) {
-  return (plugins?(Array.isArray(plugins)?plugins:[plugins]):[])
+function resolveAndInitPlugins(plugins) {
+  return (plugins ? (Array.isArray(plugins) ? plugins : [plugins]) : [])
     .map(pluginCmd => {
-        let [plugin, param] = pluginCmd.split(/:(.+)/);
-        plugin = resolve.sync(plugin, {basedir: '.'});
+        let [plugin, param] = pluginCmd.split(/:(.+)/)
+        plugin = resolve.sync(plugin, {basedir: '.'})
         try {
-          let pluginModule = require(plugin);
-          if (param && pluginModule.init)
-            pluginModule.init(param);
+          const pluginModule = require(plugin)
+          if (param && pluginModule.init) {
+            pluginModule.init(param)
+          }
         }
         catch (err) {
-
+            logger.error(`could not require plugin ${plugin}`)
         }
-        return plugin;
+        return plugin
       }
-    );
+    )
 }
 
-export async function runPlugins(plugins, pluginFunction, ...params) {
+async function runPlugins(plugins, pluginFunction, ...params) {
   if (plugins) {
     const pluginsToRun = plugins
       .map(require)
-      .filter(plugin => !!plugin[pluginFunction]);
+      .filter(plugin => !!plugin[pluginFunction])
     for (const plugin of pluginsToRun)
-      await plugin[pluginFunction](...(params || []));
+      await plugin[pluginFunction](...(params || []))
   }
+}
+
+module.exports = {
+  resolveAndInitPlugins,
+  runPlugins
 }

@@ -1,27 +1,28 @@
-import runJsDoc from '../lib/jsdoc-runner';
-import {dump} from '../lib/util';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-const expect = chai.expect;
-chai.use(chaiSubset);
+/* eslint-disable no-console */
+import runJsDoc from '../lib/jsdoc-runner'
+import {dump} from '../lib/util'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+const expect = chai.expect
+chai.use(chaiSubset)
 
 describe('e2e', function() {
   describe('WixEvents', function() {
-    let jsDocRes;
+    let jsDocRes
     beforeEach(() => {
       jsDocRes = runJsDoc({
-        "include": [
-          "test/WixEvents.js"
+        'include': [
+          'test/WixEvents.js'
         ]
-      });
-    });
+      })
+    })
 
     afterEach(function(){
       if (this.currentTest.state == 'failed') {
-        console.log('the jsDocRes:');
-        dump(jsDocRes);
+        console.log('the jsDocRes:')
+        dump(jsDocRes)
       }
-    });
+    })
 
 
     it('should return the $w.Event service', function() {
@@ -30,8 +31,8 @@ describe('e2e', function() {
         services: [
           {name: 'Event', memberOf: '$w'}
         ]
-      });
-    });
+      })
+    })
 
     it('should return the $w.Event service properties', function() {
 
@@ -45,8 +46,8 @@ describe('e2e', function() {
             {name: 'context', type: 'external:Object'},
           ]
         }]
-      });
-    });
-    
-  });
-});
+      })
+    })
+
+  })
+})

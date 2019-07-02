@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars,getter-return */
 /**
  * @class Service
  * @summary A service
@@ -77,7 +78,7 @@ class Service {
 
   /**
    * @function anAsyncFunctionNoReturnDoc
-   * @returns {external:Promise} 
+   * @returns {external:Promise}
    * @fulfill {external:String} fulfill docs
    * @reject {external:String} error docs
    * @memberof Service

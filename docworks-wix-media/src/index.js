@@ -1,23 +1,28 @@
+// eslint-disable-next-line no-unused-vars
+let logger = console
+const {copy, ensureDir} = require('fs-extra')
 
-let path = require('path');
-let fs = require('fs');
-let logger = console;
-import {copy, ensureDir} from 'fs-extra';
-
-exports.setMediaDir = function(value) {
+const setMediaDir = function(value) {
   // jsdoc with requizzle loads the modules twice - so the only way to move config between the two runs is using global
-  global.wixJsDocPluginMediaDir = value;
-};
+  global.wixJsDocPluginMediaDir = value
+}
 
-exports.setLogger = function(value) {
-  logger = value;
-};
+const setLogger = function(value) {
+  logger = value
+}
 
-exports.init = function(param) {
-  exports.setMediaDir(param);
-};
+const init = function(param) {
+  setMediaDir(param)
+}
 
-export async function ecpAfterMerge(workingDir, projectSubdir) {
-  await ensureDir(`${workingDir}/media`);
-  return copy(global.wixJsDocPluginMediaDir, `${workingDir}/media`);
+async function ecpAfterMerge(workingDir) {
+  await ensureDir(`${workingDir}/media`)
+  return copy(global.wixJsDocPluginMediaDir, `${workingDir}/media`)
+}
+
+module.exports = {
+  ecpAfterMerge,
+  init,
+  setLogger,
+  setMediaDir
 }

@@ -1,38 +1,38 @@
-import _ from 'lodash';
+const _ = require('lodash')
 
 const createPosOrder = () => {
-    let count = 0;
+    let count = 0
     return () => {
         return {pos: ++count}
-    };
-};
+    }
+}
 
 const createOrderedPropertiesPosObj = (orderedPropertiesArr, objToMerge) => {
-    const pos = createPosOrder();
+    const pos = createPosOrder()
     const orderedObj = orderedPropertiesArr.reduce((spec, property) => {
-        spec[property] = pos();
-        return spec;
-    }, {});
+        spec[property] = pos()
+        return spec
+    }, {})
     return _.merge(orderedObj, objToMerge)
-};
+}
 
 const docSpec = createOrderedPropertiesPosObj(['summary', 'description', 'links', 'examples', 'extra'], {
     description: {multiLine: true},
     examples: createOrderedPropertiesPosObj(['title', 'body', 'extra'], {
         body: {multiLine: true}
     })
-});
+})
 
-const locationSpec = createOrderedPropertiesPosObj(['fileName', 'lineno']);
+const locationSpec = createOrderedPropertiesPosObj(['fileName', 'lineno'])
 
 const propertySpec = createOrderedPropertiesPosObj(['name', 'labels', 'get', 'set', 'type',
     'defaultValue', 'locations', 'docs', 'srcDocs', 'extra'], {
     locations: locationSpec,
     docs: docSpec,
     srcDocs: docSpec
-});
+})
 
-const paramSpec = createOrderedPropertiesPosObj(['name', 'type', 'doc', 'srcDoc', 'optional', 'defaultValue', 'spread']);
+const paramSpec = createOrderedPropertiesPosObj(['name', 'type', 'doc', 'srcDoc', 'optional', 'defaultValue', 'spread'])
 
 const operationSpec = createOrderedPropertiesPosObj(['name', 'labels', 'nameParams', 'params', 'ret', 'locations',
     'docs', 'srcDocs', 'extra'], {
@@ -41,16 +41,16 @@ const operationSpec = createOrderedPropertiesPosObj(['name', 'labels', 'namePara
     docs: docSpec,
     srcDocs: docSpec,
     ret: createOrderedPropertiesPosObj(['type', 'doc', 'srcDoc'])
-});
+})
 
 const messageSpec = createOrderedPropertiesPosObj(['name', 'locations', 'docs', 'srcDocs', 'members', 'extra'], {
     locations: locationSpec,
     docs: docSpec,
     srcDocs: docSpec,
     members: createOrderedPropertiesPosObj(['name', 'type', 'doc', 'optional'])
-});
+})
 
-export const serviceSpec = createOrderedPropertiesPosObj([
+const serviceSpec = createOrderedPropertiesPosObj([
     'name',
     'memberOf',
     'mixes',
@@ -67,4 +67,8 @@ export const serviceSpec = createOrderedPropertiesPosObj([
     operations: Object.assign({orderBy: 'name'}, operationSpec),
     callbacks: Object.assign({orderBy: 'name'}, operationSpec),
     messages: Object.assign({orderBy: 'name'}, messageSpec),
-});
+})
+
+module.exports = {
+    serviceSpec
+}

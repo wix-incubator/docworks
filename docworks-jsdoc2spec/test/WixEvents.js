@@ -1,4 +1,4 @@
-import get from 'lodash/get';
+import get from 'lodash/get'
 
 /**
  * @callback $w.EventHandler
@@ -21,13 +21,13 @@ import get from 'lodash/get';
  */
 class WixEvent {
   constructor(target, event) {
-    this.target = target;
-    this.type = get(event, 'action') || get(event, 'type');
-    this.syntheticEvent = event;
+    this.target = target
+    this.type = get(event, 'action') || get(event, 'type')
+    this.syntheticEvent = event
 
-    const context = get(event, 'context');
+    const context = get(event, 'context')
     if (context) {
-      this.context = context;
+      this.context = context
     }
   }
 
@@ -76,4 +76,4 @@ class WixEvent {
 
 }
 
-export default WixEvent;
+export default WixEvent

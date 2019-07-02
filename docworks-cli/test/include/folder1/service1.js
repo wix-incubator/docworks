@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * @class Service1
  * @summary this is a service

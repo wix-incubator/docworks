@@ -1,22 +1,21 @@
-import simpleGit from 'simple-git';
-import asPromise from './as-promise';
+const simpleGit = require('simple-git')
+const asPromise = require('./as-promise')
 
-
-export default class Git {
+class Git {
   constructor(workingDir) {
-    this._git = workingDir?simpleGit(workingDir):simpleGit();
+    this._git = workingDir?simpleGit(workingDir):simpleGit()
   }
 
   init(bare) {
-    return asPromise(this._git, this._git.init)(bare);
+    return asPromise(this._git, this._git.init)(bare)
   }
 
   clone(remoteRepo, workingDir, options) {
-    return asPromise(this._git, this._git.clone)(remoteRepo, workingDir, options || []);
+    return asPromise(this._git, this._git.clone)(remoteRepo, workingDir, options || [])
   }
 
   checkout(branchName) {
-    return asPromise(this._git, this._git.checkout)(branchName);
+    return asPromise(this._git, this._git.checkout)(branchName)
   }
 
   status() {
@@ -24,11 +23,11 @@ export default class Git {
   }
 
   add(files) {
-    return asPromise(this._git, this._git.add)(files);
+    return asPromise(this._git, this._git.add)(files)
   }
 
   commit(message) {
-    return asPromise(this._git, this._git.commit)(message);
+    return asPromise(this._git, this._git.commit)(message)
   }
 
   push(remote, branch) {
@@ -36,27 +35,29 @@ export default class Git {
   }
 
   async readFile(fileName, branch) {
-    return await asPromise(this._git, this._git.catFile)(['-p', `${branch?branch:'HEAD'}:${fileName}`]);
+    return await asPromise(this._git, this._git.catFile)(['-p', `${branch?branch:'HEAD'}:${fileName}`])
   }
 
   async getCommitMessage(branch) {
-    let options = [];
+    let options = []
     if (branch)
-      options.push(branch);
-    options = options.concat(['-1', '--pretty=format:%H;%ai;%B;%aN;%ae']);
-    let listLogSummary = await asPromise(this._git, this._git.log)(options);
-    return listLogSummary.latest.message;
+      options.push(branch)
+    options = options.concat(['-1', '--pretty=format:%H;%ai;%B;%aN;%ae'])
+    let listLogSummary = await asPromise(this._git, this._git.log)(options)
+    return listLogSummary.latest.message
   }
 
   async fileExists(fileName, branch) {
     try {
-      await this.readFile(fileName, branch);
-      return true;
+      await this.readFile(fileName, branch)
+      return true
     }
     catch (e) {
-      return false;
+      return false
     }
   }
 
 
 }
+
+module.exports = Git

@@ -2,14 +2,15 @@
   "name": "docworks-cli",
   "version": "1.8.2",
   "description": "",
-  "main": "index.js",
+  "main": "src/docworks.js",
   "scripts": {
-    "build": "babel src/docworks.js --out-file .bin/docworks.js && babel src --out-dir dist --ignore ^docworks.js",
-    "prepublish": "babel src/docworks.js --out-file .bin/docworks.js && babel src --out-dir dist --ignore docworks.js",
-    "test": "npm run build & mocha --compilers js:babel-core/register --require babel-polyfill './test/**/*.spec.js'"
+    "lint": "echo --- running lint --- && eslint src test",
+    "prepublish": "npm run build",
+    "build": "npm run lint",
+    "test": "mocha test/**/*.spec.js --compilers js:babel-core/register --require babel-polyfill"
   },
   "bin": {
-    "docworks": "./.bin/docworks.js"
+    "docworks": ".bin/docworks.js"
   },
   "author": "Yoav Abrahami",
   "license": "ISC",
@@ -27,12 +28,14 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.24.1",
     "chai": "^3.5.0",
     "chai-files": "^1.4.0",
     "chai-subset": "^1.5.0",
+    "eslint": "^6.0.1",
     "mocha": "^3.3.0"
   },
   "gitHead": "d56ca65a3a1c3e474fe632f909c6a8ad98493cf6"

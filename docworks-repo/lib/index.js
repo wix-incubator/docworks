@@ -1,11 +1,18 @@
-import {readDir} from './operations';
-export {saveToDir, serviceFromJson, serviceToJson} from './operations';
-export merge from './merge';
+const {readDir} = require('./operations')
+const {saveToDir, serviceFromJson, serviceToJson} = require('./operations')
+const merge = require('./merge')
 
-export function readFromDir(directory) {
+function readFromDir(directory) {
   return readDir(directory)
     .then((services) => {
       return {services}
-    });
+    })
 }
 
+module.exports = {
+  readFromDir,
+  merge,
+  saveToDir,
+  serviceFromJson,
+  serviceToJson
+}

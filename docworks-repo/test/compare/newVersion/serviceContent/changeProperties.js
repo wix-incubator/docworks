@@ -1,3 +1,5 @@
+/* eslint-disable getter-return */
+
 /**
  * @class ChangeServiceProperties1
  */

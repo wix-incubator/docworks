@@ -1,27 +1,28 @@
-import runJsDoc from '../lib/jsdoc-runner';
-import {dump} from '../lib/util';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-const expect = chai.expect;
-chai.use(chaiSubset);
+import runJsDoc from '../lib/jsdoc-runner'
+import {dump} from '../lib/util'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+const expect = chai.expect
+chai.use(chaiSubset)
 
 describe('docs', function() {
   describe('service properties', function() {
-    let jsDocRes;
+    let jsDocRes
     beforeEach(() => {
       jsDocRes = runJsDoc({
-        "include": [
-          "test/service-properties.js"
+        'include': [
+          'test/service-properties.js'
         ]
-      });
-    });
+      })
+    })
 
     afterEach(function(){
       if (this.currentTest.state == 'failed') {
-        console.log('the jsDocRes:');
-        dump(jsDocRes);
+        // eslint-disable-next-line no-console
+        console.log('the jsDocRes:')
+        dump(jsDocRes)
       }
-    });
+    })
 
 
     it('should support readonly property', function() {
@@ -35,9 +36,9 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-      expect(jsDocRes.errors).to.not.containError('Property readOnly');
-    });
+      })
+      expect(jsDocRes.errors).to.not.containError('Property readOnly')
+    })
 
     it('should not allow writeonly properties', function() {
 
@@ -56,8 +57,8 @@ describe('docs', function() {
             location: 'service-properties.js (18)'
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should merge get and set members declaration into a single property', function() {
 
@@ -70,9 +71,9 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-      expect(jsDocRes.errors).to.not.containError('Property label');
-    });
+      })
+      expect(jsDocRes.errors).to.not.containError('Property label')
+    })
 
     it('should error on missing type', function() {
 
@@ -91,8 +92,8 @@ describe('docs', function() {
             location: 'service-properties.js (44)'
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should error on mismatched type between get and set', function() {
 
@@ -111,8 +112,8 @@ describe('docs', function() {
             location: 'service-properties.js (52, 61)'
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should error on duplicate property definition', function() {
 
@@ -131,8 +132,8 @@ describe('docs', function() {
             location: 'service-properties.js (69, 78)'
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should error on duplicate 3 times property definition', function() {
 
@@ -151,8 +152,8 @@ describe('docs', function() {
             location: 'service-properties.js (87, 96, 105)'
           }
         ]
-      });
-    });
+      })
+    })
 
     it('should support property with a default value', function() {
 
@@ -165,9 +166,9 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-      expect(jsDocRes.errors).to.not.containError('Property withDefaultValue');
-    });
+      })
+      expect(jsDocRes.errors).to.not.containError('Property withDefaultValue')
+    })
 
     it('should support property with a complex type', function() {
 
@@ -180,8 +181,8 @@ describe('docs', function() {
             ]
           }
         ]
-      });
-      expect(jsDocRes.errors).to.not.containError('Property complex');
-    });
-  });
-});
+      })
+      expect(jsDocRes.errors).to.not.containError('Property complex')
+    })
+  })
+})

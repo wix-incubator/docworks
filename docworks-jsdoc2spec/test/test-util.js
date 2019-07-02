@@ -1,13 +1,13 @@
-import chai from 'chai';
+import chai from 'chai'
 
-let registered = false;
+let registered = false
 
 if (!registered) {
-  registered = true;
+  registered = true
   chai.Assertion.addMethod('containError', function (error) {
-    let obj = this._obj;
+    let obj = this._obj
 
-    let foundError = obj.find(_ => _.message && _.message.includes(error));
+    let foundError = obj.find(_ => _.message && _.message.includes(error))
     // second, our type check
     this.assert(
       !!foundError
@@ -15,6 +15,6 @@ if (!registered) {
       , `expected errors to not contain error with ${error}, but found the error ${foundError?foundError.message:''}`
       , error        // expected
       , obj   // actual
-    );
-  });
+    )
+  })
 }

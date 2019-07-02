@@ -1,28 +1,29 @@
-import runJsDoc from '../lib/jsdoc-runner';
-import {dump} from '../lib/util';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-import './test-util';
-const expect = chai.expect;
-chai.use(chaiSubset);
+import runJsDoc from '../lib/jsdoc-runner'
+import {dump} from '../lib/util'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+import './test-util'
+const expect = chai.expect
+chai.use(chaiSubset)
 
 describe('docs', function() {
     describe('service types', function() {
-        let jsDocRes;
+        let jsDocRes
         beforeEach(() => {
             jsDocRes = runJsDoc({
-                "include": [
-                    "test/service-unknown-types.js"
+                'include': [
+                    'test/service-unknown-types.js'
                 ]
-            });
-        });
+            })
+        })
 
         afterEach(function(){
             if (this.currentTest.state == 'failed') {
-                console.log('the jsDocRes:');
-                dump(jsDocRes);
+                // eslint-disable-next-line no-console
+                console.log('the jsDocRes:')
+                dump(jsDocRes)
             }
-        });
+        })
 
 
         it('should report error on unknown operation types', function() {
@@ -40,16 +41,16 @@ describe('docs', function() {
                 errors: [
                     {
                         message: 'Operation unknownType has an unknown param type Unknown1',
-                        location: 'service-unknown-types.js (10)'
+                        location: 'service-unknown-types.js (11)'
                     },
                     {
                         message: 'Operation unknownType has an unknown return type Unknown2',
-                        location: 'service-unknown-types.js (10)'
+                        location: 'service-unknown-types.js (11)'
                     }
 
                 ]
-            });
-        });
+            })
+        })
 
         it('should report error on unknown message types', function() {
             expect(jsDocRes).to.containSubset({
@@ -69,12 +70,12 @@ describe('docs', function() {
                 errors: [
                     {
                         message: 'Message Type1 has an unknown property type Unknown1',
-                        location: 'service-unknown-types.js (20)'
+                        location: 'service-unknown-types.js (21)'
                     }
 
                 ]
-            });
-        });
+            })
+        })
 
         it('should not report error on function with full type reference', function() {
             expect(jsDocRes).to.containSubset({
@@ -88,9 +89,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-            expect(jsDocRes.errors).to.not.deep.contains('Operation typedefFullPath');
-        });
+            })
+            expect(jsDocRes.errors).to.not.deep.contains('Operation typedefFullPath')
+        })
 
         it('should not report error on function with relative type reference', function() {
             expect(jsDocRes).to.containSubset({
@@ -104,9 +105,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-          expect(jsDocRes.errors).to.not.containError('Operation typedefRelativePath');
-        });
+            })
+          expect(jsDocRes.errors).to.not.containError('Operation typedefRelativePath')
+        })
 
         it('should not report error on function with relative type reference', function() {
             expect(jsDocRes).to.containSubset({
@@ -121,12 +122,12 @@ describe('docs', function() {
                 errors: [
                     {
                         message: 'Property unknownProperty has an unknown type Unknown1',
-                        location: 'service-unknown-types.js (48)'
+                        location: 'service-unknown-types.js (49)'
                     }
                 ]
-            });
-        });
+            })
+        })
 
         // todo extra types
-    });
-});
+    })
+})
