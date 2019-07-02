@@ -1,4 +1,4 @@
-
+/* eslint-disable getter-return */
 
 /**
  * @class ServiceTypes
@@ -105,4 +105,4 @@ class ServiceTypes {
 }
 
 
-export default ServiceTypes;
+export default ServiceTypes

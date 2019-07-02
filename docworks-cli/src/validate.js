@@ -1,19 +1,21 @@
-import runJsDoc from 'docworks-jsdoc2spec';
-import * as defaultLogger from './logger';
+const runJsDoc = require('docworks-jsdoc2spec')
+const defaultLogger = require('./logger')
 
-export default function validate(jsDocSources, plugins, logger) {
-  logger = logger || defaultLogger;
+function validate(jsDocSources, plugins, logger) {
+  logger = logger || defaultLogger
   try {
-    logger.log(`docworks extractDocs ${jsDocSources.include}/**/${jsDocSources.includePattern} --plug ${plugins}`);
-    let serviceModel = runJsDoc(jsDocSources, plugins);
-    let isOk = logger.jsDocErrors(serviceModel.errors);
+    logger.log(`docworks extractDocs ${jsDocSources.include}/**/${jsDocSources.includePattern} --plug ${plugins}`)
+    let serviceModel = runJsDoc(jsDocSources, plugins)
+    let isOk = logger.jsDocErrors(serviceModel.errors)
     if (isOk) {
-      logger.success('jsDoc ok');
+      logger.success('jsDoc ok')
     }
-    return isOk;
+    return isOk
   }
   catch(error) {
-    logger.error('failed to complete workflow\n' + error.stack);
-    throw error;
+    logger.error('failed to complete workflow\n' + error.stack)
+    throw error
   }
 }
+
+module.exports = validate

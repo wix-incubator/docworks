@@ -1,4 +1,4 @@
-
+/* eslint-disable getter-return */
 
 /**
  * @class ServiceProperties
@@ -86,4 +86,4 @@ class ServiceProperties {
 }
 
 
-export default ServiceProperties;
+export default ServiceProperties

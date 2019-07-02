@@ -1,30 +1,30 @@
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-import tern from '../lib/tern-repo';
-import {readFromDir} from 'docworks-repo';
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+import tern from '../lib/tern-repo'
+import {readFromDir} from 'docworks-repo'
 
-chai.use(chaiSubset);
-const expect = chai.expect;
+chai.use(chaiSubset)
+const expect = chai.expect
 
 function urlGenerator(service, member) {
-  let serviceFullName = service.memberOf?`${service.memberOf}.${service.name}`:service.name;
+  let serviceFullName = service.memberOf?`${service.memberOf}.${service.name}`:service.name
   if (member)
-    return `http://www.wix.com/reference/${serviceFullName}.html#${member}`;
+    return `http://www.wix.com/reference/${serviceFullName}.html#${member}`
   else
-    return `http://www.wix.com/reference/${serviceFullName}.html`;
+    return `http://www.wix.com/reference/${serviceFullName}.html`
 }
 
 describe('generate tern', function() {
 
   it('for repo', async function() {
-    let repo = await readFromDir('./test/services');
+    let repo = await readFromDir('./test/services')
 
-    let ternModel = tern(repo.services, 'Wix APIs', urlGenerator);
+    let ternModel = tern(repo.services, 'Wix APIs', urlGenerator)
 
     expect(ternModel).to.containSubset({
-      "!define": {
-        "$w": {
-          "HiddenCollapsedMixin": {
+      '!define': {
+        '$w': {
+          'HiddenCollapsedMixin': {
             '!doc': 'Provides functionality for all elements that can be hidden or collapsed.',
             '!url': 'http://www.wix.com/reference/$w.HiddenCollapsedMixin.html',
             prototype:
@@ -56,7 +56,7 @@ describe('generate tern', function() {
                   { '!type': 'fn() -> +Promise[:t=+void]',
                     '!doc': 'Expands the element and sets its `collapsed` property to `false`.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenCollapsedMixin.html#expand' } } },
-          "HiddenMixin": {
+          'HiddenMixin': {
             '!doc': 'Provides functionality for elements that can be hidden.\n\n To learn about the behavior of a hidden element,\n see the [`hidden`](#hidden) property.',
             '!url': 'http://www.wix.com/reference/$w.HiddenMixin.html',
             prototype:
@@ -76,100 +76,100 @@ describe('generate tern', function() {
                   { '!type': 'fn(animationName: string) -> +Promise[:t=+void]',
                     '!doc': 'Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.',
                     '!url': 'http://www.wix.com/reference/$w.HiddenMixin.html#show' } } },
-          "CollapsedMixin": {
-            "!doc": "Provides functionality for elements that can be collapsed.\n\n To learn about the behavior of a collapsed element,\n see the [`collapsed`](#collapsed) property.",
-            "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html",
-            "prototype": {
-              "collapse": {
-                "!type": "fn() -> +Promise[:t=+void]",
-                "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
-                "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapse"
+          'CollapsedMixin': {
+            '!doc': 'Provides functionality for elements that can be collapsed.\n\n To learn about the behavior of a collapsed element,\n see the [`collapsed`](#collapsed) property.',
+            '!url': 'http://www.wix.com/reference/$w.CollapsedMixin.html',
+            'prototype': {
+              'collapse': {
+                '!type': 'fn() -> +Promise[:t=+void]',
+                '!doc': 'Collapses the element and sets its `collapsed` property to `true`.',
+                '!url': 'http://www.wix.com/reference/$w.CollapsedMixin.html#collapse'
               },
-              "expand": {
-                "!type": "fn() -> +Promise[:t=+void]",
-                "!doc": "Expands the element and sets its `collapsed` property to `false`.",
-                "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#expand"
+              'expand': {
+                '!type': 'fn() -> +Promise[:t=+void]',
+                '!doc': 'Expands the element and sets its `collapsed` property to `false`.',
+                '!url': 'http://www.wix.com/reference/$w.CollapsedMixin.html#expand'
               },
-              "collapsed": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is collapsed or expanded.",
-                "!url": "http://www.wix.com/reference/$w.CollapsedMixin.html#collapsed"
+              'collapsed': {
+                '!type': 'bool',
+                '!doc': 'Indicates if the element is collapsed or expanded.',
+                '!url': 'http://www.wix.com/reference/$w.CollapsedMixin.html#collapsed'
               }
             }
           },
-          "Button": {
-            "!doc": "A text button or an icon button.",
-            "!url": "http://www.wix.com/reference/$w.Button.html",
-            "prototype": {
-              "label": {
-                "!type": "string",
-                "!doc": "Sets or gets the label of a text button.",
-                "!url": "http://www.wix.com/reference/$w.Button.html#label"
+          'Button': {
+            '!doc': 'A text button or an icon button.',
+            '!url': 'http://www.wix.com/reference/$w.Button.html',
+            'prototype': {
+              'label': {
+                '!type': 'string',
+                '!doc': 'Sets or gets the label of a text button.',
+                '!url': 'http://www.wix.com/reference/$w.Button.html#label'
               },
-              "collapse": {
-                "!type": "fn() -> +Promise[:t=+void]",
-                "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
-                "!url": "http://www.wix.com/reference/$w.Button.html#collapse"
+              'collapse': {
+                '!type': 'fn() -> +Promise[:t=+void]',
+                '!doc': 'Collapses the element and sets its `collapsed` property to `true`.',
+                '!url': 'http://www.wix.com/reference/$w.Button.html#collapse'
               },
-              "expand": {
-                "!type": "fn() -> +Promise[:t=+void]",
-                "!doc": "Expands the element and sets its `collapsed` property to `false`.",
-                "!url": "http://www.wix.com/reference/$w.Button.html#expand"
+              'expand': {
+                '!type': 'fn() -> +Promise[:t=+void]',
+                '!doc': 'Expands the element and sets its `collapsed` property to `false`.',
+                '!url': 'http://www.wix.com/reference/$w.Button.html#expand'
               },
-              "collapsed": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is collapsed or expanded.",
-                "!url": "http://www.wix.com/reference/$w.Button.html#collapsed"
+              'collapsed': {
+                '!type': 'bool',
+                '!doc': 'Indicates if the element is collapsed or expanded.',
+                '!url': 'http://www.wix.com/reference/$w.Button.html#collapsed'
               }
             }
           },
-          "Button2": {
-            "!doc": "A text button or an icon button.",
-            "!url": "http://www.wix.com/reference/$w.Button2.html",
-            "prototype": {
-              "label": {
-                "!type": "string",
-                "!doc": "Sets or gets the label of a text button.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#label"
+          'Button2': {
+            '!doc': 'A text button or an icon button.',
+            '!url': 'http://www.wix.com/reference/$w.Button2.html',
+            'prototype': {
+              'label': {
+                '!type': 'string',
+                '!doc': 'Sets or gets the label of a text button.',
+                '!url': 'http://www.wix.com/reference/$w.Button2.html#label'
               },
-              "collapse": {
-                "!type": "fn() -> +Promise[:t=+void]",
-                "!doc": "Collapses the element and sets its `collapsed` property to `true`.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#collapse"
+              'collapse': {
+                '!type': 'fn() -> +Promise[:t=+void]',
+                '!doc': 'Collapses the element and sets its `collapsed` property to `true`.',
+                '!url': 'http://www.wix.com/reference/$w.Button2.html#collapse'
               },
-              "expand": {
-                "!type": "fn() -> +Promise[:t=+void]",
-                "!doc": "Expands the element and sets its `collapsed` property to `false`.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#expand"
+              'expand': {
+                '!type': 'fn() -> +Promise[:t=+void]',
+                '!doc': 'Expands the element and sets its `collapsed` property to `false`.',
+                '!url': 'http://www.wix.com/reference/$w.Button2.html#expand'
               },
-              "collapsed": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is collapsed or expanded.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#collapsed"
+              'collapsed': {
+                '!type': 'bool',
+                '!doc': 'Indicates if the element is collapsed or expanded.',
+                '!url': 'http://www.wix.com/reference/$w.Button2.html#collapsed'
               },
-              "hide": {
-                "!type": "fn(animationName: string) -> +Promise[:t=+void]",
-                "!doc": "Hides the element and sets its `hidden` property\n to `true`, using an animation if specified.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#hide"
+              'hide': {
+                '!type': 'fn(animationName: string) -> +Promise[:t=+void]',
+                '!doc': 'Hides the element and sets its `hidden` property\n to `true`, using an animation if specified.',
+                '!url': 'http://www.wix.com/reference/$w.Button2.html#hide'
               },
-              "show": {
-                "!type": "fn(animationName: string) -> +Promise[:t=+void]",
-                "!doc": "Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#show"
+              'show': {
+                '!type': 'fn(animationName: string) -> +Promise[:t=+void]',
+                '!doc': 'Shows the element and sets its `hidden` property\n to `false`, using an animation if specified.',
+                '!url': 'http://www.wix.com/reference/$w.Button2.html#show'
               },
-              "hidden": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is visible or hidden.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#hidden"
+              'hidden': {
+                '!type': 'bool',
+                '!doc': 'Indicates if the element is visible or hidden.',
+                '!url': 'http://www.wix.com/reference/$w.Button2.html#hidden'
               },
-              "isVisible": {
-                "!type": "bool",
-                "!doc": "Indicates if the element is actually visible.",
-                "!url": "http://www.wix.com/reference/$w.Button2.html#isVisible"
+              'isVisible': {
+                '!type': 'bool',
+                '!doc': 'Indicates if the element is actually visible.',
+                '!url': 'http://www.wix.com/reference/$w.Button2.html#isVisible'
               }
             }
           },
-          "Dropdown": {
+          'Dropdown': {
             '!doc': 'Dropdowns are used for selecting one of a number of options.\n They are especially useful when there are too many options to display using\n [radio buttons]($w.RadioButtonGroup.html). Dropdowns consist of a list\n of [options](#Option). Each [option](#Option) contains a label, which is\n what the user sees, and a value, which is what is used in code and stored in\n you collections.',
             '!url': 'http://www.wix.com/reference/$w.Dropdown.html',
             prototype:
@@ -214,7 +214,7 @@ describe('generate tern', function() {
                     '!url': 'http://www.wix.com/reference/$w.Dropdown.html#Option' } }
           }
         },
-        "callbacks": {
+        'callbacks': {
           '!doc': '',
           '!url': 'http://www.wix.com/reference/callbacks.html',
           prototype:
@@ -236,7 +236,7 @@ describe('generate tern', function() {
             '!doc': '',
             '!url': 'http://www.wix.com/reference/callbacks.html#EventHandler2'
           } },
-        "functions": {
+        'functions': {
           '!doc': '',
           '!url': 'http://www.wix.com/reference/functions.html',
           prototype:
@@ -256,7 +256,7 @@ describe('generate tern', function() {
                 { '!type': 'fn(x: number, y: number) -> +Promise[:t=+void]',
                   '!doc': 'Scrolls the page by a given number of pixels.',
                   '!url': 'http://www.wix.com/reference/functions.html#scrollBy' } } },
-        "properties": {
+        'properties': {
           '!doc': '',
           '!url': 'http://www.wix.com/reference/properties.html',
           prototype:
@@ -285,7 +285,7 @@ describe('generate tern', function() {
                     { '!type': '+wix_storage.Storage',
                       '!doc': 'Used for session storage of data.',
                       '!url': 'http://www.wix.com/reference/wix-underscore-namespace.wix-storage.html#session' } } } } },
-      "!name": "Wix APIs"
-    });
-  });
-});
+      '!name': 'Wix APIs'
+    })
+  })
+})

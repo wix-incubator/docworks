@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars,getter-return */
 
 /**
  * @class ServiceA
@@ -40,5 +40,5 @@ class ServiceA {
   }
 }
 
-export default ServiceA;
+export default ServiceA
 

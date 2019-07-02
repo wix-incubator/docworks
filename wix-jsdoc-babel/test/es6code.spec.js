@@ -1,26 +1,28 @@
-import runJsDoc from 'docworks-jsdoc2spec';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-const expect = chai.expect;
-chai.use(chaiSubset);
+import runJsDoc from 'docworks-jsdoc2spec'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+const expect = chai.expect
+chai.use(chaiSubset)
 
 describe('ES6 Support', function() {
-  let jsDocRes;
+  let jsDocRes
   beforeEach(() => {
     jsDocRes = runJsDoc({
-        "include": [
-          "test/es6code.js"
+        'include': [
+          'test/es6code.js'
         ]
       },
-      ['.']);
-  });
+      ['.'])
+  })
 
   afterEach(function () {
     if (this.currentTest.state == 'failed') {
-      console.log('the jsDocRes:');
-      console.log(require('util').inspect(jsDocRes, {colors: true, depth: 9}));
+      /* eslint-disable no-console */
+      console.log('the jsDocRes:')
+      console.log(require('util').inspect(jsDocRes, {colors: true, depth: 9}))
+      /* eslint-enable no-console */
     }
-  });
+  })
 
   it('should support async functions', function () {
 
@@ -33,8 +35,8 @@ describe('ES6 Support', function() {
           ]
         }
       ]
-    });
-  });
+    })
+  })
 
   it('should support a function with spread operator ...', function () {
 
@@ -52,27 +54,29 @@ describe('ES6 Support', function() {
           ]
         }
       ]
-    });
-  });
-});
+    })
+  })
+})
 
 describe('Class comments', function() {
-  let jsDocRes;
+  let jsDocRes
   beforeEach(() => {
     jsDocRes = runJsDoc({
-        "include": [
-          "test/box.js"
+        'include': [
+          'test/box.js'
         ]
       },
-      ['.']);
-  });
+      ['.'])
+  })
 
   afterEach(function(){
     if (this.currentTest.state == 'failed') {
-      console.log('the jsDocRes:');
-      console.log(require('util').inspect(jsDocRes, {colors: true, depth: 9}));
+      /* eslint-disable no-console */
+      console.log('the jsDocRes:')
+      console.log(require('util').inspect(jsDocRes, {colors: true, depth: 9}))
+      /* eslint-enable no-console */
     }
-  });
+  })
 
 
 // skipped because of a bug in Babel - Babel removes comments from a class body that is empty (except for the comments)
@@ -86,7 +90,7 @@ describe('Class comments', function() {
           ]
         }
       ]
-    });
-  });
+    })
+  })
 
-});
+})

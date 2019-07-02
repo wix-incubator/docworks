@@ -1,11 +1,11 @@
-import trimEnd from 'lodash.trimend';
+import {trimEnd} from 'lodash'
 
 export function stripMargin(string) {
     return string.split('\n')
         .map(line => {
-            let parts = line.split('|');
+            let parts = line.split('|')
             return (parts.length == 2)?parts[1]: parts[0]
         })
         .map(trimEnd)
-        .join('\n');
+        .join('\n')
 }

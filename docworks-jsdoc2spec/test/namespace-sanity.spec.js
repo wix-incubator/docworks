@@ -1,27 +1,28 @@
-import runJsDoc from '../lib/jsdoc-runner';
-import {dump} from '../lib/util';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-const expect = chai.expect;
-chai.use(chaiSubset);
+import runJsDoc from '../lib/jsdoc-runner'
+import {dump} from '../lib/util'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+const expect = chai.expect
+chai.use(chaiSubset)
 
 describe('docs', function() {
     describe('namespace', function() {
-        let jsDocRes;
+        let jsDocRes
         beforeEach(() => {
             jsDocRes = runJsDoc({
-                "include": [
-                    "test/namespace-sanity.js"
+                'include': [
+                    'test/namespace-sanity.js'
                 ]
-            });
-        });
+            })
+        })
 
         afterEach(function(){
             if (this.currentTest.state == 'failed') {
-                console.log('the jsDocRes:');
-                dump(jsDocRes);
+                // eslint-disable-next-line no-console
+                console.log('the jsDocRes:')
+                dump(jsDocRes)
             }
-        });
+        })
 
         it('should return the service for each namespace', function() {
 
@@ -30,8 +31,8 @@ describe('docs', function() {
                     {name: 'aNamespace', memberOf: undefined},
                     {name: 'child', memberOf: 'aNamespace'}
                 ]
-            });
-        });
+            })
+        })
 
         it('should return the service methods', function() {
 
@@ -46,8 +47,8 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-        });
+            })
+        })
 
         it('should return the nested service methods', function() {
 
@@ -60,8 +61,8 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-        });
+            })
+        })
 
         it('should support service messages', function() {
 
@@ -79,7 +80,7 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-        });
-    });
-});
+            })
+        })
+    })
+})

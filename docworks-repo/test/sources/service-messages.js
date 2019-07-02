@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars,getter-return,no-dupe-class-members */
 
 /**
  * @class ServiceMessages
@@ -59,4 +59,4 @@ class ServiceMessages {
 }
 
 
-export default ServiceMessages;
+export default ServiceMessages

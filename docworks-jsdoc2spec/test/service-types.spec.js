@@ -1,40 +1,41 @@
-import runJsDoc from '../lib/jsdoc-runner';
-import {dump} from '../lib/util';
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
-import {inspect} from 'util';
-import './test-util';
-const expect = chai.expect;
-chai.use(chaiSubset);
+import runJsDoc from '../lib/jsdoc-runner'
+import {dump} from '../lib/util'
+import chai from 'chai'
+import chaiSubset from 'chai-subset'
+import {inspect} from 'util'
+import './test-util'
+const expect = chai.expect
+chai.use(chaiSubset)
 
 chai.Assertion.addMethod('hasError', function(error) {
     if (!this._obj)
-        throw new Error('expected hasError to get an array of errors');
-    let found = this._obj.find((_) => _.message.indexOf(error) >=0);
+        throw new Error('expected hasError to get an array of errors')
+    let found = this._obj.find((_) => _.message.indexOf(error) >=0)
     this.assert(
         !!found,
         `expected errors to contain an error with ${error}\nErrors:\n${inspect(this._obj, {colors: true, depth: 5})}`,
         `expected errors to not contain an error with ${error}\nErrors:\n${inspect(this._obj, {colors: true, depth: 5})}`
-    );
-});
+    )
+})
 
 describe('docs', function() {
     describe('service types', function() {
-        let jsDocRes;
+        let jsDocRes
         beforeEach(() => {
             jsDocRes = runJsDoc({
-                "include": [
-                    "test/service-types.js"
+                'include': [
+                    'test/service-types.js'
                 ]
-            });
-        });
+            })
+        })
 
         afterEach(function(){
             if (this.currentTest.state == 'failed') {
-                console.log('the jsDocRes:');
-                dump(jsDocRes);
+                // eslint-disable-next-line no-console
+                console.log('the jsDocRes:')
+                dump(jsDocRes)
             }
-        });
+        })
 
 
         it('should support string type', function() {
@@ -47,9 +48,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-          expect(jsDocRes.errors).to.not.containError('Property aString');
-        });
+            })
+          expect(jsDocRes.errors).to.not.containError('Property aString')
+        })
 
         it('should support String as string type', function() {
             expect(jsDocRes).to.containSubset({
@@ -61,9 +62,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-          expect(jsDocRes.errors).to.not.containError('Property aString2');
-        });
+            })
+          expect(jsDocRes.errors).to.not.containError('Property aString2')
+        })
 
         it('should support number type', function() {
             expect(jsDocRes).to.containSubset({
@@ -75,9 +76,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-          expect(jsDocRes.errors).to.not.containError('Property aNumber');
-        });
+            })
+          expect(jsDocRes.errors).to.not.containError('Property aNumber')
+        })
 
         it('should support Number as number type', function() {
             expect(jsDocRes).to.containSubset({
@@ -89,9 +90,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-          expect(jsDocRes.errors).to.not.containError('Property aNumber2');
-        });
+            })
+          expect(jsDocRes.errors).to.not.containError('Property aNumber2')
+        })
 
         it('should support boolean type', function() {
             expect(jsDocRes).to.containSubset({
@@ -103,9 +104,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-          expect(jsDocRes.errors).to.not.containError('Property aBoolean');
-        });
+            })
+          expect(jsDocRes.errors).to.not.containError('Property aBoolean')
+        })
 
         it('should support Boolean as boolean type', function() {
             expect(jsDocRes).to.containSubset({
@@ -117,9 +118,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-          expect(jsDocRes.errors).to.not.containError('Property aBoolean2');
-        });
+            })
+          expect(jsDocRes.errors).to.not.containError('Property aBoolean2')
+        })
 
         it('should support date type', function() {
             expect(jsDocRes).to.containSubset({
@@ -131,9 +132,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-            expect(jsDocRes.errors).to.not.containError('Property aDate');
-        });
+            })
+            expect(jsDocRes.errors).to.not.containError('Property aDate')
+        })
 
         it('should support union type defined as string | number', function() {
             expect(jsDocRes).to.containSubset({
@@ -145,9 +146,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-            expect(jsDocRes.errors).to.not.containError('Property union');
-        });
+            })
+            expect(jsDocRes.errors).to.not.containError('Property union')
+        })
 
         it('should support array type defined as string[]', function() {
             expect(jsDocRes).to.containSubset({
@@ -159,9 +160,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-            expect(jsDocRes.errors).to.not.containError('Property anArray');
-        });
+            })
+            expect(jsDocRes.errors).to.not.containError('Property anArray')
+        })
 
         it('should support array type defined as Array.<string>', function() {
             expect(jsDocRes).to.containSubset({
@@ -173,9 +174,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-            expect(jsDocRes.errors).to.not.containError('Property anArray2');
-        });
+            })
+            expect(jsDocRes.errors).to.not.containError('Property anArray2')
+        })
 
         it('should support multi-dimentional arrays', function() {
             expect(jsDocRes).to.containSubset({
@@ -187,9 +188,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-            expect(jsDocRes.errors).to.not.containError('Operation multiDimArray');
-        });
+            })
+            expect(jsDocRes.errors).to.not.containError('Operation multiDimArray')
+        })
 
         it('should support Promise of array', function() {
             expect(jsDocRes).to.containSubset({
@@ -201,9 +202,9 @@ describe('docs', function() {
                         ]
                     }
                 ]
-            });
-            expect(jsDocRes.errors).to.not.containError('Operation promiseArray');
-        });
+            })
+            expect(jsDocRes.errors).to.not.containError('Operation promiseArray')
+        })
 
-    });
-});
+    })
+})

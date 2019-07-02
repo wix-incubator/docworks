@@ -12,4 +12,4 @@ class ServiceClassDesc {
 }
 
 
-export default ServiceClassDesc;
+export default ServiceClassDesc

@@ -1,42 +1,36 @@
-var path = require("path");
+/* eslint-disable */
+
+'use strict'
+const someJSdocInternalModule = require.resolve('jsdoc/lib/jsdoc/app.js', './')
+const runtimePath = require.resolve('jsdoc/lib/jsdoc/util/runtime', './')
+
+const jsdocRoot = someJSdocInternalModule.replace('lib/jsdoc/app.js', '')
+const jsdocLib = [jsdocRoot, 'lib'].join('')
+const internalJsdoc = [jsdocLib, 'jsdoc'].join('')
+
+const extraPaths = [internalJsdoc, jsdocLib, jsdocRoot]
+
 var ogRequire = require;
+const requizzle = require('requizzle')
+require = requizzle({
+  requirePaths: extraPaths,
+  infect: true
+})
 
-(function(args) {
-    'use strict';
-    if(args[0] && typeof args[0] === 'object') {
-        var targetPath = ogRequire.resolve('jsdoc/lib/jsdoc/app.js');
-        var rootPath = targetPath.replace('lib/jsdoc/app.js', '');
+const jsdocPath = jsdocRoot
+// const pwd = __dirname
+const pwd = process.cwd()
 
-      // we should be on Node.js
-      args = [rootPath, process.cwd()];
-        require = require('requizzle')({
-            requirePaths: {
-                before: [targetPath.replace('jsdoc/app.js', '')],
-                after: [path.join(rootPath, 'node_modules')]
-            },
-            infect: true
-        });
-    }
-  require(ogRequire.resolve('jsdoc/lib/jsdoc/util/runtime')).initialize(args);
-})(Array.prototype.slice.call(arguments, 0));
+require(runtimePath).initialize([jsdocPath, pwd])
 
-const env = (function() {
-    'use strict';
-  const env = require(ogRequire.resolve('jsdoc/lib/jsdoc/env'));
-  env.dirname = path.resolve(ogRequire.resolve('jsdoc/lib/jsdoc/env'), '../../../');
-  return env;
-})();
+const env = require('jsdoc/lib/jsdoc/env')
+const cli = require('jsdoc/cli')
 
-const app = (function() {
-    'use strict';
-    return require(ogRequire.resolve('jsdoc/lib/jsdoc/app'));
-})();
+require = ogRequire
 
-var cli = require(ogRequire.resolve('jsdoc/cli'));
-
-export default {
-    env: env,
-    app: app,
-    cli: cli
+module.exports = {
+    env,
+    cli
 }
 
+/* eslint-enable */

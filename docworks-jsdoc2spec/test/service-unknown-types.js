@@ -1,3 +1,4 @@
+/* eslint-disable getter-return */
 
 
 /**
@@ -56,4 +57,4 @@ class ServiceUnknownTypes {
 }
 
 
-export default ServiceUnknownTypes;
+export default ServiceUnknownTypes

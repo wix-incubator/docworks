@@ -1,9 +1,9 @@
-import Element from 'ui/Element';
-import HiddenCollapsedMixin from './mixins/HiddenCollapsedMixin';
-import ClickableMixin from './mixins/ClickableMixin';
-import ContainableMixin from './mixins/ContainableMixin';
-import mixin from 'privates/utils/mixin';
-import StyleMixin from './mixins/styleMixins/StyleMixin';
+import Element from 'ui/Element'
+import HiddenCollapsedMixin from './mixins/HiddenCollapsedMixin'
+import ClickableMixin from './mixins/ClickableMixin'
+import ContainableMixin from './mixins/ContainableMixin'
+import mixin from 'privates/utils/mixin'
+import StyleMixin from './mixins/styleMixins/StyleMixin'
 
 /**
  * @class Box
@@ -47,9 +47,9 @@ class Box extends Element {
 
 }
 
-mixin(Box.prototype, HiddenCollapsedMixin.prototype);
-mixin(Box.prototype, ClickableMixin.prototype);
-mixin(Box.prototype, ContainableMixin.prototype);
-mixin(Box.prototype, StyleMixin.prototype);
+mixin(Box.prototype, HiddenCollapsedMixin.prototype)
+mixin(Box.prototype, ClickableMixin.prototype)
+mixin(Box.prototype, ContainableMixin.prototype)
+mixin(Box.prototype, StyleMixin.prototype)
 
-export default Box;
+export default Box
