@@ -1,6 +1,6 @@
 {
   "name": "wix-note",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -12,8 +12,8 @@
   "author": "Yoav Abrahami",
   "license": "ISC",
   "dependencies": {
-    "docworks-jsdoc2spec": "^1.8.3",
-    "docworks-repo": "^1.8.3"
+    "docworks-jsdoc2spec": "^1.8.4",
+    "docworks-repo": "^1.8.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
