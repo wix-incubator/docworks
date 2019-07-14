@@ -1,6 +1,6 @@
 {
   "name": "docworks-jsdoc2spec",
-  "version": "1.6.4",
+  "version": "1.8.3",
   "description": "extractor for jsdoc apis to api spec",
   "main": "lib/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "Yoav Abrahami",
   "license": "ISC",
   "dependencies": {
-    "docworks-model": "^1.6.4",
+    "docworks-model": "^1.8.3",
     "intercept-stdout": "^0.1.2",
     "jsdoc": "3.4.0",
     "lodash.isequal": "^4.5.0",

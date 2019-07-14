@@ -1,6 +1,6 @@
 {
   "name": "wix-event-type",
-  "version": "1.6.5",
+  "version": "1.8.3",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -12,9 +12,9 @@
   "author": "Yoav Abrahami",
   "license": "ISC",
   "dependencies": {
-    "docworks-jsdoc2spec": "^1.6.4",
-    "docworks-repo": "^1.6.4",
-    "docworks-tern": "^1.6.5"
+    "docworks-jsdoc2spec": "^1.8.3",
+    "docworks-repo": "^1.8.3",
+    "docworks-tern": "^1.8.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -25,7 +25,7 @@
     "babel-register": "^6.24.1",
     "chai": "^3.5.0",
     "chai-subset": "^1.5.0",
-    "mocha": "^3.3.0",
-    "eslint": "^6.0.1"
+    "eslint": "^6.0.1",
+    "mocha": "^3.3.0"
   }
 }
