@@ -6,5 +6,4 @@ dist
 **/tmp
 *.iml
 lerna-debug.log
-docworks-cli/.bin/*
 docworks/public-docs

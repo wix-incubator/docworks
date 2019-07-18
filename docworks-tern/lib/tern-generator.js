@@ -1,4 +1,4 @@
-import {runPlugins} from './plugins';
+const {runPlugins} = require('./plugins')
 
 const builtInTypes = {
   'string': 'string',
@@ -6,152 +6,161 @@ const builtInTypes = {
   'number': 'number',
   'Object': 'obj',
   'Date': '+Date' // date is redundant here - it is only here for clarity
-};
+}
 
-export function typeTern(type) {
+function typeTern(type) {
   if (typeof type === 'string') {
     if (builtInTypes[type])
-      return builtInTypes[type];
+      return builtInTypes[type]
     else
-      return `+${validTernName(type)}`;
+      return `+${validTernName(type)}`
   }
   else if (typeof type === 'object' && type.name) {
     if (type.name === 'Array') {
-      return `[${typeTern(type.typeParams[0])}]`;
+      return `[${typeTern(type.typeParams[0])}]`
     }
     else if (type.name === 'Promise') {
-      return `+Promise[:t=${typeTern(type.typeParams[0])}]`;
+      return `+Promise[:t=${typeTern(type.typeParams[0])}]`
     }
   }
   else if (Array.isArray(type) && type.length > 0) {
-    return typeTern(type[0]);  
+    return typeTern(type[0])
   }
 }
 
-export function validTernName(name) {
-  return name.replace(/[^\w$<>\.:!]/g, '_');
+function validTernName(name) {
+  return name.replace(/[^\w$<>.:!]/g, '_')
 }
 
 function trimPara(text) {
   if(text) {
-    return text.trim().replace(/<(?:.|\n)*?>/gm, '');
+    return text.trim().replace(/<(?:.|\n)*?>/gm, '')
   }
-  return '';
+  return ''
 }
 
-export function propTern(service, prop, urlGenerator, plugins) {
-  let tern = {};
-  const propName = validTernName(prop.name);
+function propTern(service, prop, urlGenerator, plugins) {
+  let tern = {}
+  const propName = validTernName(prop.name)
   tern[propName] = {
-      "!type": typeTern(prop.type),
-      "!doc": trimPara(prop.docs.summary),
-      "!url": urlGenerator(service, propName)
-    };
+      '!type': typeTern(prop.type),
+      '!doc': trimPara(prop.docs.summary),
+      '!url': urlGenerator(service, propName)
+    }
 
-  const propPath = `${service.name}.${propName}`;
-  runPlugins(plugins, 'ternProperty', prop.extra, tern[propName], propPath);
+  const propPath = `${service.name}.${propName}`
+  runPlugins(plugins, 'ternProperty', prop.extra, tern[propName], propPath)
 
-  return tern;
+  return tern
 }
 
 function complexType(typeName) {
-  return typeof typeName !== 'string';
+  return typeof typeName !== 'string'
 }
 
 function formatFunctionTern(operation, findCallback) {
-  let params = '';
+  let params = ''
   if (operation.params && operation.params.length)
     params = operation.params.map(param => {
-      let callback = !builtInTypes[param.type] && !complexType(param.type) && findCallback(param.type);
+      let callback = !builtInTypes[param.type] && !complexType(param.type) && findCallback(param.type)
       if (callback)
-        return `${validTernName(param.name)}: ${validTernName(param.type)}`;
+        return `${validTernName(param.name)}: ${validTernName(param.type)}`
       else
         return `${validTernName(param.name)}: ${typeTern(param.type)}`
-    }).join(', ');
+    }).join(', ')
 
-  let ret = '';
+  let ret = ''
   if (operation.ret && operation.ret.type !== 'void')
-    ret = ` -> ${typeTern(operation.ret.type)}`;
+    ret = ` -> ${typeTern(operation.ret.type)}`
 
-  return `fn(${params})${ret}`;
+  return `fn(${params})${ret}`
 }
 
-export function operationTern(service, operation, urlGenerator, findCallback, plugins) {
-  let tern = {};
+function operationTern(service, operation, urlGenerator, findCallback, plugins) {
+  let tern = {}
 
-  const operationName = validTernName(operation.name);
+  const operationName = validTernName(operation.name)
   tern[operationName] = {
-    "!type": formatFunctionTern(operation, findCallback),
-    "!doc": trimPara(operation.docs.summary),
-    "!url": urlGenerator(service, operationName)
-  };
+    '!type': formatFunctionTern(operation, findCallback),
+    '!doc': trimPara(operation.docs.summary),
+    '!url': urlGenerator(service, operationName)
+  }
 
-  const operationPath = `${service.name}.${operationName}`;
-  runPlugins(plugins, 'ternOperation', operation.extra, tern[operationName], operationPath);
+  const operationPath = `${service.name}.${operationName}`
+  runPlugins(plugins, 'ternOperation', operation.extra, tern[operationName], operationPath)
 
-  return tern;
+  return tern
 }
 
-export function messageTern(service, message, urlGenerator, plugins) {
-  let tern = {};
+function messageTern(service, message, urlGenerator, plugins) {
+  let tern = {}
 
-  const messageName = validTernName(message.name);
-  const messageUrl = urlGenerator(service, messageName);
+  const messageName = validTernName(message.name)
+  const messageUrl = urlGenerator(service, messageName)
   tern[messageName] = {
-    "!doc": trimPara(message.docs.summary),
-    "!url": messageUrl
-  };
+    '!doc': trimPara(message.docs.summary),
+    '!url': messageUrl
+  }
 
   message.members.forEach(member => {
     tern[messageName][validTernName(member.name)] = {
-       "!type": typeTern(member.type),
-       "!doc": trimPara(member.docs),
-       "!url": messageUrl
+       '!type': typeTern(member.type),
+       '!doc': trimPara(member.docs),
+       '!url': messageUrl
      }
-  });
+  })
 
-  const messagePath = `${service.name}.${messageName}`;
-  runPlugins(plugins, 'ternMessage', message.extra, tern[messageName], messagePath);
+  const messagePath = `${service.name}.${messageName}`
+  runPlugins(plugins, 'ternMessage', message.extra, tern[messageName], messagePath)
 
 
-  return tern;
+  return tern
 }
 
-export function ternService(service, urlGenerator, findCallback, findMixin, plugins) {
-  let tern = {};
+function ternService(service, urlGenerator, findCallback, findMixin, plugins) {
+  let tern = {}
 
-  const serviceName = validTernName(service.name);
+  const serviceName = validTernName(service.name)
   tern[serviceName] = {
-    "!doc": trimPara(service.docs.summary),
-    "!url": urlGenerator(service)
-  };
+    '!doc': trimPara(service.docs.summary),
+    '!url': urlGenerator(service)
+  }
 
-  let parentServices = [service];
+  let parentServices = [service]
   let gatherMixes = mix => {
-    let mixinService = findMixin(mix);
+    let mixinService = findMixin(mix)
     if (mixinService) {
-      parentServices.unshift(mixinService);
-      mixinService.mixes.forEach(gatherMixes);
+      parentServices.unshift(mixinService)
+      mixinService.mixes.forEach(gatherMixes)
     }
-  };
-  service.mixes.forEach(gatherMixes);
+  }
+  service.mixes.forEach(gatherMixes)
 
-  let servicePrototype = tern[serviceName]["prototype"] = {};
+  let servicePrototype = tern[serviceName]['prototype'] = {}
 
   parentServices.forEach(parentService => {
     parentService.properties.forEach(prop => {
-      Object.assign(servicePrototype, propTern(service, prop,urlGenerator, plugins));
-    });
+      Object.assign(servicePrototype, propTern(service, prop,urlGenerator, plugins))
+    })
     parentService.operations.forEach(operation => {
-      Object.assign(servicePrototype, operationTern(service, operation, urlGenerator, findCallback, plugins));
-    });
-  });
+      Object.assign(servicePrototype, operationTern(service, operation, urlGenerator, findCallback, plugins))
+    })
+  })
   service.callbacks.forEach(callback => {
-    Object.assign(tern[serviceName], operationTern(service, callback, urlGenerator, findCallback, plugins));
-  });
+    Object.assign(tern[serviceName], operationTern(service, callback, urlGenerator, findCallback, plugins))
+  })
   service.messages.forEach(message => {
-    Object.assign(tern[serviceName], messageTern(service, message,urlGenerator, plugins));
-  });
+    Object.assign(tern[serviceName], messageTern(service, message,urlGenerator, plugins))
+  })
 
-  return tern;
+  return tern
+}
+
+module.exports = {
+  typeTern,
+  validTernName,
+  propTern,
+  operationTern,
+  messageTern,
+  ternService
 }

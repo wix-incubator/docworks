@@ -1,4 +1,4 @@
-
+/* eslint-disable getter-return,no-unused-vars */
 
 /**
  * @class ServiceMessages
@@ -91,4 +91,4 @@ class ServiceMessages {
 }
 
 
-export default ServiceMessages;
+export default ServiceMessages

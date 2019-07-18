@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars */
 
 /**
  * @namespace aNamespace
@@ -38,6 +38,6 @@ const namespace = {
 
         }
     }
-};
+}
 
-export default namespace;
+export default namespace

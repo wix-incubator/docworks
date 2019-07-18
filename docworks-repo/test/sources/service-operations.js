@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars */
 
 /**
  * @class ServiceOperations
@@ -141,4 +141,4 @@ class ServiceOperations {
 }
 
 
-export default ServiceOperations;
+export default ServiceOperations

@@ -4,7 +4,7 @@ exports.defineTags = function(dictionary) {
     canHaveType: false,
     canHaveName : true,
     onTagged: function(doclet, tag) {
-      doclet.summary = tag.text;
+      doclet.summary = tag.text
     }
-  });
-};
+  })
+}

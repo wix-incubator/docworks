@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars,getter-return */
 
 /**
  * @class ServiceDocs
@@ -80,4 +80,4 @@ class ServiceDocs {
 }
 
 
-export default ServiceDocs;
+export default ServiceDocs

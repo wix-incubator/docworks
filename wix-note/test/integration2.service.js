@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * @class Service
  * @summary A test service
@@ -35,4 +36,4 @@ class Service {
   }
 }
 
-export default Service;
+export default Service

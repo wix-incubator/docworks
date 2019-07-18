@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars */
 
 /**
  * @class ServiceCallbacks
@@ -93,4 +93,4 @@ class ServiceCallbacks {
 }
 
 
-export default ServiceCallbacks;
+export default ServiceCallbacks

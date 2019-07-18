@@ -1,7 +1,7 @@
-import chai from 'chai';
-const expect = chai.expect;
-import {toJson, fromJson} from '../src/index';
-import {stripMargin} from './util';
+import chai from 'chai'
+const expect = chai.expect
+import {toJson, fromJson} from '../src/index'
+import {stripMargin} from './util'
 
 describe('to and from Json', function() {
 
@@ -11,15 +11,15 @@ describe('to and from Json', function() {
             z: 5,
             text: stripMargin(`this is the first line
             |this is the second line`)
-        };
+        }
         var spec = {
             z: {pos: 1},
             a: {pos: 2},
             text: {pos: 3, multiLine:true}
-        };
-        let json = toJson(obj, 2, spec);
-        let obj2 = fromJson(json, spec);
+        }
+        let json = toJson(obj, 2, spec)
+        let obj2 = fromJson(json, spec)
 
-        expect(obj2).to.deep.equal(obj);
-    });
-});
+        expect(obj2).to.deep.equal(obj)
+    })
+})

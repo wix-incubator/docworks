@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars,getter-return */
 
 /**
  * @class ServiceC
@@ -39,5 +39,5 @@ class ServiceC {
   }
 }
 
-export default ServiceC;
+export default ServiceC
 
