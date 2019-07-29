@@ -2,20 +2,10 @@ const tern = require('docworks-tern')
 const fs = require('fs')
 const fsExtra = require('fs-extra')
 const {readFromDir} = require('docworks-repo')
+const {writeOutput} = require('./utils/fsUtil')
 const defaultLogger = require('./logger')
 const Git = require('./git')
 const tmp = require('tmp-promise')
-
-function writeOutput(outputFileName, ternFileContent) {
-  return new Promise((fulfill, reject) => {
-    fs.writeFile(outputFileName, ternFileContent, {}, (err) => {
-      if (err)
-        reject(err)
-      else
-        fulfill()
-    })
-  })
-}
 
 async function runTern(remote, local, baseUrl, apiName, outputFileName, plugins, logger) {
   logger = logger || defaultLogger

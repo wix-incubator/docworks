@@ -1,7 +1,5 @@
-"use strict";
+'use strict'
 
-import dts from './dts-generator';
+const dts = require('./dts-repo')
 
-export default function runDts(services) {
-    return dts(services);
-}
+module.exports = dts

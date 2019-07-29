@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/docworks.js",
   "scripts": {
-    "lint": "echo --- running lint --- && eslint src test",
+    "lint": "echo --- running lint --- && eslint src test --fix",
     "prepublish": "npm run build",
     "build": "npm run lint",
     "test": "mocha test/**/*.spec.js --compilers js:babel-core/register --require babel-polyfill"

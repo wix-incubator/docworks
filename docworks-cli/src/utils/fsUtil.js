@@ -1,7 +1,8 @@
 'use strict'
-const fs = require('fs-extra')
+const fsExtra = require('fs-extra')
+const fs = require('fs')
 
-const isFile = path => path && fs.statSync(path).isFile()
+const isFile = path => path && fsExtra.statSync(path).isFile()
 const not = func => value => !func(value)
 const isNotFile = not(isFile)
 
@@ -9,13 +10,13 @@ function getAllFilesInDirSync(path) {
     if (!path) {
         return []
     }
-    const fsStat = fs.statSync(path)
+    const fsStat = fsExtra.statSync(path)
     if (fsStat.isFile()) {
         return [path]
     }
     let result = []
     if (fsStat.isDirectory()) {
-        const items = fs.readdirSync(path).map(fileName => `${path}/${fileName}`)
+        const items = fsExtra.readdirSync(path).map(fileName => `${path}/${fileName}`)
         const directoryFiles = items.filter(isFile)
         result = result.concat(directoryFiles)
         const subDirectories = items.filter(isNotFile)
@@ -27,6 +28,18 @@ function getAllFilesInDirSync(path) {
     return result
 }
 
+function writeOutput(outputFileName, fileContent) {
+    return new Promise((fulfill, reject) => {
+        fs.writeFile(outputFileName, fileContent, {}, (err) => {
+            if (err)
+                reject(err)
+            else
+                fulfill()
+        })
+    })
+}
+
 module.exports = {
-    getAllFilesInDirSync
+    getAllFilesInDirSync,
+    writeOutput
 }

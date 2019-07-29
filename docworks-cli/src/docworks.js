@@ -255,4 +255,4 @@ function docworks() {
 }
 }
 
-module.exports = docworks
+module.exports = docworks()
