@@ -64,4 +64,26 @@ describe('saveToFiles', function() {
     let res = await readFromDir('./non-existing')
     expect(res.services).to.deep.equal([])
   })
+
+  describe('saved JSON structure', () => {
+    describe('Service Schema', () => {
+      it('should verify the existence of the "description" property as a String array', async function() {
+        let jsDocRes = runJsDoc({
+          'include': [
+            'test/sources/service-docs.js'
+          ],
+          'includePattern': '.+\\.(js)?$',
+        })
+
+        const files = await saveToDir('tmp', jsDocRes.services)
+
+        expect(file('tmp/aNamespace/ServiceDocs.service.json')).to.exist
+        expect(files).to.have.lengthOf(1)
+
+        const serviceJSONFile = fs.readJsonSync(`./tmp/${files[0]}`)
+        const failureMsg = 'description property according to Service schema needs to be an Array'
+        expect(Array.isArray(serviceJSONFile.docs.description), failureMsg).to.equal(true)
+      })
+    })
+  })
 })

@@ -63,6 +63,9 @@ const serviceSpec = createOrderedPropertiesPosObj([
     'callbacks',
     'messages',
     'extra'], {
+    location: Object.assign({orderBy: 'name'}, locationSpec),
+    docs: Object.assign({orderBy: 'name'}, docSpec),
+    srcDocs: Object.assign({orderBy: 'name'}, docSpec),
     properties: Object.assign({orderBy: 'name'}, propertySpec),
     operations: Object.assign({orderBy: 'name'}, operationSpec),
     callbacks: Object.assign({orderBy: 'name'}, operationSpec),
