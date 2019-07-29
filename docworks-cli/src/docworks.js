@@ -5,7 +5,6 @@ const validate = require('./validate')
 const optimist = require('optimist')
 const {resolveAndInitPlugins} = require('./plugins')
 const runTern = require('./run-tern')
-const runDts = require('./run-dts')
 
 function docworks() {
   if (process.argv.length < 3) {
@@ -23,9 +22,6 @@ function docworks() {
   }
   else if (command === 'tern') {
     tern()
-  }
-  else if (command === 'dts') {
-      dts()
   }
   else if (command === 'local') {
       ldw()
@@ -158,46 +154,6 @@ function docworks() {
       })
   }
 
-    function dts() {
-        const cmdDefinition = optimist
-            // .usage('Usage: $0 tern (-r [remote repo] | -s [services repo] ) -u [base url] -n [api name] -o [output file]')
-            .usage('Usage: $0 dts (-o [output file]')
-            // .alias(   'r', 'remote')
-            // .describe('r', 'remote repository to read docworks services files from')
-            // .alias(   'l', 'local')
-            // .describe('l', 'folder containing docwork service files')
-            // .demand(  'u')
-            // .alias(   'u', 'url')
-            // .describe('u', 'base url for the urls generated in dts')
-            // .demand(  'n')
-            // .alias(   'n', 'name')
-            // .describe('n', 'API name')
-            .demand(  'o')
-            .alias(   'o', 'out')
-            .describe('o', 'output file')
-            // .describe('plug', 'a module name that is a docworks dts plugin')
-        let argv = cmdDefinition
-            .argv
-
-        // let remote = argv.remote
-        // let local = argv.local
-        // let baseUrl = argv.url
-        // let apiName = argv.name
-        let outputFileName = argv.out
-        // let plugins = resolveAndInitPlugins(argv.plug)
-
-        // if (!remote && !local || (!!remote && !!local)) {
-        //     // eslint-disable-next-line no-console
-        //     console.log(cmdDefinition.help())
-        //     process.exit(1)
-        // }
-
-        return runDts(outputFileName)
-            .catch(() => {
-                process.exit(1)
-            })
-    }
-
   function ldw() {
     let argv = optimist
         .usage('Usage: $0 local -r [remote repo] -d [local directory] -fs [local sources] -fp [file pattern] -p [project name] [-ed [enrichment docs directory]] [--plug [plugin]]')
@@ -255,4 +211,4 @@ function docworks() {
 }
 }
 
-module.exports = docworks()
+module.exports = docworks

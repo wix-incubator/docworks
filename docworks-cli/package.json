@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/docworks.js",
   "scripts": {
-    "lint": "echo --- running lint --- && eslint src test --fix",
+    "lint": "echo --- running lint --- && eslint src test",
     "prepublish": "npm run build",
     "build": "npm run lint",
     "test": "mocha test/**/*.spec.js --compilers js:babel-core/register --require babel-polyfill"
@@ -17,7 +17,6 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "chalk": "^2.3.0",
-    "docworks-dts": "^1.0.0",
     "docworks-jsdoc2spec": "^1.8.4",
     "docworks-repo": "^1.8.5",
     "docworks-tern": "^1.8.5",
