@@ -12,21 +12,21 @@ describe('convert docworks to dts', () => {
     describe('services', () => {
         test('should convert service to module if it is the root(does not have memberOf value)', () => {
             const dts = getDtsForServiceByPath('./services/wix-crm.service.json')
-            const expectedDeceleration = 'declare module \'wix-crm\''
+            const expectedDeceleration = 'declare module \'wix-crm\' {'
 
             expect(dts).toContain(expectedDeceleration)
         })
 
         test('should convert service to interface if it is not the root(has memberOf value)', () => {
             const dts = getDtsForServiceByPath('./services/StyleMixin.service.json')
-            const expectedDeceleration = 'interface StyleMixin'
+            const expectedDeceleration = 'interface StyleMixin {'
 
             expect(dts).toContain(expectedDeceleration)
         })
 
         test('should convert service parent(memberOf) to a namespace', () => {
             const dts = getDtsForServiceByPath('./services/StyleMixin.service.json')
-            const expectedDeceleration = 'declare namespace $w'
+            const expectedDeceleration = 'declare namespace $w {'
 
             expect(dts).toContain(expectedDeceleration)
         })
@@ -54,9 +54,10 @@ describe('convert docworks to dts', () => {
             test('should convert to read-write property', () => {
                 const dts = getDtsForServiceByPath('./services/RequiredMixin.service')
                 const expectedDeceleration = 'required: boolean;'
+                const unexpectedDeceleration = 'readonly required: boolean;'
 
                 expect(dts).toContain(expectedDeceleration)
-                expect(dts).not.toContain('readonly')
+                expect(dts).not.toContain(unexpectedDeceleration)
             })
         })
 
@@ -100,7 +101,7 @@ describe('convert docworks to dts', () => {
         describe('module', () => {
             test('should declare namespace with the same service name', () => {
                 const dts = getDtsForServiceByPath('./services/wix-crm.service.json')
-                const expectedDeceleration = 'declare namespace wix_crm'
+                const expectedDeceleration = 'declare namespace wix_crm {'
 
                 expect(dts).toContain(expectedDeceleration)
             })
@@ -165,7 +166,7 @@ describe('convert docworks to dts', () => {
         describe('module', () => {
             test('should declare namespace with the same service name', () => {
                 const dts = getDtsForServiceByPath('./services/wix-users.service.json')
-                const expectedDeceleration = 'declare namespace wix_users'
+                const expectedDeceleration = 'declare namespace wix_users {'
 
                 expect(dts).toContain(expectedDeceleration)
             })
