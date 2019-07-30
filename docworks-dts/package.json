@@ -14,9 +14,6 @@
     "dts-dom": "^3.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "babel-jest": "^24.8.0",
     "docworks-repo": "^1.8.4",
     "eslint": "^6.0.1",
     "jest": "^24.8.0"
