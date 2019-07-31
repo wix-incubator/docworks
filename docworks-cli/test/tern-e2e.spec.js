@@ -7,14 +7,14 @@ import {createRemoteOnVer1, runCommand} from './test-utils'
 chai.use(chaiSubset)
 const expect = chai.expect
 
-describe('tern workflow e2e', function() {
+describe('tern workflow e2e', function () {
 
   beforeEach(() => {
     logger.reset()
     fsExtra.removeSync('./tmp')
   })
 
-  afterEach(function(){
+  afterEach(function () {
     if (this.currentTest.err && this.currentTest.err.stack) {
       let stack = this.currentTest.err.stack
       let lines = stack.split('\n')
@@ -23,7 +23,7 @@ describe('tern workflow e2e', function() {
     }
   })
 
-  it('generate tern from a remote repo', async function() {
+  it('generate tern from a remote repo', async function () {
     const remote = './tmp/remote'
     await createRemoteOnVer1(remote)
     logger.log('run test')
@@ -52,7 +52,7 @@ describe('tern workflow e2e', function() {
     )
   })
 
-  it('generate tern from a remote repo with a tern plugin', async function() {
+  it('generate tern from a remote repo with a tern plugin', async function () {
     const remote = './tmp/remote'
     await createRemoteOnVer1(remote)
     logger.log('run test')
