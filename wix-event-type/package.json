@@ -1,6 +1,6 @@
 {
   "name": "wix-event-type",
-  "version": "1.8.5",
+  "version": "1.9.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -13,8 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "docworks-jsdoc2spec": "^1.8.4",
-    "docworks-repo": "^1.8.5",
-    "docworks-tern": "^1.8.5"
+    "docworks-repo": "^1.9.0",
+    "docworks-tern": "^1.9.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
