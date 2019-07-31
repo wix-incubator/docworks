@@ -64,61 +64,71 @@ function ensureNamespace(namespaces, name) {
     return namespace
 }
 
+function handleServiceAsModule(service, modules, namespaces){
+    const serviceName = service.name
+
+    if(modules[serviceName]){
+        throw new Error(`Module ${serviceName} already defined`)
+    }
+    const module = convertServiceToModule(service)
+    if(module.members.length > 0) {
+        modules[serviceName] = module
+    }
+
+    const messages = service.messages
+    const callbacks = service.callbacks
+
+    if (messages.length > 0 || callbacks.length > 0){
+        const namespace = ensureNamespace(namespaces, serviceName)
+
+        messages.forEach(message => {
+            const type = convertMessageToType(message)
+            namespace.members.push(type)
+        })
+
+        callbacks.forEach(callback => {
+            const type = convertCallbackToType(callback)
+            namespace.members.push(type)
+        })
+    }
+}
+
+function handleServiceAsNamespace(service, namespaces){
+    const serviceName = service.name
+
+    const namespace = ensureNamespace(namespaces, service.memberOf)
+
+    const intf = convertServiceToInterface(service)
+    namespace.members.push(intf)
+
+    const messages = service.messages
+    const callbacks = service.callbacks
+    if (messages.length > 0 || callbacks.length > 0){
+        const innerNamespace = dtsNamespace(serviceName)
+
+        messages.forEach(message => {
+            const type = convertMessageToType(message)
+            innerNamespace.members.push(type)
+        })
+
+        callbacks.forEach(callback => {
+            const type = convertCallbackToType(callback)
+            innerNamespace.members.push(type)
+        })
+
+        namespace.members.push(innerNamespace)
+    }
+}
+
 function dts(services) {
     let namespaces = {}
     let modules = {}
 
     services.forEach(service => {
-        const serviceName = service.name
-        const parentName = service.memberOf
-        if(!parentName){
-            if(modules[serviceName]){
-                throw new Error(`Module ${serviceName} already defined`)
-            }
-            const module = convertServiceToModule(service)
-            if(module.members.length > 0) {
-                modules[serviceName] = module
-            }
-
-            const messages = service.messages
-            const callbacks = service.callbacks
-
-            if (messages.length > 0 || callbacks.length > 0){
-                const namespace = ensureNamespace(namespaces, serviceName)
-
-                messages.forEach(message => {
-                    const type = convertMessageToType(message)
-                    namespace.members.push(type)
-                })
-
-                callbacks.forEach(callback => {
-                    const type = convertCallbackToType(callback)
-                    namespace.members.push(type)
-                })
-            }
+        if(!service.memberOf){
+            handleServiceAsModule(service, modules, namespaces)
         } else {
-            const namespace = ensureNamespace(namespaces, parentName)
-
-            const intf = convertServiceToInterface(service)
-            namespace.members.push(intf)
-
-            const messages = service.messages
-            const callbacks = service.callbacks
-            if (messages.length > 0 || callbacks.length > 0){
-                const innerNamespace = dtsNamespace(serviceName)
-
-                messages.forEach(message => {
-                    const type = convertMessageToType(message)
-                    innerNamespace.members.push(type)
-                })
-
-                callbacks.forEach(callback => {
-                    const type = convertCallbackToType(callback)
-                    innerNamespace.members.push(type)
-                })
-
-                namespace.members.push(innerNamespace)
-            }
+            handleServiceAsNamespace(service, namespaces)
         }
     })
 
