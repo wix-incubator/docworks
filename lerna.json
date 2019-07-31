@@ -2,6 +2,7 @@
   "lerna": "2.11.0",
   "packages": [
     "docworks-cli",
+    "docworks-dts",
     "docworks-jsdoc2spec",
     "docworks-json",
     "docworks-model",
