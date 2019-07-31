@@ -1,53 +1,19 @@
 const dts = require('docworks-dts')
-const fs = require('fs')
-const {readFromDir} = require('docworks-repo')
-const defaultLogger = require('./logger')
+const logger = require('./logger')
 const {writeOutput} = require('./utils/fsUtil')
-// const fsExtra = require('fs-extra')
-// const Git = require('./git')
-// const tmp = require('tmp-promise')
+const {readRepoFromRemoteOrLocal} = require('./utils/gitUtils')
 
-async function runDts(outputFileName, logger) {
-  logger = logger || defaultLogger
+async function runDts(outputFileName, {remote, local}) {
 
   try {
-    // let localServicesDir
-    // if (remote) {
-    //   logger.config(`remote repo url:   `, remote)
-    //   let tmpDir = await tmp.dir()
-    //
-      const workingDir = '/Users/karinag/projects/wix-code-docs'
-    //   await fsExtra.ensureDir(workingDir)
-    //   logger.config(`working dir:       `, workingDir)
-    //
-    //   let baseGit = new Git()
-    //   logger.command('git', `clone ${remote} ${workingDir}`)
-    //   await baseGit.clone(remote, workingDir, ['--depth', 1])
-    //
-    //   localServicesDir = workingDir
-    // }
-    // else {
-    //   logger.config(`local sources:     `, local)
-    //   localServicesDir = local
-    // }
+    let repo = await readRepoFromRemoteOrLocal({remote, local})
 
-    // logger.command('docworks', `readServices ${localServicesDir}`)
-    const repo = await readFromDir(workingDir)
-    // console.log(repo.services)
-    //
-    // logger.config(`plugins:           `, plugins.join(', '))
-    // logger.newLine()
-    //
-    // let pluginModules = plugins.map(require)
-    //
     logger.command('docworks dts', '')
     const dtsContent = dts(repo.services)
-      return Promise.all(dtsContent.map(file => {
-          const fileName = `${outputFileName}-${file.key}.d.ts`
-          logger.command('dts save to file', fileName)
-          return writeOutput(fileName, file.content)
-      }))
 
+    const fileNameWithExtensions = `${outputFileName}.d.ts`
+    logger.command('dts save to file', fileNameWithExtensions)
+    return writeOutput(fileNameWithExtensions, dtsContent)
   }
   catch (error) {
     logger.error('failed to complete workflow\n' + error.stack)

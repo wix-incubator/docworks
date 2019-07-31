@@ -1,6 +1,5 @@
 'use strict'
 const fsExtra = require('fs-extra')
-const fs = require('fs')
 
 const isFile = path => path && fsExtra.statSync(path).isFile()
 const not = func => value => !func(value)
@@ -29,14 +28,7 @@ function getAllFilesInDirSync(path) {
 }
 
 function writeOutput(outputFileName, fileContent) {
-    return new Promise((fulfill, reject) => {
-        fs.writeFile(outputFileName, fileContent, {}, (err) => {
-            if (err)
-                reject(err)
-            else
-                fulfill()
-        })
-    })
+    return fsExtra.outputFile(outputFileName, fileContent)
 }
 
 module.exports = {

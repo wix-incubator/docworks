@@ -17,7 +17,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "chalk": "^2.3.0",
-    "docworks-dts": "^1.0.0",
+    "docworks-dts": "^1.9.0",
     "docworks-jsdoc2spec": "^1.8.4",
     "docworks-repo": "^1.9.0",
     "docworks-tern": "^1.9.0",
