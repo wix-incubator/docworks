@@ -14,7 +14,7 @@ describe('dts workflow e2e', function () {
     const escapedString = _.escapeRegExp(string)
     const convertedWitheSpaces = escapedString.replace(/[\s]+/g, '[\\s]+')
 
-    return RegExp(convertedWitheSpaces)
+    return new RegExp(convertedWitheSpaces)
   }
 
   beforeEach(async () => {
