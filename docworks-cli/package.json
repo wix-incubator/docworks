@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/docworks.js",
   "scripts": {
-    "lint": "echo --- running lint --- && eslint src test --fix",
+    "lint": "echo --- running lint --- && eslint src test",
+    "lint-fix": "eslint src test --fix",
     "prepublish": "npm run build",
     "build": "npm run lint",
     "test": "mocha test/**/*.spec.js --compilers js:babel-core/register --require babel-polyfill"
@@ -37,6 +38,7 @@
     "chai-files": "^1.4.0",
     "chai-subset": "^1.5.0",
     "eslint": "^6.0.1",
+    "lodash": "^4.17.15",
     "mocha": "^3.3.0"
   },
   "gitHead": "d56ca65a3a1c3e474fe632f909c6a8ad98493cf6"

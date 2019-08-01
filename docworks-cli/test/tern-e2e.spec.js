@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiSubset from 'chai-subset'
 import fsExtra from 'fs-extra'
 import * as logger from './test-logger'
-import {createRemoteOnVer1, runCommand} from './test-utils'
+import {addLoggerToErrorStack, createRemoteOnVer1, runCommand} from './test-utils'
 
 chai.use(chaiSubset)
 const expect = chai.expect
@@ -15,11 +15,9 @@ describe('tern workflow e2e', function () {
   })
 
   afterEach(function () {
-    if (this.currentTest.err && this.currentTest.err.stack) {
-      let stack = this.currentTest.err.stack
-      let lines = stack.split('\n')
-      lines.splice(1, 0, ...logger.get())
-      this.currentTest.err.stack = lines.join('\n')
+    const errorStack = this.currentTest.err && this.currentTest.err.stack
+    if (errorStack) {
+      this.currentTest.err.stack = addLoggerToErrorStack(logger, errorStack)
     }
   })
 

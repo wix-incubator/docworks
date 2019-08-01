@@ -40,10 +40,11 @@ function docworks() {
     console.log('Usage: ' + optimist.$0 + ' [command] [options...]')
     console.log('')
     console.log('Commands:')
+    console.log('  dts              generate dts file from docworks repo')
     console.log('  ecp              extract, compare and push docs from sources to a docs git repository')
-    console.log('  val | validate   validate the jsDoc annotations')
-    console.log('  tern             generate tern file from docworks repo')
     console.log('  local            extract, compare and copy output to a local directory')
+    console.log('  tern             generate tern file from docworks repo')
+    console.log('  val | validate   validate the jsDoc annotations')
   }
 
   /* eslint-enable no-console */

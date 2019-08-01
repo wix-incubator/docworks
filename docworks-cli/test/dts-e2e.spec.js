@@ -2,21 +2,20 @@ import chai from 'chai'
 import chaiSubset from 'chai-subset'
 import fsExtra from 'fs-extra'
 import * as logger from './test-logger'
-import {createRemoteOnVer1, runCommand} from './test-utils'
+import {addLoggerToErrorStack, createRemoteOnVer1, runCommand} from './test-utils'
+import _ from 'lodash'
 
 chai.use(chaiSubset)
 const expect = chai.expect
 
 describe('dts workflow e2e', function () {
 
-  // /**
-  //  * this is a service
-  //  */
-  // declare module 'Service' {
-  //     function operation(param: string): void;
-  //
-  // }
-  const outputRegex = /\/\*\*[\s]+\*[\s]+this is a service[\s]+\*\/[\s]+declare[\s]+module[\s]+'Service'[\s]+{[\s]+function[\s]+operation\(param:[\s]+string\):[\s]+void;[\s]+}/
+  function strToRegexUnionWhiteSpaces(string) {
+    const escapedString = _.escapeRegExp(string)
+    const convertedWitheSpaces = escapedString.replace(/[\s]+/g, '[\\s]+')
+
+    return RegExp(convertedWitheSpaces)
+  }
 
   beforeEach(async () => {
     logger.reset()
@@ -24,11 +23,9 @@ describe('dts workflow e2e', function () {
   })
 
   afterEach(function () {
-    if (this.currentTest.err && this.currentTest.err.stack) {
-      let stack = this.currentTest.err.stack
-      let lines = stack.split('\n')
-      lines.splice(1, 0, ...logger.get())
-      this.currentTest.err.stack = lines.join('\n')
+    const errorStack = this.currentTest.err && this.currentTest.err.stack
+    if (errorStack) {
+      this.currentTest.err.stack = addLoggerToErrorStack(logger, errorStack)
     }
   })
 
@@ -42,7 +39,15 @@ describe('dts workflow e2e', function () {
 
     let content = await fsExtra.readFile('tmp/globals.d.ts', 'utf-8')
 
-    expect(content).to.match(outputRegex)
+
+    expect(content).to.match(strToRegexUnionWhiteSpaces(
+      `/**
+        * this is a service
+        */
+      declare module 'Service' {
+          function operation(param: string): void;
+      
+      }`))
   })
 
   it('generate dts from a local folder', async function () {
@@ -53,6 +58,13 @@ describe('dts workflow e2e', function () {
 
     let content = await fsExtra.readFile('tmp/globals2.d.ts', 'utf-8')
 
-    expect(content).to.match(outputRegex)
+    expect(content).to.match(strToRegexUnionWhiteSpaces(
+      `/**
+        * this is a service
+        */
+      declare module 'Service' {
+          function operation(param: string): void;
+      
+      }`))
   })
 })

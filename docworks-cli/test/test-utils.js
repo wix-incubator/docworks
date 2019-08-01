@@ -63,4 +63,10 @@ async function runCommand(args) {
   })
 }
 
-export {createRemoteOnVer1, runCommand}
+function addLoggerToErrorStack(logger, stack) {
+  const lines = stack.split('\n')
+  lines.splice(1, 0, ...logger.get())
+  return lines.join('\n')
+}
+
+export {createRemoteOnVer1, runCommand, addLoggerToErrorStack}
