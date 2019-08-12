@@ -1,6 +1,6 @@
 {
   "name": "docworks-jsdoc2spec",
-  "version": "1.8.4",
+  "version": "1.9.1",
   "description": "extractor for jsdoc apis to api spec",
   "main": "lib/index.js",
   "scripts": {
