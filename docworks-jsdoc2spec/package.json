@@ -1,6 +1,6 @@
 {
   "name": "docworks-jsdoc2spec",
-  "version": "1.8.4",
+  "version": "1.9.1",
   "description": "extractor for jsdoc apis to api spec",
   "main": "lib/index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   "dependencies": {
     "docworks-model": "^1.8.4",
     "intercept-stdout": "^0.1.2",
-    "jsdoc": "3.4.0",
+    "jsdoc": "3.4.3",
     "lodash.isequal": "^4.5.0",
     "requizzle": "^0.2.1"
   },
