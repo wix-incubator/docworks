@@ -12,9 +12,9 @@ describe('dts workflow e2e', function () {
 
   function strToRegexUnionWhiteSpaces(string) {
     const escapedString = _.escapeRegExp(string)
-    const convertedWitheSpaces = escapedString.replace(/[\s]+/g, '[\\s]+')
+    const convertedWhiteSpaces = escapedString.replace(/[\s]+/g, '[\\s]+')
 
-    return new RegExp(convertedWitheSpaces)
+    return new RegExp(convertedWhiteSpaces)
   }
 
   beforeEach(async () => {
