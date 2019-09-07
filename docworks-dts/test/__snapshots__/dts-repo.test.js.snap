@@ -20,6 +20,118 @@ declare module 'wix-crm' {
 }
 
 /**
+ * This module contains the APIs for code routers and data binding router hooks.
+ */
+declare module 'wix-router' {
+    /**
+     * Registers a hook that is called after a router.
+     */
+    function afterRouter(request: wix_router.WixRouterRequest, response: wix_router.WixRouterResponse): Promise<wix_router.WixRouterResponse>;
+
+    /**
+     * Registers a hook that is called after a sitemap is created.
+     */
+    function afterSitemap(request: wix_router.WixRouterSitemapRequest, sitemapEntries: [wix_router.WixRouterSitemapEntry]): Promise<[wix_router.WixRouterSitemapEntry]>;
+
+    /**
+     * Registers a hook that is called before a router.
+     */
+    function beforeRouter(request: wix_router.WixRouterRequest): Promise<wix_router.WixRouterResponse>;
+
+    /**
+     * Registers a hook that is called after a route is resolved by the data binding router, but before the wix-data query is executed.
+     */
+    function customizeQuery(request: wix_router.WixRouterRequest, route: string, query: wix_data.WixDataQuery): wix_data.WixDataQuery;
+
+    /**
+     * Returns a response with a status code 403 (Forbidden) and instructs the router to show a 403 page.
+     */
+    function forbidden(message?: string): Promise<wix_router.WixRouterResponse>;
+
+    /**
+     * Returns a response that instructs the router to continue.
+     */
+    function next(): Promise<wix_router.WixRouterResponse>;
+
+    /**
+     * Returns a response with a status code 404 (Not Found) and instructs the router to show a 404 page.
+     */
+    function notFound(message?: string): Promise<wix_router.WixRouterResponse>;
+
+    /**
+     * Returns a response with a status code 200 (OK) and instructs the router to show the selected page.
+     */
+    function ok(Page: string | [string], routerReturnedData?: object, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;
+
+    /**
+     * Returns a response with a status code of 301 (Moved Permanently) or 302 (Found) and instructs the router to redirect to the given URL.
+     */
+    function redirect(url: string, statusCode?: string): Promise<wix_router.WixRouterResponse>;
+
+    /**
+     * Function containing routing logic for a given URL prefix.
+     */
+    function router(request: wix_router.WixRouterRequest): Promise<wix_router.WixRouterResponse>;
+
+    /**
+     * Returns a response with the specified HTTP status code with an optional message.
+     */
+    function sendStatus(statusCode: string, message?: string): Promise<wix_router.WixRouterResponse>;
+
+    /**
+     * Function containing sitemap logic for a given URL prefix.
+     */
+    function sitemap(request: wix_router.WixRouterSitemapRequest): Promise<[wix_router.WixRouterSitemapEntry]>;
+
+}
+
+/**
+ * The wix-site module contains functionality for obtaining information about your site and its pages.
+ */
+declare module 'wix-site' {
+    /**
+     * Gets a code representing the site's currency.
+     */
+    const currency: string;
+
+    /**
+     * Gets information about the current page or lightbox.
+     */
+    const currentPage: wix_site.StructurePage | wix_site.StructureLightbox;
+
+    /**
+     * Gets a code representing the site's language.
+     */
+    const language: string;
+
+    /**
+     * Gets the site's regional settings.
+     */
+    const regionalSettings: string;
+
+    /**
+     * Gets the site revision ID.
+     */
+    const revision: string;
+
+    /**
+     * Gets the site's timezone.
+     */
+    const timezone: string;
+
+    /**
+     * Returns information about the site's pages, prefixes, and lightboxes.
+     */
+    function getSiteStructure(): wix_site.SiteStructure;
+
+    /**
+     * Returns the sitemap for a router or dynamic page prefix.
+     */
+    function routerSitemap(routerPrefix: string): Promise<[wix_router.WixRouterSitemapEntry]>;
+
+}
+
+/**
  * The wix-storage module contains functionality for the persistent
  *  storage of key/value data in the site visitor's browser.
  */
@@ -300,9 +412,166 @@ declare namespace $w {
     }
 
     /**
+     * A gallery for displaying multiple items.
+     */
+    interface Gallery extends $w.Element, $w.HiddenCollapsedMixin, $w.PlayableMixin{
+        /**
+         * Sets or gets the action that occurs when an item in the gallery is clicked.
+         */
+        clickAction: string;
+        /**
+         * Gets the index of the gallery's current item.
+         */
+        readonly currentIndex: number;
+        /**
+         * Gets an object containing information about the current item.
+         */
+        readonly currentItem: $w.Gallery.ImageItem | $w.Gallery.VideoItem;
+        /**
+         * Gets an object containing information about the gallery's capabilities.
+         */
+        readonly galleryCapabilities: $w.Gallery.GalleryCapabilities;
+        /**
+         * Sets or gets the items in a gallery.
+         */
+        items: [$w.Gallery.ImageItem] | [$w.Gallery.VideoItem];
+        /**
+         * Determines if a gallery's navigation arrows are shown.
+         */
+        showNavigationButtons: boolean;
+        /**
+         * Adds an event handler that runs when a gallery's current item changes.
+         */
+        onCurrentItemChanged(handler: $w.GalleryItemChangedEventHandler): $w.Gallery;
+        /**
+         * Adds an event handler that runs when an item in a gallery is
+         *  clicked.
+         */
+        onItemClicked(handler: $w.GalleryItemClickedEventHandler): $w.Gallery;
+    }
+
+    namespace Gallery {
+        /**
+         * An object used by the \`galleryCapabilities\` property that contains the capabilities of a gallery.
+         */
+        type GalleryCapabilities = {
+            /**
+             * Indicates if the gallery supports play operations.
+             */
+            isPlayable: boolean;
+            /**
+             * Indicates if the gallery supports the notion of a current item.
+             */
+            hasCurrentItem: boolean;
+            /**
+             * Indicates if the gallery supports navigation buttons.
+             */
+            hasNavigationButtons: boolean;
+        };
+
+        /**
+         * An object used by the Gallery properties \`items\` and \`currentItem\` to represent a single gallery image.
+         */
+        type ImageItem = {
+            /**
+             * Item type. Value is \`\\"image\\"\`.
+             */
+            type: string;
+            /**
+             * Item slug.
+             */
+            slug: string;
+            /**
+             * Image source URL.
+             */
+            src: string;
+            /**
+             * Image description. Descriptions over 100 characters are truncated.
+             */
+            description?: string;
+            /**
+             * Image title.
+             */
+            title?: string;
+            /**
+             * URL of the image's clickable link. See [here]($w.LinkableMixin.html#link) for more information about links.
+             */
+            link?: string;
+        };
+
+        /**
+         * An object used by the Gallery properties \`items\` and \`currentItem\` to represent a single gallery video.
+         */
+        type VideoItem = {
+            /**
+             * Item type. Value is \`\\"video\\"\`.
+             */
+            type: string;
+            /**
+             * Item slug.
+             */
+            slug: string;
+            /**
+             * Video source URL.
+             */
+            src: string;
+            /**
+             * Video description. Descriptions over 100 characters are truncated.
+             */
+            description?: string;
+            /**
+             * Video title.
+             */
+            title?: string;
+            /**
+             * URL of the video's clickable link. See [here]($w.LinkableMixin.html#link) for more information about links.
+             */
+            link?: string;
+            /**
+             * Video thumbnail URL.
+             */
+            thumbnail?: string;
+        };
+
+    }
+
+    /**
      * Provides functionality for all elements that can be hidden or collapsed.
      */
     interface HiddenCollapsedMixin extends $w.HiddenMixin, $w.CollapsedMixin{
+    }
+
+    /**
+     * A container for internal or external HTML code. Messages can be sent
+     *  from your page code to the code in an HTML component and from the HTML
+     *  component to your page code using the [\`postMessage()\`](#postMessage) and
+     *  [\`onMessage()\`](#onMessage) functions. To learn more about what code an HTML
+     *  component can hold, see here.
+     * 
+     *  For an overview of working with an HTML Component using code, see Working with the HTML Element.
+     */
+    interface HtmlComponent extends $w.IFrame{
+        /**
+         * Sets or gets whether the HTML Component displays scrollbars.
+         */
+        scrolling: string;
+        /**
+         * Sets or gets the URL of the HTML Component's code.
+         */
+        src: string;
+        /**
+         * Allows the HTML Component to be put into full screen mode.
+         */
+        allowFullScreen(): $w.HtmlComponent;
+        /**
+         * Adds an event handler that runs when the HTML Component
+         *  sends a message.
+         */
+        onMessage(handler: $w.HtmlComponentMessageEventHandler): $w.HtmlComponent;
+        /**
+         * Sends a message to the HTML Component.
+         */
+        postMessage(message: string | number | boolean | object | Array): void;
     }
 
     /**
@@ -330,6 +599,225 @@ declare namespace $w {
          * Scrolls the page to the element using an animation.
          */
         scrollTo(): Promise<void>;
+    }
+
+    /**
+     * A store page for a specific product.
+     */
+    interface ProductPage extends $w.Element, $w.HiddenCollapsedMixin{
+        /**
+         * Gets the all the information associated with the current product.
+         */
+        getProduct(): Promise<$w.ProductPage.StoreProduct>;
+    }
+
+    namespace ProductPage {
+        /**
+         * An object representing a product in a store.
+         */
+        type StoreProduct = {
+            /**
+             * Product ID.
+             */
+            _id: string;
+            /**
+             * Product name.
+             */
+            name: string;
+            /**
+             * Product description.
+             */
+            description: string;
+            /**
+             * Main product media item (image or video thumbnail) URL.
+             */
+            mainMedia: string;
+            /**
+             * List of product media items.
+             */
+            mediaItems: [$w.Gallery.ImageItem] | [$w.Gallery.VideoItem];
+            /**
+             * Product stock keeping unit value.
+             */
+            sku: string;
+            /**
+             * List of product ribbons.
+             */
+            ribbons: [$w.ProductPage.StoreProductRibbon];
+            /**
+             * Product currency.
+             */
+            currency: string;
+            /**
+             * Product price.
+             */
+            price: number;
+            /**
+             * Discounted product price.
+             */
+            discountedPrice: number;
+            /**
+             * Product price formatted with the currency.
+             */
+            formattedPrice: string;
+            /**
+             * Discounted product price formatted with the currency.
+             */
+            formattedDiscountedPrice: string;
+            /**
+             * Indicates whether inventory is tracked for the product.
+             */
+            trackInventory: boolean;
+            /**
+             * Indicates whether the product is in stock.
+             */
+            inStock: boolean;
+            /**
+             * Number of units currently in stock.
+             */
+            quantityInStock: number;
+            /**
+             * Additional product information sections.
+             */
+            additionalInfoSections: [$w.ProductPage.StoreProductAdditionalInfoSection];
+            /**
+             * All the available options for a store product.
+             */
+            productOptions: $w.ProductPage.StoreProductOptions;
+            /**
+             * Product page relative URL.
+             */
+            productPageUrl: string;
+            /**
+             * Indicates whether product variants are managed.
+             */
+            manageVariants: boolean;
+            /**
+             * List of product customization fields.
+             */
+            customTextField: [$w.ProductPage.StoreProductCustomTextFields];
+            /**
+             * Product type. Either \`\\"physical\\"\` or \`\\"digital\\"\`.
+             */
+            productType: string;
+            /**
+             * Product slug.
+             */
+            slug: string;
+            /**
+             * Product weight.
+             */
+            weight: string;
+        };
+
+        /**
+         * An object representing an additional info section for a store product.
+         */
+        type StoreProductAdditionalInfoSection = {
+            /**
+             * Section title.
+             */
+            title: string;
+            /**
+             * Section description.
+             */
+            description: string;
+        };
+
+        /**
+         * An object representing a custom text field for a store product.
+         */
+        type StoreProductCustomTextFields = {
+            /**
+             * Product customization field title.
+             */
+            title: string;
+            /**
+             * Maximum length of product customization field in characters.
+             */
+            maxLength: string;
+        };
+
+        /**
+         * An object representing an option for a store product.
+         */
+        type StoreProductOption = {
+            /**
+             * Option type. Either \`\\"color\\"\` or \`\\"drop_down\\"\`.
+             */
+            optionType: string;
+            /**
+             * Option name.
+             */
+            name: string;
+            /**
+             * Option choices.
+             */
+            choices: [$w.ProductPage.StoreProductOptionsChoice];
+        };
+
+        /**
+         * An object representing all the available options for a store product.
+         */
+        type StoreProductOptions = {
+            /**
+             * Name of the option. This key name is
+             *  dependent on the options added to the product. For example, if a product
+             *  has a size option, this key will be something like \\"Size\\".
+             */
+            optionKey: $w.ProductPage.StoreProductOption;
+        };
+
+        /**
+         * An object representing an options choice for a store product.
+         */
+        type StoreProductOptionsChoice = {
+            /**
+             * Choice value.
+             */
+            value: number;
+            /**
+             * Choice description.
+             */
+            description: number;
+            /**
+             * Choice media.
+             */
+            media: $w.ProductPage.StoreProductOptionsChoiceMedia;
+            /**
+             * Indicates whether the product with this choice is in stock.
+             */
+            inStock: boolean;
+            /**
+             * Indicates whether the product with this option is visible.
+             */
+            visible: boolean;
+        };
+
+        /**
+         * An object representing the choice media
+         */
+        type StoreProductOptionsChoiceMedia = {
+            /**
+             * Main choice media item (image or video thumbnail) URL.
+             */
+            mainMedia: string;
+            /**
+             * List of choice media items.
+             */
+            mediaItems: [$w.Gallery.ImageItem] | [$w.Gallery.VideoItem];
+        };
+
+        /**
+         * An object representing a ribbon for a store product.
+         */
+        type StoreProductRibbon = {
+            /**
+             * Ribbon text.
+             */
+            text: string;
+        };
+
     }
 
     /**
@@ -769,7 +1257,90 @@ declare namespace wix_crm {
          *  You can only set values for custom fields that already exist in the Contacts
          *  application.
          */
-        customFields: string;
+        customFields: string | number | Date;
+    };
+
+}
+
+declare namespace wix_site {
+    /**
+     * An object that contains information about the site's prefixes.
+     */
+    type Prefix = {
+        /**
+         * The name of the prefix.
+         */
+        name: string;
+        /**
+         * The type of the prefix: \`\\"dynamicPages\\"\`, \`\\"router\\"\`, or \`\\"app\\"\`.
+         */
+        type: string;
+        /**
+         * The prefix.
+         */
+        prefix: string;
+        /**
+         * If the prefix is an app's prefix, the \`applicationId\` property is the app's ID.
+         */
+        applicationId?: string;
+    };
+
+    /**
+     * An object that contains information about the site's pages, prefixes, and lightboxes.
+     */
+    type SiteStructure = {
+        /**
+         * The pages of the site.
+         */
+        pages: [wix_site.StructurePage];
+        /**
+         * The prefixes of the site's routers and dynamic pages.
+         */
+        prefixes: [wix_site.Prefix];
+        /**
+         * The site's lightboxes.
+         */
+        lightboxes: [wix_site.StructureLightbox];
+    };
+
+    /**
+     * An object that contains information about a lightbox on the site.
+     */
+    type StructureLightbox = {
+        /**
+         * The name of the lightbox.
+         */
+        name: string;
+    };
+
+    /**
+     * An object that contains information about a page on the site.
+     */
+    type StructurePage = {
+        /**
+         * The of the page.
+         */
+        name: string;
+        /**
+         * The type of the page: \`\\"static\\"\` or \`\\"template\\"\`.
+         */
+        type: string;
+        /**
+         * The URL of the page. If the page is a \`static\` page the \`url\` property is the page's SEO URL.
+         */
+        url?: string;
+        /**
+         * If the page is an app page, the \`applicationId\` property is the app's ID.
+         */
+        applicationId?: string;
+        /**
+         * If the page is a router or dynamic page, the \`prefix\` property is the page's prefix.
+         */
+        prefix?: string;
+        /**
+         * If the page is the Home page, \`isHomePage\` is \`true\`. Otherwise, it does not exist.
+         */
+        isHomePage?: boolean;
     };
 
 }
