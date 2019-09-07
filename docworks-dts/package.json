@@ -4,7 +4,8 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint lib test --fix",
+    "lint": "eslint lib test",
+    "lint:fix": "eslint lib test --fix",
     "build": "npm run lint && npm run test",
     "prepublish": "npm run build",
     "test": "jest"
