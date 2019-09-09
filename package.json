@@ -1,6 +1,8 @@
 {
 	"scripts": {
 		"test": "lerna run test",
+		"bootstrap": "lerna bootstrap",
+		"docworks": "node ./docworks-cli/.bin/docworks.js",
 		"release": "echo \"======= Lerna Releasing docworks =======\" && npm run test && lerna publish"
 	},
 	"devDependencies": {
