@@ -1,5 +1,4 @@
 const dom = require('dts-dom')
-const {DeclarationFlags} = dom
 const {validServiceName} = require('./utils')
 
 const builtInTypes = {

@@ -14,6 +14,8 @@ const {
     dtsObjectType
 } = require('./dts-generator')
 
+const EXCLUDED_SERVICES_TO_PROCESS = ['$w']
+
 function convertCallbackToType(callback) {
     const functionType = dtsFunctionType(callback.params, callback.ret.type)
     const callbackName = validServiceName(callback.name)
@@ -121,15 +123,18 @@ function handleServiceAsNamespace(service, namespaces){
     }
 }
 
+const isServiceExcluded = service => !service || EXCLUDED_SERVICES_TO_PROCESS.includes(service.name)
+
 function dts(services) {
     let namespaces = {}
     let modules = {}
 
     services.forEach(service => {
-        if(!service.memberOf){
-            handleServiceAsModule(service, modules, namespaces)
-        } else {
+        if (isServiceExcluded(service)) return
+        if(service.memberOf){
             handleServiceAsNamespace(service, namespaces)
+        } else {
+            handleServiceAsModule(service, modules, namespaces)
         }
     })
 
