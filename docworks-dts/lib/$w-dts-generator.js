@@ -7,11 +7,11 @@ const {
 
 function createDollarWDTSNamespace(dollarWService) {
   const namespace = dtsNamespace('$w', dollarWService.docs.summary)
-  const funcsToDeclare = ['at', 'onReady']
-  funcsToDeclare.forEach(funcName => {
-    const funcServiceModel = dollarWService.operations.find(operation => operation.name === funcName)
-    const jsDocComment = funcServiceModel.docs.summary
-    const functionDeclaration = dtsFunction(funcName, funcServiceModel.params, funcServiceModel.ret.type, {jsDocComment})
+  const funcsToExclude = ['$w']
+  dollarWService.operations.forEach(operation => {
+    if (funcsToExclude.includes(operation.name)) return
+    const jsDocComment = operation.docs.summary
+    const functionDeclaration = dtsFunction(operation.name, operation.params, operation.ret.type, {jsDocComment})
     namespace.members.push(functionDeclaration)
   })
   return namespace
