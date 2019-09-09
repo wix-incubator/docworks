@@ -108,9 +108,22 @@ function handleDoc(doclet, plugins) {
 }
 
 
+function handleExtra(serviceDoclet) {
+  const knownTags = ['queriable']
+
+  return (serviceDoclet.tags || [])
+    .map(tag => tag.originalTitle)
+    .filter(tag => knownTags.indexOf(tag) > -1)
+    .reduce((tags, tag) => ({
+      ...tags,
+      [tag]: true
+    }), {})
+}
+
 module.exports = {
   handleMeta,
   typeContext,
   handleType,
-  handleDoc
+  handleDoc,
+  handleExtra
 }

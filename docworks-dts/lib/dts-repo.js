@@ -1,3 +1,4 @@
+const dollarWGenerator = require('./$w-dts-generator')
 const {validServiceName} = require('./utils')
 const {
   convertTreeToString,
@@ -12,6 +13,8 @@ const {
   dtsProperty,
   dtsObjectType
 } = require('./dts-generator')
+
+const EXCLUDED_SERVICES_TO_PROCESS = ['$w']
 
 function convertCallbackToType(callback) {
   const functionType = dtsFunctionType(callback.params, callback.ret.type)
@@ -120,19 +123,27 @@ function handleServiceAsNamespace(service, namespaces) {
   }
 }
 
+const isServiceExcluded = service => !service || EXCLUDED_SERVICES_TO_PROCESS.includes(service.name)
+
 function dts(services) {
   let namespaces = {}
   let modules = {}
 
-  services.forEach(service => {
-    if (!service.memberOf) {
-      handleServiceAsModule(service, modules, namespaces)
-    } else {
-      handleServiceAsNamespace(service, namespaces)
-    }
-  })
+    services.forEach(service => {
+        if (isServiceExcluded(service)) return
+        if(service.memberOf){
+            handleServiceAsNamespace(service, namespaces)
+        } else {
+            handleServiceAsModule(service, modules, namespaces)
+        }
+    })
+    
+    const queriables = services.filter(service => service.extra.queriable)
 
-  return [convertTreeToString(modules), convertTreeToString(namespaces)].join('')
+    return {
+      servicesDTS: [convertTreeToString(modules), convertTreeToString(namespaces)].join(''),
+      dollarWDTS: [dollarWGenerator.createDollarWDTS(services, queriables)]
+    }
 }
 
 module.exports = dts

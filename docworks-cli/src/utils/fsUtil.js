@@ -28,7 +28,7 @@ function getAllFilesInDirSync(path) {
 }
 
 function writeOutput(outputFileName, fileContent) {
-  return fsExtra.outputFile(outputFileName, fileContent)
+  return fsExtra.outputFileSync(outputFileName, fileContent)
 }
 
 module.exports = {

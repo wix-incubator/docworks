@@ -37,7 +37,7 @@ describe('dts workflow e2e', function () {
 
     await runCommand(`.bin/docworks dts -r ${remote} -o ./tmp/globals`.split(' '))
 
-    let content = await fsExtra.readFile('tmp/globals.d.ts', 'utf-8')
+    let content = await fsExtra.readFile('tmp/globals/declarations.d.ts', 'utf-8')
 
 
     expect(content).to.match(strToRegexUnionWhiteSpaces(
@@ -56,7 +56,7 @@ describe('dts workflow e2e', function () {
 
     await runCommand('.bin/docworks dts -l ./test/docworks-service -o ./tmp/globals2'.split(' '))
 
-    let content = await fsExtra.readFile('tmp/globals2.d.ts', 'utf-8')
+    let content = await fsExtra.readFile('tmp/globals2/declarations.d.ts', 'utf-8')
 
     expect(content).to.match(strToRegexUnionWhiteSpaces(
       `/**

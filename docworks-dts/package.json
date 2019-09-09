@@ -17,6 +17,7 @@
   "devDependencies": {
     "docworks-repo": "^1.10.0",
     "eslint": "^6.0.1",
-    "jest": "^24.8.0"
+    "jest": "^24.8.0",
+    "typescript": "^3.6.3"
   }
 }

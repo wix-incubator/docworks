@@ -3,11 +3,10 @@ const docworksToDts = require('../lib/dts-repo')
 
 describe('convert docworks to dts', () => {
 
-  function getDtsForServiceByPath(servicePath) {
-    const service = require(servicePath)
-    return docworksToDts([service])
-
-  }
+    function getDtsForServiceByPath(servicePath) {
+        const service = require(servicePath)
+        return docworksToDts([service]).servicesDTS
+    }
 
   describe('services', () => {
     test('should convert service to module if it is the root(does not have memberOf value)', () => {
@@ -234,10 +233,17 @@ describe('convert docworks to dts', () => {
     })
   })
 
-  test('a repo', async () => {
-    let repo = await readFromDir('./test/services')
+    describe('special cases', () => {
+      test('the $w service should be ignored and not generated as a module/namespace', () => {
+        const dts = getDtsForServiceByPath('./services/$w.service.json')
+        expect(dts).toEqual('')
+      })
+    })
 
-    let dts = docworksToDts(repo.services)
+    test('a repo', async () => {
+        let repo = await readFromDir('./test/services')
+
+        let dts = docworksToDts(repo.services).servicesDTS
 
     expect(dts).toMatchSnapshot()
   })

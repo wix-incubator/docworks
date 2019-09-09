@@ -1,5 +1,5 @@
 function handlePlugins(plugins, pluginFunction, doclet, element) {
-  let extra = {}
+  let extra = element.extra || {}
   if (plugins) {
     plugins.filter(plugin => !!plugin[pluginFunction] && !!plugin.extendDocworksKey)
       .forEach(plugin => {
