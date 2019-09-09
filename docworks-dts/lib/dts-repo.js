@@ -135,7 +135,7 @@ function dts(services) {
 
     return {
       servicesDTS: [convertTreeToString(modules), convertTreeToString(namespaces)].join(''),
-      dollarWDTS: dollarWGenerator.createDollarWDTS()
+      dollarWDTS: [dollarWGenerator.createDollarWDTS(services)]
     }
 }
 

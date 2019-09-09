@@ -1,4 +1,5 @@
 const dom = require('dts-dom')
+const {DeclarationFlags} = dom
 const {validServiceName} = require('./utils')
 
 const builtInTypes = {
@@ -108,8 +109,12 @@ function dtsModule(name, {members = [], jsDocComment}) {
     return module
 }
 
-function dtsNamespace(name) {
-    return dom.create.namespace(validServiceName(name))
+function dtsNamespace(name, jsDocComment) {
+    const namespace = dom.create.namespace(validServiceName(name))
+    if (jsDocComment) {
+      namespace.jsDocComment = trimPara(jsDocComment)
+    }
+    return namespace
 }
 
 
