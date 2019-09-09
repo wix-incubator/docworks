@@ -3,17 +3,26 @@ const logger = require('./logger')
 const {writeOutput} = require('./utils/fsUtil')
 const {readRepoFromRemoteOrLocal} = require('./utils/gitUtils')
 
-async function runDts(outputFileName, {remote, local}) {
+const SERVICES_DTS_FILE_NAME = 'declarations.d.ts'
+const DOLLAR_W_DTS_FILE_NAME = '$w.d.ts'
 
+function saveDTSFile(fullFilePath, content) {
+  logger.command('dts save to file', fullFilePath)
+  writeOutput(fullFilePath, content)
+}
+
+async function runDts(outputDirectory, {remote, local}) {
   try {
     let repo = await readRepoFromRemoteOrLocal({remote, local})
 
     logger.command('docworks dts', '')
-    const dtsContent = dts(repo.services)
+    const {servicesDTS, dollarWDTS} = dts(repo.services)
 
-    const fileNameWithExtensions = `${outputFileName}.d.ts`
-    logger.command('dts save to file', fileNameWithExtensions)
-    return writeOutput(fileNameWithExtensions, dtsContent)
+    const directoryPath = (outputDirectory + '/').replace('//', '/')
+
+    saveDTSFile(directoryPath + SERVICES_DTS_FILE_NAME, servicesDTS)
+    saveDTSFile(directoryPath + DOLLAR_W_DTS_FILE_NAME, dollarWDTS)
+    return true
   }
   catch (error) {
     logger.error('failed to complete workflow\n' + error.stack)

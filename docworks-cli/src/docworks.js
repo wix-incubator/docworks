@@ -162,20 +162,20 @@ function docworks() {
 
   function dts() {
     const cmdDefinition = optimist
-      .usage('Usage: $0 dts (-r [remote repo] | -l [local services folder] ) -o [output file]')
+      .usage('Usage: $0 dts (-r [remote repo] | -l [local services folder] ) -o [output directory]')
       .alias('r', 'remote')
       .describe('r', 'remote repository to read docworks services files from')
       .alias('l', 'local')
       .describe('l', 'folder containing docwork service files')
       .demand('o')
       .alias('o', 'out')
-      .describe('o', 'output file')
+      .describe('o', 'output directory')
     let argv = cmdDefinition
       .argv
 
     let remote = argv.remote
     let local = argv.local
-    let outputFileName = argv.out
+    let outputDir = argv.out
 
     if (!remote && !local || (!!remote && !!local)) {
       // eslint-disable-next-line no-console
@@ -183,7 +183,7 @@ function docworks() {
       process.exit(1)
     }
 
-    return runDts(outputFileName, {remote, local})
+    return runDts(outputDir, {remote, local})
       .catch(() => {
         process.exit(1)
       })

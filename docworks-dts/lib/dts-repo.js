@@ -1,3 +1,4 @@
+const dollarWGenerator = require('./$w-dts-generator')
 const {validServiceName} = require('./utils')
 const {
     convertTreeToString,
@@ -132,7 +133,10 @@ function dts(services) {
         }
     })
 
-    return [convertTreeToString(modules), convertTreeToString(namespaces)].join('')
+    return {
+      servicesDTS: [convertTreeToString(modules), convertTreeToString(namespaces)].join(''),
+      dollarWDTS: dollarWGenerator.createDollarWDTS()
+    }
 }
 
 module.exports = dts
