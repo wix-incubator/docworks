@@ -5,7 +5,7 @@ describe('convert docworks to dts', () => {
 
     function getDtsForServiceByPath(servicePath) {
         const service = require(servicePath)
-        return docworksToDts([service])
+        return docworksToDts([service]).servicesDTS
 
     }
 
@@ -203,7 +203,7 @@ describe('convert docworks to dts', () => {
     test('a repo', async () => {
         let repo = await readFromDir('./test/services')
 
-        let dts = docworksToDts(repo.services)
+        let dts = docworksToDts(repo.services).servicesDTS
 
         expect(dts).toMatchSnapshot()
     })

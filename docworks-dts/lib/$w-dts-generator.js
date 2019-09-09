@@ -39,7 +39,7 @@ function createDollarWDTS(services) {
   const servicesCollection = ([].concat(services))
   const [dollarWService] = servicesCollection.filter(service => service.name === '$w')
   if (!dollarWService) {
-    throw new Error('$w service must be provided')
+    return ''
   }
 
   const typeNameToSdkTypeMap = createTypeNameToSdkType()
