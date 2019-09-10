@@ -1,9 +1,14 @@
 const {
   convertTreeToString,
   dtsNamespace,
-  dtsFunction
+  dtsFunction,
+  dtsConst
 } = require('./dts-generator')
 
+const wixElementSelectorPlaceHolder = {
+  placeHolder: 'wixElementSelectorPlaceHolder',
+  value: 'type $w =  <T extends keyof WixElementSelector>(selector: T) => WixElementSelector[T]'
+}
 
 function createDollarWDTSNamespace(dollarWService) {
   const namespace = dtsNamespace('$w', dollarWService.docs.summary)
@@ -14,25 +19,37 @@ function createDollarWDTSNamespace(dollarWService) {
     const functionDeclaration = dtsFunction(operation.name, operation.params, operation.ret.type, {jsDocComment})
     namespace.members.push(functionDeclaration)
   })
+
+  const docs = {
+    summary: 'Selects and returns elements from a page.'
+  }
+  namespace.members.push(dtsConst({name: wixElementSelectorPlaceHolder.placeHolder, type: 'string', docs}))
+
   return namespace
 }
 
-function includeDollarWHardcodedSelectors() {
-  return `
+function getDollarWSelectorsHardcodedDTS() {
+  return `    
     type IntersectionArrayAndBase<T> = {
       [P in keyof T]: P extends "Document" ? T[P] : T[P] & [T[P]];
     }
-    
-    type ComponentSelectorByType = IntersectionArrayAndBase<TypeNameToSdkType>
-    
-    declare function $w<T extends keyof PageElementsMap>(selector: T): PageElementsMap[T]
-    declare function $w<T extends keyof ComponentSelectorByType>(selector: T): ComponentSelectorByType[T]  
+
+    type WixElementSelector = PageElementsMap & IntersectionArrayAndBase<TypeNameToSdkType>
+
+    declare function $w<T extends keyof WixElementSelector>(selector: T): WixElementSelector[T]
   `
 }
 
 function createTypeNameToSdkType() {
   // TODO 09/09/2019 NMO - AMIT CODE COMES HERE...
-  return 'type TypeNameToSdkType = {"amit": "string"}'
+  return `type TypeNameToSdkType = {
+    "Amit_Types": string,
+    "type2": string
+    }`
+}
+
+function replacePlaceHolders(str) {
+  return str.replace(`const ${wixElementSelectorPlaceHolder.placeHolder}: string;`, wixElementSelectorPlaceHolder.value)
 }
 
 function createDollarWDTS(services) {
@@ -43,16 +60,15 @@ function createDollarWDTS(services) {
   }
 
   const typeNameToSdkTypeMap = createTypeNameToSdkType()
-
   const $wNS = createDollarWDTSNamespace(dollarWService)
-  const $wNSAsString = convertTreeToString({'$w': $wNS})
+  const $wNSAsString = replacePlaceHolders(convertTreeToString({'$w': $wNS}))
 
   return `
     ${typeNameToSdkTypeMap}
     
-    ${$wNSAsString}
+    ${getDollarWSelectorsHardcodedDTS()}
     
-    ${includeDollarWHardcodedSelectors()}
+    ${$wNSAsString}
   `
 }
 

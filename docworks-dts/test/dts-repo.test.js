@@ -6,7 +6,6 @@ describe('convert docworks to dts', () => {
     function getDtsForServiceByPath(servicePath) {
         const service = require(servicePath)
         return docworksToDts([service]).servicesDTS
-
     }
 
     describe('services', () => {
@@ -198,6 +197,13 @@ describe('convert docworks to dts', () => {
                 expect(dts).toContain(expectedDeceleration)
             })
         })
+    })
+
+    describe('special cases', () => {
+      test('the $w service should be ignored and not generated as a module/namespace', () => {
+        const dts = getDtsForServiceByPath('./services/$w.service.json')
+        expect(dts).toEqual('')
+      })
     })
 
     test('a repo', async () => {
