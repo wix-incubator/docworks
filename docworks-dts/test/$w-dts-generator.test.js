@@ -4,9 +4,6 @@ const {createDollarWDTS} = require('../lib/$w-dts-generator')
 describe('$w-dts-generator - DTS generator for "$w" auto-completion', () => {
   // used in offline corvid code editor Date()
 
-  // TODO 10/09/2019 NMO - remove this once done
-  let count = 1
-
   describe('Creating the $w.d.ts file content', () => {
     test('create $w.d.ts file content with $w namespace', async () => {
       const {services} = await readFromDir('./test/services')
