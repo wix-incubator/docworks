@@ -1,6 +1,6 @@
 {
   "name": "docworks-dts",
-  "version": "1.9.1",
+  "version": "1.10.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "dts-dom": "^3.3.0"
   },
   "devDependencies": {
-    "docworks-repo": "^1.9.1",
+    "docworks-repo": "^1.10.0",
     "eslint": "^6.0.1",
     "jest": "^24.8.0"
   }
