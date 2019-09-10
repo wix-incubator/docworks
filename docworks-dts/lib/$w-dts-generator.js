@@ -10,6 +10,13 @@ const wixElementSelectorPlaceHolder = {
   value: 'type $w =  <T extends keyof WixElementSelector>(selector: T) => WixElementSelector[T]'
 }
 
+function addDollarWTypePlaceHolderToNamespace(namespace) {
+  const docs = {
+    summary: 'Selects and returns elements from a page.'
+  }
+  namespace.members.push(dtsConst({name: wixElementSelectorPlaceHolder.placeHolder, type: 'string', docs}))
+}
+
 function createDollarWDTSNamespace(dollarWService) {
   const namespace = dtsNamespace('$w', dollarWService.docs.summary)
   const funcsToExclude = ['$w']
@@ -20,10 +27,7 @@ function createDollarWDTSNamespace(dollarWService) {
     namespace.members.push(functionDeclaration)
   })
 
-  const docs = {
-    summary: 'Selects and returns elements from a page.'
-  }
-  namespace.members.push(dtsConst({name: wixElementSelectorPlaceHolder.placeHolder, type: 'string', docs}))
+  addDollarWTypePlaceHolderToNamespace(namespace)
 
   return namespace
 }
