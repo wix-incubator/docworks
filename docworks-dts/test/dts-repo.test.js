@@ -94,7 +94,7 @@ describe('convert docworks to dts', () => {
 
       test('should convert to function with union type as parameter', () => {
         const dts = getDtsForServiceByPath('./services/wix-router.service.json')
-        const expectedDeceleration = 'function ok(Page: string | [string], routerReturnedData?: object, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;'
+        const expectedDeceleration = 'function ok(Page: string | string[], routerReturnedData?: object, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;'
 
         expect(dts).toContain(expectedDeceleration)
       })
@@ -103,7 +103,7 @@ describe('convert docworks to dts', () => {
     describe('namespace', () => {
       test('should convert to method', () => {
         const dts = getDtsForServiceByPath('./services/CartIcon.service.json')
-        const expectedDeceleration = 'addProductsToCart(products: [$w.CartIcon.AddToCartItem]): Promise<void>;'
+        const expectedDeceleration = 'addProductsToCart(products: $w.CartIcon.AddToCartItem[]): Promise<void>;'
 
         expect(dts).toContain(expectedDeceleration)
       })
@@ -146,10 +146,10 @@ describe('convert docworks to dts', () => {
           'firstName: string;',
           'lastName: string;',
           'picture: string;',
-          'emails: [string];',
+          'emails: string[];',
           'loginEmail: string;',
-          'phones: [string];',
-          'labels: [string];',
+          'phones: string[];',
+          'labels: string[];',
           'language: string;',
           'customFields: string | number | Date;'
         ]
@@ -189,7 +189,7 @@ describe('convert docworks to dts', () => {
 
       test('should support union types', () => {
         const dts = getDtsForServiceByPath('./services/ProductPage.service.json')
-        const expectedDeceleration = 'mediaItems: [$w.Gallery.ImageItem] | [$w.Gallery.VideoItem];'
+        const expectedDeceleration = 'mediaItems: $w.Gallery.ImageItem[] | $w.Gallery.VideoItem[];'
 
         expect(dts).toContain(expectedDeceleration)
       })

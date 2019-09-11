@@ -31,7 +31,7 @@ declare module 'wix-router' {
     /**
      * Registers a hook that is called after a sitemap is created.
      */
-    function afterSitemap(request: wix_router.WixRouterSitemapRequest, sitemapEntries: [wix_router.WixRouterSitemapEntry]): Promise<[wix_router.WixRouterSitemapEntry]>;
+    function afterSitemap(request: wix_router.WixRouterSitemapRequest, sitemapEntries: wix_router.WixRouterSitemapEntry[]): Promise<wix_router.WixRouterSitemapEntry[]>;
 
     /**
      * Registers a hook that is called before a router.
@@ -61,7 +61,7 @@ declare module 'wix-router' {
     /**
      * Returns a response with a status code 200 (OK) and instructs the router to show the selected page.
      */
-    function ok(Page: string | [string], routerReturnedData?: object, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;
+    function ok(Page: string | string[], routerReturnedData?: object, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Returns a response with a status code of 301 (Moved Permanently) or 302 (Found) and instructs the router to redirect to the given URL.
@@ -81,7 +81,7 @@ declare module 'wix-router' {
     /**
      * Function containing sitemap logic for a given URL prefix.
      */
-    function sitemap(request: wix_router.WixRouterSitemapRequest): Promise<[wix_router.WixRouterSitemapEntry]>;
+    function sitemap(request: wix_router.WixRouterSitemapRequest): Promise<wix_router.WixRouterSitemapEntry[]>;
 
 }
 
@@ -127,7 +127,7 @@ declare module 'wix-site' {
     /**
      * Returns the sitemap for a router or dynamic page prefix.
      */
-    function routerSitemap(routerPrefix: string): Promise<[wix_router.WixRouterSitemapEntry]>;
+    function routerSitemap(routerPrefix: string): Promise<wix_router.WixRouterSitemapEntry[]>;
 
 }
 
@@ -213,7 +213,7 @@ declare namespace $w {
         /**
          * Adds multiple products to the shopping cart.
          */
-        addProductsToCart(products: [$w.CartIcon.AddToCartItem]): Promise<void>;
+        addProductsToCart(products: $w.CartIcon.AddToCartItem[]): Promise<void>;
         /**
          * Adds a product to the shopping cart.
          */
@@ -308,7 +308,7 @@ declare namespace $w {
         /**
          * Sets or gets the options in a dropdown.
          */
-        options: [$w.Dropdown.Option];
+        options: $w.Dropdown.Option[];
         /**
          * Sets or gets the dropdown's placeholder text.
          */
@@ -434,7 +434,7 @@ declare namespace $w {
         /**
          * Sets or gets the items in a gallery.
          */
-        items: [$w.Gallery.ImageItem] | [$w.Gallery.VideoItem];
+        items: $w.Gallery.ImageItem[] | $w.Gallery.VideoItem[];
         /**
          * Determines if a gallery's navigation arrows are shown.
          */
@@ -635,7 +635,7 @@ declare namespace $w {
             /**
              * List of product media items.
              */
-            mediaItems: [$w.Gallery.ImageItem] | [$w.Gallery.VideoItem];
+            mediaItems: $w.Gallery.ImageItem[] | $w.Gallery.VideoItem[];
             /**
              * Product stock keeping unit value.
              */
@@ -643,7 +643,7 @@ declare namespace $w {
             /**
              * List of product ribbons.
              */
-            ribbons: [$w.ProductPage.StoreProductRibbon];
+            ribbons: $w.ProductPage.StoreProductRibbon[];
             /**
              * Product currency.
              */
@@ -679,7 +679,7 @@ declare namespace $w {
             /**
              * Additional product information sections.
              */
-            additionalInfoSections: [$w.ProductPage.StoreProductAdditionalInfoSection];
+            additionalInfoSections: $w.ProductPage.StoreProductAdditionalInfoSection[];
             /**
              * All the available options for a store product.
              */
@@ -695,7 +695,7 @@ declare namespace $w {
             /**
              * List of product customization fields.
              */
-            customTextField: [$w.ProductPage.StoreProductCustomTextFields];
+            customTextField: $w.ProductPage.StoreProductCustomTextFields[];
             /**
              * Product type. Either \`\\"physical\\"\` or \`\\"digital\\"\`.
              */
@@ -753,7 +753,7 @@ declare namespace $w {
             /**
              * Option choices.
              */
-            choices: [$w.ProductPage.StoreProductOptionsChoice];
+            choices: $w.ProductPage.StoreProductOptionsChoice[];
         };
 
         /**
@@ -805,7 +805,7 @@ declare namespace $w {
             /**
              * List of choice media items.
              */
-            mediaItems: [$w.Gallery.ImageItem] | [$w.Gallery.VideoItem];
+            mediaItems: $w.Gallery.ImageItem[] | $w.Gallery.VideoItem[];
         };
 
         /**
@@ -898,7 +898,7 @@ declare namespace wix_dataset {
         /**
          * Loads the specified page.
          */
-        loadPage(pageIndex: number): Promise<[object]>;
+        loadPage(pageIndex: number): Promise<object[]>;
         /**
          * Create a new blank item.
          */
@@ -910,7 +910,7 @@ declare namespace wix_dataset {
         /**
          * Moves to the next page of data.
          */
-        nextPage(): Promise<[object]>;
+        nextPage(): Promise<object[]>;
         /**
          * Adds an event handler that runs just after a save.
          */
@@ -942,7 +942,7 @@ declare namespace wix_dataset {
         /**
          * Moves to the previous page of data.
          */
-        previousPage(): Promise<[object]>;
+        previousPage(): Promise<object[]>;
         /**
          * Refetches the contents of the dataset from the collection.
          */
@@ -1007,7 +1007,7 @@ declare namespace wix_dataset {
             /**
              * List of items objects where key:value pairs are the field keys and field values of the retrieved items, including all hidden fields.
              */
-            items: [object];
+            items: object[];
             /**
              * The number of items in the dataset that match its filter criteria.
              */
@@ -1101,11 +1101,11 @@ declare namespace wix_users {
         /**
          * Gets the user's member pricing plan.
          */
-        getPricingPlans(): Promise<[wix_users.User.PricingPlan]>;
+        getPricingPlans(): Promise<wix_users.User.PricingPlan[]>;
         /**
          * Gets the user's member roles.
          */
-        getRoles(): Promise<[wix_users.User.UserRole]>;
+        getRoles(): Promise<wix_users.User.UserRole[]>;
     }
 
     namespace User {
@@ -1228,7 +1228,7 @@ declare namespace wix_crm {
         /**
          * List of contact's email addresses.
          */
-        emails: [string];
+        emails: string[];
         /**
          * Email address the contact who is also
          *  a member uses to log into the system.
@@ -1237,13 +1237,13 @@ declare namespace wix_crm {
         /**
          * List of contact's phone numbers.
          */
-        phones: [string];
+        phones: string[];
         /**
          * List of contact's labels. [Labels](https://support.wix.com/en/article/creating-contact-labels)
          *  are used to organize contacts. When setting the \`labels\` property, you can
          *  only list labels that already exist in your site's [Contacts List](https://support.wix.com/en/article/accessing-your-contact-list).
          */
-        labels: [string];
+        labels: string[];
         /**
          * Contact's language.
          */
@@ -1292,15 +1292,15 @@ declare namespace wix_site {
         /**
          * The pages of the site.
          */
-        pages: [wix_site.StructurePage];
+        pages: wix_site.StructurePage[];
         /**
          * The prefixes of the site's routers and dynamic pages.
          */
-        prefixes: [wix_site.Prefix];
+        prefixes: wix_site.Prefix[];
         /**
          * The site's lightboxes.
          */
-        lightboxes: [wix_site.StructureLightbox];
+        lightboxes: wix_site.StructureLightbox[];
     };
 
     /**

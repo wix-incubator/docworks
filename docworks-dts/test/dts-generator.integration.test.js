@@ -11,7 +11,7 @@ describe('dts-generator', () => {
 
     test('Array<string>', () => {
       const docworksType = {name: 'Array', typeParams: ['string']}
-      expect(getDtsType(docworksType)).toEqual('[string]')
+      expect(getDtsType(docworksType)).toEqual('string[]')
     })
 
     test('boolean', () => {
@@ -50,14 +50,14 @@ describe('dts-generator', () => {
       expect(getDtsType(docworksType)).toEqual(expectedValue)
     })
 
-    test('$w.Element & [$w.Element]', () => {
+    test('$w.Element & $w.Element[]', () => {
       const docworksType = ['$w.Element',
         {
           'name': 'Array',
           'typeParams':
             ['$w.Element']
         }]
-      const expectedValue = create.intersection(['$w.Element', '[$w.Element]'])
+      const expectedValue = create.intersection(['$w.Element', '$w.Element[]'])
       expect(getDtsType(docworksType, {intersection: true})).toEqual(expectedValue)
     })
 
@@ -69,7 +69,7 @@ describe('dts-generator', () => {
       expect(getDtsType(docworksType, {union: true})).toEqual(expectedValue)
     })
 
-    test('Promise<[wix_users.User.PricingPlan]>', () => {
+    test('Promise<wix_users.User.PricingPlan[]>', () => {
       const docworksType = {
         'name': 'Promise',
         'typeParams':
@@ -79,7 +79,7 @@ describe('dts-generator', () => {
               ['wix-users.User.PricingPlan']
           }]
       }
-      const expectedValue = create.namedTypeReference('Promise<[wix_users.User.PricingPlan]>')
+      const expectedValue = create.namedTypeReference('Promise<wix_users.User.PricingPlan[]>')
       expect(getDtsType(docworksType)).toEqual(expectedValue)
     })
   })

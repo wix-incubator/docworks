@@ -26,7 +26,7 @@ function getDtsType(type, options = {}) {
   }
   else if (typeof type === 'object' && type.name) {
     if (type.name === 'Array') {
-      return `[${getDtsType(type.typeParams[0])}]`
+      return `${getDtsType(type.typeParams[0])}[]`
     }
     else if (type.name === 'Promise') {
       return dom.create.namedTypeReference(`Promise<${getDtsType(type.typeParams[0])}>`)
