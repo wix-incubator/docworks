@@ -45,10 +45,10 @@ function getDollarWSelectorsHardcodedDTS() {
 }
 
 function createTypeNameToSdkType(queriables) {
-  // TODO 09/09/2019 NMO - AMIT CODE COMES HERE...
+  const types = queriables.map(queriable => `"${queriable.name}": ${queriable.memberOf}.${queriable.name}`)
+  
   return `type TypeNameToSdkType = {
-    "Amit_Types": string,
-    "type2": string
+    ${types.join(',\n')}
     }`
 }
 
@@ -56,7 +56,7 @@ function replacePlaceHolders(str) {
   return str.replace(`const ${wixElementSelectorPlaceHolder.placeHolder}: string;`, wixElementSelectorPlaceHolder.value)
 }
 
-function createDollarWDTS(services, queriables) {
+function createDollarWDTS(services, queriables = []) {
   const servicesCollection = ([].concat(services))
   const [dollarWService] = servicesCollection.filter(service => service.name === '$w')
   if (!dollarWService) {
