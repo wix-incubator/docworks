@@ -138,7 +138,7 @@ function dts(services) {
         }
     })
     
-    const queriables = services.filter(service => service.tags.queriable)
+    const queriables = services.filter(service => service.extra.queriable)
 
     return {
       servicesDTS: [convertTreeToString(modules), convertTreeToString(namespaces)].join(''),

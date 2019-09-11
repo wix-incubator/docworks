@@ -107,11 +107,17 @@ function handleDoc(doclet, plugins) {
   return handlePlugins(plugins, 'extendDocworksDocs', doclet, docs)
 }
 
-function handleTags(serviceDoclet) {
-  return (serviceDoclet.tags || []).map(tag => tag.originalTitle).reduce((tags, tag) => ({
-    ...tags,
-    [tag]: true
-  }), {})
+
+function handleExtra(serviceDoclet) {
+  const knownTags = ['queriable']
+
+  return (serviceDoclet.tags || [])
+    .map(tag => tag.originalTitle)
+    .filter(tag => knownTags.indexOf(tag) > -1)
+    .reduce((tags, tag) => ({
+      ...tags,
+      [tag]: true
+    }), {})
 }
 
 module.exports = {
@@ -119,5 +125,5 @@ module.exports = {
   typeContext,
   handleType,
   handleDoc,
-  handleTags
+  handleExtra
 }
