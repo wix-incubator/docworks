@@ -30,7 +30,7 @@ describe('docs', function () {
         services: [
           {
             name: 'ServiceNonQueriable',
-            tags: {}
+            extra: {}
           }
         ]
       })
