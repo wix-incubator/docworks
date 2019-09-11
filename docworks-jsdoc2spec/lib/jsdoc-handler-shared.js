@@ -107,14 +107,11 @@ function handleDoc(doclet, plugins) {
   return handlePlugins(plugins, 'extendDocworksDocs', doclet, docs)
 }
 
-function handleExtra(serviceDoclet) {
-  const extra = {}
-  if (serviceDoclet.tags) {
-    const queriable = serviceDoclet.tags.find(tag => tag.originalTitle === 'queriable')
-    extra.queriable = !!queriable
-  }
-
-  return extra
+function handleTags(serviceDoclet) {
+  return (serviceDoclet.tags || []).map(tag => tag.originalTitle).reduce((tags, tag) => ({
+    ...tags,
+    [tag]: true
+  }), {})
 }
 
 module.exports = {
@@ -122,5 +119,5 @@ module.exports = {
   typeContext,
   handleType,
   handleDoc,
-  handleExtra
+  handleTags
 }

@@ -1,6 +1,6 @@
 
 
-function Service(name, memberOf, mixes, labels, properties, operations, callbacks, messages, location, docs, extra) {
+function Service(name, memberOf, mixes, labels, properties, operations, callbacks, messages, location, docs, extra, tags) {
   return {
     name: name,
     memberOf: memberOf,
@@ -12,6 +12,7 @@ function Service(name, memberOf, mixes, labels, properties, operations, callback
     messages: messages,
     location: location,
     docs: docs,
+    tags,
     extra: extra || {}
   }
 }
