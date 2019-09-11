@@ -44,7 +44,7 @@ function getDollarWSelectorsHardcodedDTS() {
   `
 }
 
-function createTypeNameToSdkType() {
+function createTypeNameToSdkType(queriables) {
   // TODO 09/09/2019 NMO - AMIT CODE COMES HERE...
   return `type TypeNameToSdkType = {
     "Amit_Types": string,
@@ -56,14 +56,14 @@ function replacePlaceHolders(str) {
   return str.replace(`const ${wixElementSelectorPlaceHolder.placeHolder}: string;`, wixElementSelectorPlaceHolder.value)
 }
 
-function createDollarWDTS(services) {
+function createDollarWDTS(services, queriables) {
   const servicesCollection = ([].concat(services))
   const [dollarWService] = servicesCollection.filter(service => service.name === '$w')
   if (!dollarWService) {
     return ''
   }
 
-  const typeNameToSdkTypeMap = createTypeNameToSdkType()
+  const typeNameToSdkTypeMap = createTypeNameToSdkType(queriables)
   const $wNS = createDollarWDTSNamespace(dollarWService)
   const $wNSAsString = replacePlaceHolders(convertTreeToString({'$w': $wNS}))
 

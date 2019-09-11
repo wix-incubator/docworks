@@ -137,10 +137,12 @@ function dts(services) {
             handleServiceAsModule(service, modules, namespaces)
         }
     })
+    
+    const queriables = services.filter(service => service.extra.queriable)
 
     return {
       servicesDTS: [convertTreeToString(modules), convertTreeToString(namespaces)].join(''),
-      dollarWDTS: [dollarWGenerator.createDollarWDTS(services)]
+      dollarWDTS: [dollarWGenerator.createDollarWDTS(services, queriables)]
     }
 }
 

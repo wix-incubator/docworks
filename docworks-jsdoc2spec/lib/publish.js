@@ -5,7 +5,7 @@ const handleMessages = require('./jsdoc-handler-messages')
 const handleMixins = require('./jsdoc-handler-mixins')
 const handlePlugins = require('./docworks-plugins')
 const {handleFunctions, handleCallbacks} = require('./jsdoc-handler-operations')
-const {handleMeta, handleDoc} = require('./jsdoc-handler-shared')
+const {handleMeta, handleDoc, handleExtra} = require('./jsdoc-handler-shared')
 
 
 function loadPlugins(plugins) {
@@ -42,7 +42,9 @@ function handleService(find, onError, plugins) {
     let mixes = handleMixins(find, serviceDoclet, onError)
     let location = handleMeta(serviceDoclet.meta)
     let docs = handleDoc(serviceDoclet, plugins)
-    let service = Service(serviceDoclet.name, serviceDoclet.memberof, mixes, [], properties, operations, callbacks, messages, location, docs)
+    let extra = handleExtra(serviceDoclet)
+    
+    let service = Service(serviceDoclet.name, serviceDoclet.memberof, mixes, [], properties, operations, callbacks, messages, location, docs, extra)
     return handlePlugins(plugins, 'extendDocworksService', serviceDoclet, service)
   }
 }
