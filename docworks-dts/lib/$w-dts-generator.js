@@ -46,10 +46,8 @@ function getDollarWSelectorsHardcodedDTS() {
 
 function createTypeNameToSdkType(queriables) {
   const types = queriables.map(queriable => `"${queriable.name}": ${queriable.memberOf}.${queriable.name}`)
-  
-  return `type TypeNameToSdkType = {
-    ${types.join(',\n')}
-    }`
+
+  return `type TypeNameToSdkType = {\n\t${types.join(',\n\t')}\n}`
 }
 
 function replacePlaceHolders(str) {
@@ -68,11 +66,11 @@ function createDollarWDTS(services, queriables = []) {
   const $wNSAsString = replacePlaceHolders(convertTreeToString({'$w': $wNS}))
 
   return `
-    ${typeNameToSdkTypeMap}
+${typeNameToSdkTypeMap}
     
-    ${getDollarWSelectorsHardcodedDTS()}
+${getDollarWSelectorsHardcodedDTS()}
     
-    ${$wNSAsString}
+${$wNSAsString}
   `
 }
 
