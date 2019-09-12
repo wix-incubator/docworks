@@ -3,7 +3,8 @@
 A tool for parsing documentation and transforming it to a JSON as a model.
 
 ## Getting started
-Run `npm install && npm run bootstrap`
+* `npm install`
+* `npm run bootstrap` - this installs all the packages' dependencies and links any cross-dependencies, [see more](https://github.com/lerna/lerna/tree/master/commands/bootstrap#readme).
 
 #### Commands
 * `local` - generates the JSON model from the JSDoc to a local directory
