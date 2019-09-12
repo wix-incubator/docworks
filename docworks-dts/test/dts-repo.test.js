@@ -241,10 +241,10 @@ describe('convert docworks to dts', () => {
     })
 
     test('a repo', async () => {
-        let repo = await readFromDir('./test/services')
+      let repo = await readFromDir('./test/services')
 
-        let dts = docworksToDts(repo.services).servicesDTS
+      let dts = docworksToDts(repo.services).servicesDTS
 
-    expect(dts).toMatchSnapshot()
+      expect(dts).toMatchSnapshot()
   })
 })
