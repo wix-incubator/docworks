@@ -4,6 +4,7 @@
 		"release": "echo \"======= Lerna Releasing docworks =======\" && npm run test && lerna publish"
 	},
 	"devDependencies": {
+		"fs-extra": "^8.1.0",
 		"lerna": "^2.11.0"
 	}
 }
