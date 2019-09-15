@@ -23,7 +23,7 @@ describe('dts-generator', () => {
     })
 
     test('Object', () => {
-      expect(getDtsType('Object')).toEqual(type.object)
+      expect(getDtsType('Object')).toEqual(type.any)
     })
 
     test('Date', () => {
@@ -40,7 +40,7 @@ describe('dts-generator', () => {
 
     test('Promise<obj>', () => {
       const docworksType = {name: 'Promise', typeParams: ['Object']}
-      const expectedValue = create.namedTypeReference('Promise<object>')
+      const expectedValue = create.namedTypeReference('Promise<any>')
       expect(getDtsType(docworksType)).toEqual(expectedValue)
     })
 

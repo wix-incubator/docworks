@@ -61,7 +61,7 @@ declare module 'wix-router' {
     /**
      * Returns a response with a status code 200 (OK) and instructs the router to show the selected page.
      */
-    function ok(Page: string | string[], routerReturnedData?: object, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;
+    function ok(Page: string | string[], routerReturnedData?: any, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Returns a response with a status code of 301 (Moved Permanently) or 302 (Found) and instructs the router to redirect to the given URL.
@@ -260,7 +260,7 @@ declare namespace $w {
              *  product to the cart. The object contains key:value pairs where the key is the
              *  option name and the value is the chosen option value.
              */
-            choices: object;
+            choices: any;
             /**
              * Custom custom
              *  text fields to use when adding the product to the cart.
@@ -571,7 +571,7 @@ declare namespace $w {
         /**
          * Sends a message to the HTML Component.
          */
-        postMessage(message: string | number | boolean | object | Array): void;
+        postMessage(message: string | number | boolean | any | Array): void;
     }
 
     /**
@@ -850,7 +850,7 @@ declare namespace wix_dataset {
         /**
          * Returns the current item.
          */
-        getCurrentItem(): object;
+        getCurrentItem(): any;
         /**
          * Returns the current item's index.
          */
@@ -898,7 +898,7 @@ declare namespace wix_dataset {
         /**
          * Loads the specified page.
          */
-        loadPage(pageIndex: number): Promise<object[]>;
+        loadPage(pageIndex: number): Promise<any[]>;
         /**
          * Create a new blank item.
          */
@@ -906,11 +906,11 @@ declare namespace wix_dataset {
         /**
          * Saves the current item and moves to the next item.
          */
-        next(): Promise<object>;
+        next(): Promise<any>;
         /**
          * Moves to the next page of data.
          */
-        nextPage(): Promise<object[]>;
+        nextPage(): Promise<any[]>;
         /**
          * Adds an event handler that runs just after a save.
          */
@@ -938,11 +938,11 @@ declare namespace wix_dataset {
         /**
          * Saves the current item and moves to the previous item.
          */
-        previous(): Promise<object>;
+        previous(): Promise<any>;
         /**
          * Moves to the previous page of data.
          */
-        previousPage(): Promise<object[]>;
+        previousPage(): Promise<any[]>;
         /**
          * Refetches the contents of the dataset from the collection.
          */
@@ -958,7 +958,7 @@ declare namespace wix_dataset {
         /**
          * Saves the current item.
          */
-        save(): Promise<object>;
+        save(): Promise<any>;
         /**
          * Sets the current item by index.
          */
@@ -970,7 +970,7 @@ declare namespace wix_dataset {
         /**
          * Updates the values of a set of fields in the current item.
          */
-        setFieldValues(fieldValues: object): void;
+        setFieldValues(fieldValues: any): void;
         /**
          * Sets the dataset filter.
          */
@@ -1007,7 +1007,7 @@ declare namespace wix_dataset {
             /**
              * List of items objects where key:value pairs are the field keys and field values of the retrieved items, including all hidden fields.
              */
-            items: object[];
+            items: any[];
             /**
              * The number of items in the dataset that match its filter criteria.
              */
@@ -1021,7 +1021,7 @@ declare namespace wix_dataset {
         /**
          * An after save event handler.
          */
-        type AfterSaveHandler = (itemBeforeSave: object, itemAfterSave: object)=>void;
+        type AfterSaveHandler = (itemBeforeSave: any, itemAfterSave: any)=>void;
 
         /**
          * A before save event handler.
@@ -1041,7 +1041,7 @@ declare namespace wix_dataset {
         /**
          * A current item value change event handler.
          */
-        type ItemValuesChangedHandler = (itemBeforeChange: object, updatedItem: object)=>void;
+        type ItemValuesChangedHandler = (itemBeforeChange: any, updatedItem: any)=>void;
 
         /**
          * A dataset ready event handler.
@@ -1198,7 +1198,7 @@ declare namespace wix_users {
          *  corresponding \`value\` is the value to insert into the template in place of
          *  variable. The values must be strings.
          */
-        variables: object;
+        variables: any;
     };
 
     /**

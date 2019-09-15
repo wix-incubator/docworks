@@ -5,7 +5,7 @@ const builtInTypes = {
   'string': dom.type.string,
   'boolean': dom.type.boolean,
   'number': dom.type.number,
-  'Object': dom.type.object,
+  'Object': dom.type.any,
   'void': dom.type.void,
   '*': dom.type.any
 }

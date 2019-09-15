@@ -94,7 +94,7 @@ describe('convert docworks to dts', () => {
 
       test('should convert to function with union type as parameter', () => {
         const dts = getDtsForServiceByPath('./services/wix-router.service.json')
-        const expectedDeceleration = 'function ok(Page: string | string[], routerReturnedData?: object, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;'
+        const expectedDeceleration = 'function ok(Page: string | string[], routerReturnedData?: any, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;'
 
         expect(dts).toContain(expectedDeceleration)
       })
@@ -117,7 +117,7 @@ describe('convert docworks to dts', () => {
 
       test('should convert to method union type parameters', () => {
         const dts = getDtsForServiceByPath('./services/HtmlComponent.service.json')
-        const expectedDeceleration = 'postMessage(message: string | number | boolean | object | Array): void;'
+        const expectedDeceleration = 'postMessage(message: string | number | boolean | any | Array): void;'
 
         expect(dts).toContain(expectedDeceleration)
       })
