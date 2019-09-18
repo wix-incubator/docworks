@@ -1,6 +1,6 @@
 {
   "name": "docworks-json",
-  "version": "1.10.0",
+  "version": "1.8.4",
   "description": "serialize objects to json in a form that is nice with git",
   "main": "src/index.js",
   "scripts": {
