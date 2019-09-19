@@ -12,6 +12,7 @@
     "wix-event-type",
     "wix-jsdoc-babel",
     "wix-note",
+    "wix-queryable",
     "wix-snippet",
     "wix-types-fix"
   ],

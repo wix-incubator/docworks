@@ -1,0 +1,21 @@
+{
+  "name": "wix-queryable",
+  "version": "1.9.1",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix",
+    "build": "npm run lint && npm run test",
+    "prepublish": "npm run build",
+    "test": "jest"
+  },
+  "author": "Karin Agan",
+  "license": "ISC",
+  "devDependencies": {
+    "docworks-jsdoc2spec": "^1.9.1",
+    "docworks-repo": "^1.9.1",
+    "eslint": "^6.0.1",
+    "jest": "^24.8.0"
+  }
+}
