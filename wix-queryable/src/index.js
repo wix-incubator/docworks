@@ -1,21 +1,21 @@
-const TAG_NAME = 'queryable'
+const QUERYABLE = 'queryable'
 
 exports.defineTags = function(dictionary) {
-  dictionary.defineTag(TAG_NAME, {
+  dictionary.defineTag(QUERYABLE, {
     mustNotHaveValue : true,
     mustNotHaveDescription: true,
     canHaveType: false,
     canHaveName : false,
     onTagged: function(doclet) {
-      doclet[TAG_NAME] = true
+      doclet[QUERYABLE] = true
     }
   })
 }
 
-exports.extendDocworksKey = TAG_NAME
+exports.extendDocworksKey = QUERYABLE
 
 function extendDocworks(doclet) {
-  return {extraValue: doclet[TAG_NAME]}
+  return {extraValue: doclet[QUERYABLE]}
 }
 exports.extendDocworksService = extendDocworks
 
