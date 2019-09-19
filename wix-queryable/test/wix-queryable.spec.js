@@ -4,7 +4,7 @@ describe('wix-queryable', () => {
 
   const makeDict = () => ({
       tags: {},
-      defineTag: (name, tag) => {
+      defineTag: function (name, tag) {
         this.tags[name] = tag
       }
     }
