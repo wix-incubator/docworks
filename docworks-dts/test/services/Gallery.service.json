@@ -549,7 +549,7 @@
           {  },
         "labels": [] } ],
   "extra":
-    {  },
+    { "queryable": true },
   "relatedContent":
     [ { "icon": "example",
         "text": "Gallery Index",

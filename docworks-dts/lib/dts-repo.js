@@ -1,64 +1,20 @@
-const {validServiceName} = require('./utils')
+const $wPlugin = require('./$w-plugin')
 const {
   convertTreeToString,
-  dtsAlias,
-  dtsConst,
-  dtsFunction,
-  dtsFunctionType,
-  dtsInterface,
-  dtsMethod,
-  dtsModule,
   dtsNamespace,
-  dtsProperty,
-  dtsObjectType
+  getTripleSlashDirectivesString
 } = require('./dts-generator')
+const {
+  convertCallbackToType,
+  convertMessageToType,
+  convertServiceToInterface,
+  convertServiceToModule
+} = require('./dts-convertos')
 
-function convertCallbackToType(callback) {
-  const functionType = dtsFunctionType(callback.params, callback.ret.type)
-  const callbackName = validServiceName(callback.name)
-  return dtsAlias(callbackName, functionType, {jsDocComment: callback.docs.summary})
-}
-
-function convertServiceToInterface(service) {
-  const properties = service.properties.map(dtsProperty)
-  const operations = service.operations.map(convertOperationToMethod)
-  const members = properties.concat(operations)
-  const baseTypes = service.mixes.map(validServiceName)
-  const jsDocComment = service.docs.summary
-  return dtsInterface(service.name, {members, baseTypes, jsDocComment})
-}
-
-function convertServiceToModule(service) {
-  const properties = service.properties.map(dtsConst)
-  const operations = service.operations.map(convertOperationToFunction)
-  const members = properties.concat(operations)
-  const jsDocComment = service.docs.summary
-  return dtsModule(service.name, {members, jsDocComment})
-}
-
-function convertOperationToMethod(operation) {
-  const {name, params, ret, docs} = operation
-  const jsDocComment = docs.summary
-  return dtsMethod(name, params, ret.type, {jsDocComment})
-}
-
-function convertOperationToFunction(operation) {
-  const {name, params, ret, docs} = operation
-  const jsDocComment = docs.summary
-  return dtsFunction(name, params, ret.type, {jsDocComment})
-}
-
-function convertMessageToType(message) {
-  const objectType = dtsObjectType(message.members)
-  const messageName = validServiceName(message.name)
-  const jsDocComment = message.docs.summary
-  return dtsAlias(messageName, objectType, {jsDocComment})
-}
-
-function ensureNamespace(namespaces, name) {
+function ensureNamespace(namespaces, name, {jsDocComment} = {}) {
   let namespace = namespaces[name]
   if (!namespace) {
-    namespace = dtsNamespace(name)
+    namespace = dtsNamespace(name, {jsDocComment})
     namespaces[name] = namespace
   }
   return namespace
@@ -120,7 +76,7 @@ function handleServiceAsNamespace(service, namespaces) {
   }
 }
 
-function dts(services) {
+function dts(services, {run$wPlugin = false} = {}) {
   let namespaces = {}
   let modules = {}
 
@@ -132,7 +88,17 @@ function dts(services) {
     }
   })
 
-  return [convertTreeToString(modules), convertTreeToString(namespaces)].join('')
+  const pluginDeclaration = {}
+
+  if(run$wPlugin){
+    const $wDts = $wPlugin(services, modules, namespaces)
+    const $wDeclarationContent = [getTripleSlashDirectivesString($wDts.tripleSlashReference),
+      convertTreeToString($wDts.declaration)].join('')
+    pluginDeclaration['$w'] = $wDeclarationContent
+  }
+
+  const declarationContent = [convertTreeToString(modules), convertTreeToString(namespaces)].join('')
+  return {mainDeclaration: declarationContent, pluginDeclaration}
 }
 
 module.exports = dts
