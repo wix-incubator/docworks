@@ -64,14 +64,14 @@ function convertMessageMemberToProperty(member) {
   return dtsProperty(name, type, {optional, jsDocComment: doc})
 }
 
-function convertMessageToType(message) {
+function convertMessageToObjectType(message) {
   const jsDocComment = message.docs.summary
   const properties = message.members.map(convertMessageMemberToProperty)
 
   return dtsObjectTypeAlias(message.name, properties, {jsDocComment})
 }
 
-function convertCallbackToType(callback) {
+function convertCallbackToFunctionType(callback) {
   const {name, params, ret, docs} = callback
   const parameters = params.map(convertOperationParamToParameters)
   const jsDocComment = docs.summary
@@ -80,8 +80,8 @@ function convertCallbackToType(callback) {
 }
 
 module.exports = {
-  convertCallbackToType,
-  convertMessageToType,
+  convertCallbackToType: convertCallbackToFunctionType,
+  convertMessageToType: convertMessageToObjectType,
   convertOperationParamToParameters,
   convertOperationToFunction,
   convertServiceToInterface,

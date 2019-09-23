@@ -13,7 +13,7 @@ const {
 const {
   convertOperationParamToParameters,
   convertOperationToFunction
-} = require('./dts-convertos')
+} = require('./dts-converters')
 
 const WIX_SELECTOR_TYPE = 'WixElementSelector'
 const WIX_SELECTOR_TYPE_VARIABLE = 'T'
@@ -50,7 +50,7 @@ function convent$wOperationToFunctionType(operation) {
   return dtsFunctionTypeAlias(name, parameters, returnType, {jsDocComment, funcTypeParameters: typeParameters})
 }
 
-function convent$wOperationToFunction(operation) {
+function convert$wOperationToFunction(operation) {
   const {name, params, returnType, typeParameters, jsDocComment} = get$wFunctionMembers(operation)
   const parameters = params.map(convertOperationParamToParameters)
 
@@ -90,7 +90,7 @@ function getWixElementSelectorType() {
   return dtsAlias(WIX_SELECTOR_TYPE, type)
 }
 
-// this is a very ugly hack to fix the model. dataset is part of the $w and the fix should be in docs
+// CRVD-902 - this is a very ugly hack to fix the model. dataset is part of the $w and the fix should be in docs
 function addDatasetAliasesTo$wNamespace(namespaces) {
   const $wNamespace = namespaces[$W]
   if (!$wNamespace) {
@@ -115,7 +115,7 @@ function $wPlugin(services, modules, namespaces) {
   const $wOperation = $wService.operations.find(is$wOperation)
 
   const $wNamespace = convert$wServiceToNamespace($wService)
-  const $wFunc = convent$wOperationToFunction($wOperation)
+  const $wFunc = convert$wOperationToFunction($wOperation)
   const queryableType = getQueryableObjectType(services)
   const wixElementSelectorType = getWixElementSelectorType()
 

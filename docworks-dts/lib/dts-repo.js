@@ -9,7 +9,7 @@ const {
   convertMessageToType,
   convertServiceToInterface,
   convertServiceToModule
-} = require('./dts-convertos')
+} = require('./dts-converters')
 
 function ensureNamespace(namespaces, name, {jsDocComment} = {}) {
   let namespace = namespaces[name]
