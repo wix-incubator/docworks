@@ -29,7 +29,7 @@ function getDtsType(type, options = {}) {
       return `${getDtsType(type.typeParams[0])}[]`
     }
     else if (type.name === 'Promise') {
-      return dom.create.namedTypeReference(`Promise<${getDtsType(type.typeParams[0])}>`)
+      return dtsNamedTypeReference(`Promise<${getDtsType(type.typeParams[0])}>`)
     }
   }
   else if (Array.isArray(type) && type.length > 0) {
@@ -39,9 +39,9 @@ function getDtsType(type, options = {}) {
 
     const types = type.map(t => getDtsType(t))
     if (options.union) {
-      return dom.create.union(types)
+      return dtsUnion(types)
     } else if (options.intersection) {
-      return dom.create.intersection(types)
+      return dtsIntersection(types)
     }
     throw new Error(`Unable to convert type ${type} to valid dts type`)
   }
@@ -53,9 +53,16 @@ function convertTreeToString(tree) {
   return Object.keys(tree).map(key => dom.emit(tree[key])).join('')
 }
 
-function dtsAlias(name, type, {jsDocComment}) {
+function getTripleSlashDirectivesString(tripleSlashDirectives = []){
+  return dom.emit('', {tripleSlashDirectives})
+}
+
+function dtsAlias(name, type, {jsDocComment, typeParameters = []} = {}) {
   const alias = dom.create.alias(name, type)
+
   alias.jsDocComment = trimPara(jsDocComment)
+  alias.typeParameters = typeParameters
+
   return alias
 }
 
@@ -65,28 +72,33 @@ function dtsConst(property) {
   return cnt
 }
 
-function dtsFunction(name, params, returnType, {jsDocComment}) {
+function dtsFunction(name, parameters, returnType, {jsDocComment, typeParameters = []} = {}) {
   const func = dom.create.function(
     name,
-    params.map(param => {
-      const parameterFlags = param.optional ? dom.ParameterFlags.Optional : dom.ParameterFlags.None
-      const parameter = dom.create.parameter(param.name, getDtsType(param.type, {union: true}), parameterFlags)
-      parameter.jsDocComment = trimPara(param.doc)
-      return parameter
-    }),
+    parameters,
     getDtsType(returnType, {intersection: true}))
+
   func.jsDocComment = trimPara(jsDocComment)
+  func.typeParameters = typeParameters
+
   return func
 }
 
-function dtsFunctionType(params, returnType) {
-  return dom.create.functionType(params.map(param => {
-      const parameterFlags = param.optional ? dom.ParameterFlags.Optional : dom.ParameterFlags.None
-      const parameter = dom.create.parameter(param.name, getDtsType(param.type, {union: true}), parameterFlags)
-      parameter.jsDocComment = trimPara(param.doc)
-      return parameter
-    }),
-    getDtsType(returnType, {intersection: true}))
+function dtsFunctionType(parameters, returnType, {typeParameters = []} = {}) {
+  const funcType = dom.create.functionType(
+    parameters,
+    getDtsType(returnType, {union: true}))
+
+  funcType.typeParameters = typeParameters
+
+  return funcType
+}
+
+function dtsFunctionTypeAlias(name, parameters, returnType, {jsDocComment, aliasTypeParameters, funcTypeParameters} = {}) {
+  const functionType = dtsFunctionType(parameters, returnType, {typeParameters: funcTypeParameters})
+  const callbackName = validServiceName(name)
+
+  return dtsAlias(callbackName, functionType, {jsDocComment, typeParameters: aliasTypeParameters})
 }
 
 function dtsInterface(name, {members = [], baseTypes = [], jsDocComment}) {
@@ -97,46 +109,83 @@ function dtsInterface(name, {members = [], baseTypes = [], jsDocComment}) {
   return intf
 }
 
-function dtsMethod(name, params, returnType, {jsDocComment}) {
+function dtsIntersection(types) {
+  return dom.create.intersection(types)
+}
+
+function dtsMethod(name, parameters, returnType, {jsDocComment}) {
   const method = dom.create.method(
     name,
-    params.map(param => {
-      const parameterFlags = param.optional ? dom.ParameterFlags.Optional : dom.ParameterFlags.None
-      const parameter = dom.create.parameter(param.name, getDtsType(param.type, {union: true}), parameterFlags)
-      parameter.jsDocComment = trimPara(param.doc)
-      return parameter
-    }),
+    parameters,
     getDtsType(returnType, {intersection: true}))
+
   method.jsDocComment = trimPara(jsDocComment)
+
   return method
 }
 
 function dtsModule(name, {members = [], jsDocComment}) {
   const module = dom.create.module(name)
+
   module.members = members
   module.jsDocComment = trimPara(jsDocComment)
+
   return module
 }
 
-function dtsNamespace(name) {
-  return dom.create.namespace(validServiceName(name))
+function dtsNamespace(name, {jsDocComment} = {}) {
+  const namespace = dom.create.namespace(validServiceName(name))
+
+  namespace.jsDocComment = trimPara(jsDocComment)
+
+  return namespace
 }
 
+function dtsNamedTypeReference(namedTypeReference) {
+  return dom.create.namedTypeReference(namedTypeReference)
+}
 
 function dtsObjectType(members) {
-  return dom.create.objectType(members.map(member => {
-    const declarationFlags = member.optional ? dom.DeclarationFlags.Optional : dom.DeclarationFlags.None
-    const prop = dom.create.property(member.name, getDtsType(member.type, {union: true}), declarationFlags)
-    prop.jsDocComment = trimPara(member.doc)
-    return prop
-  }))
+  return dom.create.objectType(members)
 }
 
-function dtsProperty(property) {
-  const declarationFlags = property.get && !property.set ? dom.DeclarationFlags.ReadOnly : dom.DeclarationFlags.None
-  const prop = dom.create.property(property.name, getDtsType(property.type, {union: true}), declarationFlags)
-  prop.jsDocComment = trimPara(property.docs.summary)
+function dtsObjectTypeAlias(name, members, {jsDocComment, aliasTypeParameters} = {}) {
+  const objectType = dtsObjectType(members)
+  const messageName = validServiceName(name)
+
+  return dtsAlias(messageName, objectType, {jsDocComment, typeParameters: aliasTypeParameters})
+}
+
+function dtsParameter(name, type, {optional = false, jsDocComment} = {}) {
+  const parameterFlags = optional ? dom.ParameterFlags.Optional : dom.ParameterFlags.None
+  const parameter = dom.create.parameter(name, getDtsType(type, {union: true}), parameterFlags)
+
+  parameter.jsDocComment = trimPara(jsDocComment)
+
+  return parameter
+}
+
+function dtsProperty(name, type, {readonly = false, optional = false, jsDocComment} = {}) {
+  let declarationFlags = dom.DeclarationFlags.None
+  declarationFlags = readonly ? declarationFlags |dom.DeclarationFlags.ReadOnly : declarationFlags
+  declarationFlags = optional ? declarationFlags |dom.DeclarationFlags.Optional : declarationFlags
+
+  const prop = dom.create.property(name, getDtsType(type, {union: true}), declarationFlags)
+  prop.jsDocComment = trimPara(jsDocComment)
+
   return prop
+}
+
+function dtsTypeParameter(name, baseType) {
+  return dom.create.typeParameter(name, baseType)
+}
+
+function dtsTripleSlashReferencePathDirective(path) {
+  return dom.create.tripleSlashReferencePathDirective(path)
+}
+
+function dtsUnion(types) {
+  return dom.create.union(types)
 }
 
 module.exports = {
@@ -144,12 +193,18 @@ module.exports = {
   dtsAlias,
   dtsConst,
   dtsFunction,
-  dtsFunctionType,
+  dtsFunctionTypeAlias,
   dtsInterface,
+  dtsIntersection,
   dtsMethod,
   dtsModule,
   dtsNamespace,
+  dtsNamedTypeReference,
+  dtsParameter,
   dtsProperty,
-  dtsObjectType,
+  dtsObjectTypeAlias,
+  dtsTypeParameter,
+  dtsTripleSlashReferencePathDirective,
   getDtsType,
+  getTripleSlashDirectivesString
 }

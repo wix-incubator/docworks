@@ -258,7 +258,7 @@
           {  },
         "labels": [] } ],
   "extra":
-    {  },
+    { "queryable": true },
   "relatedContent":
     [ { "icon": "example",
         "text": "Checkbox Dropdown",
