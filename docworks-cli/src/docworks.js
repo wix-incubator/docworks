@@ -178,7 +178,7 @@ function docworks() {
 
     const remote = argv.remote
     const local = argv.local
-    const run$wPlugin = !!argv.wixselector
+    const run$wFixer = !!argv.wixselector
     const outputFileName = argv.out
     const outputDirName = argv.dir || ''
 
@@ -188,7 +188,7 @@ function docworks() {
       process.exit(1)
     }
 
-    return runDts(outputFileName, outputDirName, {remote, local, run$wPlugin})
+    return runDts(outputFileName, outputDirName, {remote, local, run$wFixer})
       .catch(() => {
         process.exit(1)
       })

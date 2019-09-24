@@ -1,4 +1,4 @@
-const $wPlugin = require('./$w-plugin')
+const $wFixer = require('./$w-fixer')
 const {
   convertTreeToString,
   dtsNamespace,
@@ -76,7 +76,7 @@ function handleServiceAsNamespace(service, namespaces) {
   }
 }
 
-function dts(services, {run$wPlugin = false} = {}) {
+function dts(services, {run$wFixer = false} = {}) {
   let namespaces = {}
   let modules = {}
 
@@ -88,17 +88,17 @@ function dts(services, {run$wPlugin = false} = {}) {
     }
   })
 
-  const pluginDeclaration = {}
+  const fixerDeclaration = {}
 
-  if(run$wPlugin){
-    const $wDts = $wPlugin(services, modules, namespaces)
+  if(run$wFixer){
+    const $wDts = $wFixer(services, modules, namespaces)
     const $wDeclarationContent = [getTripleSlashDirectivesString($wDts.tripleSlashReference),
       convertTreeToString($wDts.declaration)].join('')
-    pluginDeclaration['$w'] = $wDeclarationContent
+    fixerDeclaration['$w'] = $wDeclarationContent
   }
 
   const declarationContent = [convertTreeToString(modules), convertTreeToString(namespaces)].join('')
-  return {mainDeclaration: declarationContent, pluginDeclaration}
+  return {mainDeclaration: declarationContent, fixerDeclaration}
 }
 
 module.exports = dts

@@ -4,20 +4,23 @@ const logger = require('./logger')
 const {writeOutput} = require('./utils/fsUtil')
 const {readRepoFromRemoteOrLocal} = require('./utils/gitUtils')
 
-async function runDts(outputFileName, outputDirName, {remote, local, run$wPlugin}) {
+async function runDts(outputFileName, outputDirName, {remote, local, run$wFixer}) {
 
   try {
     let repo = await readRepoFromRemoteOrLocal({remote, local})
 
-    if(run$wPlugin){
-      logger.command('running with $wPlugin', '')
+    if(run$wFixer){
+      logger.command('running with $w fixer', '')
     }
-    const dtsContent = dts(repo.services, {run$wPlugin})
-    const extractPluginsEntries = declarations => Object.entries(declarations)
+    const dtsContent = dts(repo.services, {run$wFixer})
+    const extractFixersEntries = declarations => Object.entries(declarations)
       .map(([fileName, fileContent]) => ({outputDirName, outputFileName: fileName, fileContent}))
 
+    // Since we are short in times, the fixer does 2 things: fixing the main module, and generate $w.d.ts files
+    // A better solution would be spilt this logic to two: a fixer and and a new module how would be in charge of the $w declaration, using docworks-dts converters
+    // The fixer would disappear the moment we will fix the model
     const contentToWrite = [{outputFileName, outputDirName, fileContent: dtsContent.mainDeclaration}]
-      .concat(extractPluginsEntries(dtsContent.pluginDeclaration))
+      .concat(extractFixersEntries(dtsContent.fixerDeclaration))
 
     return Promise.all(contentToWrite.map(writeDeclaration))
   }

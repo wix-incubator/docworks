@@ -104,7 +104,7 @@ function addDatasetAliasesTo$wNamespace(namespaces) {
   $wNamespace.members.push(routerDatasetType)
 }
 
-function $wPlugin(services, modules, namespaces) {
+function $wFixer(services, modules, namespaces) {
 
   remove$wModule(modules)
   addDatasetAliasesTo$wNamespace(namespaces)
@@ -122,4 +122,4 @@ function $wPlugin(services, modules, namespaces) {
   return {declaration: {queryableType, wixElementSelectorType, $wFunc, $wNamespace}, tripleSlashReference}
 }
 
-module.exports = $wPlugin
+module.exports = $wFixer
