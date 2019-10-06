@@ -7,8 +7,7 @@ const {
   dtsNamedTypeReference,
   dtsProperty,
   dtsObjectTypeAlias,
-  dtsTypeParameter,
-  dtsTripleSlashReferencePathDirective
+  dtsTypeParameter
 } = require('./dts-generator')
 const {
   convertOperationParamToParameters,
@@ -74,6 +73,12 @@ function convert$wServiceToNamespace(service) {
   return namespace
 }
 
+function getUtilityTypes() {
+  const name = `${INTERSECTION_ARRAY_AND_BASE_TYPE}<T, P>`
+  const type = '{[K in keyof T]: K extends P ? T[K] : T[K] & T[K][];}'
+  return dtsAlias(name, type)
+}
+
 function getQueryableObjectType(services) {
   const isQueryableService = service => service.memberOf === $W && service.extra.queryable
   const queryableServices = services.filter(isQueryableService)
@@ -109,8 +114,6 @@ function $wFixer(services, modules, namespaces) {
   remove$wModule(modules)
   addDatasetAliasesTo$wNamespace(namespaces)
 
-  const tripleSlashReference = [dtsTripleSlashReferencePathDirective('../common/utilityTypes.d.ts')]
-
   const $wService = services.find(service => service.name === $W && !Object.prototype.hasOwnProperty.call(service, 'memberOf'))
   const $wOperation = $wService.operations.find(is$wOperation)
 
@@ -118,8 +121,9 @@ function $wFixer(services, modules, namespaces) {
   const $wFunc = convert$wOperationToFunction($wOperation)
   const queryableType = getQueryableObjectType(services)
   const wixElementSelectorType = getWixElementSelectorType()
+  const utilityTypes = getUtilityTypes()
 
-  return {declaration: {queryableType, wixElementSelectorType, $wFunc, $wNamespace}, tripleSlashReference}
+  return {declaration: {queryableType, utilityTypes, wixElementSelectorType, $wFunc, $wNamespace}}
 }
 
 module.exports = $wFixer

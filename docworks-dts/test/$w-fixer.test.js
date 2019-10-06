@@ -49,10 +49,10 @@ describe('convert docworks to dts with $w plugin', () => {
   })
 
   describe('$w file content', () => {
-    describe('triple slash directive', () => {
-      test('should generate triple slash directive', () => {
+    describe('IntersectionArrayAndBase', () => {
+      test('should generate type declaration', () => {
         const dts = get$wDts()
-        const expectedDeceleration = '/// <reference path="../common/utilityTypes.d.ts" />'
+        const expectedDeceleration = 'IntersectionArrayAndBase<T, P> = {[K in keyof T]: K extends P ? T[K] : T[K] & T[K][];}'
 
         expect(dts).toContain(expectedDeceleration)
       })

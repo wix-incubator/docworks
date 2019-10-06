@@ -1423,12 +1423,13 @@ declare namespace wix_site {
 `;
 
 exports[`convert docworks to dts with $w plugin a repo should generate $w definition content 1`] = `
-"/// <reference path=\\"../common/utilityTypes.d.ts\\" />
-
+"
 declare type TypeNameToSdkType = {
     Dropdown: $w.Dropdown;
     Gallery: $w.Gallery;
 };
+
+declare type IntersectionArrayAndBase<T, P> = {[K in keyof T]: K extends P ? T[K] : T[K] & T[K][];};
 
 declare type WixElementSelector = PageElementsMap & IntersectionArrayAndBase<TypeNameToSdkType, 'Document'>;
 
