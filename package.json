@@ -1,10 +1,29 @@
 {
+	"name": "docworks",
+	"private":true,
 	"scripts": {
-		"test": "lerna run test",
-		"bootstrap": "lerna bootstrap",
+		"test": "lerna exec \"yarn test\"",
 		"release": "echo \"======= Lerna Releasing docworks =======\" && npm run test && lerna publish"
 	},
 	"devDependencies": {
 		"lerna": "^2.11.0"
+	},
+	"workspaces": {
+		"packages": [
+			"docworks-cli",
+			"docworks-dts",
+			"docworks-jsdoc2spec",
+			"docworks-json",
+			"docworks-model",
+			"docworks-repo",
+			"docworks-tern",
+			"docworks-wix-media",
+			"wix-event-type",
+			"wix-jsdoc-babel",
+			"wix-note",
+			"wix-queryable",
+			"wix-snippet",
+			"wix-types-fix"
+		]
 	}
 }
