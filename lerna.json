@@ -1,20 +1,6 @@
 {
   "lerna": "2.11.0",
-  "packages": [
-    "docworks-cli",
-    "docworks-dts",
-    "docworks-jsdoc2spec",
-    "docworks-json",
-    "docworks-model",
-    "docworks-repo",
-    "docworks-tern",
-    "docworks-wix-media",
-    "wix-event-type",
-    "wix-jsdoc-babel",
-    "wix-note",
-    "wix-queryable",
-    "wix-snippet",
-    "wix-types-fix"
-  ],
-  "version": "1.10.4"
+  "version": "1.10.4",
+  "npm-client": "yarn",
+  "useWorkspaces": true
 }

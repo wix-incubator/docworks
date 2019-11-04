@@ -3,7 +3,9 @@ npm-debug.log
 .DS_Store
 dist
 .idea
+.vscode
 **/tmp
 *.iml
 lerna-debug.log
 docworks/public-docs
+yarn.lock
