@@ -7,7 +7,7 @@
     "lint": "eslint src test",
     "build": "npm run lint",
     "prepublish": "npm run build",
-    "test": "mocha --compilers js:babel-core/register --require babel-polyfill ./test/**/*.spec.js"
+    "test": "mocha --compilers js:@babel/register --require @babel/polyfill ./test/**/*.spec.js"
   },
   "author": "Yoav Abrahami",
   "license": "ISC",
@@ -17,12 +17,11 @@
     "docworks-repo": "^1.9.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-polyfill": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1",
-    "babel-register": "^6.24.1",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "chai": "^3.5.0",
     "chai-subset": "^1.5.0",
     "eslint": "^6.0.1",
