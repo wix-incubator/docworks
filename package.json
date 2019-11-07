@@ -2,7 +2,8 @@
 	"name": "docworks",
 	"private":true,
 	"scripts": {
-		"test": "lerna exec \"yarn test\"",
+		"lint": "lerna exec \"yarn lint\"",
+		"test": "yarn lint && lerna exec \"yarn test\"",
 		"release": "echo \"======= Lerna Releasing docworks =======\" && npm run test && lerna publish"
 	},
 	"devDependencies": {

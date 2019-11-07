@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/docworks.js",
   "scripts": {
-    "lint": "echo --- running lint --- && eslint src test",
+    "lint": "eslint src test",
     "lint-fix": "eslint src test --fix",
     "prepublish": "npm run build",
     "build": "npm run lint",
