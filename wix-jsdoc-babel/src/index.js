@@ -1,6 +1,7 @@
 const { includes, last, omit } = require('lodash')
 const { transform } = require('babel-core')
 const jsdocRegex = require('jsdoc-regex')
+const defaultTransformConfigPath = require.resolve('./transform.config.js')
 
 // jsdoc with requizzle loads the modules twice - so the only way to move config between the two runs is using global
 if (!global.wixJsdocBabelExtensions)
@@ -47,7 +48,9 @@ const handlers = {
     doclets = {}
     const options = {
       extensions: global.wixJsdocBabelExtensions,
-      filename: event.filename
+      filename: event.filename,
+      configFile: defaultTransformConfigPath,
+      babelrc: false
     }
 
     if (shouldProcessFile(event.filename, options)) {
