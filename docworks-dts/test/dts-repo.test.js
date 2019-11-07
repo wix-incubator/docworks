@@ -5,7 +5,7 @@ describe('convert docworks to dts', () => {
 
   function getDtsForServiceByPath(servicePath) {
     const service = require(servicePath)
-    return docworksToDts([service]).mainDeclaration
+    return docworksToDts([service])
 
   }
 
@@ -239,6 +239,6 @@ describe('convert docworks to dts', () => {
 
     let dts = docworksToDts(repo.services)
 
-    expect(dts.mainDeclaration).toMatchSnapshot()
+    expect(dts).toMatchSnapshot()
   })
 })

@@ -1,8 +1,7 @@
 const $wFixer = require('./$w-fixer')
 const {
   convertTreeToString,
-  dtsNamespace,
-  getTripleSlashDirectivesString
+  dtsNamespace
 } = require('./dts-generator')
 const {
   convertCallbackToType,
@@ -88,17 +87,11 @@ function dts(services, {run$wFixer = false} = {}) {
     }
   })
 
-  const fixerDeclaration = {}
-
   if(run$wFixer){
-    const $wDts = $wFixer(services, modules, namespaces)
-    const $wDeclarationContent = [getTripleSlashDirectivesString($wDts.tripleSlashReference),
-      convertTreeToString($wDts.declaration)].join('')
-    fixerDeclaration['$w'] = $wDeclarationContent
+    $wFixer(modules, namespaces)
   }
 
-  const declarationContent = [convertTreeToString(modules), convertTreeToString(namespaces)].join('')
-  return {mainDeclaration: declarationContent, fixerDeclaration}
+  return [convertTreeToString(modules), convertTreeToString(namespaces)].join('')
 }
 
 module.exports = dts
