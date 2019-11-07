@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "lint": "echo '--- running linting ---' && eslint src test",
+    "lint": "eslint src test",
     "build": "npm run lint",
     "prepublish": "npm run build",
     "test": "mocha --compilers js:babel-core/register ./test/**/*.spec.js"
