@@ -54,6 +54,7 @@ function handleType(type, find, onError, context) {
 
   let handleTypeName = (name) => {
     name = name.trim().replace('~', '.')
+    name = name.replace(/^\[ '/, '').replace(/' \]$/, '') // hack to fix type names like "[ 'Promise' ] / [ 'Array' ]" which i couldn't yet find the source for
     let generic = testGeneric.exec(name)
     if (generic) {
       return GeneticType(handleTypeName(generic[1]),
