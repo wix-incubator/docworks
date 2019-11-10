@@ -20,7 +20,7 @@ async function runDts(outputFileName, outputDirName, {remote, local, run$wFixer}
     const fileNameWithExtensions = `${outputFileName}.d.ts`
     const fullPath = path.join(outputDirName, fileNameWithExtensions)
 
-    logger.command('dts save to file', fullPath)
+    logger.command('dts saving to file...', fullPath)
 
     return writeOutput(fullPath, dtsContent)
   }
