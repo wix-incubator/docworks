@@ -16,7 +16,7 @@ async function runTern(remote, local, baseUrl, apiName, outputFileName, plugins)
     logger.command('docworks tern', '')
     let ternContent = tern(repo.services, baseUrl, apiName, pluginModules)
 
-    logger.command('tern save to file', outputFileName)
+    logger.command('tern saving to file...', outputFileName)
     return writeOutput(outputFileName, ternContent)
   }
   catch (error) {
