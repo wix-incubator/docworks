@@ -90,7 +90,7 @@ describe('extract compare push workflow e2e', function() {
     await createRemoteOnVer1()
     logger.log('run test')
     logger.log('--------')
-    await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$`.split(' '))
+    await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$`.split(' '))
 
     let remoteRepo = new Git(remote)
     let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'))
@@ -110,7 +110,7 @@ describe('extract compare push workflow e2e', function() {
     await createRemoteOnVer1()
     logger.log('run test')
     logger.log('--------')
-    let output = await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$ --dryrun`.split(' '))
+    let output = await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$ --dryrun`.split(' '))
 
     let remoteRepo = new Git(remote)
     let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'))
@@ -131,7 +131,7 @@ describe('extract compare push workflow e2e', function() {
     await createRemoteOnVer1()
     logger.log('run test')
     logger.log('--------')
-    await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 -p ${project2} --fp .+\\.js?$`.split(' '))
+    await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 -p ${project2} --fp .+\\.js?$`.split(' '))
 
     let remoteRepo = new Git(remote)
     let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'))
@@ -154,7 +154,7 @@ describe('extract compare push workflow e2e', function() {
     await createRemoteOnVer1()
     logger.log('run test')
     logger.log('--------')
-    await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 --fx test/include/folder1/folder3 -p ${project2} --fp .+\\.js?$`.split(' '))
+    await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 --fx test/include/folder1/folder3 -p ${project2} --fp .+\\.js?$`.split(' '))
 
     let remoteRepo = new Git(remote)
     let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'))
@@ -177,7 +177,7 @@ describe('extract compare push workflow e2e', function() {
     await createRemoteOnVer1()
     logger.log('run test')
     logger.log('--------')
-    await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 --fx test/include/folder1/folder3 --fx test/include/folder2/folder4 -p ${project2} --fp .+\\.js?$`.split(' '))
+    await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 --fx test/include/folder1/folder3 --fx test/include/folder2/folder4 -p ${project2} --fp .+\\.js?$`.split(' '))
 
     let remoteRepo = new Git(remote)
     let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'))
@@ -200,7 +200,7 @@ describe('extract compare push workflow e2e', function() {
     await createRemoteOnVer1()
     logger.log('run test')
     logger.log('--------')
-    await runDocWorks(`.bin/docworks ecp -r ${remote} -b branch --fs test/include/folder1 -p ${project2} --fp .+\\.js?$`.split(' '))
+    await runDocWorks(`./bin/docworks ecp -r ${remote} -b branch --fs test/include/folder1 -p ${project2} --fp .+\\.js?$`.split(' '))
 
     let remoteRepo = new Git(remote)
     let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'), 'branch')
@@ -220,7 +220,7 @@ describe('extract compare push workflow e2e', function() {
     await createRemoteOnVer1()
     logger.log('run test')
     logger.log('--------')
-    await runDocWorks(`.bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$ --plug ./test/ecp-plugin`.split(' '))
+    await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$ --plug ./test/ecp-plugin`.split(' '))
 
     let remoteRepo = new Git(remote)
     let createdByPlugins = await remoteRepo.fileExists(join(project2, 'created-by-plugin'))

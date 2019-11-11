@@ -26,7 +26,7 @@ describe('tern workflow e2e', function () {
     await createRemoteOnVer1(remote)
     logger.log('run test')
     logger.log('--------')
-    await runCommand(`.bin/docworks tern -r ${remote} -u http://base-url.com -n apiname -o ./tmp/tern.js`.split(' '))
+    await runCommand(`./bin/docworks tern -r ${remote} -u http://base-url.com -n apiname -o ./tmp/tern.js`.split(' '))
 
     let content = await fsExtra.readFile('tmp/tern.js', 'utf-8')
 
@@ -55,7 +55,7 @@ describe('tern workflow e2e', function () {
     await createRemoteOnVer1(remote)
     logger.log('run test')
     logger.log('--------')
-    await runCommand(`.bin/docworks tern -r ${remote} -u http://base-url.com -n apiname -o ./tmp/tern.js --plug ./test/tern-plugin.js`.split(' '))
+    await runCommand(`./bin/docworks tern -r ${remote} -u http://base-url.com -n apiname -o ./tmp/tern.js --plug ./test/tern-plugin.js`.split(' '))
 
     let content = await fsExtra.readFile('tmp/tern.js', 'utf-8')
 

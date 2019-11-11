@@ -35,7 +35,7 @@ describe('dts workflow e2e', function () {
     logger.log('run test')
     logger.log('--------')
 
-    await runCommand(`.bin/docworks dts -r ${remote} -o ./tmp/globals`.split(' '))
+    await runCommand(`./bin/docworks dts -r ${remote} -o ./tmp/globals`.split(' '))
 
     let content = await fsExtra.readFile('tmp/globals.d.ts', 'utf-8')
 
@@ -54,7 +54,7 @@ describe('dts workflow e2e', function () {
     logger.log('run test')
     logger.log('--------')
 
-    await runCommand('.bin/docworks dts -l ./test/docworks-service -o ./tmp/globals2'.split(' '))
+    await runCommand('./bin/docworks dts -l ./test/docworks-service -o ./tmp/globals2'.split(' '))
 
     let content = await fsExtra.readFile('tmp/globals2.d.ts', 'utf-8')
 
