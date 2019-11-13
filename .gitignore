@@ -9,3 +9,4 @@ dist
 lerna-debug.log
 docworks/public-docs
 yarn.lock
+.npmrc
