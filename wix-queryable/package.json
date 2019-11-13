@@ -1,6 +1,6 @@
 {
   "name": "wix-queryable",
-  "version": "1.10.0",
+  "version": "1.10.5",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -15,8 +15,8 @@
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.4.2",
-    "docworks-jsdoc2spec": "^1.9.1",
-    "docworks-repo": "^1.9.1",
+    "docworks-jsdoc2spec": "^1.10.5",
+    "docworks-repo": "^1.10.5",
     "eslint": "^6.0.1",
     "jest": "^24.8.0"
   }
