@@ -12,9 +12,9 @@ A tool for parsing documentation and transforming it to a JSON as a model.
 * `dts` - builds typescript decleartion files from the generated JSON model
 * `validate`
 
+#### Tests
+* Use `yarn test` to run the tests in all packages
 
-#### Dev notes
-* The project is built on top of `Lerna` 
-* Use `npm run test` to run the tests in all packages
-* Use `npm run release` to publish the latest Docworks changes to NPM 
-**Refrain using `lerna publish` directly as tests won't run.** 
+#### Publishing
+1. Use `yarn release` to create a release commit and git tag.
+2. Use `git push --follow-tags` so that CI can pick up the new tag and trigger publishing to npm (CI will run `yarn ci:publish`)
