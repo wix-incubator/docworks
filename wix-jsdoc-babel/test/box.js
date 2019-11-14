@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import Element from 'ui/Element'
 import HiddenCollapsedMixin from './mixins/HiddenCollapsedMixin'
 import ClickableMixin from './mixins/ClickableMixin'

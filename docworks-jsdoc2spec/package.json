@@ -15,6 +15,7 @@
     "docworks-model": "^1.10.6",
     "intercept-stdout": "^0.1.2",
     "jsdoc": "3.4.3",
+    "lodash": "^4.17.15",
     "lodash.isequal": "^4.5.0",
     "requizzle": "^0.2.1"
   },

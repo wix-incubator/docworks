@@ -1,5 +1,5 @@
 const { includes, last, omit } = require('lodash')
-const { transform } = require('babel-core')
+const { transform } = require('@babel/core')
 const jsdocRegex = require('jsdoc-regex')
 const defaultTransformConfigPath = require.resolve('./transform.config.js')
 
