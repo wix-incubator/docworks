@@ -3,10 +3,10 @@ const {writeOutput} = require('./utils/fsUtil')
 const logger = require('./logger')
 const {readRepoFromRemoteOrLocal} = require('./utils/gitUtils')
 
-async function runTern(remote, local, baseUrl, apiName, outputFileName, plugins) {
+async function runTern({remote, branch, local, baseUrl, apiName, outputFileName, plugins}) {
 
   try {
-    let repo = await readRepoFromRemoteOrLocal({remote, local})
+    let repo = await readRepoFromRemoteOrLocal({remote, branch, local})
 
     logger.config('plugins:           ', plugins.join(', '))
     logger.newLine()
