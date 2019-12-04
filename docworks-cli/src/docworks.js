@@ -123,9 +123,11 @@ function docworks() {
 
   function tern() {
     const cmdDefinition = optimist
-      .usage('Usage: $0 tern (-r [remote repo] | -l [local services folder] ) -u [base url] -n [api name] -o [output file]')
+      .usage('Usage: $0 tern (-r [remote repo] [-b [remote branch]] | -l [local services folder] ) -u [base url] -n [api name] -o [output file]')
       .alias('r', 'remote')
       .describe('r', 'remote repository to read docworks services files from')
+      .alias('b', 'branch')
+      .describe('b', 'branch on the remote repository to fetch the docs from')
       .alias('l', 'local')
       .describe('l', 'folder containing docwork service files')
       .demand('u')
@@ -142,6 +144,7 @@ function docworks() {
       .argv
 
     let remote = argv.remote
+    let branch = argv.branch
     let local = argv.local
     let baseUrl = argv.url
     let apiName = argv.name
@@ -154,7 +157,7 @@ function docworks() {
       process.exit(1)
     }
 
-    return runTern(remote, local, baseUrl, apiName, outputFileName, plugins)
+    return runTern({remote, branch, local, baseUrl, apiName, outputFileName, plugins})
       .catch(() => {
         process.exit(1)
       })

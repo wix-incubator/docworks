@@ -7,7 +7,7 @@ import git from 'simple-git'
 import asPromise from '../src/as-promise'
 import * as logger from './test-logger'
 
-async function createRemoteOnVer1(remote) {
+async function createRemoteOnVer1(remote, branch) {
   const ver1 = './test/ver1'
   const project1 = 'project1'
   const baseGit = git()
@@ -20,6 +20,15 @@ async function createRemoteOnVer1(remote) {
   fs.ensureDirSync(remoteBuild)
   let remoteBuildRepo = git(remoteBuild)
   await asPromise(remoteBuildRepo, remoteBuildRepo.init)()
+
+  logger.log('git commit -m "initial commit" --allow-empty')
+  await asPromise(remoteBuildRepo, remoteBuildRepo.commit)('initial commit', undefined, {'--allow-empty': true})
+
+  if (branch) {
+    logger.log(`git checkout -b ${branch}`)
+    await asPromise(remoteBuildRepo, remoteBuildRepo.checkout)(['-b', branch])
+  }
+
   // run js doc
   logger.log(`jsdoc ${ver1}`)
 
@@ -32,7 +41,12 @@ async function createRemoteOnVer1(remote) {
 
   logger.log('git commit')
   // commit
-  await asPromise(remoteBuildRepo, remoteBuildRepo.commit)('initial commit')
+  await asPromise(remoteBuildRepo, remoteBuildRepo.commit)('docs commit')
+
+  if (branch) {
+    logger.log('git checkout master')
+    await asPromise(remoteBuildRepo, remoteBuildRepo.checkout)('master')
+  }
 
   logger.log(`git clone ${remoteBuild} ${remote} --bare`)
   await asPromise(baseGit, baseGit.clone)(remoteBuild, remote, ['--bare'])

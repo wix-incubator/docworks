@@ -4,7 +4,7 @@ const tmp = require('tmp-promise')
 const fsExtra = require('fs-extra')
 const {readFromDir} = require('docworks-repo')
 
-async function cloneToDir(remote) {
+async function cloneToDir(remote, branch) {
   let tmpDir = await tmp.dir()
 
   let workingDir = tmpDir.path
@@ -12,17 +12,17 @@ async function cloneToDir(remote) {
   logger.config('working dir:       ', workingDir)
 
   let baseGit = new Git()
-  logger.command('git', `clone ${remote} ${workingDir}`)
-  await baseGit.clone(remote, workingDir, ['--depth', 1])
+  logger.command('git', `clone ${remote} ${branch ? `--branch ${branch}` : ''} ${workingDir}`)
+  await baseGit.clone(remote, workingDir, ['--depth', 1].concat(branch ? ['--branch', branch] : []))
 
   return workingDir
 }
 
-async function readRepoFromRemoteOrLocal({remote, local}) {
+async function readRepoFromRemoteOrLocal({remote, branch, local}) {
   let localServicesDir
   if (remote) {
     logger.config('remote repo url:   ', remote)
-    localServicesDir = await cloneToDir(remote)
+    localServicesDir = await cloneToDir(remote, branch)
   } else if (local) {
     logger.config('local sources:     ', local)
     localServicesDir = local
