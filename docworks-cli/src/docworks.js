@@ -57,6 +57,7 @@ function docworks() {
       .describe('r', 'remote repository to merge docs into')
       .alias('b', 'branch')
       .describe('b', 'branch on the remote repository to work with')
+      .default('b', 'draft')
       .demand('fs')
       .alias('fs', 'sources')
       .describe('fs', 'one or more folders containing the source files to extract docs from')
