@@ -216,6 +216,18 @@ describe('extract compare push workflow e2e', function() {
     expect(service3).to.be.true
   })
 
+  it('should default to draft branch if no argument passed to -b', async function () {
+    await createRemoteOnVer1()
+    logger.log('run test')
+    logger.log('--------')
+    await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$`.split(' '))
+
+    let remoteRepo = new Git(remote)
+    let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'), 'draft')
+
+    expect(service1).to.be.true
+  })
+
   it('run ecpAfterMerge plugin', async function() {
     await createRemoteOnVer1()
     logger.log('run test')
