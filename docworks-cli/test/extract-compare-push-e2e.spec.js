@@ -93,10 +93,10 @@ describe('extract compare push workflow e2e', function() {
     await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$`.split(' '))
 
     let remoteRepo = new Git(remote)
-    let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'))
-    let service2 = await remoteRepo.fileExists(join(project2, 'Service2.service.json'))
-    let service3 = await remoteRepo.fileExists(join(project2, 'Service3.service.json'))
-    let message = await remoteRepo.getCommitMessage()
+    let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'), 'draft')
+    let service2 = await remoteRepo.fileExists(join(project2, 'Service2.service.json'), 'draft')
+    let service3 = await remoteRepo.fileExists(join(project2, 'Service3.service.json'), 'draft')
+    let message = await remoteRepo.getCommitMessage('draft')
 
     expect(message).to.include('Service Service1 is new')
     expect(message).to.not.include('Service Service2 is new')
@@ -134,11 +134,11 @@ describe('extract compare push workflow e2e', function() {
     await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 -p ${project2} --fp .+\\.js?$`.split(' '))
 
     let remoteRepo = new Git(remote)
-    let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'))
-    let service2 = await remoteRepo.fileExists(join(project2, 'Service2.service.json'))
-    let service3 = await remoteRepo.fileExists(join(project2, 'Service3.service.json'))
-    let service4 = await remoteRepo.fileExists(join(project2, 'Service4.service.json'))
-    let message = await remoteRepo.getCommitMessage()
+    let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'), 'draft')
+    let service2 = await remoteRepo.fileExists(join(project2, 'Service2.service.json'), 'draft')
+    let service3 = await remoteRepo.fileExists(join(project2, 'Service3.service.json'), 'draft')
+    let service4 = await remoteRepo.fileExists(join(project2, 'Service4.service.json'), 'draft')
+    let message = await remoteRepo.getCommitMessage('draft')
 
     expect(message).to.include('Service Service1 is new')
     expect(message).to.include('Service Service2 is new')
@@ -157,11 +157,11 @@ describe('extract compare push workflow e2e', function() {
     await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 --fx test/include/folder1/folder3 -p ${project2} --fp .+\\.js?$`.split(' '))
 
     let remoteRepo = new Git(remote)
-    let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'))
-    let service2 = await remoteRepo.fileExists(join(project2, 'Service2.service.json'))
-    let service3 = await remoteRepo.fileExists(join(project2, 'Service3.service.json'))
-    let service4 = await remoteRepo.fileExists(join(project2, 'Service4.service.json'))
-    let message = await remoteRepo.getCommitMessage()
+    let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'), 'draft')
+    let service2 = await remoteRepo.fileExists(join(project2, 'Service2.service.json'), 'draft')
+    let service3 = await remoteRepo.fileExists(join(project2, 'Service3.service.json'), 'draft')
+    let service4 = await remoteRepo.fileExists(join(project2, 'Service4.service.json'), 'draft')
+    let message = await remoteRepo.getCommitMessage('draft')
 
     expect(message).to.include('Service Service1 is new')
     expect(message).to.include('Service Service2 is new')
@@ -180,11 +180,11 @@ describe('extract compare push workflow e2e', function() {
     await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 --fs test/include/folder2 --fx test/include/folder1/folder3 --fx test/include/folder2/folder4 -p ${project2} --fp .+\\.js?$`.split(' '))
 
     let remoteRepo = new Git(remote)
-    let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'))
-    let service2 = await remoteRepo.fileExists(join(project2, 'Service2.service.json'))
-    let service3 = await remoteRepo.fileExists(join(project2, 'Service3.service.json'))
-    let service4 = await remoteRepo.fileExists(join(project2, 'Service4.service.json'))
-    let message = await remoteRepo.getCommitMessage()
+    let service1 = await remoteRepo.fileExists(join(project2, 'Service1.service.json'), 'draft')
+    let service2 = await remoteRepo.fileExists(join(project2, 'Service2.service.json'), 'draft')
+    let service3 = await remoteRepo.fileExists(join(project2, 'Service3.service.json'), 'draft')
+    let service4 = await remoteRepo.fileExists(join(project2, 'Service4.service.json'), 'draft')
+    let message = await remoteRepo.getCommitMessage('draft')
 
     expect(message).to.include('Service Service1 is new')
     expect(message).to.include('Service Service2 is new')
@@ -235,7 +235,7 @@ describe('extract compare push workflow e2e', function() {
     await runDocWorks(`./bin/docworks ecp -r ${remote} --fs test/include/folder1 -p ${project2} --fp .+\\.js?$ --plug ./test/ecp-plugin`.split(' '))
 
     let remoteRepo = new Git(remote)
-    let createdByPlugins = await remoteRepo.fileExists(join(project2, 'created-by-plugin'))
+    let createdByPlugins = await remoteRepo.fileExists(join(project2, 'created-by-plugin'), 'draft')
     expect(createdByPlugins).to.be.true
   })
 })
