@@ -184,6 +184,7 @@ function docworks() {
     const run$wFixer = !!argv.wixselector
     const outputFileName = argv.out
     const outputDirName = argv.dir || ''
+    const documentationTemplate = argv.documentationTemplate
 
     if (!remote && !local || (!!remote && !!local)) {
       // eslint-disable-next-line no-console
@@ -191,7 +192,7 @@ function docworks() {
       process.exit(1)
     }
 
-    return runDts(outputFileName, outputDirName, {remote, local, run$wFixer})
+    return runDts(outputFileName, outputDirName, {remote, local, run$wFixer, documentationTemplate})
       .catch(() => {
         process.exit(1)
       })

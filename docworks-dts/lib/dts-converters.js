@@ -1,4 +1,4 @@
-const {validServiceName} = require('./utils')
+const { validServiceName } = require('./utils')
 const {
   dtsConst,
   dtsFunction,
@@ -11,72 +11,122 @@ const {
   dtsObjectTypeAlias
 } = require('./dts-generator')
 
-function convertServiceToInterface(service) {
-  const properties = service.properties.map(convertPropertyToProperty)
-  const operations = service.operations.map(convertOperationToMethod)
+const fullServiceName = service =>
+  service.memberOf ? `${service.memberOf}.${service.name}` : service.name
+
+function convertServiceToInterface(service, { documentationGenerator }) {
+  const properties = service.properties.map(property =>
+    convertPropertyToProperty(service, property, { documentationGenerator })
+  )
+  const operations = service.operations.map(operation =>
+    convertOperationToMethod(service, operation, { documentationGenerator })
+  )
   const members = properties.concat(operations)
   const baseTypes = service.mixes.map(validServiceName)
-  const jsDocComment = service.docs.summary
+  const jsDocComment = documentationGenerator({
+    summary: service.docs.summary,
+    service: fullServiceName(service)
+  })
 
-  return dtsInterface(service.name, {members, baseTypes, jsDocComment})
+  return dtsInterface(service.name, { members, baseTypes, jsDocComment })
 }
 
-function convertServiceToModule(service) {
-  const properties = service.properties.map(dtsConst)
-  const operations = service.operations.map(convertOperationToFunction)
+function convertServiceToModule(service, { documentationGenerator }) {
+  const properties = service.properties.map(property =>
+    convertPropertyToConst(service, property, { documentationGenerator })
+  )
+  const operations = service.operations.map(operation =>
+    convertOperationToFunction(service, operation, { documentationGenerator })
+  )
   const members = properties.concat(operations)
-  const jsDocComment = service.docs.summary
+  const jsDocComment = documentationGenerator({
+    summary: service.docs.summary,
+    service: fullServiceName(service)
+  })
 
-  return dtsModule(service.name, {members, jsDocComment})
+  return dtsModule(service.name, { members, jsDocComment })
 }
 
-function convertPropertyToProperty(property) {
+function convertPropertyToProperty(
+  service,
+  property,
+  { documentationGenerator }
+) {
   const readonly = property.get && !property.set
-  const jsDocComment = property.docs.summary
+  const jsDocComment = documentationGenerator({
+    summary: property.docs.summary,
+    service: fullServiceName(service),
+    member: property.name
+  })
 
-  return dtsProperty(property.name, property.type, {readonly, jsDocComment})
+  return dtsProperty(property.name, property.type, { readonly, jsDocComment })
 }
 
 function convertOperationParamToParameters(param) {
-  const {name, type, optional, doc} = param
+  const { name, type, optional, doc } = param
 
-  return dtsParameter(name, type, {optional, jsDocComment: doc})
+  return dtsParameter(name, type, { optional, jsDocComment: doc })
 }
 
-function convertOperationToMethod(operation) {
-  const {name, params, ret, docs} = operation
+function convertOperationToMethod(
+  service,
+  operation,
+  { documentationGenerator }
+) {
+  const { name, params, ret, docs } = operation
   const parameters = params.map(convertOperationParamToParameters)
-  const jsDocComment = docs.summary
+  const jsDocComment = documentationGenerator({
+    summary: docs.summary,
+    service: fullServiceName(service),
+    member: name
+  })
 
-  return dtsMethod(name, parameters, ret.type, {jsDocComment})
+  return dtsMethod(name, parameters, ret.type, { jsDocComment })
 }
 
-function convertOperationToFunction(operation) {
-  const {name, params, ret, docs} = operation
-  const parameters = params.map(convertOperationParamToParameters)
-  const jsDocComment = docs.summary
+function convertPropertyToConst(service, property, { documentationGenerator }) {
+  const jsDocComment = documentationGenerator({
+    summary: property.docs.summary,
+    service: fullServiceName(service),
+    member: property.name
+  })
+  return dtsConst(property, { jsDocComment })
+}
 
-  return dtsFunction(name, parameters, ret.type, {jsDocComment})
+function convertOperationToFunction(
+  service,
+  operation,
+  { documentationGenerator }
+) {
+  const { name, params, ret, docs } = operation
+  const parameters = params.map(convertOperationParamToParameters)
+  const jsDocComment = documentationGenerator({
+    summary: docs.summary,
+    service: fullServiceName(service),
+    member: name
+  })
+
+  return dtsFunction(name, parameters, ret.type, { jsDocComment })
 }
 
 function convertMessageMemberToProperty(member) {
-  const {name, type, optional, doc} = member
-  return dtsProperty(name, type, {optional, jsDocComment: doc})
+  const { name, type, optional, doc } = member
+  return dtsProperty(name, type, { optional, jsDocComment: doc })
 }
 
 function convertMessageToObjectType(message) {
   const jsDocComment = message.docs.summary
   const properties = message.members.map(convertMessageMemberToProperty)
 
-  return dtsObjectTypeAlias(message.name, properties, {jsDocComment})
+  return dtsObjectTypeAlias(message.name, properties, { jsDocComment })
 }
 
 function convertCallbackToFunctionType(callback) {
-  const {name, params, ret, docs} = callback
+  const { name, params, ret, docs } = callback
   const parameters = params.map(convertOperationParamToParameters)
   const jsDocComment = docs.summary
 
-  return dtsFunctionTypeAlias(name, parameters, ret.type, {jsDocComment})
+  return dtsFunctionTypeAlias(name, parameters, ret.type, { jsDocComment })
 }
 
 module.exports = {
