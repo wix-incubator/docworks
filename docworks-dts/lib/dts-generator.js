@@ -66,9 +66,9 @@ function dtsAlias(name, type, {jsDocComment, typeParameters = []} = {}) {
   return alias
 }
 
-function dtsConst(property) {
+function dtsConst(property, {jsDocComment}) {
   const cnt = dom.create.const(property.name, getDtsType(property.type, {union: true}))
-  cnt.jsDocComment = trimPara(property.docs.summary)
+  cnt.jsDocComment = trimPara(jsDocComment)
   return cnt
 }
 

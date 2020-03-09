@@ -1,8 +1,6 @@
+const template_ = require('lodash/template')
 const $wFixer = require('./$w-fixer')
-const {
-  convertTreeToString,
-  dtsNamespace
-} = require('./dts-generator')
+const { convertTreeToString, dtsNamespace } = require('./dts-generator')
 const {
   convertCallbackToType,
   convertMessageToType,
@@ -10,22 +8,27 @@ const {
   convertServiceToModule
 } = require('./dts-converters')
 
-function ensureNamespace(namespaces, name, {jsDocComment} = {}) {
+function ensureNamespace(namespaces, name, { jsDocComment } = {}) {
   let namespace = namespaces[name]
   if (!namespace) {
-    namespace = dtsNamespace(name, {jsDocComment})
+    namespace = dtsNamespace(name, { jsDocComment })
     namespaces[name] = namespace
   }
   return namespace
 }
 
-function handleServiceAsModule(service, modules, namespaces) {
+function handleServiceAsModule(
+  service,
+  modules,
+  namespaces,
+  { documentationGenerator } = {}
+) {
   const serviceName = service.name
 
   if (modules[serviceName]) {
     throw new Error(`Module ${serviceName} already defined`)
   }
-  const module = convertServiceToModule(service)
+  const module = convertServiceToModule(service, { documentationGenerator })
   if (module.members.length > 0) {
     modules[serviceName] = module
   }
@@ -48,12 +51,16 @@ function handleServiceAsModule(service, modules, namespaces) {
   }
 }
 
-function handleServiceAsNamespace(service, namespaces) {
+function handleServiceAsNamespace(
+  service,
+  namespaces,
+  { documentationGenerator } = {}
+) {
   const serviceName = service.name
 
   const namespace = ensureNamespace(namespaces, service.memberOf)
 
-  const intf = convertServiceToInterface(service)
+  const intf = convertServiceToInterface(service, { documentationGenerator })
   namespace.members.push(intf)
 
   const messages = service.messages
@@ -75,19 +82,29 @@ function handleServiceAsNamespace(service, namespaces) {
   }
 }
 
-function dts(services, {run$wFixer = false} = {}) {
-  let namespaces = {}
-  let modules = {}
+function dts(
+  services,
+  { run$wFixer = false, summaryTemplate } = {}
+) {
+  const namespaces = {}
+  const modules = {}
+  let documentationGenerator = ({summary}) => summary
+
+  if (summaryTemplate) {
+    documentationGenerator = values => {
+      return template_(summaryTemplate)({model: values})
+    }
+  }
 
   services.forEach(service => {
     if (!service.memberOf) {
-      handleServiceAsModule(service, modules, namespaces)
+      handleServiceAsModule(service, modules, namespaces, {documentationGenerator})
     } else {
-      handleServiceAsNamespace(service, namespaces)
+      handleServiceAsNamespace(service, namespaces, {documentationGenerator})
     }
   })
 
-  if(run$wFixer){
+  if (run$wFixer) {
     $wFixer(modules, namespaces)
   }
 

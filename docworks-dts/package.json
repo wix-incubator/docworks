@@ -12,7 +12,8 @@
   },
   "license": "ISC",
   "dependencies": {
-    "dts-dom": "^3.3.0"
+    "dts-dom": "^3.3.0",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",

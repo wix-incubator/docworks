@@ -10,20 +10,24 @@ exports[`convert docworks to dts a repo 1`] = `
  *  The APIs in \`$w\` can only be used in front-end code.
  * 
  *  You do not need to import \`$w\`.
+ * 	[Read more..](https://fake-corvid-api/$w.html#)
  */
 declare module '$w' {
     /**
      * Selects and returns elements from a page.
+     * 	[Read more..](https://fake-corvid-api/$w.html#$w)
      */
     function $w(selector: string): $w.Element & $w.Element[];
 
     /**
      * Gets a selector function for a specific context.
+     * 	[Read more..](https://fake-corvid-api/$w.html#at)
      */
     function at(context: $w.Event.EventContext): $w.$w;
 
     /**
      * Sets the function that runs when all the page elements have finished loading.
+     * 	[Read more..](https://fake-corvid-api/$w.html#onReady)
      */
     function onReady(initFunction: $w.ReadyHandler): void;
 
@@ -33,15 +37,18 @@ declare module '$w' {
  * The wix-crm module contains functionality for working with
  *  [your site's contacts](https://support.wix.com/en/article/about-your-contact-list)
  *  from client-side code.
+ * 	[Read more..](https://fake-corvid-api/wix-crm.html#)
  */
 declare module 'wix-crm' {
     /**
      * Creates a new contact or updates an existing contact.
+     * 	[Read more..](https://fake-corvid-api/wix-crm.html#createContact)
      */
     function createContact(contactInfo: wix_crm.ContactInfo): Promise<string>;
 
     /**
      * Sends a Triggered Email to the contact.
+     * 	[Read more..](https://fake-corvid-api/wix-crm.html#emailContact)
      */
     function emailContact(emailId: string, toContact: string, options?: wix_users.TriggeredEmailOptions): Promise<void>;
 
@@ -49,65 +56,78 @@ declare module 'wix-crm' {
 
 /**
  * This module contains the APIs for code routers and data binding router hooks.
+ * 	[Read more..](https://fake-corvid-api/wix-router.html#)
  */
 declare module 'wix-router' {
     /**
      * Registers a hook that is called after a router.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#afterRouter)
      */
     function afterRouter(request: wix_router.WixRouterRequest, response: wix_router.WixRouterResponse): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Registers a hook that is called after a sitemap is created.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#afterSitemap)
      */
     function afterSitemap(request: wix_router.WixRouterSitemapRequest, sitemapEntries: wix_router.WixRouterSitemapEntry[]): Promise<wix_router.WixRouterSitemapEntry[]>;
 
     /**
      * Registers a hook that is called before a router.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#beforeRouter)
      */
     function beforeRouter(request: wix_router.WixRouterRequest): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Registers a hook that is called after a route is resolved by the data binding router, but before the wix-data query is executed.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#customizeQuery)
      */
     function customizeQuery(request: wix_router.WixRouterRequest, route: string, query: wix_data.WixDataQuery): wix_data.WixDataQuery;
 
     /**
      * Returns a response with a status code 403 (Forbidden) and instructs the router to show a 403 page.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#forbidden)
      */
     function forbidden(message?: string): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Returns a response that instructs the router to continue.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#next)
      */
     function next(): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Returns a response with a status code 404 (Not Found) and instructs the router to show a 404 page.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#notFound)
      */
     function notFound(message?: string): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Returns a response with a status code 200 (OK) and instructs the router to show the selected page.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#ok)
      */
     function ok(Page: string | string[], routerReturnedData?: any, head?: wix_router.WixRouterResponse.HeadOptions): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Returns a response with a status code of 301 (Moved Permanently) or 302 (Found) and instructs the router to redirect to the given URL.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#redirect)
      */
     function redirect(url: string, statusCode?: string): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Function containing routing logic for a given URL prefix.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#router)
      */
     function router(request: wix_router.WixRouterRequest): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Returns a response with the specified HTTP status code with an optional message.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#sendStatus)
      */
     function sendStatus(statusCode: string, message?: string): Promise<wix_router.WixRouterResponse>;
 
     /**
      * Function containing sitemap logic for a given URL prefix.
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#sitemap)
      */
     function sitemap(request: wix_router.WixRouterSitemapRequest): Promise<wix_router.WixRouterSitemapEntry[]>;
 
@@ -115,45 +135,54 @@ declare module 'wix-router' {
 
 /**
  * The wix-site module contains functionality for obtaining information about your site and its pages.
+ * 	[Read more..](https://fake-corvid-api/wix-site.html#)
  */
 declare module 'wix-site' {
     /**
      * Gets a code representing the site's currency.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#currency)
      */
     const currency: string;
 
     /**
      * Gets information about the current page or lightbox.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#currentPage)
      */
     const currentPage: wix_site.StructurePage | wix_site.StructureLightbox;
 
     /**
      * Gets a code representing the site's language.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#language)
      */
     const language: string;
 
     /**
      * Gets the site's regional settings.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#regionalSettings)
      */
     const regionalSettings: string;
 
     /**
      * Gets the site revision ID.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#revision)
      */
     const revision: string;
 
     /**
      * Gets the site's timezone.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#timezone)
      */
     const timezone: string;
 
     /**
      * Returns information about the site's pages, prefixes, and lightboxes.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#getSiteStructure)
      */
     function getSiteStructure(): wix_site.SiteStructure;
 
     /**
      * Returns the sitemap for a router or dynamic page prefix.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#routerSitemap)
      */
     function routerSitemap(routerPrefix: string): Promise<wix_router.WixRouterSitemapEntry[]>;
 
@@ -162,20 +191,24 @@ declare module 'wix-site' {
 /**
  * The wix-storage module contains functionality for the persistent
  *  storage of key/value data in the site visitor's browser.
+ * 	[Read more..](https://fake-corvid-api/wix-storage.html#)
  */
 declare module 'wix-storage' {
     /**
      * Used for local storage of data.
+     * 	[Read more..](https://fake-corvid-api/wix-storage.html#local)
      */
     const local: wix_storage.Storage;
 
     /**
      * Used for memory storage of data.
+     * 	[Read more..](https://fake-corvid-api/wix-storage.html#memory)
      */
     const memory: wix_storage.Storage;
 
     /**
      * Used for session storage of data.
+     * 	[Read more..](https://fake-corvid-api/wix-storage.html#session)
      */
     const session: wix_storage.Storage;
 
@@ -184,50 +217,60 @@ declare module 'wix-storage' {
 /**
  * The wix-users module contains functionality for working with your
  *  site's users from client-side code.
+ * 	[Read more..](https://fake-corvid-api/wix-users.html#)
  */
 declare module 'wix-users' {
     /**
      * Gets the current user viewing the site.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#currentUser)
      */
     const currentUser: wix_users.User;
 
     /**
      * Logs the current user into the site using the given session token.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#applySessionToken)
      */
     function applySessionToken(sessionToken: string): Promise<void>;
 
     /**
      * Sends a Triggered Email to the currently logged-in site member.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#emailUser)
      */
     function emailUser(emailId: string, toUser: string, options?: wix_users.TriggeredEmailOptions): Promise<void>;
 
     /**
      * Logs a user in based on email and password.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#login)
      */
     function login(email: string, password: string): Promise<void>;
 
     /**
      * Logs the current user out of the site.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#logout)
      */
     function logout(): void;
 
     /**
      * Sets the function that runs when a user logs in.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#onLogin)
      */
     function onLogin(handler: wix_users.LoginHandler): void;
 
     /**
      * Prompts the current site visitor with a password reset.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#promptForgotPassword)
      */
     function promptForgotPassword(language?: string): Promise<void>;
 
     /**
      * Prompts the current site visitor to log in as a site member.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#promptLogin)
      */
     function promptLogin(options: wix_users.LoginOptions): Promise<wix_users.User>;
 
     /**
      * Registers a new site member.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#register)
      */
     function register(email: string, password: string, options?: wix_users.RegistrationOptions): Promise<wix_users.RegistrationResult>;
 
@@ -306,14 +349,17 @@ declare namespace $w {
 
     /**
      * An icon that leads users to the shopping cart.
+     * 	[Read more..](https://fake-corvid-api/$w.CartIcon.html#)
      */
     interface CartIcon extends $w.Element, $w.HiddenCollapsedMixin{
         /**
          * Adds multiple products to the shopping cart.
+         * 	[Read more..](https://fake-corvid-api/$w.CartIcon.html#addProductsToCart)
          */
         addProductsToCart(products: $w.CartIcon.AddToCartItem[]): Promise<void>;
         /**
          * Adds a product to the shopping cart.
+         * 	[Read more..](https://fake-corvid-api/$w.CartIcon.html#addToCart)
          */
         addToCart(productID: string, quantity?: number, options?: $w.CartIcon.AddToCartOptions): Promise<void>;
     }
@@ -368,28 +414,39 @@ declare namespace $w {
 
     }
 
+    /**
+     * [Read more..](https://fake-corvid-api/$w.ClickableMixin.html#)
+     */
     interface ClickableMixin {
         /**
          * Adds an event handler that runs when the element is clicked.
+         * 	[Read more..](https://fake-corvid-api/$w.ClickableMixin.html#onClick)
          */
         onClick(handler: $w.MouseEventHandler): $w.Element;
         /**
          * Adds an event handler that runs when the element is double-clicked.
+         * 	[Read more..](https://fake-corvid-api/$w.ClickableMixin.html#onDblClick)
          */
         onDblClick(handler: $w.MouseEventHandler): $w.Element;
     }
 
+    /**
+     * [Read more..](https://fake-corvid-api/$w.DisabledMixin.html#)
+     */
     interface DisabledMixin {
         /**
          * Indicates if the element is enabled or disabled.
+         * 	[Read more..](https://fake-corvid-api/$w.DisabledMixin.html#enabled)
          */
         readonly enabled: boolean;
         /**
          * Disables the element and sets its \`enabled\` property to \`false\`.
+         * 	[Read more..](https://fake-corvid-api/$w.DisabledMixin.html#disable)
          */
         disable(): Promise<void>;
         /**
          * Enables the element and sets its \`enabled\` property to \`true\`.
+         * 	[Read more..](https://fake-corvid-api/$w.DisabledMixin.html#enable)
          */
         enable(): Promise<void>;
     }
@@ -401,26 +458,32 @@ declare namespace $w {
      *  of [options](#Option). Each [option](#Option) contains a label, which is
      *  what the user sees, and a value, which is what is used in code and stored in
      *  you collections.
+     * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#)
      */
     interface Dropdown extends $w.FormElement, $w.HiddenCollapsedMixin, $w.DisabledMixin, $w.FocusMixin, $w.ClickableMixin, $w.StyleMixin, $w.RequiredMixin{
         /**
          * Sets or gets the options in a dropdown.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#options)
          */
         options: $w.Dropdown.Option[];
         /**
          * Sets or gets the dropdown's placeholder text.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#placeholder)
          */
         placeholder: string;
         /**
          * Sets or gets the index of the selected option.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#selectedIndex)
          */
         selectedIndex: number;
         /**
          * Gets an object containing information about the dropdown's styles.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#style)
          */
         readonly style: $w.Style;
         /**
          * Sets or gets an element's value.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#value)
          */
         value: string;
     }
@@ -444,20 +507,24 @@ declare namespace $w {
 
     /**
      * Provides basic functionality for elements.
+     * 	[Read more..](https://fake-corvid-api/$w.Element.html#)
      */
     interface Element extends $w.Node, $w.ViewportMixin{
         /**
          * Indicates if an element is currently displayed.
+         * 	[Read more..](https://fake-corvid-api/$w.Element.html#rendered)
          */
         readonly rendered: boolean;
         /**
          * Adds an event handler that runs when the mouse pointer is moved
          *  onto the element.
+         * 	[Read more..](https://fake-corvid-api/$w.Element.html#onMouseIn)
          */
         onMouseIn(handler: $w.MouseEventHandler): $w.Element;
         /**
          * Adds an event handler that runs when the mouse pointer is moved
          *  off of the element.
+         * 	[Read more..](https://fake-corvid-api/$w.Element.html#onMouseOut)
          */
         onMouseOut(handler: $w.MouseEventHandler): $w.Element;
     }
@@ -474,76 +541,93 @@ declare namespace $w {
      *  An element receives focus and loses focus (blurs) through user actions,
      *  such as clicking and tabbing, or programmatically, using the
      *  [focus( )](#focus) and [blur( )](#blur) functions.
+     * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#)
      */
     interface FocusMixin {
         /**
          * Removes focus from the element.
+         * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#blur)
          */
         blur(): void;
         /**
          * Places focus on the element.
+         * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#focus)
          */
         focus(): void;
         /**
          * Adds an event handler that runs when the element loses focus.
+         * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#onBlur)
          */
         onBlur(handler: $w.EventHandler): $w.Element;
         /**
          * Adds an event handler that runs when the element receives focus.
+         * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#onFocus)
          */
         onFocus(handler: $w.EventHandler): $w.Element;
     }
 
     /**
      * Provides functionality related to user input elements.
+     * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#)
      */
     interface FormElement extends $w.Element, $w.ValidatableMixin, $w.ValueMixin{
         /**
          * Sets or gets an element's value.
+         * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#value)
          */
         readonly value: any;
         /**
          * Adds an event handler that runs when an input element's value
          *  is changed.
+         * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#onChange)
          */
         onChange(handler: $w.EventHandler): $w.Element;
     }
 
     /**
      * A gallery for displaying multiple items.
+     * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#)
      */
     interface Gallery extends $w.Element, $w.HiddenCollapsedMixin, $w.PlayableMixin{
         /**
          * Sets or gets the action that occurs when an item in the gallery is clicked.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#clickAction)
          */
         clickAction: string;
         /**
          * Gets the index of the gallery's current item.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#currentIndex)
          */
         readonly currentIndex: number;
         /**
          * Gets an object containing information about the current item.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#currentItem)
          */
         readonly currentItem: $w.Gallery.ImageItem | $w.Gallery.VideoItem;
         /**
          * Gets an object containing information about the gallery's capabilities.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#galleryCapabilities)
          */
         readonly galleryCapabilities: $w.Gallery.GalleryCapabilities;
         /**
          * Sets or gets the items in a gallery.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#items)
          */
         items: $w.Gallery.ImageItem[] | $w.Gallery.VideoItem[];
         /**
          * Determines if a gallery's navigation arrows are shown.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#showNavigationButtons)
          */
         showNavigationButtons: boolean;
         /**
          * Adds an event handler that runs when a gallery's current item changes.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#onCurrentItemChanged)
          */
         onCurrentItemChanged(handler: $w.GalleryItemChangedEventHandler): $w.Gallery;
         /**
          * Adds an event handler that runs when an item in a gallery is
          *  clicked.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#onItemClicked)
          */
         onItemClicked(handler: $w.GalleryItemClickedEventHandler): $w.Gallery;
     }
@@ -635,6 +719,7 @@ declare namespace $w {
 
     /**
      * Provides functionality for all elements that can be hidden or collapsed.
+     * 	[Read more..](https://fake-corvid-api/$w.HiddenCollapsedMixin.html#)
      */
     interface HiddenCollapsedMixin extends $w.HiddenMixin, $w.CollapsedMixin{
     }
@@ -647,27 +732,33 @@ declare namespace $w {
      *  component can hold, see here.
      * 
      *  For an overview of working with an HTML Component using code, see Working with the HTML Element.
+     * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#)
      */
     interface HtmlComponent extends $w.IFrame{
         /**
          * Sets or gets whether the HTML Component displays scrollbars.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#scrolling)
          */
         scrolling: string;
         /**
          * Sets or gets the URL of the HTML Component's code.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#src)
          */
         src: string;
         /**
          * Allows the HTML Component to be put into full screen mode.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#allowFullScreen)
          */
         allowFullScreen(): $w.HtmlComponent;
         /**
          * Adds an event handler that runs when the HTML Component
          *  sends a message.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#onMessage)
          */
         onMessage(handler: $w.HtmlComponentMessageEventHandler): $w.HtmlComponent;
         /**
          * Sends a message to the HTML Component.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#postMessage)
          */
         postMessage(message: string | number | boolean | any | Array): void;
     }
@@ -675,36 +766,44 @@ declare namespace $w {
     /**
      * Provides basic functionality for all Wix objects, including objects
      *  that are not [elements]($w.Element.html).
+     * 	[Read more..](https://fake-corvid-api/$w.Node.html#)
      */
     interface Node {
         /**
          * Indicates if an element appears on all pages or only on the current page.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#global)
          */
         readonly global: boolean;
         /**
          * Gets the element's ID.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#id)
          */
         readonly id: string;
         /**
          * Gets the element's parent element.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#parent)
          */
         readonly parent: $w.Node;
         /**
          * Gets the element's type.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#type)
          */
         readonly type: string;
         /**
          * Scrolls the page to the element using an animation.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#scrollTo)
          */
         scrollTo(): Promise<void>;
     }
 
     /**
      * A store page for a specific product.
+     * 	[Read more..](https://fake-corvid-api/$w.ProductPage.html#)
      */
     interface ProductPage extends $w.Element, $w.HiddenCollapsedMixin{
         /**
          * Gets the all the information associated with the current product.
+         * 	[Read more..](https://fake-corvid-api/$w.ProductPage.html#getProduct)
          */
         getProduct(): Promise<$w.ProductPage.StoreProduct>;
     }
@@ -920,20 +1019,24 @@ declare namespace $w {
 
     /**
      * Provides functionality for input elements can be required to have a value.
+     * 	[Read more..](https://fake-corvid-api/$w.RequiredMixin.html#)
      */
     interface RequiredMixin {
         /**
          * Sets or gets whether an input element is required to have a value.
+         * 	[Read more..](https://fake-corvid-api/$w.RequiredMixin.html#required)
          */
         required: boolean;
     }
 
     /**
      * Provides functionality for elements that can be styled.
+     * 	[Read more..](https://fake-corvid-api/$w.StyleMixin.html#)
      */
     interface StyleMixin {
         /**
          * Gets an object containing information about the element's styles.
+         * 	[Read more..](https://fake-corvid-api/$w.StyleMixin.html#style)
          */
         readonly style: $w.Style;
     }
@@ -943,142 +1046,177 @@ declare namespace $w {
 declare namespace wix_dataset {
     /**
      * A [dataset](wix-dataset.html) connects page elements to a set of items in a data collection.
+     * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#)
      */
     interface Dataset {
         /**
          * Returns the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getCurrentItem)
          */
         getCurrentItem(): any;
         /**
          * Returns the current item's index.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getCurrentItemIndex)
          */
         getCurrentItemIndex(): number;
         /**
          * Gets the index of the dataset's current page.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getCurrentPageIndex)
          */
         getCurrentPageIndex(): number;
         /**
          * Returns the selected items.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getItems)
          */
         getItems(fromIndex: number, numberOfItems: number): Promise<wix_dataset.Dataset.GetItemsResult>;
         /**
          * Gets the dataset's page size.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getPageSize)
          */
         getPageSize(): number;
         /**
          * Returns the number of items in the dataset that match its filter criteria.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getTotalCount)
          */
         getTotalCount(): number;
         /**
          * Gets the number of pages in the dataset.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getTotalPageCount)
          */
         getTotalPageCount(): number;
         /**
          * Indicates if there is a next item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#hasNext)
          */
         hasNext(): boolean;
         /**
          * Indicates if there is a next page of data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#hasNextPage)
          */
         hasNextPage(): boolean;
         /**
          * Indicates if there is a previous item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#hasPrevious)
          */
         hasPrevious(): boolean;
         /**
          * Indicates if there is a previous page of data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#hasPreviousPage)
          */
         hasPreviousPage(): boolean;
         /**
          * Loads the next page of data in addition to the current data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#loadMore)
          */
         loadMore(): Promise<void>;
         /**
          * Loads the specified page.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#loadPage)
          */
         loadPage(pageIndex: number): Promise<any[]>;
         /**
          * Create a new blank item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#new)
          */
         new(): Promise<void>;
         /**
          * Saves the current item and moves to the next item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#next)
          */
         next(): Promise<any>;
         /**
          * Moves to the next page of data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#nextPage)
          */
         nextPage(): Promise<any[]>;
         /**
          * Adds an event handler that runs just after a save.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onAfterSave)
          */
         onAfterSave(handler: wix_dataset.Dataset.AfterSaveHandler): void;
         /**
          * Adds an event handler that runs just before a save.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onBeforeSave)
          */
         onBeforeSave(handler: wix_dataset.Dataset.BeforeSaveHandler): void;
         /**
          * Adds an event handler that runs when the current index changes.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onCurrentIndexChanged)
          */
         onCurrentIndexChanged(handler: wix_dataset.Dataset.CurrentIndexChangedHandler): void;
         /**
          * Adds an event handler that runs when an error occurs.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onError)
          */
         onError(handler: wix_dataset.Dataset.ErrorHandler): void;
         /**
          * Adds an event handler that runs when a value of the current item changes.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onItemValuesChanged)
          */
         onItemValuesChanged(handler: wix_dataset.Dataset.ItemValuesChangedHandler): void;
         /**
          * Adds an event handler that runs when the dataset is ready.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onReady)
          */
         onReady(handler: wix_dataset.Dataset.ReadyHandler): void;
         /**
          * Saves the current item and moves to the previous item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#previous)
          */
         previous(): Promise<any>;
         /**
          * Moves to the previous page of data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#previousPage)
          */
         previousPage(): Promise<any[]>;
         /**
          * Refetches the contents of the dataset from the collection.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#refresh)
          */
         refresh(): Promise<void>;
         /**
          * Removes the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#remove)
          */
         remove(): Promise<void>;
         /**
          * Reverts the current item to its saved value.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#revert)
          */
         revert(): Promise<void>;
         /**
          * Saves the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#save)
          */
         save(): Promise<any>;
         /**
          * Sets the current item by index.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setCurrentItemIndex)
          */
         setCurrentItemIndex(index: number): Promise<void>;
         /**
          * Updates the value of a field in the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setFieldValue)
          */
         setFieldValue(fieldKey: string, value: any): void;
         /**
          * Updates the values of a set of fields in the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setFieldValues)
          */
         setFieldValues(fieldValues: any): void;
         /**
          * Sets the dataset filter.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setFilter)
          */
         setFilter(filter: wix_data.WixDataFilter): Promise<void>;
         /**
          * Sets the dataset's page size.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setPageSize)
          */
         setPageSize(pageSize: number): Promise<void>;
         /**
          * Sets the dataset sort order.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setSort)
          */
         setSort(sort: wix_data.WixDataSort): Promise<void>;
     }
@@ -1153,22 +1291,27 @@ declare namespace wix_dataset {
 declare namespace wix_storage {
     /**
      * Used for storing local, session, or memory key/value data in the visitor's browser.
+     * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#)
      */
     interface Storage {
         /**
          * Removes **all** items from local, session, or memory storage.
+         * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#clear)
          */
         clear(): void;
         /**
          * Gets an item from local, session, or memory storage.
+         * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#getItem)
          */
         getItem(key: string): string;
         /**
          * Removes an item from local, session, or memory storage.
+         * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#removeItem)
          */
         removeItem(key: string): void;
         /**
          * Stores an item in local, session, or memory storage.
+         * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#setItem)
          */
         setItem(key: string, value: string): void;
     }
@@ -1178,30 +1321,37 @@ declare namespace wix_storage {
 declare namespace wix_users {
     /**
      * A site user.
+     * 	[Read more..](https://fake-corvid-api/wix-users.User.html#)
      */
     interface User {
         /**
          * Gets the user's ID.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#id)
          */
         readonly id: string;
         /**
          * Indicates whether the user is logged in or not.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#loggedIn)
          */
         readonly loggedIn: boolean;
         /**
          * Deprecated: Gets the user's role.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#role)
          */
         readonly role: string;
         /**
          * Gets the email of the current user.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#getEmail)
          */
         getEmail(): Promise<string>;
         /**
          * Gets the user's member pricing plan.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#getPricingPlans)
          */
         getPricingPlans(): Promise<wix_users.User.PricingPlan[]>;
         /**
          * Gets the user's member roles.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#getRoles)
          */
         getRoles(): Promise<wix_users.User.UserRole[]>;
     }

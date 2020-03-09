@@ -4,7 +4,7 @@ const logger = require('./logger')
 const {writeOutput} = require('./utils/fsUtil')
 const {readRepoFromRemoteOrLocal} = require('./utils/gitUtils')
 
-async function runDts(outputFileName, outputDirName, {remote, local, run$wFixer}) {
+async function runDts(outputFileName, outputDirName, {remote, local, run$wFixer, summaryTemplate}) {
 
   try {
     let repo = await readRepoFromRemoteOrLocal({remote, local})
@@ -15,7 +15,7 @@ async function runDts(outputFileName, outputDirName, {remote, local, run$wFixer}
 
     logger.command('docworks dts', '')
 
-    const dtsContent = dts(repo.services, {run$wFixer})
+    const dtsContent = dts(repo.services, {run$wFixer, summaryTemplate})
 
     const fileNameWithExtensions = `${outputFileName}.d.ts`
     const fullPath = path.join(outputDirName, fileNameWithExtensions)
