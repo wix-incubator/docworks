@@ -1,11 +1,11 @@
 const { readFromDir } = require('docworks-repo')
 const docworksToDts = require('../lib/dts-repo')
-const documentationTemplate = '<%= model.summary %>\n\t[Read more..](https://fake-corvid-api/<%= model.service %>.html#<%= model.member %>)'
+const summaryTemplate = '<%= model.summary %>\n\t[Read more..](https://fake-corvid-api/<%= model.service %>.html#<%= model.member %>)'
 
 describe('convert docworks to dts', () => {
   function getDtsForServiceByPath(servicePath) {
     const service = require(servicePath)
-    return docworksToDts([service], { documentationTemplate })
+    return docworksToDts([service], { summaryTemplate })
   }
 
   describe('documentation links', () => {
@@ -290,7 +290,7 @@ describe('convert docworks to dts', () => {
   test('a repo', async () => {
     let repo = await readFromDir('./test/services')
 
-    let dts = docworksToDts(repo.services, { documentationTemplate })
+    let dts = docworksToDts(repo.services, { summaryTemplate })
 
     expect(dts).toMatchSnapshot()
   })

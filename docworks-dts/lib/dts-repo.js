@@ -84,15 +84,15 @@ function handleServiceAsNamespace(
 
 function dts(
   services,
-  { run$wFixer = false, documentationTemplate } = {}
+  { run$wFixer = false, summaryTemplate } = {}
 ) {
   const namespaces = {}
   const modules = {}
   let documentationGenerator = ({summary}) => summary
 
-  if (documentationTemplate) {
+  if (summaryTemplate) {
     documentationGenerator = values => {
-      return template_(documentationTemplate)({model: values})
+      return template_(summaryTemplate)({model: values})
     }
   }
 
