@@ -1,6 +1,6 @@
 const { readFromDir } = require('docworks-repo')
 const docworksToDts = require('../lib/dts-repo')
-const documentationTemplate = '<%= model.summary %>\n\t[Read more..](https://fake-corvid-api/<%= model.service %>.html#<%= model.member %>'
+const documentationTemplate = '<%= model.summary %>\n\t[Read more..](https://fake-corvid-api/<%= model.service %>.html#<%= model.member %>)'
 
 describe('convert docworks to dts', () => {
   function getDtsForServiceByPath(servicePath) {
@@ -11,13 +11,13 @@ describe('convert docworks to dts', () => {
   describe('documentation links', () => {
     test('should generate documentation link to modules', () => {
       const dts = getDtsForServiceByPath('./services/wix-users.service.json')
-      const expectedDocLink = '[Read more..](https://fake-corvid-api/wix-users.html)'
+      const expectedDocLink = '[Read more..](https://fake-corvid-api/wix-users.html#)'
       expect(dts).toContain(expectedDocLink)
     })
 
     test('should generate documentation link to interfaces', () => {
       const dts = getDtsForServiceByPath('./services/ClickableMixin.service.json')
-      const expectedDocLink = '[Read more..](https://fake-corvid-api/$w.ClickableMixin.html)'
+      const expectedDocLink = '[Read more..](https://fake-corvid-api/$w.ClickableMixin.html#)'
       expect(dts).toContain(expectedDocLink)
     })
 
