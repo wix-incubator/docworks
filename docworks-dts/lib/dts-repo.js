@@ -1,4 +1,5 @@
 const template_ = require('lodash/template')
+const mapValues_ = require('lodash/mapValues')
 const $wFixer = require('./$w-fixer')
 const { convertTreeToString, dtsNamespace } = require('./dts-generator')
 const {
@@ -108,7 +109,15 @@ function dts(
     $wFixer(modules, namespaces)
   }
 
-  return [convertTreeToString(modules), convertTreeToString(namespaces)].join('')
+  // return [convertTreeToString(modules), convertTreeToString(namespaces)]
+
+  const dom = require('dts-dom')
+  const declarations = Object.assign({}, 
+    mapValues_(modules, value => dom.emit(value)),
+    mapValues_(namespaces, value => dom.emit(value))
+    )
+
+    return declarations
 }
 
 module.exports = dts

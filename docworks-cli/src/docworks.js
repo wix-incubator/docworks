@@ -170,9 +170,9 @@ function docworks() {
       .describe('r', 'remote repository to read docworks services files from')
       .alias('l', 'local')
       .describe('l', 'folder containing docwork service files')
-      .demand('o')
-      .alias('o', 'out')
-      .describe('o', 'output file')
+      // .demand('o')
+      // .alias('o', 'out')
+      // .describe('o', 'output file')
       .alias('d', 'dir')
       .describe('d', 'output dir')
 

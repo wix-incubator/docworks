@@ -15,14 +15,22 @@ async function runDts(outputFileName, outputDirName, {remote, local, run$wFixer,
 
     logger.command('docworks dts', '')
 
-    const dtsContent = dts(repo.services, {run$wFixer, summaryTemplate})
+    const dtsContents = dts(repo.services, {run$wFixer, summaryTemplate})
 
-    const fileNameWithExtensions = `${outputFileName}.d.ts`
-    const fullPath = path.join(outputDirName, fileNameWithExtensions)
+   return Promise.all(
+     Object.keys(dtsContents).map(serviceName => {
+     const dtsContent = dtsContents[serviceName]
+     const fullFilePath = path.join(outputDirName, serviceName + '.d.ts')
+     return writeOutput(fullFilePath, dtsContent)
+   })
+   )
 
-    logger.command('dts saving to file...', fullPath)
+    // const fileNameWithExtensions = `${outputFileName}.d.ts`
+    // const fullPath = path.join(outputDirName, fileNameWithExtensions)
 
-    return writeOutput(fullPath, dtsContent)
+    // logger.command('dts saving to file...', fullPath)
+
+    // return writeOutput(fullPath, dtsContent)
   }
   catch (error) {
     logger.error('failed to complete workflow\n' + error.stack)
