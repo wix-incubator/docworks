@@ -1,0 +1,19 @@
+{
+  "name": "docworks-plugin-experimental",
+  "version": "1.10.8",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "build": "#",
+    "test": "yarn lint && jest"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "docworks-jsdoc2spec": "^1.10.8",
+    "docworks-repo": "^1.10.8",
+    "eslint": "^6.0.1",
+    "jest": "^24.8.0"
+  }
+}
