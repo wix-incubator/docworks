@@ -25,7 +25,8 @@ function convertServiceToInterface(service, { documentationGenerator }) {
   const baseTypes = service.mixes.map(validServiceName)
   const jsDocComment = documentationGenerator({
     summary: service.docs.summary,
-    service: fullServiceName(service)
+    service: fullServiceName(service),
+    extra: service.extra
   })
 
   return dtsInterface(service.name, { members, baseTypes, jsDocComment })
@@ -41,7 +42,8 @@ function convertServiceToModule(service, { documentationGenerator }) {
   const members = properties.concat(operations)
   const jsDocComment = documentationGenerator({
     summary: service.docs.summary,
-    service: fullServiceName(service)
+    service: fullServiceName(service),
+    extra: service.extra
   })
 
   return dtsModule(service.name, { members, jsDocComment })
@@ -56,7 +58,8 @@ function convertPropertyToProperty(
   const jsDocComment = documentationGenerator({
     summary: property.docs.summary,
     service: fullServiceName(service),
-    member: property.name
+    member: property.name,
+    extra: property.extra
   })
 
   return dtsProperty(property.name, property.type, { readonly, jsDocComment })
@@ -78,7 +81,8 @@ function convertOperationToMethod(
   const jsDocComment = documentationGenerator({
     summary: docs.summary,
     service: fullServiceName(service),
-    member: name
+    member: name,
+    extra: operation.extra
   })
 
   return dtsMethod(name, parameters, ret.type, { jsDocComment })
@@ -88,7 +92,8 @@ function convertPropertyToConst(service, property, { documentationGenerator }) {
   const jsDocComment = documentationGenerator({
     summary: property.docs.summary,
     service: fullServiceName(service),
-    member: property.name
+    member: property.name,
+    extra: property.extra
   })
   return dtsConst(property, { jsDocComment })
 }
@@ -103,7 +108,8 @@ function convertOperationToFunction(
   const jsDocComment = documentationGenerator({
     summary: docs.summary,
     service: fullServiceName(service),
-    member: name
+    member: name,
+    extra: operation.extra
   })
 
   return dtsFunction(name, parameters, ret.type, { jsDocComment })
