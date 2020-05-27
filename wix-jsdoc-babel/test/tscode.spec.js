@@ -4,28 +4,18 @@ import chaiSubset from 'chai-subset'
 const expect = chai.expect
 chai.use(chaiSubset)
 
-describe('ES6 Support', function() {
-  let jsDocRes
-  beforeEach(() => {
-    jsDocRes = runJsDoc({
-        'include': [
-          'test/tscode.ts'
-        ]
-      },
-      ['.'])
-  })
+import babelPlugin from '../src/index'
 
-  afterEach(function () {
-    if (this.currentTest.state == 'failed') {
-      /* eslint-disable no-console */
-      console.log('the jsDocRes:')
-      console.log(require('util').inspect(jsDocRes, {colors: true, depth: 9}))
-      /* eslint-enable no-console */
-    }
-  })
 
-  it('should support async functions', function () {
+const runJsDocWithPlugin = (sourcePath) => {
+  babelPlugin.init('ts')
+  return runJsDoc({include: [sourcePath]}, ['.'])
+}
 
+describe('Typescript Support', function() {
+
+  it('should read from a typescript file', function () {
+    const jsDocRes = runJsDocWithPlugin('test/tscode.ts')
     expect(jsDocRes).to.containSubset({
       services: [
         {
@@ -38,43 +28,5 @@ describe('ES6 Support', function() {
     })
   })
 
-  it('should support a function with spread operator ...', function () {
-
-    expect(jsDocRes).to.containSubset({
-      services: [
-        {
-          name: 'TSCode', memberOf: 'aNamespace',
-          operations: [
-            {
-              name: 'concatArrays', nameParams: [], params: [
-              {name: 'arr', type: 'Array'},
-              {name: 'arr2', type: 'Array'}
-            ], ret: {type: 'Array'}
-            }
-          ]
-        }
-      ]
-    })
-  })
 })
 
-describe('Class comments', function() {
-  let jsDocRes
-  beforeEach(() => {
-    jsDocRes = runJsDoc({
-        'include': [
-          'test/box.js'
-        ]
-      },
-      ['.'])
-  })
-
-  afterEach(function(){
-    if (this.currentTest.state == 'failed') {
-      /* eslint-disable no-console */
-      console.log('the jsDocRes:')
-      console.log(require('util').inspect(jsDocRes, {colors: true, depth: 9}))
-      /* eslint-enable no-console */
-    }
-  })
-})

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-import fs from "fs";
 
 /**
  * @class TSCode
@@ -13,11 +11,14 @@ class TSCode {
    * @summary an operation
    * @returns {Promise<string>}
    */
-  async doSomething() {
-    let file = await new Promise(function (fulfill, reject) {
-      fs.readFile("name", {}, (e: any) => (e ? reject(e) : fulfill()));
+  async doSomething(param: boolean) {
+    return await new Promise(function (resolve, reject) {
+      if (param) {
+        resolve()
+      } else {
+        reject()
+      }
     });
-    return file;
   }
 
   /**
