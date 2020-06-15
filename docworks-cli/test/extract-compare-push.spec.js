@@ -21,6 +21,8 @@ const ver4 = './test/ver4'
 const project2_ver1 = './test/project2-ver1'
 const project1 = 'project1'
 const project2 = 'project2'
+const largeFiles = './test/large-files'
+
 let baseGit = new Git()
 
 async function createRemoteOnVer1() {
@@ -208,5 +210,27 @@ describe('extract compare push workflow', function() {
     })
   })
 
+  it.only('should not fail on large change-sets', async function() {
+    this.timeout(10000)
 
+    await createRemoteOnVer1()
+    logger.log('run test')
+    logger.log('--------')
+
+    await extractComparePush({remoteRepo: remote, remoteBranch: null, workingDir: './tmp/local2', projectSubdir: project2,
+        jsDocSources: {'include': largeFiles, 'includePattern': '.+\\.(js)?$'}, plugins: [], dryrun: false}, logger)
+
+    let remoteRepo = new Git(remote)
+    let service = serviceFromJson(await remoteRepo.readFile(join(project1, 'Service.service.json')))
+    let anotherService = serviceFromJson(await remoteRepo.readFile(join(project2, 'AnotherService.service.json')))
+    let message = await remoteRepo.getCommitMessage()
+
+    expect(message).to.equal('DocWorks for project2 - 1 change detected\nchanges:\nService AnotherService is new\n')
+    expect(service).to.containSubset({
+      labels: ['changed']
+    })
+    expect(anotherService).to.containSubset({
+      labels: ['new']
+    })
+  })
 })

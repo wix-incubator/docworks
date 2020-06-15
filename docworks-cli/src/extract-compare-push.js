@@ -8,6 +8,8 @@ const chalk = require('chalk')
 const {runPlugins} = require('./plugins')
 const {enrichModel} = require('./modelEnrichment')
 
+const MAX_COMMIT_MESSAGE_LENGTH = 2000
+
 function commitMessage(projectSubdir, messages, errors, indent) {
   let newLineIndent = `\n${indent}`
   let changesSummary
@@ -38,7 +40,9 @@ function commitMessage(projectSubdir, messages, errors, indent) {
     })
     formattedMessage += newLineIndent + newLineIndent + 'issues:' + newLineIndent + formattedErrors.join(newLineIndent)
   }
-  return formattedMessage
+  return formattedMessage.length > MAX_COMMIT_MESSAGE_LENGTH ?
+    `${formattedMessage.substr(0, MAX_COMMIT_MESSAGE_LENGTH)} ...` :
+    formattedMessage
 }
 
 function logStatus(statuses, logger) {
