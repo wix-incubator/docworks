@@ -210,26 +210,20 @@ describe('extract compare push workflow', function() {
     })
   })
 
-  it.only('should not fail on large change-sets', async function() {
+  it('should not fail on large change-sets', async function() {
     this.timeout(10000)
 
     await createRemoteOnVer1()
-    logger.log('run test')
-    logger.log('--------')
 
     await extractComparePush({remoteRepo: remote, remoteBranch: null, workingDir: './tmp/local2', projectSubdir: project2,
         jsDocSources: {'include': largeFiles, 'includePattern': '.+\\.(js)?$'}, plugins: [], dryrun: false}, logger)
 
     let remoteRepo = new Git(remote)
-    let service = serviceFromJson(await remoteRepo.readFile(join(project1, 'Service.service.json')))
-    let anotherService = serviceFromJson(await remoteRepo.readFile(join(project2, 'AnotherService.service.json')))
+    let service = serviceFromJson(await remoteRepo.readFile(join(project2, 'wix-bookings-backend.service.json')))
     let message = await remoteRepo.getCommitMessage()
 
-    expect(message).to.equal('DocWorks for project2 - 1 change detected\nchanges:\nService AnotherService is new\n')
+    expect(message).to.have.lengthOf(2000 + '  ...'.length)
     expect(service).to.containSubset({
-      labels: ['changed']
-    })
-    expect(anotherService).to.containSubset({
       labels: ['new']
     })
   })
