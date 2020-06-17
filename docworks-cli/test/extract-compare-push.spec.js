@@ -21,6 +21,8 @@ const ver4 = './test/ver4'
 const project2_ver1 = './test/project2-ver1'
 const project1 = 'project1'
 const project2 = 'project2'
+const largeFiles = './test/large-files'
+
 let baseGit = new Git()
 
 async function createRemoteOnVer1() {
@@ -208,5 +210,21 @@ describe('extract compare push workflow', function() {
     })
   })
 
+  it('should not fail on large change-sets', async function() {
+    this.timeout(10000)
 
+    await createRemoteOnVer1()
+
+    await extractComparePush({remoteRepo: remote, remoteBranch: null, workingDir: './tmp/local2', projectSubdir: project2,
+        jsDocSources: {'include': largeFiles, 'includePattern': '.+\\.(js)?$'}, plugins: [], dryrun: false}, logger)
+
+    let remoteRepo = new Git(remote)
+    let service = serviceFromJson(await remoteRepo.readFile(join(project2, 'wix-bookings-backend.service.json')))
+    let message = await remoteRepo.getCommitMessage()
+
+    expect(message).to.have.lengthOf(2000 + '  ...'.length)
+    expect(service).to.containSubset({
+      labels: ['new']
+    })
+  })
 })
