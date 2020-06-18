@@ -1,6 +1,6 @@
 {
   "name": "wix-jsdoc-babel",
-  "version": "1.10.14",
+  "version": "1.10.16",
   "description": "",
   "main": "src/index.js",
   "scripts": {
