@@ -3,7 +3,7 @@
  * @class Service
  * @summary A test service
  * @memberof aNamespace
- * @custom-labels maturity-service-update
+ * @customlabels maturity-service-update
 
  */
 class Service {
@@ -14,7 +14,7 @@ class Service {
    * @description
    * the description of the operation
    * @param {string} input the input
-   * @custom-labels maturity-updated
+   * @customlabels maturity-updated
    */
   operation(input) {
 
