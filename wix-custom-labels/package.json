@@ -1,29 +1,26 @@
 {
   "name": "wix-custom-labels",
   "version": "1.0.0",
-  "description": "docworks plugin based on jsDoc. @custom-labels",
+  "description": "docworks plugin based on jsDoc. @customlabels",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix",
     "build": "npm run lint && npm run test",
     "prepublish": "npm run build",
-    "test": "mocha --compilers js:@babel/register --require @babel/polyfill ./test/**/*.spec.js"
+    "test": "jest"
   },
   "author": "Roi Bendet",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/register": "^7.0.0",
-    "chai": "^3.5.0",
-    "chai-subset": "^1.5.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^26.2.2",
     "docworks-jsdoc2spec": "^1.10.8",
     "docworks-repo": "^1.10.8",
     "eslint": "^6.0.1",
-    "lodash": "^4.17.19",
-    "mocha": "^3.3.0"
+    "jest": "^26.2.2"
+  },
+  "dependencies": {
+    "lodash.isequal": "^4.5.0"
   }
 }
