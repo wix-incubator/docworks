@@ -2,7 +2,7 @@ const runJsDoc = require('docworks-jsdoc2spec')
 const {merge} = require('docworks-repo')
 
 const sourceWithTagService = {'include': ['test/Service.withTag.service.js']}
-const sourceWithTwoTagService = {'include': ['test/Service.withTags.service.js']}
+const sourceWithTwoTagService = {'include': ['test/Service.withTwoTags.service.js']}
 const sourceWithoutTagService = {'include': ['test/Service.withoutTag.service.js']}
 const updatedSourceWithTagService = {'include': ['test/updatedService.withTag.service.js']}
 const wixCustomLabelPluginPath = ['src/index']
@@ -25,7 +25,7 @@ describe('integration test', function () {
       )
     })
 
-    it('should load the custom-labels tags and add them to the extra property of the service', function () {
+    it('should load two custom-labels and add them to the extra property of the service', function () {
       const jsDocRes = runJsDoc(sourceWithTwoTagService, wixCustomLabelPluginPath)
       expect(jsDocRes.services).toEqual(
         expect.arrayContaining([
@@ -61,7 +61,7 @@ describe('integration test', function () {
       )
     })
 
-    it('should load the custom-labels tags and add them to the extra property of the operation', function () {
+    it('should load two custom-labels and add them to the extra property of the operation', function () {
       const jsDocRes = runJsDoc(sourceWithTwoTagService, wixCustomLabelPluginPath)
       expect(jsDocRes.services).toEqual(
         expect.arrayContaining([

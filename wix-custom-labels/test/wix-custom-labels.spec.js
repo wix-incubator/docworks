@@ -62,7 +62,6 @@ describe('wix-custom-labels', function() {
 
     it('should report no change if custom-labels did not change', function() {
       let mergeResult = docworksMergeService({customLabels: [{id: 'a'}, {id: 'b'}]},{customLabels: [{id: 'a'}, {id: 'b'}]})
-      // expect(mergeResult.value).to.containSubset({customLabels: [{id: 'a'},{id: 'b'}]})
       expect(mergeResult.value).toEqual(expect.objectContaining({customLabels: [{id: 'a'},{id: 'b'}]}))
       expect(mergeResult.changed).toBe(false)
     })
