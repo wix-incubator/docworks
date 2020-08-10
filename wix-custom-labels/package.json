@@ -1,6 +1,6 @@
 {
   "name": "wix-custom-labels",
-  "version": "1.0.0",
+  "version": "1.10.17",
   "description": "docworks plugin based on jsDoc. @customlabels",
   "main": "src/index.js",
   "scripts": {
