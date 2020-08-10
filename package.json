@@ -26,7 +26,8 @@
 			"wix-note",
 			"wix-queryable",
 			"wix-snippet",
-			"wix-types-fix"
+			"wix-types-fix",
+      "wix-custom-labels"
 		]
 	}
 }
