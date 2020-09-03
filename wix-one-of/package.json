@@ -1,0 +1,26 @@
+{
+  "name": "wix-one-of",
+  "version": "1.10.8",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix",
+    "build": "npm run lint && npm run test",
+    "prepublish": "npm run build",
+    "test": "jest"
+  },
+  "author": "Karin Agan",
+  "license": "ISC",
+  "dependencies": {
+    "lodash.isequal": "^4.5.0"
+  },
+  "devDependencies": {
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.4.2",
+    "docworks-jsdoc2spec": "^1.10.8",
+    "docworks-repo": "^1.10.8",
+    "eslint": "^6.0.1",
+    "jest": "^24.8.0"
+  }
+}
