@@ -31,6 +31,12 @@ const SOURCE_SERVICE_WITH_DUPLICATED_TAG = {
   ],
 }
 
+const SOURCE_SERVICE_WITH_NON_EXISTING_PROPERTY = {
+  'include': [
+    'test/Service.withNonExistingProperty.service.js'
+  ],
+}
+
 const ONE_OF_PLUGIN_PATH = ['src/index']
 
 describe('wix-one-of - integration test', () => {
@@ -231,6 +237,30 @@ describe('wix-one-of - integration test', () => {
                 {name: 'passportId', type: 'number', doc: 'is oneOf group 2 prop 2', optional: undefined}
               ],
               extra: {oneOfGroups: [{name: 'age_group1', members: ['age', 'yearOfBirth']}]}
+            })
+          ])
+        )
+      })
+    })
+
+    describe('when tag include non existing property name', () => {
+      test('should ignore the non existing property', () => {
+        let jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_NON_EXISTING_PROPERTY, ONE_OF_PLUGIN_PATH)
+        const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
+
+        expect(jsDocService.messages).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              name: 'Message',
+              members: [
+                {name: 'name', type: 'string', doc: 'is mandatory', optional: undefined},
+                {name: 'address', type: 'string', doc: 'is optional', optional: true},
+                {name: 'age', type: 'number', doc: 'is oneOf group 1 prop 1', optional: true},
+                {name: 'yearOfBirth', type: ['number', 'string'], doc: 'is oneOf group 1 prop 2', optional: undefined},
+                {name: 'idNumber', type: 'number', doc: 'is oneOf group 2 prop 1',optional: undefined},
+                {name: 'passportId', type: 'number', doc: 'is oneOf group 2 prop 2', optional: undefined}
+              ],
+              extra: {oneOfGroups: [{name: 'age_group', members: ['age']}]}
             })
           ])
         )

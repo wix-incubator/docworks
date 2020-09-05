@@ -51,14 +51,22 @@ exports.extendDocworksKey = ONE_OF_ELEMENT_KEY
 function extendDocworks(doclet, element) {
   const oneOfGroups = doclet[ONE_OF_TAG]
 
-  if(oneOfGroups) {
-    oneOfGroups.forEach(currentOneOfGroup => {
-      currentOneOfGroup.members.forEach(memberName => {
-        const member = element.members.find(m => m.name === memberName)
-        member.optional = true
-      })
-    })
+  if(!oneOfGroups) {
+    return
   }
+
+  oneOfGroups.forEach(currentOneOfGroup => {
+    const existingMembers = currentOneOfGroup.members.filter(memberName => {
+      const member = element.members.find(m => m.name === memberName)
+      if(!member) {
+        logger.error(`oneof group ${currentOneOfGroup.name} contains non existing property ${memberName}`)
+        return false
+      }
+      member.optional = true
+      return true
+    })
+    currentOneOfGroup.members = existingMembers
+  })
 
   return {extraValue: oneOfGroups}
 }

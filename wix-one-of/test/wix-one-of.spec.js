@@ -78,11 +78,11 @@ describe('wix-one-of', () => {
   })
 
   test('should add oneof value to doclet when tag is added', () => {
-    const dictionary = makeDict()
-    defineTags(dictionary)
-
     const doclet = makeDoclet()
     const tag = makeTag()
+    const dictionary = makeDict()
+
+    defineTags(dictionary)
     dictionary.tags['oneof'].onTagged(doclet, tag)
 
     expect(doclet).toEqual(expect.objectContaining({
@@ -115,24 +115,35 @@ describe('wix-one-of', () => {
   describe('merge', () => {
     test('should report no change if no oneof tag', () => {
       const mergeResult = docworksMergeMessage(undefined, undefined)
+
       expect(mergeResult.value).not.toBeDefined()
       expect(mergeResult.changed).toBeFalsy()
     })
 
     test('should report no change if oneof tag did not change', () => {
-      const mergeResult = docworksMergeMessage([{name: 'age_group', members: ['age', 'yearOfBirth']}], [{name: 'age_group', members: ['age', 'yearOfBirth']}])
+      const mergeResult = docworksMergeMessage(
+        [{name: 'age_group', members: ['age', 'yearOfBirth']}],
+        [{name: 'age_group', members: ['age', 'yearOfBirth']}]
+      )
+
       expect(mergeResult.value).toEqual([{members: ['age', 'yearOfBirth'], name: 'age_group'}])
       expect(mergeResult.changed).toBeFalsy()
     })
 
     test('should report change if oneof tag was added', () => {
-      const mergeResult = docworksMergeMessage([{name: 'age_group', members: ['age', 'yearOfBirth']}], undefined)
+      const mergeResult = docworksMergeMessage(
+        [{name: 'age_group', members: ['age', 'yearOfBirth']}],
+        undefined
+      )
       expect(mergeResult.value).toEqual([{members: ['age', 'yearOfBirth'], name: 'age_group'}])
       expect(mergeResult.changed).toBeTruthy()
     })
 
     test('should report changed if oneof tag was removed', () => {
-      const mergeResult = docworksMergeMessage(undefined, [{name: 'age_group', members: ['age', 'yearOfBirth']}])
+      const mergeResult = docworksMergeMessage(
+        undefined,
+        [{name: 'age_group', members: ['age', 'yearOfBirth']}]
+      )
       expect(mergeResult.value).not.toBeDefined()
       expect(mergeResult.changed).toBeTruthy()
     })
@@ -163,6 +174,7 @@ describe('wix-one-of', () => {
     describe('invalid tag', () => {
       let log = []
       beforeEach(() => {
+        log = []
         const logger = {
           error: (_) => log.push(_),
         }
@@ -172,14 +184,13 @@ describe('wix-one-of', () => {
 
       describe('when tag does not include any property name', () => {
         test('should write to the log an error message', () => {
-          const dictionary = makeDict()
-          defineTags(dictionary)
-
           const doclet = makeDoclet()
           const tag = makeTag()
+          const dictionary = makeDict()
 
           delete tag.value.description
 
+          defineTags(dictionary)
           dictionary.tags['oneof'].onTagged(doclet, tag)
 
           expect(log).toEqual(expect.arrayContaining(['oneof group age_group must include description with list of properties names']))
@@ -189,15 +200,39 @@ describe('wix-one-of', () => {
 
       describe('when 2 tags include duplicated properties in different groups', () => {
         test('should write to the log an error message', () => {
-          const dictionary = makeDict()
-          defineTags(dictionary)
-
           const doclet = makeDoclet()
           const tag = makeTag()
+          const dictionary = makeDict()
+
+          defineTags(dictionary)
           dictionary.tags['oneof'].onTagged(doclet, tag)
           dictionary.tags['oneof'].onTagged(doclet, tag)
 
           expect(log).toEqual(expect.arrayContaining(['Members age,yearOfBirth mark as oneOf for two different groups - age_group & age_group']))
+
+        })
+      })
+
+      describe('when tag include non existing property name', () => {
+        test('should write to the log an error message', () => {
+          const tag = {
+            originalTitle: 'oneof',
+            title: 'oneof',
+            text: 'age_group - age unknownProperty',
+            value: {
+              description: 'age unknownProperty',
+              name: 'age_group'
+            }
+          }
+          const doclet = makeDoclet()
+          const dictionary = makeDict()
+          const element = makeElement()
+
+          defineTags(dictionary)
+          dictionary.tags['oneof'].onTagged(doclet, tag)
+          extendDocworksMessage(doclet, element)
+
+          expect(log).toEqual(expect.arrayContaining(['oneof group age_group contains non existing property unknownProperty']))
 
         })
       })
