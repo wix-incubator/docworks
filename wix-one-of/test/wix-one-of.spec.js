@@ -21,9 +21,8 @@ describe('wix-one-of', () => {
   const makeTag = () => ({
         originalTitle: 'oneof',
         title: 'oneof',
-        text: '[age_group] - age yearOfBirth',
+        text: 'age_group - age yearOfBirth',
         value: {
-          optional: true,
           description: 'age yearOfBirth',
           name: 'age_group'
         }
@@ -161,25 +160,46 @@ describe('wix-one-of', () => {
       })
     })
 
-    describe('invalid groups - duplicated properties in different groups', () => {
-      test('should write to the log an error message', () => {
-        let log = []
+    describe('invalid tag', () => {
+      let log = []
+      beforeEach(() => {
         const logger = {
           error: (_) => log.push(_),
         }
 
         setLogger(logger)
+      })
 
-        const dictionary = makeDict()
-        defineTags(dictionary)
+      describe('when tag does not include any property name', () => {
+        test('should write to the log an error message', () => {
+          const dictionary = makeDict()
+          defineTags(dictionary)
 
-        const doclet = makeDoclet()
-        const tag = makeTag()
-        dictionary.tags['oneof'].onTagged(doclet, tag)
-        dictionary.tags['oneof'].onTagged(doclet, tag)
+          const doclet = makeDoclet()
+          const tag = makeTag()
 
-        expect(log).toEqual(expect.arrayContaining(['Members age,yearOfBirth mark as oneOf for two different groups - age_group & age_group']))
+          delete tag.value.description
 
+          dictionary.tags['oneof'].onTagged(doclet, tag)
+
+          expect(log).toEqual(expect.arrayContaining(['oneof group age_group must include description with list of properties names']))
+
+        })
+      })
+
+      describe('when 2 tags include duplicated properties in different groups', () => {
+        test('should write to the log an error message', () => {
+          const dictionary = makeDict()
+          defineTags(dictionary)
+
+          const doclet = makeDoclet()
+          const tag = makeTag()
+          dictionary.tags['oneof'].onTagged(doclet, tag)
+          dictionary.tags['oneof'].onTagged(doclet, tag)
+
+          expect(log).toEqual(expect.arrayContaining(['Members age,yearOfBirth mark as oneOf for two different groups - age_group & age_group']))
+
+        })
       })
     })
   })

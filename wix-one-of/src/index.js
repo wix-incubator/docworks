@@ -16,9 +16,18 @@ exports.defineTags = function(dictionary) {
     onTagged: function(doclet, tag) {
       let hasDuplicatedProperty = false
       const oneOfGroups = doclet[ONE_OF_TAG] || []
+
+      const newGroupName = tag.value.name
+      const newGroupMembersString = tag.value.description
+
+      if(!newGroupMembersString) {
+        logger.error(`oneof group ${newGroupName} must include description with list of properties names`)
+        return
+      }
+
       const newOneOfGroup = {
-        name: tag.value.name,
-        members: tag.value.description.split(' ')
+        name: newGroupName,
+        members: newGroupMembersString.split(' ')
       }
 
       oneOfGroups.forEach(currentOneOfGroup => {

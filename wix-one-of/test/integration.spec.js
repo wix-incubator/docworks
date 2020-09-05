@@ -1,15 +1,15 @@
 const runJsDoc = require('docworks-jsdoc2spec')
 const {merge} = require('docworks-repo')
 
-const SOURCE_SERVICE_WITH_SINGLE_TAG = {
+const SOURCE_SERVICE_WITHOUT_TAG = {
   'include': [
-    'test/Service.withSingleTag.service.js'
+    'test/Service.withoutTag.service.js'
   ],
 }
 
-const SOURCE_SERVICE_WITH_INVALID_TAG = {
+const SOURCE_SERVICE_WITH_SINGLE_TAG = {
   'include': [
-    'test/Service.withInvalidTag.service.js'
+    'test/Service.withSingleTag.service.js'
   ],
 }
 
@@ -19,9 +19,15 @@ const SOURCE_SERVICE_WITH_MULTIPLE_TAGS = {
   ],
 }
 
-const SOURCE_SERVICE_WITHOUT_TAG = {
+const SOURCE_SERVICE_WITH_INVALID_TAG = {
   'include': [
-    'test/Service.withoutTag.service.js'
+    'test/Service.withInvalidTag.service.js'
+  ],
+}
+
+const SOURCE_SERVICE_WITH_DUPLICATED_TAG = {
+  'include': [
+    'test/Service.withDuplicatedTag.service.js'
   ],
 }
 
@@ -183,9 +189,33 @@ describe('wix-one-of - integration test', () => {
   })
 
   describe('invalid input', () => {
+    describe('when tag does not include any property name', () => {
+      test('should ignore the oneof tag', () => {
+        let jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_INVALID_TAG, ONE_OF_PLUGIN_PATH)
+        const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
+
+        expect(jsDocService.messages).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              name: 'Message',
+              members: [
+                {name: 'name', type: 'string', doc: 'is mandatory', optional: undefined},
+                {name: 'address', type: 'string', doc: 'is optional', optional: true},
+                {name: 'age', type: 'number', doc: 'is oneOf group 1 prop 1', optional: undefined},
+                {name: 'yearOfBirth', type: ['number', 'string'], doc: 'is oneOf group 1 prop 2', optional: undefined},
+                {name: 'idNumber', type: 'number', doc: 'is oneOf group 2 prop 1',optional: undefined},
+                {name: 'passportId', type: 'number', doc: 'is oneOf group 2 prop 2', optional: undefined}
+              ],
+              extra: {}
+            })
+          ])
+        )
+      })
+    })
+
     describe('when the same property belongs to 2 different oneOf groups', () => {
       test('should ignore the second oneof group', () => {
-        let jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_INVALID_TAG, ONE_OF_PLUGIN_PATH)
+        let jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_DUPLICATED_TAG, ONE_OF_PLUGIN_PATH)
         const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
 
         expect(jsDocService.messages).toEqual(

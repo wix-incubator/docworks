@@ -15,7 +15,8 @@ class Service {
    * @property {number|string} yearOfBirth is oneOf group 1 prop 2
    * @property {number} idNumber is oneOf group 2 prop 1
    * @property {number} passportId is oneOf group 2 prop 2
-   * @oneof age_group1
+   * @oneof age_group1 - age yearOfBirth
+   * @oneof age_group2 - age yearOfBirth
    */
 
 }
