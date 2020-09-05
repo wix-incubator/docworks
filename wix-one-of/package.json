@@ -1,6 +1,6 @@
 {
   "name": "wix-one-of",
-  "version": "1.10.8",
+  "version": "1.10.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -16,11 +16,11 @@
     "lodash.isequal": "^4.5.0"
   },
   "devDependencies": {
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.4.2",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^26.2.2",
     "docworks-jsdoc2spec": "^1.10.8",
     "docworks-repo": "^1.10.8",
     "eslint": "^6.0.1",
-    "jest": "^24.8.0"
+    "jest": "^26.2.2"
   }
 }
