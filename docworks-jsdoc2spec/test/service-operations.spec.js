@@ -66,7 +66,7 @@ describe('docs', function() {
                     {
                         name: 'ServiceOperations',
                         operations: [
-                            {name: 'oneParam', locations: [{filename: 'service-operations.js', lineno: 11}]}
+                            {name: 'oneParam', locations: [{filename: 'service-operations.js'}]}
                         ]
                     }
                 ]
