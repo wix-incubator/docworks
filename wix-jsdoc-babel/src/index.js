@@ -57,14 +57,7 @@ const handlers = {
       // eslint-disable-next-line no-param-reassign
       event.source = processFile(event.source, options, doclets)
     }
-  },
-  newDoclet: (e) => {
-    if (e) {
-      if (doclets[stripWhitespace(e.doclet.comment)]) {
-        e.doclet.meta.lineno = doclets[stripWhitespace(e.doclet.comment)]
-      }
-    }
-  },
+  }
 }
 
 function init(param) {
