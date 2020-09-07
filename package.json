@@ -21,13 +21,14 @@
 			"docworks-repo",
 			"docworks-tern",
 			"docworks-wix-media",
+      "wix-custom-labels",
 			"wix-event-type",
 			"wix-jsdoc-babel",
 			"wix-note",
+      "wix-one-of",
 			"wix-queryable",
 			"wix-snippet",
-			"wix-types-fix",
-      "wix-custom-labels"
+			"wix-types-fix"
 		]
 	}
 }
