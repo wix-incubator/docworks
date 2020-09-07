@@ -42,7 +42,7 @@ const ONE_OF_PLUGIN_PATH = ['src/index']
 describe('wix-one-of - integration test', () => {
   describe('runJsDoc', () => {
     test('should load the oneof tag and add it to the message object and mark all oneof members as optional', () => {
-      let jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_SINGLE_TAG, ONE_OF_PLUGIN_PATH)
+      const jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_SINGLE_TAG, ONE_OF_PLUGIN_PATH)
       const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
 
       expect(jsDocService.messages).toEqual(
@@ -64,7 +64,7 @@ describe('wix-one-of - integration test', () => {
     })
 
       test('should load multiple oneof tags and add them to the message object and mark all oneof members as optional', () => {
-        let jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_MULTIPLE_TAGS, ONE_OF_PLUGIN_PATH)
+        const jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_MULTIPLE_TAGS, ONE_OF_PLUGIN_PATH)
         const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
 
         expect(jsDocService.messages).toEqual(
@@ -92,10 +92,10 @@ describe('wix-one-of - integration test', () => {
   describe('merge', () => {
     describe('when a one of group is added to a message', () => {
       test('should add oneOfGroups property with the new group', () => {
-        let repo = runJsDoc(SOURCE_SERVICE_WITHOUT_TAG, ONE_OF_PLUGIN_PATH)
-        let newRepo = runJsDoc(SOURCE_SERVICE_WITH_SINGLE_TAG, ONE_OF_PLUGIN_PATH)
+        const repo = runJsDoc(SOURCE_SERVICE_WITHOUT_TAG, ONE_OF_PLUGIN_PATH)
+        const newRepo = runJsDoc(SOURCE_SERVICE_WITH_SINGLE_TAG, ONE_OF_PLUGIN_PATH)
 
-        let mergeResult = merge(newRepo.services, repo.services, ONE_OF_PLUGIN_PATH)
+        const mergeResult = merge(newRepo.services, repo.services, ONE_OF_PLUGIN_PATH)
         expect(mergeResult.messages).toEqual(
           expect.arrayContaining(['Service aNamespace.Service message Message member age has changed optional',
             'Service aNamespace.Service message Message member yearOfBirth has changed optional',
@@ -123,10 +123,10 @@ describe('wix-one-of - integration test', () => {
       })
 
       test('should add oneOfGroups property with multiple groups', () => {
-        let repo = runJsDoc(SOURCE_SERVICE_WITH_SINGLE_TAG, ONE_OF_PLUGIN_PATH)
-        let newRepo = runJsDoc(SOURCE_SERVICE_WITH_MULTIPLE_TAGS, ONE_OF_PLUGIN_PATH)
+        const repo = runJsDoc(SOURCE_SERVICE_WITH_SINGLE_TAG, ONE_OF_PLUGIN_PATH)
+        const newRepo = runJsDoc(SOURCE_SERVICE_WITH_MULTIPLE_TAGS, ONE_OF_PLUGIN_PATH)
 
-        let mergeResult = merge(newRepo.services, repo.services, ONE_OF_PLUGIN_PATH)
+        const mergeResult = merge(newRepo.services, repo.services, ONE_OF_PLUGIN_PATH)
         expect(mergeResult.messages).toEqual(
           expect.arrayContaining(['Service aNamespace.Service message Message member idNumber has changed optional',
             'Service aNamespace.Service message Message member passportId has changed optional',
@@ -162,10 +162,10 @@ describe('wix-one-of - integration test', () => {
     describe('when a oneof group is removed from a message', () => {
 
       test('should remove the oneOfGroups property', () => {
-        let repo = runJsDoc(SOURCE_SERVICE_WITH_SINGLE_TAG, ONE_OF_PLUGIN_PATH)
-        let newRepo = runJsDoc(SOURCE_SERVICE_WITHOUT_TAG, ONE_OF_PLUGIN_PATH)
+        const repo = runJsDoc(SOURCE_SERVICE_WITH_SINGLE_TAG, ONE_OF_PLUGIN_PATH)
+        const newRepo = runJsDoc(SOURCE_SERVICE_WITHOUT_TAG, ONE_OF_PLUGIN_PATH)
 
-        let mergeResult = merge(newRepo.services, repo.services, ONE_OF_PLUGIN_PATH)
+        const mergeResult = merge(newRepo.services, repo.services, ONE_OF_PLUGIN_PATH)
         expect(mergeResult.messages).toEqual(
           expect.arrayContaining(['Service aNamespace.Service message Message member age has changed optional',
             'Service aNamespace.Service message Message member yearOfBirth has changed optional',
@@ -197,7 +197,7 @@ describe('wix-one-of - integration test', () => {
   describe('invalid input', () => {
     describe('when tag does not include any property name', () => {
       test('should ignore the oneof tag', () => {
-        let jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_INVALID_TAG, ONE_OF_PLUGIN_PATH)
+        const jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_INVALID_TAG, ONE_OF_PLUGIN_PATH)
         const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
 
         expect(jsDocService.messages).toEqual(
@@ -221,7 +221,7 @@ describe('wix-one-of - integration test', () => {
 
     describe('when the same property belongs to 2 different oneOf groups', () => {
       test('should ignore the second oneof group', () => {
-        let jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_DUPLICATED_TAG, ONE_OF_PLUGIN_PATH)
+        const jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_DUPLICATED_TAG, ONE_OF_PLUGIN_PATH)
         const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
 
         expect(jsDocService.messages).toEqual(
@@ -245,7 +245,7 @@ describe('wix-one-of - integration test', () => {
 
     describe('when tag include non existing property name', () => {
       test('should ignore the non existing property', () => {
-        let jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_NON_EXISTING_PROPERTY, ONE_OF_PLUGIN_PATH)
+        const jsDocRes = runJsDoc(SOURCE_SERVICE_WITH_NON_EXISTING_PROPERTY, ONE_OF_PLUGIN_PATH)
         const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
 
         expect(jsDocService.messages).toEqual(

@@ -1,7 +1,7 @@
 {
   "name": "wix-one-of",
   "version": "1.10.0",
-  "description": "",
+  "description": "Add oneOf tag to docworks",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint src test",
