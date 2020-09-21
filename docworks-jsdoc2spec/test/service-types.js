@@ -102,6 +102,29 @@ class ServiceTypes {
     promiseArray() {
     }
 
+    /**
+     * @function promiseArray2
+     * @memberof aNamespace.ServiceTypes
+     * @returns {Promise<Array<String>>}
+     */
+    promiseArray2() {
+    }
+
+    /**
+     * @function anObject
+     * @memberof aNamespace.ServiceTypes
+     * @returns {Object<String, String>}
+     */
+    anObject() {
+    }
+
+    /**
+     * @function anObject2
+     * @memberof aNamespace.ServiceTypes
+     * @returns {Object<String, Array<String>>}
+     */
+    anObject2() {
+    }
 }
 
 

@@ -206,5 +206,46 @@ describe('docs', function() {
             expect(jsDocRes.errors).to.not.containError('Operation promiseArray')
         })
 
+        it('should support Promise of array using the Array.<> syntax', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceTypes',
+                        operations: [
+                            {name: 'promiseArray2', nameParams: [], params: [], ret: {type: {name: 'Promise', typeParams: [{name: 'Array', typeParams: ['string']}]}}}
+                        ]
+                    }
+                ]
+            })
+            expect(jsDocRes.errors).to.not.containError('Operation promiseArray2')
+        })
+
+        it('should support a generic Object', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceTypes',
+                        operations: [
+                            {name: 'anObject', nameParams: [], params: [], ret: {type: {name: 'Object', typeParams: ['string', 'string']}}}
+                        ]
+                    }
+                ]
+            })
+            expect(jsDocRes.errors).to.not.containError('Operation anObject')
+        })
+
+        it('should support a generic Object with complex values', function() {
+            expect(jsDocRes).to.containSubset({
+                services: [
+                    {
+                        name: 'ServiceTypes',
+                        operations: [
+                            {name: 'anObject2', nameParams: [], params: [], ret: {type: {name: 'Object', typeParams: ['string', {name: 'Array', typeParams: ['string']}]}}}
+                        ]
+                    }
+                ]
+            })
+            expect(jsDocRes.errors).to.not.containError('Operation anObject2')
+        })
     })
 })

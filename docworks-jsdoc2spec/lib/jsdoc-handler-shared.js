@@ -45,7 +45,7 @@ function convertToTilde(longname) {
   return `${namespaces.join('.')}~${name[0]}`
 }
 
-const testGeneric = /([^,<>]+)\.<([^,]+)>$/
+const testGeneric = /([^,<>]+)\.<(.+)>$/
 function handleType(type, find, onError, context) {
   if (!type || !type.names)
     return Void
