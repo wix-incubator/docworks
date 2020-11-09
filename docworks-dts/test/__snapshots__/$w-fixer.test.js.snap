@@ -1282,6 +1282,67 @@ declare namespace wix_users {
 
 }
 
+declare namespace wix_data {
+    /**
+     * Provides functionality for performing aggregations on collection data.
+     */
+    interface WixDataAggregate {
+        /**
+         * Adds a sort to an aggregation, sorting by the items or groups by the specified properties in ascending order.
+         */
+        ascending(...propertyName: string[]): wix_data.WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to only contain the average value from each aggregation group.
+         */
+        avg(propertyName: string, projectedName?: string): wix_data.WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to contain the item count of each group in the aggregation.
+         */
+        count(): wix_data.WixDataAggregate;
+        /**
+         * Adds a sort to an aggregation, sorting by the items or groups by the specified properties in descending order.
+         */
+        descending(...propertyName: string[]): wix_data.WixDataAggregate;
+        /**
+         * Filters out items from being used in an aggregation.
+         */
+        filter(filter: wix_data.WixDataFilter): wix_data.WixDataAggregate;
+        /**
+         * Groups items together in an aggregation.
+         */
+        group(...propertyName: string[]): wix_data.WixDataAggregate;
+        /**
+         * Filters out groups from being returned from an aggregation.
+         */
+        having(filter: wix_data.WixDataFilter): wix_data.WixDataAggregate;
+        /**
+         * Limits the number of items or groups the aggregation returns.
+         */
+        limit(limit: number): wix_data.WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to only contain the maximum value from each aggregation group.
+         */
+        max(propertyName: string, projectedName?: string): wix_data.WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to only contain the minimum value from each aggregation group.
+         */
+        min(propertyName: string, projectedName?: string): wix_data.WixDataAggregate;
+        /**
+         * Runs the aggregation and returns the results.
+         */
+        run(): Promise<wix_data.WixDataAggregateResult>;
+        /**
+         * Sets the number of items or groups to skip before returning aggregation results.
+         */
+        skip(skip: number): wix_data.WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to contain the sum from each aggregation group.
+         */
+        sum(propertyName: string, projectedName?: string): wix_data.WixDataAggregate;
+    }
+
+}
+
 declare namespace wix_crm {
     /**
      * An object that contains information about a site contact.

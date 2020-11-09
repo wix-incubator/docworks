@@ -165,6 +165,16 @@ describe('convert docworks to dts', () => {
 
         expect(dts).toContain(expectedDeceleration)
       })
+
+      test('should convert to method with rest type as parameter', () => {
+        const dts = getDtsForServiceByPath(
+          './services/WixDataAggregate.service.json'
+        )
+        const expectedDeceleration =
+          'ascending(...propertyName: string[]): wix_data.WixDataAggregate;'
+
+        expect(dts).toContain(expectedDeceleration)
+      })
     })
   })
 

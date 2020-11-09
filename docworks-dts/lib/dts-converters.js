@@ -63,9 +63,9 @@ function convertPropertyToProperty(
 }
 
 function convertOperationParamToParameters(param) {
-  const { name, type, optional, doc } = param
+  const { name, type, optional, doc, spread } = param
 
-  return dtsParameter(name, type, { optional, jsDocComment: doc })
+  return dtsParameter(name, type, { spread, optional, jsDocComment: doc })
 }
 
 function convertOperationToMethod(
