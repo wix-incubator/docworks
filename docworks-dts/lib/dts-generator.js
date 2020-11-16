@@ -156,10 +156,13 @@ function dtsObjectTypeAlias(name, members, {jsDocComment, aliasTypeParameters} =
   return dtsAlias(messageName, objectType, {jsDocComment, typeParameters: aliasTypeParameters})
 }
 
-function dtsParameter(name, type, {optional = false, jsDocComment} = {}) {
-  const parameterFlags = optional ? dom.ParameterFlags.Optional : dom.ParameterFlags.None
-  const parameter = dom.create.parameter(name, getDtsType(type, {union: true}), parameterFlags)
+function dtsParameter(name, type, {spread = false, optional = false, jsDocComment} = {}) {
+  let parameterFlags = dom.ParameterFlags.None
+  parameterFlags = optional ? dom.ParameterFlags.Optional: parameterFlags
+  parameterFlags = spread ? dom.ParameterFlags.Rest: parameterFlags
+  const paramType = spread ? { name: 'Array', typeParams: [ type ] }: type
 
+  const parameter = dom.create.parameter(name, getDtsType(paramType, { spread, union: true }), parameterFlags)
   parameter.jsDocComment = trimPara(jsDocComment)
 
   return parameter
