@@ -1,6 +1,6 @@
 {
   "name": "docworks-cli",
-  "version": "1.10.15",
+  "version": "1.10.19",
   "description": "",
   "main": "src/docworks.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "chalk": "^2.3.0",
-    "docworks-dts": "^1.10.9",
+    "docworks-dts": "^1.10.19",
     "docworks-jsdoc2spec": "^1.10.8",
     "docworks-repo": "^1.10.8",
     "docworks-tern": "^1.10.8",
