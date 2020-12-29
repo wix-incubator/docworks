@@ -1,4 +1,5 @@
 const template_ = require('lodash/template')
+const some_ = require('lodash/some')
 const $wFixer = require('./$w-fixer')
 const { convertTreeToString, dtsNamespace } = require('./dts-generator')
 const {
@@ -84,7 +85,7 @@ function handleServiceAsNamespace(
 
 function dts(
   services,
-  { run$wFixer = false, summaryTemplate } = {}
+  { run$wFixer = false, summaryTemplate, ignoredServices = [] } = {}
 ) {
   const namespaces = {}
   const modules = {}
@@ -95,6 +96,10 @@ function dts(
       return template_(summaryTemplate)({model: values})
     }
   }
+
+  services = services.filter(service =>
+    !some_(ignoredServices, ignored => service.name === ignored || service.memberOf === ignored)
+  )
 
   services.forEach(service => {
     if (!service.memberOf) {

@@ -6,6 +6,7 @@ const optimist = require('optimist')
 const {resolveAndInitPlugins} = require('./plugins')
 const runTern = require('./run-tern')
 const runDts = require('./run-dts')
+const castArray_ = require('lodash/castArray')
 
 function docworks() {
   if (process.argv.length < 3) {
@@ -165,7 +166,7 @@ function docworks() {
 
   function dts() {
     const cmdDefinition = optimist
-      .usage('Usage: $0 dts (-r [remote repo] | -l [local services folder] ) -o [output file] -d [output dir]')
+      .usage('Usage: $0 dts (-r [remote repo] | -l [local services folder] ) -o [output file] -d [output dir] -i [service name]')
       .alias('r', 'remote')
       .describe('r', 'remote repository to read docworks services files from')
       .alias('l', 'local')
@@ -175,6 +176,8 @@ function docworks() {
       .describe('o', 'output file')
       .alias('d', 'dir')
       .describe('d', 'output dir')
+      .alias('i', 'ignore')
+      .describe('i', 'ignores package and does not include it in the output. can be specified multiple times')
 
     const argv = cmdDefinition
       .argv
@@ -185,6 +188,7 @@ function docworks() {
     const outputFileName = argv.out
     const outputDirName = argv.dir || ''
     const summaryTemplate = argv.summaryTemplate
+    const ignoredServices = argv.ignore ? castArray_(argv.ignore) : []
 
     if (!remote && !local || (!!remote && !!local)) {
       // eslint-disable-next-line no-console
@@ -192,7 +196,7 @@ function docworks() {
       process.exit(1)
     }
 
-    return runDts(outputFileName, outputDirName, {remote, local, run$wFixer, summaryTemplate})
+    return runDts(outputFileName, outputDirName, {remote, local, run$wFixer, summaryTemplate, ignoredServices})
       .catch(() => {
         process.exit(1)
       })
