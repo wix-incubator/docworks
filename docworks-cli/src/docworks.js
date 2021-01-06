@@ -7,6 +7,7 @@ const {resolveAndInitPlugins} = require('./plugins')
 const runTern = require('./run-tern')
 const runDts = require('./run-dts')
 const castArray_ = require('lodash/castArray')
+const isString_ = require('lodash/isString')
 
 function docworks() {
   if (process.argv.length < 3) {
@@ -176,8 +177,10 @@ function docworks() {
       .describe('o', 'output file')
       .alias('d', 'dir')
       .describe('d', 'output dir')
-      .alias('i', 'ignore')
-      .describe('i', 'ignores package and does not include it in the output. can be specified multiple times')
+      .alias('M', 'ignoreModule')
+      .describe('i', 'ignores a module and does not include it in the output. -M can be specified multiple times')
+      .alias('N', 'ignoreNamespace')
+      .describe('i', 'ignores a namespace and does not include it in the output. -N can be specified multiple times')
 
     const argv = cmdDefinition
       .argv
@@ -188,7 +191,8 @@ function docworks() {
     const outputFileName = argv.out
     const outputDirName = argv.dir || ''
     const summaryTemplate = argv.summaryTemplate
-    const ignoredServices = argv.ignore ? castArray_(argv.ignore) : []
+    const ignoredModules = isString_(argv.ignoreModule) ? castArray_(argv.ignoreModule) : []
+    const ignoredNamespaces = isString_(argv.ignoreNamespace) ? castArray_(argv.ignoreNamespace) : []
 
     if (!remote && !local || (!!remote && !!local)) {
       // eslint-disable-next-line no-console
@@ -196,7 +200,11 @@ function docworks() {
       process.exit(1)
     }
 
-    return runDts(outputFileName, outputDirName, {remote, local, run$wFixer, summaryTemplate, ignoredServices})
+    return runDts(
+      outputFileName,
+      outputDirName,
+      { remote, local, run$wFixer, summaryTemplate, ignoredModules, ignoredNamespaces }
+    )
       .catch(() => {
         process.exit(1)
       })

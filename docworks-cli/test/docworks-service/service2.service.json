@@ -1,10 +1,10 @@
 {
-  "name": "Service",
+  "name": "Service2",
   "mixes": [],
   "labels": [],
   "location": {
     "lineno": 2,
-    "filename": "service.js"
+    "filename": "service2.js"
   },
   "docs": {
     "summary": "this is a service",

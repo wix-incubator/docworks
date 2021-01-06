@@ -5,7 +5,7 @@ const {writeOutput} = require('./utils/fsUtil')
 const {readRepoFromRemoteOrLocal} = require('./utils/gitUtils')
 
 async function runDts(outputFileName, outputDirName,
-  { remote, local, run$wFixer, summaryTemplate, ignoredServices }) {
+  { remote, local, run$wFixer, summaryTemplate, ignoredModules, ignoredNamespaces }) {
 
   try {
     let repo = await readRepoFromRemoteOrLocal({remote, local})
@@ -16,7 +16,7 @@ async function runDts(outputFileName, outputDirName,
 
     logger.command('docworks dts', '')
 
-    const dtsContent = dts(repo.services, {run$wFixer, summaryTemplate, ignoredServices})
+    const dtsContent = dts(repo.services, {run$wFixer, summaryTemplate, ignoredModules, ignoredNamespaces })
 
     const fileNameWithExtensions = `${outputFileName}.d.ts`
     const fullPath = path.join(outputDirName, fileNameWithExtensions)

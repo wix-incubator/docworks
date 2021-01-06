@@ -305,3 +305,29 @@ describe('convert docworks to dts', () => {
     expect(dts).toMatchSnapshot()
   })
 })
+
+describe('filter services before converting to dts', () => {
+  describe('filter module by name', () => {
+    const $wService = require('./services/$w.service.json')
+    const wixCrm = require('./services/wix-crm.service.json')
+    const cartIcon = require('./services/CartIcon.service.json')
+
+    const dts = docworksToDts([$wService, wixCrm, cartIcon], { summaryTemplate, ignoredModules: ['$w'] })
+
+    expect(dts).not.toContain('declare module \'$w\'')
+    expect(dts).toContain('declare module \'wix-crm\'')
+    expect(dts).toContain('declare namespace $w')
+  })
+
+  describe('filter namespace by name', () => {
+    const $wService = require('./services/$w.service.json')
+    const wixCrm = require('./services/wix-crm.service.json')
+    const cartIcon = require('./services/CartIcon.service.json')
+
+    const dts = docworksToDts([$wService, wixCrm, cartIcon], { summaryTemplate, ignoredNamespaces: ['$w'] })
+
+    expect(dts).toContain('declare module \'$w\'')
+    expect(dts).toContain('declare module \'wix-crm\'')
+    expect(dts).not.toContain('declare namespace $w')
+  })
+})

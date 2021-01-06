@@ -1,13 +1,14 @@
 {
-  "name": "Service",
+  "name": "Interface1",
+  "memberOf": "someNamespace",
   "mixes": [],
   "labels": [],
   "location": {
     "lineno": 2,
-    "filename": "service.js"
+    "filename": "interface1.js"
   },
   "docs": {
-    "summary": "this is a service",
+    "summary": "this some interface",
     "description": "this is the service description",
     "links": [],
     "examples": [],

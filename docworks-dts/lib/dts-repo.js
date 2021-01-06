@@ -85,7 +85,7 @@ function handleServiceAsNamespace(
 
 function dts(
   services,
-  { run$wFixer = false, summaryTemplate, ignoredServices = [] } = {}
+  { run$wFixer = false, summaryTemplate, ignoredModules = [], ignoredNamespaces = [] } = {}
 ) {
   const namespaces = {}
   const modules = {}
@@ -97,10 +97,6 @@ function dts(
     }
   }
 
-  services = services.filter(service =>
-    !some_(ignoredServices, ignored => service.name === ignored || service.memberOf === ignored)
-  )
-
   services.forEach(service => {
     if (!service.memberOf) {
       handleServiceAsModule(service, modules, namespaces, {documentationGenerator})
@@ -108,6 +104,11 @@ function dts(
       handleServiceAsNamespace(service, namespaces, {documentationGenerator})
     }
   })
+
+
+  // remove ignored modules and namespaces from output
+  ignoredNamespaces.forEach(namespace => delete namespaces[namespace])
+  ignoredModules.forEach(module => delete modules[module])
 
   if (run$wFixer) {
     $wFixer(modules, namespaces)

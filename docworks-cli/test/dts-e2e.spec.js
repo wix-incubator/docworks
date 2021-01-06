@@ -14,7 +14,6 @@ describe('dts workflow e2e', function () {
     const escapedString = _.escapeRegExp(string)
     const convertedWhiteSpaces = escapedString.replace(/[\s]+/g, '[\\s]+')
 
-    console.log('=========>> new RegExp(convertedWhiteSpaces)', new RegExp(convertedWhiteSpaces))
     return new RegExp(convertedWhiteSpaces)
   }
 
@@ -29,6 +28,11 @@ describe('dts workflow e2e', function () {
       this.currentTest.err.stack = addLoggerToErrorStack(logger, errorStack)
     }
   })
+
+  function extractDeclarations(content) {
+    const declarationRegex = /^declare .*$/gm
+    return content.match(declarationRegex)
+  }
 
   it('generate dts from a remote repo', async function () {
     const remote = './tmp/remote'
@@ -59,6 +63,11 @@ describe('dts workflow e2e', function () {
 
     let content = await fsExtra.readFile('tmp/globals2.d.ts', 'utf-8')
 
+    expect(extractDeclarations(content)).to.deep.equal([
+      'declare module \'Service\' {',
+      'declare module \'Service2\' {',
+      'declare namespace someNamespace {'
+    ])
     expect(content).to.match(strToRegexUnionWhiteSpaces(
       `/**
         * this is a service
@@ -69,19 +78,31 @@ describe('dts workflow e2e', function () {
       }`))
   })
 
-  it.only('generate dts from a with ignore some services', async function () {
+  it('generate dts from a with ignoring a module', async function () {
     logger.log('run test')
     logger.log('--------')
 
-    await runCommand('./bin/docworks dts -l ./test/docworks-service -o ./tmp/globals3'.split(' '))
-    await runCommand('./bin/docworks dts -i Service2 -l ./test/docworks-service -o ./tmp/globals4'.split(' '))
+    await runCommand('./bin/docworks dts -M Service2 -l ./test/docworks-service -o ./tmp/globals3'.split(' '))
 
-    const fullContent = await fsExtra.readFile('tmp/globals3.d.ts', 'utf-8')
-    const filteredContent = await fsExtra.readFile('tmp/globals4.d.ts', 'utf-8')
+    const content = await fsExtra.readFile('tmp/globals3.d.ts', 'utf-8')
 
-    const moduleRegex = /declare module '.*?'/gm
-    const allModules = fullContent.match(moduleRegex)
-    const filterModules = filteredContent.match(moduleRegex)
-    expect(filterModules.length).to.equal(allModules.length - 1)
+    expect(extractDeclarations(content)).to.deep.equal([
+      'declare module \'Service\' {',
+      'declare namespace someNamespace {'
+    ])
+  })
+
+  it('generate dts from a with ignoring a namespace', async function () {
+    logger.log('run test')
+    logger.log('--------')
+
+    await runCommand('./bin/docworks dts -N someNamespace -l ./test/docworks-service -o ./tmp/globals4'.split(' '))
+
+    const content = await fsExtra.readFile('tmp/globals4.d.ts', 'utf-8')
+
+    expect(extractDeclarations(content)).to.deep.equal([
+      'declare module \'Service\' {',
+      'declare module \'Service2\' {'
+    ])
   })
 })
