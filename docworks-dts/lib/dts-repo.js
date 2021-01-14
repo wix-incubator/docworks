@@ -1,4 +1,5 @@
 const template_ = require('lodash/template')
+const some_ = require('lodash/some')
 const $wFixer = require('./$w-fixer')
 const { convertTreeToString, dtsNamespace } = require('./dts-generator')
 const {
@@ -84,7 +85,7 @@ function handleServiceAsNamespace(
 
 function dts(
   services,
-  { run$wFixer = false, summaryTemplate } = {}
+  { run$wFixer = false, summaryTemplate, ignoredModules = [], ignoredNamespaces = [] } = {}
 ) {
   const namespaces = {}
   const modules = {}
@@ -103,6 +104,11 @@ function dts(
       handleServiceAsNamespace(service, namespaces, {documentationGenerator})
     }
   })
+
+
+  // remove ignored modules and namespaces from output
+  ignoredNamespaces.forEach(namespace => delete namespaces[namespace])
+  ignoredModules.forEach(module => delete modules[module])
 
   if (run$wFixer) {
     $wFixer(modules, namespaces)

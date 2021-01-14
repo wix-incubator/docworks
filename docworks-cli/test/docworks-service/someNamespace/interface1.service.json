@@ -1,0 +1,51 @@
+{
+  "name": "Interface1",
+  "memberOf": "someNamespace",
+  "mixes": [],
+  "labels": [],
+  "location": {
+    "lineno": 2,
+    "filename": "interface1.js"
+  },
+  "docs": {
+    "summary": "this some interface",
+    "description": "this is the service description",
+    "links": [],
+    "examples": [],
+    "extra": {}
+  },
+  "properties": [],
+  "operations": [
+    {
+      "name": "operation",
+      "labels": [],
+      "nameParams": [],
+      "params": [
+        {
+          "name": "param",
+          "type": "string",
+          "doc": "a parameter"
+        }
+      ],
+      "ret": {
+        "type": "void"
+      },
+      "locations": [
+        {
+          "lineno": 14,
+          "filename": "service.js"
+        }
+      ],
+      "docs": {
+        "description": "this is an operation",
+        "links": [],
+        "examples": [],
+        "extra": {}
+      },
+      "extra": {}
+    }
+  ],
+  "callbacks": [],
+  "messages": [],
+  "extra": {}
+}
