@@ -1,6 +1,6 @@
 {
   "name": "wix-one-of",
-  "version": "1.10.18",
+  "version": "1.10.20",
   "description": "Add oneOf tag to docworks",
   "main": "src/index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "babel-core": "^6.26.3",
     "babel-jest": "^26.2.2",
     "docworks-jsdoc2spec": "^1.10.8",
-    "docworks-repo": "^1.10.8",
+    "docworks-repo": "^1.10.20",
     "eslint": "^6.0.1",
     "jest": "^26.2.2"
   }

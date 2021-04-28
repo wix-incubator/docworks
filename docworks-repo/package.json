@@ -1,6 +1,6 @@
 {
   "name": "docworks-repo",
-  "version": "1.10.8",
+  "version": "1.10.20",
   "description": "manage service files in a git repo",
   "main": "lib/index.js",
   "scripts": {
