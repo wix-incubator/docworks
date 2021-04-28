@@ -678,6 +678,38 @@ describe('compare repo', function() {
           expect(param.doc).to.equal(newParam.doc)
         })
       })
+      it('should report changes in param optional from false/undefined to true', function() {
+        let {repo: repo} = repoServiceOperation(baseRepo, 'ChangeServiceOperations3', 'operation8')
+        let {repo: newRepo, operation: newOperation8} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations3', 'operation8')
+
+        let mergedRepo = merge(newRepo, repo)
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations3 operation operation8 has changed param input doc'])
+
+        let {service, operation: operation8} = repoServiceOperation(mergedRepo.repo, 'ChangeServiceOperations3', 'operation8')
+        expect(service.labels).to.include.members(['changed'])
+        expect(operation8.labels).to.include.members(['changed'])
+        operation8.params.forEach((param, index) => {
+          let newParam = newOperation8.params[index]
+          expect(param.optional).to.equal(newParam.optional)
+        })
+      })
+      it('should report changes in param optional from true to false', function() {
+        let {repo: repo} = repoServiceOperation(baseRepo, 'ChangeServiceOperations3', 'operation9')
+        let {repo: newRepo, operation: newOperation9} = repoServiceOperation(baseNewRepo, 'ChangeServiceOperations3', 'operation9')
+
+        let mergedRepo = merge(newRepo, repo)
+
+        expect(mergedRepo.messages).to.containSubset(['Service ChangeServiceOperations3 operation operation9 has changed param input doc'])
+
+        let {service, operation: operation9} = repoServiceOperation(mergedRepo.repo, 'ChangeServiceOperations3', 'operation9')
+        expect(service.labels).to.include.members(['changed'])
+        expect(operation9.labels).to.include.members(['changed'])
+        operation9.params.forEach((param, index) => {
+          let newParam = newOperation9.params[index]
+          expect(param.optional).to.equal(newParam.optional)
+        })
+      })
 
       it('should report new params', function() {
         let {repo: repo, operation: repoOperation4} = repoServiceOperation(baseRepo, 'ChangeServiceOperations3', 'operation4')

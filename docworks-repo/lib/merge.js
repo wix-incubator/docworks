@@ -164,12 +164,14 @@ function mergeParam(newParam, repoParam, messages, key) {
   }
   let changedType = !compareType(newParam.type, repoParam.type, messages, key, `param ${newParam.name}`)
   let changedDoc = !compareAttribute(newParam.doc, repoParam.doc, messages, key, `param ${newParam.name} doc`)
+  let changedOptional = !compareAttribute(newParam.optional, repoParam.optional, messages, key, `param ${newParam.name} doc`)
 
-  let changed = changedName || changedType || changedDoc
+  let changed = changedName || changedType || changedDoc || changedOptional
   let item = copy(repoParam, {
     name: newParam.name,
     type: newParam.type,
-    doc: newParam.doc
+    doc: newParam.doc,
+    optional: newParam.optional
   })
   delete item.srcDoc
 

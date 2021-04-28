@@ -1,5 +1,4 @@
 const template_ = require('lodash/template')
-const some_ = require('lodash/some')
 const $wFixer = require('./$w-fixer')
 const { convertTreeToString, dtsNamespace } = require('./dts-generator')
 const {
