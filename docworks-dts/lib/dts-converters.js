@@ -78,7 +78,8 @@ function convertOperationToMethod(
   const jsDocComment = documentationGenerator({
     summary: docs.summary,
     service: fullServiceName(service),
-    member: name
+    member: name,
+    eventType: operation.extra && operation.extra.eventType ? operation.extra.eventType : null,
   })
 
   return dtsMethod(name, parameters, ret.type, { jsDocComment })
