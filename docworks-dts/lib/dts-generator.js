@@ -18,6 +18,27 @@ function trimPara(text) {
 }
 
 function getDtsType(type, options = {}) {
+  // New Service object Type definition parsing support.
+  // https://github.com/wix-private/p13n/blob/master/wixplorer/wix-docs-server/proto/docs/README.md
+  // https://github.com/wix-private/p13n/blob/master/wixplorer/wix-docs-server/proto/com/wixpress/wixdocs/service.proto#L237
+  if(type?.nativeType){
+    return validServiceName(type.nativeType);
+  }
+
+  if(type?.referenceType){
+    return getDtsType(global.customComplexTypesMap[type.referenceType])
+  }
+
+  if(type?.complexType){
+    if(type.complexType.typeParams?.length > 1){
+      return dtsNamedTypeReference(`${type?.complexType.nativeType}<${getDtsType(type.complexType.typeParams, { union: true })}>`);
+    }
+    else{
+      return dtsNamedTypeReference(`${type?.complexType.nativeType}<${getDtsType(type.complexType.typeParams[0])}>`);
+    }
+  }
+  
+  // Legacy Type property parsing support 
   if (typeof type === 'string') {
     if (builtInTypes[type])
       return builtInTypes[type]
@@ -45,6 +66,9 @@ function getDtsType(type, options = {}) {
     }
     throw new Error(`Unable to convert type ${type} to valid dts type`)
   }
+
+  if(referenceType)
+
 
   throw new Error(`Unable to convert type ${type} to valid dts type`)
 }
