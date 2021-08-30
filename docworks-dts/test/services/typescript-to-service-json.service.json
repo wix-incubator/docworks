@@ -1,0 +1,152 @@
+{
+  "name": "typescript-to-service-json",
+  "mixes": [],
+  "labels": [],
+  "docs": {
+    "summary": "135101 abcdefghijklmnopq",
+    "description": [],
+    "links": [],
+    "examples": [],
+    "request": "NA"
+  },
+  "properties": [],
+  "operations": [],
+  "clientEvents": [
+    {
+      "name": "echo135101",
+      "labels": [],
+      "nameParams": [],
+      "params": [
+        {
+          "name": "payload",
+          "type": [
+            {
+              "referenceType": "typescript-to-service-json.EchoRequest"
+            }
+          ],
+          "doc": "",
+          "in": "NA"
+        }
+      ],
+      "ret": {
+        "type": [
+          {
+            "referenceType": "typescript-to-service-json.EchoResponse"
+          }
+        ],
+        "doc": ""
+      },
+      "locations": [],
+      "docs": {
+        "summary": "",
+        "description": [],
+        "links": [],
+        "examples": [],
+        "request": "NA"
+      },
+      "permissions": [],
+      "customLabels": [],
+      "dynamicCustomLabels": []
+    }
+  ],
+  "callbacks": [],
+  "messages": [
+    {
+      "name": "EchoRequest",
+      "locations": [],
+      "members": [
+        {
+          "name": "arg1",
+          "type": [
+            {
+              "nativeType": "string"
+            }
+          ],
+          "doc": "",
+          "in": "NA"
+        },
+        {
+          "name": "arg2",
+          "type": [
+            {
+              "referenceType": "typescript-to-service-json.EchoResponse"
+            }
+          ],
+          "doc": "",
+          "in": "NA"
+        }
+      ],
+      "labels": [],
+      "enum": [],
+      "customLabels": [],
+      "dynamicCustomLabels": [],
+      "docs":       {
+        "summary": "",
+        "description": [""],
+        "links": [],
+        "examples": [],
+        "request": "NA"
+      }
+    },
+    {
+      "name": "EchoResponse",
+      "docs":       {
+        "summary": "",
+        "description": [""],
+        "links": [],
+        "examples": [],
+        "request": "NA"
+      },
+      "locations": [],
+      "members": [
+        {
+          "name": "message",
+          "type": [
+            {
+              "nativeType": "string"
+            }
+          ],
+          "doc": "",
+          "in": "NA"
+        }
+      ],
+      "labels": [],
+      "enum": [],
+      "customLabels": [],
+      "dynamicCustomLabels": []
+    },
+    {
+      "name": "EchoResponseeee",
+      "docs":       {
+        "summary": "",
+        "description": [""],
+        "links": [],
+        "examples": [],
+        "request": "NA"
+      },
+      "locations": [],
+      "members": [
+        {
+          "name": "message",
+          "type": [
+            {
+              "nativeType": "string"
+            }
+          ],
+          "doc": "",
+          "in": "NA"
+        }
+      ],
+      "labels": [],
+      "enum": [],
+      "customLabels": [],
+      "dynamicCustomLabels": []
+    }
+  ],
+  "relatedContent": [],
+  "FAQs": [],
+  "tags": [],
+  "relatedGuides": [],
+  "events": [],
+  "extra": {}
+}

@@ -86,6 +86,23 @@ function dts(
   services,
   { run$wFixer = false, summaryTemplate, ignoredModules = [], ignoredNamespaces = [] } = {}
 ) {
+
+  // To support Service object Type property definition 
+  // creating a messages types map from the service path according to {edm-name}.{service-name}.{message-name}
+  global.customComplexTypesMap = services.reduce((acc, curr) => {
+    curr.messages.forEach(message => {
+      acc[
+        `${curr.memberOf ? `${curr.memberOf}.` : ''}${curr.name}.${
+          message.name
+        }`
+      ] = {
+        nativeType: message.name,
+        typeParams: message.members.map(member => member.type)
+      }
+    })
+    return acc
+  }, {})
+
   const namespaces = {}
   const modules = {}
   let documentationGenerator = ({summary}) => summary

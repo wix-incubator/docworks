@@ -331,3 +331,29 @@ describe('filter services before converting to dts', () => {
     expect(dts).not.toContain('declare namespace $w')
   })
 })
+
+
+describe('Convert new dts types', () => {
+  test('PricingPlansV2Order', () => {
+    const PricingPlansV2Order = require('./services/PricingPlansV2Order.json')
+    const PricingPlansV2OrderDts = docworksToDts([PricingPlansV2Order], { summaryTemplate })
+    // TODO: check that we have needed cases in the d.ts file and assert against them.
+    expect(PricingPlansV2OrderDts).toContain('declare namespace wix_dev_backend')
+  })  
+  
+  test('TypescriptToServiceJson', () => {
+    const typescriptToServiceJson = require('./services/typescript-to-service-json.service.json')
+    const typescriptToServiceJsonDts = docworksToDts([typescriptToServiceJson], { summaryTemplate })
+    // TODO: check that we have needed cases in the d.ts file and assert against them.
+    expect(typescriptToServiceJsonDts).toContain('declare namespace typescript_to_service_json')
+  })  
+  
+  test('WixFqdnDefinitionsBackend', () => {
+    const wixFqdnDefinitionsBackend = require('./services/wix-fqdn-definitions-backend.service.json')
+    const wixFqdnDefinitionsBackendDts = docworksToDts([wixFqdnDefinitionsBackend], { summaryTemplate })
+    // TODO: check that we have needed cases in the d.ts file and assert against them.
+    expect(wixFqdnDefinitionsBackendDts).toContain('declare namespace wix_fqdn_definitions_backend')
+    expect(wixFqdnDefinitionsBackendDts).toContain('propertyOverrides: Record<string | string>')
+  })
+
+})
