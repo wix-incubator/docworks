@@ -1,5 +1,8 @@
+const isArray_ = require('lodash/isArray')
+const isEmpty_ = require('lodash/isEmpty')
 const path = require('path')
 const dts = require('docworks-dts')
+const { dtsNew } = require('docworks-dts')
 const logger = require('./logger')
 const {writeOutput} = require('./utils/fsUtil')
 const {readRepoFromRemoteOrLocal} = require('./utils/gitUtils')
@@ -17,6 +20,12 @@ async function runDts(outputFileName, outputDirName,
     logger.command('docworks dts', '')
 
     const dtsContent = dts(repo.services, {run$wFixer, summaryTemplate, ignoredModules, ignoredNamespaces })
+    const dtsNewContent = dtsNew(repo.services, { run$wFixer, summaryTemplate, ignoredModules, ignoredNamespaces })
+
+    dtsNewContent.forEach(file => {
+      logger.command('writting file', file.name)
+      writeOutput(`${outputDirName}/${file.name}.d.ts`, file.content)
+    })
 
     const fileNameWithExtensions = `${outputFileName}.d.ts`
     const fullPath = path.join(outputDirName, fileNameWithExtensions)

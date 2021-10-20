@@ -82,6 +82,27 @@ function handleServiceAsNamespace(
   }
 }
 
+function handleSubServices(service, parent) {
+  const serviceName = service.name
+  const messages = service.messages
+  const callbacks = service.callbacks
+  console.log("^^^^^^^^^^^^^^^^^^^^^", "serviceName => ", serviceName, "^^^^^^^^^^^^^^^^^^^^^")
+  console.log("^^^^^^^^^^^^^^^^^^^^^", "messages => ", messages.map(m => `${parent}.${serviceName}.${m.name}`), "^^^^^^^^^^^^^^^^^^^^^")
+  console.log("^^^^^^^^^^^^^^^^^^^^^", "callbacks => ", callbacks.map(c => `${parent}.${serviceName}.${c.name}`), "^^^^^^^^^^^^^^^^^^^^^")
+  console.log("*********************", "SUB END", "*********************")
+}
+
+function handleRootServices(service) {
+  const serviceName = service.name
+  const messages = service.messages
+  const callbacks = service.callbacks
+  console.log("*********************", "ROOT START", "*********************")
+  console.log("^^^^^^^^^^^^^^^^^^^^^", "serviceName => ", serviceName, "^^^^^^^^^^^^^^^^^^^^^")
+  console.log("^^^^^^^^^^^^^^^^^^^^^", "messages => ", messages.map(m => `${serviceName}.${m.name}`), "^^^^^^^^^^^^^^^^^^^^^")
+  console.log("^^^^^^^^^^^^^^^^^^^^^", "callbacks => ", callbacks.map(c => `${serviceName}.${c.name}`), "^^^^^^^^^^^^^^^^^^^^^")
+  console.log("*********************", "ROOT END", "*********************")
+}
+
 function dts(
   services,
   { run$wFixer = false, summaryTemplate, ignoredModules = [], ignoredNamespaces = [] } = {}
@@ -96,14 +117,33 @@ function dts(
     }
   }
 
+  const rootServices = {}
+  const subServices = []
+
   services.forEach(service => {
     if (!service.memberOf) {
+      // handleRootServices(service)
+      rootServices[service.name] = {instance: service, sub: {}} 
       handleServiceAsModule(service, modules, namespaces, {documentationGenerator})
     } else {
+      // handleSubServices(service, service.memberOf)
+      subServices.push(service)
       handleServiceAsNamespace(service, namespaces, {documentationGenerator})
     }
   })
 
+  subServices.forEach(sub => {
+    if(rootServices[sub.memberOf]) {
+      Object.assign(rootServices[sub.memberOf].sub, {[sub.name] : sub})
+    }
+  })
+  // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+  // Object.keys(rootServices).forEach(root => {
+  //   Object.keys(rootServices[root].sub).forEach(s => {
+  //     console.log(`${root}.${s}`)
+  //   })
+  // })
+  // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
 
   // remove ignored modules and namespaces from output
   ignoredNamespaces.forEach(namespace => delete namespaces[namespace])
