@@ -38,9 +38,10 @@ function convertServiceToModule(service, { documentationGenerator }) {
   const operations = service.operations.map(operation =>
     convertOperationToFunction(service, operation, { documentationGenerator })
   )
+  // there are some services without summary
   const members = properties.concat(operations)
   const jsDocComment = documentationGenerator({
-    summary: service.docs.summary,
+    summary: service && service.docs ? service.docs.summary: "",
     service: fullServiceName(service)
   })
 

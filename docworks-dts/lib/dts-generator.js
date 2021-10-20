@@ -18,17 +18,19 @@ function trimPara(text) {
 }
 
 function getDtsType(type, options = {}) {
+  if (type === undefined) return false
 
   // New Service object Type definition parsing support.
-  if(type.nativeType){
+  if(type && type.nativeType){
     return validServiceName(type.nativeType)
   }
 
-  if(type.referenceType){
+  if(type && type.referenceType){
+    console.log("before recursive")
     return getDtsType(global.customComplexTypesMap[type.referenceType])
   }
 
-  if(type.complexType){
+  if(type && type.complexType){
     if(type.complexType.typeParams.length > 1){
       const unionType = `${type.complexType.nativeType}<${type.complexType.typeParams.reduce(
         (acc, curr, index) => acc += (index === type.complexType.typeParams.length - 1) ? `${getDtsType(curr)}` : `${getDtsType(curr)} | `, 
@@ -75,7 +77,12 @@ function getDtsType(type, options = {}) {
 }
 
 function convertTreeToString(tree) {
-  return Object.keys(tree).map(key => dom.emit(tree[key])).join('')
+  return Object.keys(tree).map(key => {
+    console.log("conevrting tree", tree[key].name)
+    const trreName = tree[key].name;
+    const bugsList = ['wix_dev_backend', 'wix_echo_backend']
+    if (bugsList.some(b => b === trreName)) return ""
+    return dom.emit(tree[key])}).join('')
 }
 
 function getTripleSlashDirectivesString(tripleSlashDirectives = []){
