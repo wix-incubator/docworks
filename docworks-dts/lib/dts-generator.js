@@ -33,6 +33,11 @@ function getDtsType(type, options = {}) {
     }
   }
   else if (Array.isArray(type) && type.length > 0) {
+    if(type.some(currentType => currentType.nativeType || currentType.complexType || currentType.referenceType)){
+      const createdDocsNamedType = getDtsFromDocsType(type)
+      return dtsNamedTypeReference(createdDocsNamedType)
+    }
+
     if (options.intersection && options.union || !options.intersection && !options.union) {
       throw new Error(`Unable to convert type ${type} to type union or intersection. Options must include only one flag`)
     }
@@ -47,6 +52,62 @@ function getDtsType(type, options = {}) {
   }
 
   throw new Error(`Unable to convert type ${type} to valid dts type`)
+}
+
+function getDtsFromDocsType(docsTypes) {
+ 
+  if(docsTypes.length === 1 || !Array.isArray(docsTypes)){
+    const docsType = docsTypes.length === 1 ? docsTypes[0] : docsTypes
+    if(typeof docsType === 'string'){
+      return validServiceName(docsType)
+    }
+    else if(docsType.nativeType){
+      return validServiceName(docsType.nativeType)
+    }
+    else if(docsType.referenceType){
+      return validServiceName(docsType.referenceType)
+    }
+    else if(docsType.complexType){
+      const resolvedTypeParams = resolveTypeParams(docsType.complexType.typeParams)
+      const typeName = validServiceName(docsType.complexType.nativeType || docsType.complexType.referenceType)
+      
+      if(typeName.includes('.')){
+        const finalType = typeName.split('.').pop()
+        if(finalType === 'Record' || finalType === 'Map'){
+          return `Map<${getDtsFromDocsType(resolvedTypeParams[0])}, ${getDtsFromDocsType(resolvedTypeParams[1])}>`
+        }
+      }
+      else if(typeName === 'Record' || typeName === 'Map'){
+        return `Map<${getDtsFromDocsType(resolvedTypeParams[0])}, ${getDtsFromDocsType(resolvedTypeParams[1])}>`
+      }
+
+      return `${typeName}<${resolvedTypeParams.join(' | ')}>`
+    }
+  }
+  else{
+    return docsTypes.map(t => getDtsFromDocsType(t)).join(' | ')
+  }
+}
+
+function resolveTypeParams(typeParams) {
+  const typeParamsSorted = typeParams.sort((typeParamA, typeParamB) => {
+    if(typeParamA.key === true){
+      return -1
+    }
+    else if(typeParamB.key === true){
+      return 1
+    }
+    return 0
+  })
+
+  return typeParamsSorted.map(typeParam => {
+    if(typeParam.unionType){
+      return getDtsFromDocsType(typeParam.unionType.type)
+    }
+    else{
+      return getDtsFromDocsType(typeParam)
+    }
+  })
 }
 
 function convertTreeToString(tree) {
@@ -70,6 +131,13 @@ function dtsConst(property, {jsDocComment}) {
   const cnt = dom.create.const(property.name, getDtsType(property.type, {union: true}))
   cnt.jsDocComment = trimPara(jsDocComment)
   return cnt
+}
+
+function dtsEnum(enumName, values, {jsDocComment}) {
+  const enm = dom.create.enum(enumName)
+  enm.members = values.map(val => dom.create.enumValue(val, val))
+  enm.jsDocComment = trimPara(jsDocComment)
+  return enm
 }
 
 function dtsFunction(name, parameters, returnType, {jsDocComment, typeParameters = []} = {}) {
@@ -141,8 +209,12 @@ function dtsNamespace(name, {jsDocComment} = {}) {
   return namespace
 }
 
-function dtsNamedTypeReference(namedTypeReference) {
-  return dom.create.namedTypeReference(namedTypeReference)
+function dtsNamedTypeReference(namedTypeReference, typeArguments) {
+  let namedTypeReferenceCreated = dom.create.namedTypeReference(namedTypeReference)
+  if(typeArguments){
+    namedTypeReference.typeArguments = typeArguments
+  }
+  return namedTypeReferenceCreated
 }
 
 function dtsObjectType(members) {
@@ -162,7 +234,7 @@ function dtsParameter(name, type, {spread = false, optional = false, jsDocCommen
   parameterFlags = spread ? dom.ParameterFlags.Rest: parameterFlags
   const paramType = spread ? { name: 'Array', typeParams: [ type ] }: type
 
-  const parameter = dom.create.parameter(name, getDtsType(paramType, { spread, union: true }), parameterFlags)
+  const parameter = dom.create.parameter(name, getDtsType(paramType, { union: true }), parameterFlags)
   parameter.jsDocComment = trimPara(jsDocComment)
 
   return parameter
@@ -193,6 +265,7 @@ function dtsUnion(types) {
 
 module.exports = {
   convertTreeToString,
+  dtsEnum,
   dtsAlias,
   dtsConst,
   dtsFunction,
