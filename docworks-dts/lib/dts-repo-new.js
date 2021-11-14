@@ -78,9 +78,11 @@ function dts(
     generatedModules.push(createModule(rootServices[root], { documentationGenerator }))
   })
 
+  debugger
   // remove ignored modules and namespaces from output
   ignoredNamespaces.forEach(namespace => delete namespaces[namespace])
   ignoredModules.forEach(module => delete modules[module])
+  ignoredModules.forEach(module => delete generatedModules[module])
 
   if (run$wFixer) {
     $wFixer(modules, namespaces)

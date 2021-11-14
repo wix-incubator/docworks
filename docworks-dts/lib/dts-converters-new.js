@@ -16,33 +16,32 @@ const {
   dtsProperty,
   dtsObjectTypeAlias
 } = require('./dts-generator')
-const { isEmpty } = require('lodash')
 
 const fullServiceName = service =>
   service.memberOf ? `${service.memberOf}.${service.name}` : service.name
 
+const generateType = (type, parentModuleName) => {
+  if (type.startsWith(parentModuleName)) {
+    return type.replace(`${parentModuleName}.`, "")
+  }
+  else if (type.includes(`${parentModuleName}.`)) {
+    const splitedParts = type.split(`${parentModuleName}.`)
+    return `${parentModuleName}.${splitedParts[splitedParts.length - 1]}`
+  }
+  return type
+}
+
 const fixType = (type, parentModuleName) => {
   if (parentModuleName) {
     if (isString_(type)) {
-      if (type.startsWith(parentModuleName)) {
-        return type.replace(`${parentModuleName}.`, "")
-      }
-      else if (type.includes(`${parentModuleName}.`)) {
-        const splitedParts = type.split(`${parentModuleName}.`)
-        return `${parentModuleName}.${splitedParts[splitedParts.length - 1]}`
-      } 
+      return generateType(type, parentModuleName)
     }
     else if(isObject_(type) && has_(type, "name") && (type.name === 'Array' || type.name === 'Promise')) {
       type.typeParams = type.typeParams.map(t => {
         if (isString_(t)) {
-          if (t.startsWith(parentModuleName)) {
-            return t.replace(`${parentModuleName}.`, "")
-          }
-          else if (t.includes(`${parentModuleName}.`)) {
-            const splitedParts = t.split(`${parentModuleName}.`)
-            return `${parentModuleName}.${splitedParts[splitedParts.length - 1]}`
-          }
+          return generateType(t, parentModuleName)
         }
+        console.log("unknow type SECOND IF => ", t)
         return t
       })
       return type
@@ -50,19 +49,14 @@ const fixType = (type, parentModuleName) => {
     else if (isArray_(type)) {
       type = type.map(t => {
         if (isString_(t)) {
-          if (t.startsWith(parentModuleName)) {
-            return t.replace(`${parentModuleName}.`, "")
-          }
-          else if (t.includes(`${parentModuleName}.`)) {
-            const splitedParts = t.split(`${parentModuleName}.`)
-            return `${parentModuleName}.${splitedParts[splitedParts.length - 1]}`
-          }
+          return generateType(t, parentModuleName)
         }
+        console.log("unknow type THIRD IF => ", t)
         return t
       })
       return type
     }
-    // console.log("START UNFIXED TYPE ", type, " typeof =>" + typeof type," parentModuleName ", parentModuleName, "END")
+    console.log("START UNFIXED TYPE ", type, " typeof =>" + typeof type," parentModuleName ", parentModuleName, "END")
   }
   return type
 }
@@ -223,9 +217,8 @@ function convertServiceToNamespace(
   //TODO:: need to handle service.sub.sub etc...
   // service.memberOf = parentService.name
   const serviceName = service.name
-
   const namespace = dtsNamespace(serviceName)
-
+  if (service.name === "TimeLine")debugger
   // here need to say this is the root module of the inteface parentService
   const intf = convertServiceToInterface(service, { documentationGenerator })
   namespace.members.push(intf)

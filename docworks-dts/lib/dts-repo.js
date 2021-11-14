@@ -146,6 +146,7 @@ function dts(
   // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
 
   // remove ignored modules and namespaces from output
+  debugger
   ignoredNamespaces.forEach(namespace => delete namespaces[namespace])
   ignoredModules.forEach(module => delete modules[module])
 

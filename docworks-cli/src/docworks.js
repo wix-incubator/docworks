@@ -191,8 +191,9 @@ function docworks() {
     const outputFileName = argv.out
     const outputDirName = argv.dir || ''
     const summaryTemplate = argv.summaryTemplate
-    const ignoredModules = isString_(argv.ignoreModule) ? castArray_(argv.ignoreModule) : []
-    const ignoredNamespaces = isString_(argv.ignoreNamespace) ? castArray_(argv.ignoreNamespace) : []
+    //todo:: add ignore list
+    const ignoredModules = isString_(argv.ignoreModule) ? argv.ignoreModule.split(",") : []
+    const ignoredNamespaces = isString_(argv.ignoreNamespace) ? argv.ignoreNamespace.split(",") : []
 
     if (!remote && !local || (!!remote && !!local)) {
       // eslint-disable-next-line no-console
