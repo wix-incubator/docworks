@@ -69,15 +69,13 @@ function getDtsFromDocsType(docsTypes) {
     }
     else if(docsType.complexType){
       const resolvedTypeParams = resolveTypeParams(docsType.complexType.typeParams)
-      const typeName = validServiceName(docsType.complexType.nativeType || docsType.complexType.referenceType)
-      
+      let typeName = validServiceName(docsType.complexType.nativeType || docsType.complexType.referenceType)
+
       if(typeName.includes('.')){
-        const finalType = typeName.split('.').pop()
-        if(finalType === 'Record' || finalType === 'Map'){
-          return `Map<${getDtsFromDocsType(resolvedTypeParams[0])}, ${getDtsFromDocsType(resolvedTypeParams[1])}>`
-        }
+        typeName = typeName.split('.').pop()
       }
-      else if(typeName === 'Record' || typeName === 'Map'){
+
+      if(typeName === 'Record' || typeName === 'Map'){
         return `Map<${getDtsFromDocsType(resolvedTypeParams[0])}, ${getDtsFromDocsType(resolvedTypeParams[1])}>`
       }
 
