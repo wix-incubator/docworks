@@ -103,8 +103,8 @@ function getKeyValueDefinitions(typeParams) {
     return 0
   })
 
-  const key = typeParamsByKeyIfExists
   const value = typeParamsByKeyIfExists.splice(1)
+  const key = typeParamsByKeyIfExists
 
   return { key, value }
 }

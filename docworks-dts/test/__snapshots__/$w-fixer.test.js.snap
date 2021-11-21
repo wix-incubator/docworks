@@ -1283,7 +1283,7 @@ declare namespace wix_dev_backend {
             /**
              * Facet counts aggregated per value
              */
-            counts: Map<string, number>;
+            counts: Record<string, number>;
         };
 
         type Fee = {
@@ -1582,7 +1582,7 @@ declare namespace wix_dev_backend {
             /**
              * Filter facets.
              */
-            facets: Map<string, wix_dev_backend.Order.FacetCounts>;
+            facets: Record<string, wix_dev_backend.Order.FacetCounts>;
             /**
              * Limit.
              */
@@ -1775,14 +1775,14 @@ declare namespace wix_dev_backend {
             /**
              * Facet counts aggregated per value
              */
-            counts: Map<string, wix_dev_backend.Order.Counts>;
+            counts: Record<string, wix_dev_backend.Order.Counts>;
         };
 
         type OrderFacets = {
             /**
              * Filter facets.
              */
-            facets: Map<string, wix_dev_backend.Order.OrderFacetCounts>;
+            facets: Record<string, wix_dev_backend.Order.OrderFacetCounts>;
         };
 
         type OrderUpdated = {

@@ -650,7 +650,7 @@
       "members": [      {
         "name": "counts",
         "type": [{"complexType":         {
-          "referenceType": "wix-dev-backend.Order.Record",
+          "referenceType": "Record",
           "typeParams":           [
             {"nativeType": "string"},
             {"nativeType": "number"}
@@ -1333,7 +1333,7 @@
                 {
           "name": "facets",
           "type": [{"complexType":           {
-            "referenceType": "wix-dev-backend.Order.Record",
+            "referenceType": "Record",
             "typeParams":             [
               {"nativeType": "string"},
               {"referenceType": "wix-dev-backend.Order.FacetCounts"}
@@ -1685,7 +1685,7 @@
       "members": [      {
         "name": "counts",
         "type": [{"complexType":         {
-          "referenceType": "wix-dev-backend.Order.Record",
+          "referenceType": "Record",
           "typeParams":           [
             {"nativeType": "string"},
             {"referenceType": "wix-dev-backend.Order.Counts"}
@@ -1712,7 +1712,7 @@
       "members": [      {
         "name": "facets",
         "type": [{"complexType":         {
-          "referenceType": "wix-dev-backend.Order.Record",
+          "referenceType": "Record",
           "typeParams":           [
             {"nativeType": "string"},
             {"referenceType": "wix-dev-backend.Order.OrderFacetCounts"}
