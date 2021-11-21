@@ -7,7 +7,6 @@ const {
   convertServiceToInterface,
   convertServiceToModule
 } = require('./dts-converters')
-const { createReferenceTypesMap } = require('./utils')
 
 function ensureNamespace(namespaces, name, { jsDocComment } = {}) {
   let namespace = namespaces[name]
@@ -88,9 +87,6 @@ function dts(
   services,
   { run$wFixer = false, summaryTemplate, ignoredModules = [], ignoredNamespaces = [] } = {}
 ) {
-  
-  global.referenceTypesMap = createReferenceTypesMap(services)
-
   const namespaces = {}
   const modules = {}
   let documentationGenerator = ({summary}) => summary

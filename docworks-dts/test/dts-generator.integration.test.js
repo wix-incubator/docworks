@@ -1,6 +1,5 @@
 const {type, create} = require('dts-dom')
 const {getDtsType} = require('../lib/dts-generator')
-const {createReferenceTypesMap} = require('../lib/utils')
 
 describe('dts-generator', () => {
 
@@ -182,7 +181,7 @@ describe('dts-generator', () => {
           }
         }]
   
-        const typeRes = create.namedTypeReference('Map<string, string>')
+        const typeRes = create.namedTypeReference('Record<string, string>')
         const receivedValue = getDtsType(docsSimpleComplexType)
         expect(receivedValue).toEqual(typeRes)
       })
@@ -192,18 +191,12 @@ describe('dts-generator', () => {
           { 'complexType': {
               'nativeType': 'Promise',
               'typeParams': [
-                {
-                  'unionType': {
-                    'type': [
-                      { 'complexType': { 
-                          'nativeType': 'Array', 
-                          'typeParams': [{'nativeType': 'string'}]
-                        }
-                      },
-                      { 'nativeType': 'null' }
-                    ]
+                { 'complexType': { 
+                    'nativeType': 'Array', 
+                    'typeParams': [{'nativeType': 'string'}]
                   }
-                }
+                },
+                { 'nativeType': 'null' }
               ]
             }
           },
@@ -230,9 +223,6 @@ describe('dts-generator', () => {
             'typeParams': [{'referenceType': 'wix-dev-backend.Order.BulkUpdateResponse'}]
           }
         }]
-
-        const ordersService = require('./services/Order.service.json')
-        global.referenceTypesMap = createReferenceTypesMap([ordersService])
         
         const typeRes = create.namedTypeReference('Promise<wix_dev_backend.Order.BulkUpdateResponse>')
         const receivedValue = getDtsType(docsSimpleComplexType)
@@ -244,22 +234,11 @@ describe('dts-generator', () => {
           { 'complexType': {
             'nativeType': 'Promise',
             'typeParams': [
-              {
-                'unionType': {
-                  'type': [
-                    { 'referenceType': 'wix-dev-backend.Order.BulkUpdateResponse' },
-                    { 'nativeType': 'null' }
-                  ]
-                }
-              }
+              { 'referenceType': 'wix-dev-backend.Order.BulkUpdateResponse' },
+              { 'nativeType': 'null' }
             ]
           }
-        },
-          
-        ]
-
-        const ordersService = require('./services/Order.service.json')
-        global.referenceTypesMap = createReferenceTypesMap([ordersService])
+        }]
         
         const typeRes = create.namedTypeReference('Promise<wix_dev_backend.Order.BulkUpdateResponse | null>')
         const receivedValue = getDtsType(docsSimpleComplexType)

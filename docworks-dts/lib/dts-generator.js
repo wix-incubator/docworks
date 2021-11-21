@@ -33,7 +33,7 @@ function getDtsType(type, options = {}) {
     }
   }
   else if (Array.isArray(type) && type.length > 0) {
-    if(type.some(currentType => currentType.nativeType || currentType.complexType || currentType.referenceType)){
+    if(isNewDocsTypesDefinition(type)){
       const createdDocsNamedType = getDtsFromDocsType(type)
       return dtsNamedTypeReference(createdDocsNamedType)
     }
@@ -54,41 +54,46 @@ function getDtsType(type, options = {}) {
   throw new Error(`Unable to convert type ${type} to valid dts type`)
 }
 
+// Docs Type Definition: https://github.com/wix-private/p13n/blob/master/wixplorer/wix-docs-server/proto/docs/README.md
+function isNewDocsTypesDefinition(type) {
+  return type.some(currentType => currentType.nativeType || currentType.complexType || currentType.referenceType)
+}
+
 function getDtsFromDocsType(docsTypes) {
- 
-  if(docsTypes.length === 1 || !Array.isArray(docsTypes)){
-    const docsType = docsTypes.length === 1 ? docsTypes[0] : docsTypes
-    if(typeof docsType === 'string'){
-      return validServiceName(docsType)
-    }
-    else if(docsType.nativeType){
-      return validServiceName(docsType.nativeType)
-    }
-    else if(docsType.referenceType){
-      return validServiceName(docsType.referenceType)
-    }
-    else if(docsType.complexType){
-      const resolvedTypeParams = resolveTypeParams(docsType.complexType.typeParams)
-      let typeName = validServiceName(docsType.complexType.nativeType || docsType.complexType.referenceType)
-
-      if(typeName.includes('.')){
-        typeName = typeName.split('.').pop()
-      }
-
-      if(typeName === 'Record' || typeName === 'Map'){
-        return `Map<${getDtsFromDocsType(resolvedTypeParams[0])}, ${getDtsFromDocsType(resolvedTypeParams[1])}>`
-      }
-
-      return `${typeName}<${resolvedTypeParams.join(' | ')}>`
-    }
+  if(isUnionType(docsTypes)){
+    return docsTypes.map(t => getDtsFromDocsType([t])).join(' | ')
   }
   else{
-    return docsTypes.map(t => getDtsFromDocsType(t)).join(' | ')
+    const docsType = docsTypes[0]
+    if(docsType.nativeType || docsType.referenceType){
+      return validServiceName(docsType.nativeType || docsType.referenceType)
+    }
+    else if(docsType.complexType){
+      let typeName = getDtsFromDocsType([docsType.complexType])
+      if(isKeyValueType(typeName)){
+        const { key, value } = getKeyValueDefinitions(docsType.complexType.typeParams)
+        return `${typeName}<${getDtsFromDocsType(key)}, ${getDtsFromDocsType(value)}>`
+      }
+      else{
+        return `${typeName}<${getDtsFromDocsType(docsType.complexType.typeParams)}>`
+      }
+    }
   }
 }
 
-function resolveTypeParams(typeParams) {
-  const typeParamsSorted = typeParams.sort((typeParamA, typeParamB) => {
+// Array of more one value defines for us a union type.
+function isUnionType(docsTypes) {
+  return docsTypes.length > 1
+}
+
+// Supported key value types: Record/Map.
+function isKeyValueType(typeName) {
+  return typeName === 'Record' || typeName === 'Map'
+}
+
+// The key is the first type of the array, or by key property.
+function getKeyValueDefinitions(typeParams) {
+  const typeParamsByKeyIfExists = typeParams.sort((typeParamA, typeParamB) => {
     if(typeParamA.key === true){
       return -1
     }
@@ -98,14 +103,10 @@ function resolveTypeParams(typeParams) {
     return 0
   })
 
-  return typeParamsSorted.map(typeParam => {
-    if(typeParam.unionType){
-      return getDtsFromDocsType(typeParam.unionType.type)
-    }
-    else{
-      return getDtsFromDocsType(typeParam)
-    }
-  })
+  const key = typeParamsByKeyIfExists
+  const value = typeParamsByKeyIfExists.splice(1)
+
+  return { key, value }
 }
 
 function convertTreeToString(tree) {
