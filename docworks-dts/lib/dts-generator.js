@@ -33,6 +33,11 @@ function getDtsType(type, options = {}) {
     }
   }
   else if (Array.isArray(type) && type.length > 0) {
+    if(isNewDocsTypesDefinition(type)){
+      const createdDocsNamedType = getDtsFromDocsType(type)
+      return dtsNamedTypeReference(createdDocsNamedType)
+    }
+
     if (options.intersection && options.union || !options.intersection && !options.union) {
       throw new Error(`Unable to convert type ${type} to type union or intersection. Options must include only one flag`)
     }
@@ -47,6 +52,61 @@ function getDtsType(type, options = {}) {
   }
 
   throw new Error(`Unable to convert type ${type} to valid dts type`)
+}
+
+// Docs Type Definition: https://github.com/wix-private/p13n/blob/master/wixplorer/wix-docs-server/proto/docs/README.md
+function isNewDocsTypesDefinition(type) {
+  return type.some(currentType => currentType.nativeType || currentType.complexType || currentType.referenceType)
+}
+
+function getDtsFromDocsType(docsTypes) {
+  if(isUnionType(docsTypes)){
+    return docsTypes.map(t => getDtsFromDocsType([t])).join(' | ')
+  }
+  else{
+    const docsType = docsTypes[0]
+    if(docsType.nativeType || docsType.referenceType){
+      return validServiceName(docsType.nativeType || docsType.referenceType)
+    }
+    else if(docsType.complexType){
+      let typeName = getDtsFromDocsType([docsType.complexType])
+      if(isKeyValueType(typeName)){
+        const { key, value } = getKeyValueDefinitions(docsType.complexType.typeParams)
+        return `${typeName}<${getDtsFromDocsType(key)}, ${getDtsFromDocsType(value)}>`
+      }
+      else{
+        return `${typeName}<${getDtsFromDocsType(docsType.complexType.typeParams)}>`
+      }
+    }
+  }
+}
+
+// Array of more one value defines for us a union type.
+function isUnionType(docsTypes) {
+  return docsTypes.length > 1
+}
+
+// Supported key value types: Record/Map.
+function isKeyValueType(typeName) {
+  return typeName === 'Record' || typeName === 'Map'
+}
+
+// The key is the first type of the array, or by key property.
+function getKeyValueDefinitions(typeParams) {
+  const typeParamsByKeyIfExists = typeParams.sort((typeParamA, typeParamB) => {
+    if(typeParamA.key === true){
+      return -1
+    }
+    else if(typeParamB.key === true){
+      return 1
+    }
+    return 0
+  })
+
+  const value = typeParamsByKeyIfExists.splice(1)
+  const key = typeParamsByKeyIfExists
+
+  return { key, value }
 }
 
 function convertTreeToString(tree) {
@@ -70,6 +130,13 @@ function dtsConst(property, {jsDocComment}) {
   const cnt = dom.create.const(property.name, getDtsType(property.type, {union: true}))
   cnt.jsDocComment = trimPara(jsDocComment)
   return cnt
+}
+
+function dtsEnum(enumName, values, {jsDocComment}) {
+  const enm = dom.create.enum(enumName)
+  enm.members = values.map(val => dom.create.enumValue(val, val))
+  enm.jsDocComment = trimPara(jsDocComment)
+  return enm
 }
 
 function dtsFunction(name, parameters, returnType, {jsDocComment, typeParameters = []} = {}) {
@@ -141,8 +208,12 @@ function dtsNamespace(name, {jsDocComment} = {}) {
   return namespace
 }
 
-function dtsNamedTypeReference(namedTypeReference) {
-  return dom.create.namedTypeReference(namedTypeReference)
+function dtsNamedTypeReference(namedTypeReference, typeArguments) {
+  let namedTypeReferenceCreated = dom.create.namedTypeReference(namedTypeReference)
+  if(typeArguments){
+    namedTypeReference.typeArguments = typeArguments
+  }
+  return namedTypeReferenceCreated
 }
 
 function dtsObjectType(members) {
@@ -162,7 +233,7 @@ function dtsParameter(name, type, {spread = false, optional = false, jsDocCommen
   parameterFlags = spread ? dom.ParameterFlags.Rest: parameterFlags
   const paramType = spread ? { name: 'Array', typeParams: [ type ] }: type
 
-  const parameter = dom.create.parameter(name, getDtsType(paramType, { spread, union: true }), parameterFlags)
+  const parameter = dom.create.parameter(name, getDtsType(paramType, { union: true }), parameterFlags)
   parameter.jsDocComment = trimPara(jsDocComment)
 
   return parameter
@@ -193,6 +264,7 @@ function dtsUnion(types) {
 
 module.exports = {
   convertTreeToString,
+  dtsEnum,
   dtsAlias,
   dtsConst,
   dtsFunction,

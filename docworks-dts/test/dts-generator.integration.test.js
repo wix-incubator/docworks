@@ -82,5 +82,168 @@ describe('dts-generator', () => {
       const expectedValue = create.namedTypeReference('Promise<wix_users.User.PricingPlan[]>')
       expect(getDtsType(docworksType)).toEqual(expectedValue)
     })
+
+  })
+
+  describe('convert to dom-dts types for new docs structure', () => {
+
+    describe('NativeType', () => {
+      test('Simple', () => {
+        const docsSimpleComplexType = [
+          { 'nativeType': 'boolean' }
+        ]
+        
+        const typeRes = create.namedTypeReference('boolean')
+        const receivedValue = getDtsType(docsSimpleComplexType)
+        expect(receivedValue).toEqual(typeRes)
+      })
+
+      test('Union', () => {
+        const docsSimpleComplexType = [
+          { 'nativeType': 'string' },
+          { 'nativeType': 'Buffer' },
+          { 'nativeType': 'Object' }
+        ]
+
+        const typeRes = create.namedTypeReference('string | Buffer | Object')
+        const receivedValue = getDtsType(docsSimpleComplexType)
+        expect(receivedValue).toEqual(typeRes)
+      })
+    })
+
+    describe('ComplexType', () => {
+      
+      test('Simple Generics', () => {
+        const docsSimpleComplexType = [{ 
+          'complexType': {
+            'nativeType': 'Promise',
+            'typeParams': [
+              { 'nativeType': 'string' }
+            ]
+          }
+        }]
+        const expectedValue = create.namedTypeReference('Promise<string>')
+        expect(getDtsType(docsSimpleComplexType)).toEqual(expectedValue)
+      })
+  
+     
+      test('Nested Generics', () => {
+        const docsSimpleComplexType = [
+          { 'complexType': { 
+              'nativeType': 'Promise',
+              'typeParams': [
+                { 'complexType': {
+                    'nativeType': 'Array',
+                    'typeParams': [{'nativeType': 'string'}]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+  
+        const typeRes = create.namedTypeReference('Promise<Array<string>>')
+        const receivedValue = getDtsType(docsSimpleComplexType)
+        expect(receivedValue).toEqual(typeRes)
+      })
+
+      test('Record to Map', () => {
+        const docsSimpleComplexType = [{ 
+          'complexType': {
+            'nativeType': 'Map',
+            'typeParams': [{'nativeType': 'string'}, {'nativeType': 'boolean'}]
+          }
+        }]
+  
+        const typeRes = create.namedTypeReference('Map<string, boolean>')
+        const receivedValue = getDtsType(docsSimpleComplexType)
+        expect(receivedValue).toEqual(typeRes)
+      })
+      
+      test('Record to Map with key', () => {
+        const docsSimpleComplexType = [{ 
+          'complexType': {
+            'nativeType': 'Map',
+            'typeParams': [{'nativeType': 'string'}, {'nativeType': 'boolean', 'key': true}]
+          }
+        }]
+  
+        const typeRes = create.namedTypeReference('Map<boolean, string>')
+        const receivedValue = getDtsType(docsSimpleComplexType)
+        expect(receivedValue).toEqual(typeRes)
+      })
+
+      test('Map', () => {
+        const docsSimpleComplexType = [{ 
+          'complexType': {
+            'nativeType': 'Record',
+            'typeParams': [{'nativeType': 'string'}, {'nativeType': 'string'}]
+          }
+        }]
+  
+        const typeRes = create.namedTypeReference('Record<string, string>')
+        const receivedValue = getDtsType(docsSimpleComplexType)
+        expect(receivedValue).toEqual(typeRes)
+      })
+
+      test('Generics Nested + Union', () => {
+        const docsSimpleComplexType = [
+          { 'complexType': {
+              'nativeType': 'Promise',
+              'typeParams': [
+                { 'complexType': { 
+                    'nativeType': 'Array', 
+                    'typeParams': [{'nativeType': 'string'}]
+                  }
+                },
+                { 'nativeType': 'null' }
+              ]
+            }
+          },
+          { 'complexType': {
+              'nativeType': 'Promise',
+              'typeParams': [ {'nativeType': 'void'} ]
+            }
+          }
+        ]
+  
+        const typeRes = create.namedTypeReference('Promise<Array<string> | null> | Promise<void>')
+        const receivedValue = getDtsType(docsSimpleComplexType)
+        expect(receivedValue).toEqual(typeRes)
+      })
+  
+    })
+    
+
+    describe('ReferenceType', () => {
+      test('EchoRequest', () => {
+        const docsSimpleComplexType = [{
+          'complexType': {
+            'nativeType': 'Promise',
+            'typeParams': [{'referenceType': 'wix-dev-backend.Order.BulkUpdateResponse'}]
+          }
+        }]
+        
+        const typeRes = create.namedTypeReference('Promise<wix_dev_backend.Order.BulkUpdateResponse>')
+        const receivedValue = getDtsType(docsSimpleComplexType)
+        expect(receivedValue).toEqual(typeRes)
+      })
+
+      test('Generics Nested Union Simple and Reference type', () => {
+        const docsSimpleComplexType = [
+          { 'complexType': {
+            'nativeType': 'Promise',
+            'typeParams': [
+              { 'referenceType': 'wix-dev-backend.Order.BulkUpdateResponse' },
+              { 'nativeType': 'null' }
+            ]
+          }
+        }]
+        
+        const typeRes = create.namedTypeReference('Promise<wix_dev_backend.Order.BulkUpdateResponse | null>')
+        const receivedValue = getDtsType(docsSimpleComplexType)
+        expect(receivedValue).toEqual(typeRes)
+      })
+    })
   })
 })

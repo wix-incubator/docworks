@@ -3,5 +3,5 @@ function validServiceName(name) {
 }
 
 module.exports = {
-    validServiceName,
+    validServiceName
 }

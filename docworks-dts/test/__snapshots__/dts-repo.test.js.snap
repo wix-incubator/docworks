@@ -1288,6 +1288,1179 @@ declare namespace wix_dataset {
 
 }
 
+declare namespace wix_dev_backend {
+    /**
+     * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#)
+     */
+    interface Order {
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#bulkUpdate)
+         */
+        bulkUpdate(eventId: string, orderNumber: Array<string>, options: wix_dev_backend.Order.BulkUpdateOptions): Promise<wix_dev_backend.Order.BulkUpdateResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#confirm)
+         */
+        confirm(eventId: string, orderNumber: Array<string>): Promise<wix_dev_backend.Order.ConfirmOrderResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#get)
+         */
+        get(eventId: string, orderNumber: string, fieldset: Array<wix_dev_backend.Order.OrderFieldset>): Promise<wix_dev_backend.Order.GetOrderResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#getSummary)
+         */
+        getSummary(eventId: string): Promise<wix_dev_backend.Order.GetSummaryResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#list)
+         */
+        list(offset: number, options: wix_dev_backend.Order.ListOptions): Promise<wix_dev_backend.Order.ListOrdersResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#update)
+         */
+        update(eventId: string, orderNumber: string, fields: Array<string>, options: wix_dev_backend.Order.UpdateOptions): Promise<wix_dev_backend.Order.UpdateOrderResponse>;
+    }
+
+    namespace Order {
+        type AddressLocation = {
+            /**
+             * Address latitude.
+             */
+            latitude: number;
+            /**
+             * Address longitude.
+             */
+            longitude: number;
+        };
+
+        type BulkUpdateRequest = {
+            /**
+             * Whether to archive the order.
+             */
+            archived: boolean;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Set of fields to update.
+             */
+            fields: Array<string>;
+            orderNumber: Array<string>;
+        };
+
+        type BulkUpdateResponse = {
+            /**
+             * Updated orders.
+             */
+            orders: Array<wix_dev_backend.Order.Order>;
+        };
+
+        type CalendarLinks = {
+            /**
+             * \\"Add to Google calendar\\" URL.
+             */
+            google: string;
+            /**
+             * \\"Download ICS calendar file\\" URL.
+             */
+            ics: string;
+        };
+
+        type CheckIn = {
+            /**
+             * Time of check-in
+             */
+            created: Date;
+        };
+
+        type ConfirmOrderRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Order numbers.
+             */
+            orderNumber: Array<string>;
+        };
+
+        type ConfirmOrderResponse = {
+            /**
+             * Confirmed orders.
+             */
+            orders: Array<wix_dev_backend.Order.Order>;
+        };
+
+        type Counts = {
+            /**
+             * Number or orders
+             */
+            count: number;
+            /**
+             * Number of tickets within orders
+             */
+            tickets: number;
+            /**
+             * Number of tickets with check-in
+             */
+            ticketsCheckIn: number;
+        };
+
+        type CouponDiscount = {
+            /**
+             * Discount coupon code.
+             */
+            code: string;
+            /**
+             * Discount coupon ID.
+             */
+            couponId: string;
+            /**
+             * Discount coupon name.
+             */
+            name: string;
+        };
+
+        type Discount = {
+            /**
+             * Total charge after applied discount.
+             */
+            afterDiscount: wix_dev_backend.Order.Money;
+            /**
+             * Total discount amount.
+             */
+            amount: wix_dev_backend.Order.Money;
+            /**
+             * Discount coupon code.
+             */
+            code: string;
+            /**
+             * Discount coupon ID.
+             */
+            couponId: string;
+            /**
+             * Discount items.
+             */
+            discounts: Array<wix_dev_backend.Order.DiscountItem>;
+            /**
+             * Discount coupon name.
+             */
+            name: string;
+        };
+
+        type DiscountItem = {
+            /**
+             * Total discount amount.
+             */
+            amount: wix_dev_backend.Order.Money;
+            /**
+             * Coupon discount.
+             */
+            coupon: wix_dev_backend.Order.CouponDiscount;
+            /**
+             * Pricing plan discount.
+             */
+            paidPlan: wix_dev_backend.Order.PaidPlanDiscount;
+        };
+
+        type FacetCounts = {
+            /**
+             * Facet counts aggregated per value
+             */
+            counts: Record<string, number>;
+        };
+
+        type Fee = {
+            /**
+             * Total amount of fee charges.
+             */
+            amount: wix_dev_backend.Order.Money;
+            /**
+             * Fee identifier.
+             */
+            name: wix_dev_backend.Order.WIX_FEE;
+            /**
+             * Fee rate.
+             */
+            rate: string;
+            /**
+             * How fee is calculated.
+             */
+            type: wix_dev_backend.Order.FeeType;
+        };
+
+        type FormResponse = {
+            /**
+             * Input values entered upon ticket order.
+             */
+            inputValues: Array<wix_dev_backend.Order.InputValue>;
+        };
+
+        type FormattedAddress = {
+            /**
+             * Address components (optional).
+             */
+            address: any;
+            /**
+             * One line address representation.
+             */
+            formatted: string;
+        };
+
+        type GetInvoicePreviewRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Controls which data is returned. See [Fieldset](https://dev.wix.com/api/rest/wix-events/wix-events/fieldset#wix-events_wix-events_fieldset_order-fieldset).
+             */
+            fieldset: Array<wix_dev_backend.Order.OrderFieldset>;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderResponse = {
+            /**
+             * \\"Add to calendar\\" links.
+             */
+            calendarLinks: wix_dev_backend.Order.CalendarLinks;
+            /**
+             * Requested order.
+             */
+            order: wix_dev_backend.Order.Order;
+        };
+
+        type GetSummaryRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+        };
+
+        type GetSummaryResponse = {
+            /**
+             * Ticket sales grouped by currency.
+             */
+            sales: Array<wix_dev_backend.Order.TicketSales>;
+        };
+
+        type GuestDetails = {
+            /**
+             * Contact ID associated with this guest.
+             */
+            contactId: string;
+            /**
+             * Guest email.
+             */
+            email: string;
+            /**
+             * Guest first name.
+             */
+            firstName: string;
+            /**
+             * Full form response.
+             */
+            form: wix_dev_backend.Order.FormResponse;
+            /**
+             * Whether ticket belongs to assigned guest.
+             */
+            guestAssigned: boolean;
+            /**
+             * Guest last name.
+             */
+            lastName: string;
+        };
+
+        type HeadersEntry = {
+            key: string;
+            value: string;
+        };
+
+        type InputValue = {
+            /**
+             * Address type value.
+             */
+            address: wix_dev_backend.Order.FormattedAddress;
+            /**
+             * Date/time value.
+             */
+            dateTime: Date;
+            /**
+             * Unique input name.
+             */
+            inputName: string;
+            /**
+             * Int or floating point number value.
+             */
+            number: number;
+            /**
+             * Text value representation.
+             */
+            value: string;
+            /**
+             * Text value vector.
+             */
+            values: Array<string>;
+        };
+
+        type Invoice = {
+            /**
+             * Discount applied to cart.
+             */
+            discount: wix_dev_backend.Order.Discount;
+            /**
+             * Fees applied to the cart.
+             */
+            fees: Array<wix_dev_backend.Order.Fee>;
+            /**
+             * Total amount of cart after discount, tax, and fees.
+             * Grand total is calculated in the following order:
+             * 1. Total prices of all items in the cart are calculated.
+             * 2. Discount is subtracted from the cart (if applicable).
+             * 3. Tax is added (if applicable).
+             * 4. Wix service fee is added.
+             */
+            grandTotal: wix_dev_backend.Order.Money;
+            items: Array<wix_dev_backend.Order.Item>;
+            /**
+             * URL to invoice preview. Returned only if order is paid.
+             */
+            previewUrl: string;
+            /**
+             * Total revenue, excluding fees. (Taxes and payment provider fees are not deducted).
+             */
+            revenue: wix_dev_backend.Order.Money;
+            /**
+             * Total cart amount before discount, tax, and fees.
+             */
+            subTotal: wix_dev_backend.Order.Money;
+            /**
+             * Tax applied to cart.
+             */
+            tax: wix_dev_backend.Order.Tax;
+            /**
+             * Total cart amount.
+             */
+            total: wix_dev_backend.Order.Money;
+        };
+
+        type Item = {
+            /**
+             * Unique line item ID.
+             */
+            _id: string;
+            /**
+             * Discount applied to the line item.
+             */
+            discount: wix_dev_backend.Order.Discount;
+            /**
+             * Fees applied to the item.
+             */
+            fees: Array<wix_dev_backend.Order.Fee>;
+            /**
+             * Line item mame.
+             */
+            name: string;
+            /**
+             * Line item price.
+             */
+            price: wix_dev_backend.Order.Money;
+            /**
+             * Line item quantity.
+             */
+            quantity: number;
+            /**
+             * Tax applied to the item.
+             */
+            tax: wix_dev_backend.Order.Tax;
+            /**
+             * Total price for line items. Always equal to price * quantity.
+             */
+            total: wix_dev_backend.Order.Money;
+        };
+
+        type ListOrdersRequest = {
+            /**
+             * Deprecated: use tag = ARCHIVED / NON_ARCHIVED
+             */
+            archived: boolean;
+            /**
+             * Deprecated: use tag = CONFIRMED
+             */
+            confirmed: boolean;
+            /**
+             * Event creator ID.
+             */
+            eventCreatorId: Array<string>;
+            /**
+             * Event ID.
+             */
+            eventId: Array<string>;
+            /**
+             * Field facets.
+             * See [supported facets](https://dev.wix.com/api/rest/wix-events/wix-events/filter-and-sort#wix-events_wix-events_filter-and-sort_list-orders).
+             */
+            facet: Array<string>;
+            /**
+             * Controls which data is returned. See [Fieldset](https://dev.wix.com/api/rest/wix-events/wix-events/fieldset#wix-events_wix-events_fieldset_order-fieldset).
+             */
+            fieldset: Array<wix_dev_backend.Order.OrderFieldset>;
+            /**
+             * Deprecated: use tag = FULLY_CHECKED_IN / NOT_FULLY_CHECKED_IN
+             */
+            fullyCheckedIn: boolean;
+            /**
+             * Limit.
+             */
+            limit: number;
+            /**
+             * Site member ID.
+             */
+            memberId: Array<string>;
+            /**
+             * Deprecated: use tag = MEMBER
+             */
+            membersOnly: boolean;
+            /**
+             * Offset.
+             */
+            offset: number;
+            /**
+             * Order number.
+             */
+            orderNumber: Array<string>;
+            /**
+             * Textual search filter - search is performed on \\"full_name\\", \\"email\\" and \\"order_number\\".
+             */
+            searchPhrase: string;
+            /**
+             * Sort order. Defaults to \\"created:asc\\".
+             * See [supported fields](https://dev.wix.com/api/rest/wix-events/wix-events/filter-and-sort#wix-events_wix-events_filter-and-sort_list-orders).
+             */
+            sort: string;
+            /**
+             * Status.
+             */
+            status: Array<wix_dev_backend.Order.OrderStatus>;
+            /**
+             * Order tag.
+             */
+            tag: Array<wix_dev_backend.Order.OrderTag>;
+        };
+
+        type ListOrdersResponse = {
+            /**
+             * Filter facets.
+             */
+            facets: Record<string, wix_dev_backend.Order.FacetCounts>;
+            /**
+             * Limit.
+             */
+            limit: number;
+            /**
+             * Offset.
+             */
+            offset: number;
+            /**
+             * Order data enriched facets.
+             */
+            orderFacets: wix_dev_backend.Order.OrderFacets;
+            /**
+             * Orders.
+             */
+            orders: Array<wix_dev_backend.Order.Order>;
+            /**
+             * Meta data of search results.
+             */
+            searchMetaData: wix_dev_backend.Order.SearchMetaData;
+            /**
+             * Total orders matching the given filters.
+             */
+            total: number;
+        };
+
+        type Money = {
+            /**
+             * decimal amount representation.
+             */
+            amount: string;
+            /**
+             * ISO 4217 format of the currency i.e. \`USD\`.
+             */
+            currency: string;
+            /**
+             * Monetary amount. Decimal string with a period as a decimal separator (e.g., 3.99). Optionally, a single (-), to indicate that the amount is negative.
+             */
+            value: string;
+        };
+
+        type Order = {
+            /**
+             * Whether the order is anonymized by GDPR delete.
+             */
+            anonymized: boolean;
+            /**
+             * Whether the order is archived.
+             */
+            archived: boolean;
+            /**
+             * Checkout channel type
+             */
+            channel: wix_dev_backend.Order.ChannelType;
+            /**
+             * Checkout form response. When each purchased ticket is assigned to a guest, guest forms are returned for each ticket, and buyer info is returned.
+             */
+            checkoutForm: wix_dev_backend.Order.FormResponse;
+            /**
+             * Whether the order is confirmed (triggered once payment gateway processes the payment and funds reach the merchant's account).
+             */
+            confirmed: boolean;
+            /**
+             * Contact ID of buyer (resolved using email address).
+             */
+            contactId: string;
+            /**
+             * RSVP created timestamp.
+             */
+            created: Date;
+            /**
+             * Guest email.
+             */
+            email: string;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Guest first name.
+             */
+            firstName: string;
+            /**
+             * Guest full name.
+             */
+            fullName: string;
+            /**
+             * Whether all tickets in order are checked-in.
+             */
+            fullyCheckedIn: boolean;
+            /**
+             * Order invoice.
+             */
+            invoice: wix_dev_backend.Order.Invoice;
+            /**
+             * Guest last name.
+             */
+            lastName: string;
+            /**
+             * Member ID of buyer (if relevant).
+             */
+            memberId: string;
+            /**
+             * Payment method used for purchase, e.g., \\"payPal\\", \\"creditCard\\", etc.
+             */
+            method: string;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+            /**
+             * Internal order payment details
+             */
+            paymentDetails: wix_dev_backend.Order.PaymentDetails;
+            /**
+             * Reservation ID.
+             */
+            reservationId: string;
+            /**
+             * Payment snapshot ID.
+             * Empty for FREE order.
+             */
+            snapshotId: string;
+            /**
+             * Order status.
+             */
+            status: wix_dev_backend.Order.OrderStatus;
+            /**
+             * Tickets (generated after payment).
+             */
+            tickets: Array<wix_dev_backend.Order.TicketingTicket>;
+            /**
+             * URL to ticket PDF.
+             */
+            ticketsPdf: string;
+            /**
+             * Tickets ordered.
+             */
+            ticketsQuantity: number;
+            /**
+             * Total order price.
+             */
+            totalPrice: wix_dev_backend.Order.Money;
+            /**
+             * Deprecated.
+             */
+            transactionId: string;
+        };
+
+        type OrderDeleted = {
+            /**
+             * Whether order was anonymized by GDPR delete.
+             */
+            anonymized: boolean;
+            /**
+             * Contact ID associated with this order
+             */
+            contactId: string;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Member ID associated with this order.
+             */
+            memberId: string;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+            /**
+             * Order type.
+             */
+            orderType: wix_dev_backend.Order.OrderType;
+            /**
+             * Tickets generated after payment.
+             */
+            tickets: Array<wix_dev_backend.Order.Ticket>;
+            /**
+             * Order deleted timestamp in ISO UTC format.
+             */
+            timestamp: Date;
+            /**
+             * Whether event was triggered by GDPR delete request.
+             */
+            triggeredByAnonymizeRequest: boolean;
+        };
+
+        type OrderFacetCounts = {
+            /**
+             * Facet counts aggregated per value
+             */
+            counts: Record<string, wix_dev_backend.Order.Counts>;
+        };
+
+        type OrderFacets = {
+            /**
+             * Filter facets.
+             */
+            facets: Record<string, wix_dev_backend.Order.OrderFacetCounts>;
+        };
+
+        type OrderUpdated = {
+            /**
+             * Whether order was archived and excluded from results.
+             */
+            archived: boolean;
+            /**
+             * Checkout form response.
+             */
+            checkoutForm: wix_dev_backend.Order.FormResponse;
+            /**
+             * Whether order is confirmed - occurs once payment gateway processes the payment and funds reach merchant's account.
+             */
+            confirmed: boolean;
+            /**
+             * Contact ID associated with this order.
+             */
+            contactId: string;
+            /**
+             * Order created timestamp.
+             */
+            created: Date;
+            /**
+             * Buyer email.
+             */
+            email: string;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Buyer first name.
+             */
+            firstName: string;
+            /**
+             * Buyer last name.
+             */
+            lastName: string;
+            /**
+             * Member ID associated with this order.
+             */
+            memberId: string;
+            /**
+             * Payment method used for paid tickets purchase, i.e. \\"payPal\\", \\"creditCard\\", etc.
+             */
+            method: string;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+            /**
+             * Order status.
+             */
+            status: wix_dev_backend.Order.OrderStatus;
+            /**
+             * Tickets generated after payment.
+             */
+            tickets: Array<wix_dev_backend.Order.Ticket>;
+            /**
+             * Order updated timestamp in ISO UTC format.
+             */
+            timestamp: Date;
+            /**
+             * Whether event was triggered by GDPR delete request.
+             */
+            triggeredByAnonymizeRequest: boolean;
+        };
+
+        type PaidPlanDiscount = {
+            /**
+             * Name of pricing plan.
+             */
+            name: string;
+            /**
+             * Discount by percentage applied to tickets.
+             */
+            percentDiscount: wix_dev_backend.Order.PercentDiscount;
+        };
+
+        type PaymentDetails = {
+            /**
+             * Wix Payments transaction
+             */
+            transaction: wix_dev_backend.Order.PaymentTransaction;
+        };
+
+        type PaymentTransaction = {
+            /**
+             * Transaction Payment method e.g., \\"payPal\\", \\"creditCard\\", etc.
+             */
+            method: string;
+            /**
+             * Wix Payments transaction id
+             */
+            transactionId: string;
+        };
+
+        type PercentDiscount = {
+            /**
+             * Number of discounted tickets.
+             */
+            quantityDiscounted: number;
+            /**
+             * Percent rate.
+             */
+            rate: string;
+        };
+
+        type RawHttpResponse = {
+            body: wix_dev_backend.Order.Uint8Array;
+            headers: Array<wix_dev_backend.Order.HeadersEntry>;
+            statusCode: number;
+        };
+
+        type Result = {
+            /**
+             * Entity ID
+             */
+            _id: string;
+            /**
+             * Entity score.
+             * Higher is more relevant to search phrase.
+             */
+            score: string;
+        };
+
+        type SearchMetaData = {
+            /**
+             * Search results
+             */
+            results: Array<wix_dev_backend.Order.Result>;
+        };
+
+        type StreetAddress = {
+            /**
+             * Apartment number.
+             */
+            apt: string;
+            /**
+             * Street name.
+             */
+            name: string;
+            /**
+             * Street number.
+             */
+            number: string;
+        };
+
+        type Subdivision = {
+            /**
+             * Short subdivision code.
+             */
+            code: string;
+            /**
+             * Subdivision full name.
+             */
+            name: string;
+            type: wix_dev_backend.Order.SubdivisionType;
+            /**
+             * Free text description of subdivision type.
+             */
+            typeInfo: string;
+        };
+
+        type Tax = {
+            /**
+             * Total tax amount.
+             */
+            amount: wix_dev_backend.Order.Money;
+            /**
+             * Tax name.
+             */
+            name: string;
+            /**
+             * Tax rate.
+             */
+            rate: string;
+            /**
+             * Taxable amount.
+             */
+            taxable: wix_dev_backend.Order.Money;
+            /**
+             * Tax type.
+             */
+            type: wix_dev_backend.Order.TaxType;
+        };
+
+        type Ticket = {
+            /**
+             * Anonymized tickets no longer contain personally identifiable information (PII).
+             */
+            anonymized: boolean;
+            /**
+             * Whether ticket is archived.
+             */
+            archived: boolean;
+            /**
+             * Ticket check-in.
+             */
+            checkIn: wix_dev_backend.Order.CheckIn;
+            /**
+             * Whether ticket is confirmed
+             */
+            confirmed: boolean;
+            /**
+             * Contact ID associated with this ticket.
+             */
+            contactId: string;
+            /**
+             * Guest email.
+             */
+            email: string;
+            /**
+             * Guest first name.
+             */
+            firstName: string;
+            /**
+             * Ticket form response (only assigned tickets contain separate forms).
+             */
+            form: wix_dev_backend.Order.FormResponse;
+            /**
+             * Guest last name.
+             */
+            lastName: string;
+            /**
+             * Member ID associated with this ticket.
+             */
+            memberId: string;
+            /**
+             * Ticket price.
+             */
+            price: wix_dev_backend.Order.Money;
+            /**
+             * Ticket definition ID.
+             */
+            ticketDefinitionId: string;
+            /**
+             * Unique issued ticket number.
+             */
+            ticketNumber: string;
+        };
+
+        type TicketDetails = {
+            /**
+             * Unique seat id in the event venue.
+             */
+            seatId: string;
+        };
+
+        type TicketSalePeriod = {
+            /**
+             * Ticket sale end timestamp.
+             */
+            endDate: Date;
+            /**
+             * Whether to hide this ticket if it's not on sale
+             */
+            hideNotOnSale: boolean;
+            /**
+             * Ticket sale start timestamp.
+             */
+            startDate: Date;
+        };
+
+        type TicketSales = {
+            /**
+             * Total revenue, excluding fees (taxes and payment provider fees are not deducted).
+             */
+            revenue: wix_dev_backend.Order.Money;
+            /**
+             * Total balance of confirmed transactions.
+             */
+            total: wix_dev_backend.Order.Money;
+            /**
+             * Total number of confirmed orders.
+             */
+            totalOrders: number;
+            /**
+             * Total number of tickets purchased.
+             */
+            totalTickets: number;
+        };
+
+        type TicketingTicket = {
+            /**
+             * Whether ticket was anonymized by GDPR delete.
+             * Anonymized tickets no longer contain personally identifiable information (PII).
+             */
+            anonymized: boolean;
+            /**
+             * Whether ticket is visible in guest list.
+             */
+            archived: boolean;
+            /**
+             * Associated order checkout channel type
+             */
+            channel: wix_dev_backend.Order.ChannelType;
+            /**
+             * Ticket check-in.
+             */
+            checkIn: wix_dev_backend.Order.CheckIn;
+            /**
+             * Ticket check-in URL.
+             * Shown as QR code image in PDF.
+             * Format: \`https://www.wixevents.com/check-in/{ticket number},{event id}\`
+             * Example: \`https://www.wixevents.com/check-in/AAAA-AAAA-BB021,00000000-0000-0000-0000-000000000000\`
+             */
+            checkInUrl: string;
+            /**
+             * Whether ticket requires payment.
+             */
+            free: boolean;
+            /**
+             * Guest personal details.
+             */
+            guestDetails: wix_dev_backend.Order.GuestDetails;
+            /**
+             * Guest full name.
+             */
+            guestFullName: string;
+            /**
+             * Ticket owner member ID.
+             */
+            memberId: string;
+            /**
+             * Ticket name.
+             */
+            name: string;
+            /**
+             * Whether order and ticket are visible in order list.
+             */
+            orderArchived: boolean;
+            /**
+             * Buyer full name.
+             */
+            orderFullName: string;
+            /**
+             * Associated order number.
+             */
+            orderNumber: string;
+            /**
+             * Associated order status.
+             */
+            orderStatus: wix_dev_backend.Order.OrderStatus;
+            /**
+             * Ticket policy (as displayed in PDF).
+             */
+            policy: string;
+            /**
+             * Ticket price.
+             */
+            price: wix_dev_backend.Order.Money;
+            /**
+             * Deprecated, use \`check_in_url\`.
+             */
+            qrCode: string;
+            /**
+             * Ticket sale period
+             */
+            salePeriod: wix_dev_backend.Order.TicketSalePeriod;
+            /**
+             * Ticket sale status
+             */
+            saleStatus: wix_dev_backend.Order.TicketSaleStatus;
+            /**
+             * Ticket definition ID.
+             */
+            ticketDefinitionId: string;
+            /**
+             * Additional ticket details.
+             */
+            ticketDetails: wix_dev_backend.Order.TicketDetails;
+            /**
+             * Unique ticket number (issued automatically).
+             */
+            ticketNumber: string;
+            /**
+             * Deprecated, use \`ticket_pdf_url\`.
+             */
+            ticketPdf: string;
+            /**
+             * URL for ticket PDF download.
+             */
+            ticketPdfUrl: string;
+            /**
+             * URL to download ticket in .pkpass format for Apple Wallet
+             */
+            walletPassUrl: string;
+        };
+
+        type UpdateOrderRequest = {
+            /**
+             * Whether order is archived.
+             */
+            archived: boolean;
+            /**
+             * Checkout form.
+             */
+            checkoutForm: wix_dev_backend.Order.FormResponse;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Set of field paths to update.
+             */
+            fields: Array<string>;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type UpdateOrderResponse = {
+            /**
+             * Updated order.
+             */
+            order: wix_dev_backend.Order.Order;
+        };
+
+        enum ChannelType {
+            OFFLINE_POS = \\"OFFLINE_POS\\",
+            ONLINE = \\"ONLINE\\",
+        }
+
+        enum FeeName {
+            WIX_FEE = \\"WIX_FEE\\",
+        }
+
+        enum FeeType {
+            FEE_ADDED = \\"FEE_ADDED\\",
+            FEE_ADDED_AT_CHECKOUT = \\"FEE_ADDED_AT_CHECKOUT\\",
+            FEE_INCLUDED = \\"FEE_INCLUDED\\",
+        }
+
+        enum OrderFieldset {
+            DETAILS = \\"DETAILS\\",
+            FORM = \\"FORM\\",
+            INVOICE = \\"INVOICE\\",
+            TICKETS = \\"TICKETS\\",
+        }
+
+        enum OrderStatus {
+            CANCELED = \\"CANCELED\\",
+            DECLINED = \\"DECLINED\\",
+            FREE = \\"FREE\\",
+            INITIATED = \\"INITIATED\\",
+            NA_ORDER_STATUS = \\"NA_ORDER_STATUS\\",
+            OFFLINE_PENDING = \\"OFFLINE_PENDING\\",
+            PAID = \\"PAID\\",
+            PENDING = \\"PENDING\\",
+        }
+
+        enum OrderTag {
+            ARCHIVED = \\"ARCHIVED\\",
+            CONFIRMED = \\"CONFIRMED\\",
+            FULLY_CHECKED_IN = \\"FULLY_CHECKED_IN\\",
+            MEMBER = \\"MEMBER\\",
+            NON_ARCHIVED = \\"NON_ARCHIVED\\",
+            NOT_FULLY_CHECKED_IN = \\"NOT_FULLY_CHECKED_IN\\",
+            UNCONFIRMED = \\"UNCONFIRMED\\",
+        }
+
+        enum OrderType {
+            ASSIGNED_TICKETS = \\"ASSIGNED_TICKETS\\",
+            UNASSIGNED_TICKETS = \\"UNASSIGNED_TICKETS\\",
+        }
+
+        enum SubdivisionType {
+            ADMINISTRATIVE_AREA_LEVEL_1 = \\"ADMINISTRATIVE_AREA_LEVEL_1\\",
+            ADMINISTRATIVE_AREA_LEVEL_2 = \\"ADMINISTRATIVE_AREA_LEVEL_2\\",
+            ADMINISTRATIVE_AREA_LEVEL_3 = \\"ADMINISTRATIVE_AREA_LEVEL_3\\",
+            ADMINISTRATIVE_AREA_LEVEL_4 = \\"ADMINISTRATIVE_AREA_LEVEL_4\\",
+            ADMINISTRATIVE_AREA_LEVEL_5 = \\"ADMINISTRATIVE_AREA_LEVEL_5\\",
+            COUNTRY = \\"COUNTRY\\",
+            UNKNOWN_SUBDIVISION_TYPE = \\"UNKNOWN_SUBDIVISION_TYPE\\",
+        }
+
+        enum TaxType {
+            ADDED = \\"ADDED\\",
+            ADDED_AT_CHECKOUT = \\"ADDED_AT_CHECKOUT\\",
+            INCLUDED = \\"INCLUDED\\",
+        }
+
+        enum TicketSaleStatus {
+            SALE_ENDED = \\"SALE_ENDED\\",
+            SALE_SCHEDULED = \\"SALE_SCHEDULED\\",
+            SALE_STARTED = \\"SALE_STARTED\\",
+        }
+
+    }
+
+}
+
 declare namespace wix_storage {
     /**
      * Used for storing local, session, or memory key/value data in the visitor's browser.

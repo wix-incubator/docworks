@@ -6,10 +6,13 @@ const {
   dtsInterface,
   dtsMethod,
   dtsModule,
+  dtsEnum,
   dtsParameter,
   dtsProperty,
   dtsObjectTypeAlias
 } = require('./dts-generator')
+
+const getServiceSummary = service => service && service.docs && service.docs.summary ? service.docs.summary : ''
 
 const fullServiceName = service =>
   service.memberOf ? `${service.memberOf}.${service.name}` : service.name
@@ -24,7 +27,7 @@ function convertServiceToInterface(service, { documentationGenerator }) {
   const members = properties.concat(operations)
   const baseTypes = service.mixes.map(validServiceName)
   const jsDocComment = documentationGenerator({
-    summary: service.docs.summary,
+    summary: getServiceSummary(service),
     service: fullServiceName(service)
   })
 
@@ -40,7 +43,7 @@ function convertServiceToModule(service, { documentationGenerator }) {
   )
   const members = properties.concat(operations)
   const jsDocComment = documentationGenerator({
-    summary: service.docs.summary,
+    summary: getServiceSummary(service),
     service: fullServiceName(service)
   })
 
@@ -116,10 +119,15 @@ function convertMessageMemberToProperty(member) {
 }
 
 function convertMessageToObjectType(message) {
-  const jsDocComment = message.docs.summary
-  const properties = message.members.map(convertMessageMemberToProperty)
-
-  return dtsObjectTypeAlias(message.name, properties, { jsDocComment })
+  if(message.enum && message.enum.length > 0){
+    const jsDocComment = message.docs.summary
+    return dtsEnum(message.name, message.enum, {jsDocComment})
+  }
+  else{
+    const jsDocComment = message.docs.summary
+    const properties = message.members.map(convertMessageMemberToProperty)
+    return dtsObjectTypeAlias(message.name, properties, { jsDocComment })
+  }
 }
 
 function convertCallbackToFunctionType(callback) {
