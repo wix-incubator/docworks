@@ -191,8 +191,9 @@ function docworks() {
     const outputFileName = argv.out
     const outputDirName = argv.dir || ''
     const summaryTemplate = argv.summaryTemplate
-    const ignoredModules = isString_(argv.ignoreModule) ? castArray_(argv.ignoreModule) : []
+    const ignoredModules = isString_(argv.ignoreModule) ? castArray_(argv.ignoreModule) : argv.ignoreModule
     const ignoredNamespaces = isString_(argv.ignoreNamespace) ? castArray_(argv.ignoreNamespace) : []
+    const multipleFiles = !!argv.multipleFiles
 
     if (!remote && !local || (!!remote && !!local)) {
       // eslint-disable-next-line no-console
@@ -203,7 +204,7 @@ function docworks() {
     return runDts(
       outputFileName,
       outputDirName,
-      { remote, local, run$wFixer, summaryTemplate, ignoredModules, ignoredNamespaces }
+      { remote, local, run$wFixer, summaryTemplate, ignoredModules, ignoredNamespaces, multipleFiles }
     )
       .catch(() => {
         process.exit(1)

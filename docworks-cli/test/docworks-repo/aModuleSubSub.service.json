@@ -1,0 +1,76 @@
+{
+	"name": "aModuleSubSub",
+  "memberOf": "a-module.aModuleSub",
+	"mixes": [],
+	"labels": [],
+	"location": {
+		"lineno": 2,
+		"filename": "a-module-sub.js"
+	},
+	"docs": {
+		"summary": "this is a aModuleSubSub",
+		"description": "this is the aModuleSubSub description",
+		"links": [],
+		"examples": [],
+		"extra": {}
+	},
+	"properties": [
+		{
+			"name": "property",
+			"labels": [],
+			"get": true,
+			"set": false,
+			"type": "string",
+			"locations": [
+				{
+					"filename": "a-module-sub.es6",
+					"lineno": 218
+				}
+			],
+			"docs": {
+				"summary": "a property summary",
+				"description": [
+					"a property description"
+				],
+				"links": [],
+				"examples": [
+				],
+				"extra": {}
+			},
+			"extra": {}
+		}
+	],
+	"operations": [
+		{
+			"name": "operation",
+			"labels": [],
+			"nameParams": [],
+			"params": [
+				{
+					"name": "param",
+					"type": "string",
+					"doc": "a parameter"
+				}
+			],
+			"ret": {
+				"type": "void"
+			},
+			"locations": [
+				{
+					"lineno": 14,
+					"filename": "service.js"
+				}
+			],
+			"docs": {
+				"description": "this is an operation",
+				"links": [],
+				"examples": [],
+				"extra": {}
+			},
+			"extra": {}
+		}
+	],
+	"callbacks": [],
+	"messages": [],
+	"extra": {}
+}

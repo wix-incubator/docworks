@@ -1,0 +1,75 @@
+{
+	"name": "c-module",
+	"mixes": [],
+	"labels": [],
+	"location": {
+		"lineno": 2,
+		"filename": "c-module.js"
+	},
+	"docs": {
+		"summary": "this is a c-module",
+		"description": "this is the c-module description",
+		"links": [],
+		"examples": [],
+		"extra": {}
+	},
+	"properties": [
+		{
+			"name": "property",
+			"labels": [],
+			"get": true,
+			"set": false,
+			"type": "string",
+			"locations": [
+				{
+					"filename": "c-module.es6",
+					"lineno": 218
+				}
+			],
+			"docs": {
+				"summary": "a property summary",
+				"description": [
+					"a property description"
+				],
+				"links": [],
+				"examples": [
+				],
+				"extra": {}
+			},
+			"extra": {}
+		}
+	],
+	"operations": [
+		{
+			"name": "operation",
+			"labels": [],
+			"nameParams": [],
+			"params": [
+				{
+					"name": "param",
+					"type": "string",
+					"doc": "a parameter"
+				}
+			],
+			"ret": {
+				"type": "void"
+			},
+			"locations": [
+				{
+					"lineno": 14,
+					"filename": "service.js"
+				}
+			],
+			"docs": {
+				"description": "this is an operation",
+				"links": [],
+				"examples": [],
+				"extra": {}
+			},
+			"extra": {}
+		}
+	],
+	"callbacks": [],
+	"messages": [],
+	"extra": {}
+}
