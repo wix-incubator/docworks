@@ -1,0 +1,39 @@
+{
+    "name": "wix-dev-backend",
+    "mixes": [],
+    "labels": [],
+    "docs":   {
+      "summary": "",
+      "description": [],
+      "links": [],
+      "examples": [],
+      "request": "NA"
+    },
+    "properties": [  {
+      "name": "test",
+      "labels": [],
+      "type": [{"nativeType": "string"}],
+      "locations": [],
+      "docs":     {
+        "summary": "",
+        "description": [],
+        "links": [],
+        "examples": [],
+        "extra": {},
+        "request": "NA"
+      },
+      "customLabels": [],
+      "dynamicCustomLabels": []
+    }],
+    "operations": [],
+    "clientEvents": [],
+    "callbacks": [],
+    "messages": [],
+    "relatedContent": [],
+    "FAQs": [],
+    "tags": [],
+    "relatedGuides": [],
+    "events": [],
+    "extra": {},
+    "clientId": "wix-dev-backend"
+  }
