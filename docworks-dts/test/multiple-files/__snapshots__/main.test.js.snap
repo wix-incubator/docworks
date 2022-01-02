@@ -1,0 +1,3763 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`convert docworks to dts main should build a repo when the input is valid 1`] = `
+"declare global {
+/**
+ * The \`$w\` namespace contains everything you need in order to work
+ *  with your site's components. It contains all of the UI elements, nodes, and
+ *  events that make up your site. It also includes the [\`$w()\`]($w.html#w),
+ *  [\`onReady()\`]($w.html#onReady), and [\`at()\`]($w.html#at) functions.
+ * 
+ *  The APIs in \`$w\` can only be used in front-end code.
+ * 
+ *  You do not need to import \`$w\`.
+ * 	[Read more..](https://fake-corvid-api/$w.html#)
+ */
+namespace $w {
+    type EventHandler = (event: Event, $w: $w)=>void;
+
+    type ForItemCallback = ($item: $w, itemData: any, index: number)=>void;
+
+    /**
+     * Handles events fired when a gallery moves to a new image.
+     */
+    type GalleryItemChangedEventHandler = (event: GalleryItemChangedEvent, $w: $w)=>void;
+
+    /**
+     * Handles events fired when an image in a gallery is clicked.
+     */
+    type GalleryItemClickedEventHandler = (event: GalleryItemClickedEvent, $w: $w)=>void;
+
+    /**
+     * Handles events fired when google map / marker is clicked.
+     */
+    type GoogleMapClickEvent = (event: GoogleMapClickEvent)=>void;
+
+    /**
+     * Handles events fired when the code in an HtmlComponent sends a message.
+     */
+    type HtmlComponentMessageEventHandler = (event: HtmlComponentMessageEvent, $w: $w)=>void;
+
+    type HtmlElementEventHandler = (event: HtmlComponentMessageEvent, $w: $w)=>void;
+
+    /**
+     * Handles events fired when a user hovers over a star on the rating component.
+     */
+    type IconMouseInEventHandler = (event: IconMouseInEvent)=>void;
+
+    type ItemReadyEventHandler = ($item: $w, itemData: any, index: number)=>void;
+
+    type ItemRemovedEventHandler = (itemData: any)=>void;
+
+    /**
+     * Handles events fired when the keyboard is pressed.
+     */
+    type KeyboardEventHandler = (event: KeyboardEvent, $w: $w)=>void;
+
+    /**
+     * Handles events fired when the mouse is clicked.
+     */
+    type MouseEventHandler = (event: MouseEvent, $w: $w)=>void;
+
+    /**
+     * Handles events fired when an item in a quick action bar is clicked.
+     */
+    type QuickActionBarItemClickedEventHandler = (event: QuickActionBarItemClickedEvent, $w: $w)=>void;
+
+    /**
+     * Function that runs when all page elements have finished loading.
+     */
+    type ReadyHandler = ()=>Promise<void> | void;
+
+    /**
+     * Handles events fired when a table cell is selected.
+     */
+    type TableCellEventHandler = (event: TableCellEvent, $w: $w)=>void;
+
+    /**
+     * Handles events fired when a table row is selected.
+     */
+    type TableRowEventHandler = (event: TableRowEvent, $w: $w)=>void;
+
+    /**
+     * Function that runs when custom validation is checked.
+     */
+    type Validator = (value: string | UploadButton.File[] | boolean, reject: Function)=>void;
+
+    /**
+     * An icon that leads users to the shopping cart.
+     * 	[Read more..](https://fake-corvid-api/$w.CartIcon.html#)
+     */
+    interface CartIcon extends Element, HiddenCollapsedMixin{
+        /**
+         * Adds multiple products to the shopping cart.
+         * 	[Read more..](https://fake-corvid-api/$w.CartIcon.html#addProductsToCart)
+         */
+        addProductsToCart(products: CartIcon.AddToCartItem[]): Promise<void>;
+        /**
+         * Adds a product to the shopping cart.
+         * 	[Read more..](https://fake-corvid-api/$w.CartIcon.html#addToCart)
+         */
+        addToCart(productID: string, quantity?: number, options?: CartIcon.AddToCartOptions): Promise<void>;
+    }
+
+    /**
+     * [Read more..](https://fake-corvid-api/$w.ClickableMixin.html#)
+     */
+    interface ClickableMixin {
+        /**
+         * Adds an event handler that runs when the element is clicked.
+         * 	[Read more..](https://fake-corvid-api/$w.ClickableMixin.html#onClick)
+         */
+        onClick(handler: MouseEventHandler): Element;
+        /**
+         * Adds an event handler that runs when the element is double-clicked.
+         * 	[Read more..](https://fake-corvid-api/$w.ClickableMixin.html#onDblClick)
+         */
+        onDblClick(handler: MouseEventHandler): Element;
+    }
+
+    /**
+     * [Read more..](https://fake-corvid-api/$w.DisabledMixin.html#)
+     */
+    interface DisabledMixin {
+        /**
+         * Indicates if the element is enabled or disabled.
+         * 	[Read more..](https://fake-corvid-api/$w.DisabledMixin.html#enabled)
+         */
+        readonly enabled: boolean;
+        /**
+         * Disables the element and sets its \`enabled\` property to \`false\`.
+         * 	[Read more..](https://fake-corvid-api/$w.DisabledMixin.html#disable)
+         */
+        disable(): Promise<void>;
+        /**
+         * Enables the element and sets its \`enabled\` property to \`true\`.
+         * 	[Read more..](https://fake-corvid-api/$w.DisabledMixin.html#enable)
+         */
+        enable(): Promise<void>;
+    }
+
+    /**
+     * Dropdowns are used for selecting one of a number of options.
+     *  They are especially useful when there are too many options to display using
+     *  [radio buttons]($w.RadioButtonGroup.html). Dropdowns consist of a list
+     *  of [options](#Option). Each [option](#Option) contains a label, which is
+     *  what the user sees, and a value, which is what is used in code and stored in
+     *  you collections.
+     * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#)
+     */
+    interface Dropdown extends FormElement, HiddenCollapsedMixin, DisabledMixin, FocusMixin, ClickableMixin, StyleMixin, RequiredMixin{
+        /**
+         * Sets or gets the options in a dropdown.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#options)
+         */
+        options: Dropdown.Option[];
+        /**
+         * Sets or gets the dropdown's placeholder text.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#placeholder)
+         */
+        placeholder: string;
+        /**
+         * Sets or gets the index of the selected option.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#selectedIndex)
+         */
+        selectedIndex: number;
+        /**
+         * Gets an object containing information about the dropdown's styles.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#style)
+         */
+        readonly style: Style;
+        /**
+         * Sets or gets an element's value.
+         * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#value)
+         */
+        value: string;
+    }
+
+    /**
+     * Provides basic functionality for elements.
+     * 	[Read more..](https://fake-corvid-api/$w.Element.html#)
+     */
+    interface Element extends Node, ViewportMixin{
+        /**
+         * Indicates if an element is currently displayed.
+         * 	[Read more..](https://fake-corvid-api/$w.Element.html#rendered)
+         */
+        readonly rendered: boolean;
+        /**
+         * Adds an event handler that runs when the mouse pointer is moved
+         *  onto the element.
+         * 	[Read more..](https://fake-corvid-api/$w.Element.html#onMouseIn)
+         */
+        onMouseIn(handler: MouseEventHandler): Element;
+        /**
+         * Adds an event handler that runs when the mouse pointer is moved
+         *  off of the element.
+         * 	[Read more..](https://fake-corvid-api/$w.Element.html#onMouseOut)
+         */
+        onMouseOut(handler: MouseEventHandler): Element;
+    }
+
+    /**
+     * Provides functionality for elements that can set and lose focus.
+     * 
+     *  The element on the page that is currently active is the element in focus.
+     *  Only one element on the page can have focus at any given moment.
+     *  Typically, an element exhibits a visual cue, such as a subtle outline,
+     *  indicating that it is in focus. The element in focus receives keystroke
+     *  events if the user causes any.
+     * 
+     *  An element receives focus and loses focus (blurs) through user actions,
+     *  such as clicking and tabbing, or programmatically, using the
+     *  [focus( )](#focus) and [blur( )](#blur) functions.
+     * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#)
+     */
+    interface FocusMixin {
+        /**
+         * Removes focus from the element.
+         * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#blur)
+         */
+        blur(): void;
+        /**
+         * Places focus on the element.
+         * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#focus)
+         */
+        focus(): void;
+        /**
+         * Adds an event handler that runs when the element loses focus.
+         * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#onBlur)
+         */
+        onBlur(handler: EventHandler): Element;
+        /**
+         * Adds an event handler that runs when the element receives focus.
+         * 	[Read more..](https://fake-corvid-api/$w.FocusMixin.html#onFocus)
+         */
+        onFocus(handler: EventHandler): Element;
+    }
+
+    /**
+     * Provides functionality related to user input elements.
+     * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#)
+     */
+    interface FormElement extends Element, ValidatableMixin, ValueMixin{
+        /**
+         * Sets or gets an element's value.
+         * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#value)
+         */
+        readonly value: any;
+        /**
+         * Adds an event handler that runs when an input element's value
+         *  is changed.
+         * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#onChange)
+         */
+        onChange(handler: EventHandler): Element;
+    }
+
+    /**
+     * A gallery for displaying multiple items.
+     * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#)
+     */
+    interface Gallery extends Element, HiddenCollapsedMixin, PlayableMixin{
+        /**
+         * Sets or gets the action that occurs when an item in the gallery is clicked.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#clickAction)
+         */
+        clickAction: string;
+        /**
+         * Gets the index of the gallery's current item.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#currentIndex)
+         */
+        readonly currentIndex: number;
+        /**
+         * Gets an object containing information about the current item.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#currentItem)
+         */
+        readonly currentItem: Gallery.ImageItem | Gallery.VideoItem;
+        /**
+         * Gets an object containing information about the gallery's capabilities.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#galleryCapabilities)
+         */
+        readonly galleryCapabilities: Gallery.GalleryCapabilities;
+        /**
+         * Sets or gets the items in a gallery.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#items)
+         */
+        items: Gallery.ImageItem[] | Gallery.VideoItem[];
+        /**
+         * Determines if a gallery's navigation arrows are shown.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#showNavigationButtons)
+         */
+        showNavigationButtons: boolean;
+        /**
+         * Adds an event handler that runs when a gallery's current item changes.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#onCurrentItemChanged)
+         */
+        onCurrentItemChanged(handler: GalleryItemChangedEventHandler): Gallery;
+        /**
+         * Adds an event handler that runs when an item in a gallery is
+         *  clicked.
+         * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#onItemClicked)
+         */
+        onItemClicked(handler: GalleryItemClickedEventHandler): Gallery;
+    }
+
+    /**
+     * Provides functionality for all elements that can be hidden or collapsed.
+     * 	[Read more..](https://fake-corvid-api/$w.HiddenCollapsedMixin.html#)
+     */
+    interface HiddenCollapsedMixin extends HiddenMixin, CollapsedMixin{
+    }
+
+    /**
+     * A container for internal or external HTML code. Messages can be sent
+     *  from your page code to the code in an HTML component and from the HTML
+     *  component to your page code using the [\`postMessage()\`](#postMessage) and
+     *  [\`onMessage()\`](#onMessage) functions. To learn more about what code an HTML
+     *  component can hold, see here.
+     * 
+     *  For an overview of working with an HTML Component using code, see Working with the HTML Element.
+     * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#)
+     */
+    interface HtmlComponent extends IFrame{
+        /**
+         * Sets or gets whether the HTML Component displays scrollbars.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#scrolling)
+         */
+        scrolling: string;
+        /**
+         * Sets or gets the URL of the HTML Component's code.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#src)
+         */
+        src: string;
+        /**
+         * Allows the HTML Component to be put into full screen mode.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#allowFullScreen)
+         */
+        allowFullScreen(): HtmlComponent;
+        /**
+         * Adds an event handler that runs when the HTML Component
+         *  sends a message.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#onMessage)
+         */
+        onMessage(handler: HtmlComponentMessageEventHandler): HtmlComponent;
+        /**
+         * Sends a message to the HTML Component.
+         * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#postMessage)
+         */
+        postMessage(message: string | number | boolean | any | Array): void;
+    }
+
+    /**
+     * Provides basic functionality for all Wix objects, including objects
+     *  that are not [elements]($w.Element.html).
+     * 	[Read more..](https://fake-corvid-api/$w.Node.html#)
+     */
+    interface Node {
+        /**
+         * Indicates if an element appears on all pages or only on the current page.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#global)
+         */
+        readonly global: boolean;
+        /**
+         * Gets the element's ID.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#id)
+         */
+        readonly id: string;
+        /**
+         * Gets the element's parent element.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#parent)
+         */
+        readonly parent: Node;
+        /**
+         * Gets the element's type.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#type)
+         */
+        readonly type: string;
+        /**
+         * Scrolls the page to the element using an animation.
+         * 	[Read more..](https://fake-corvid-api/$w.Node.html#scrollTo)
+         */
+        scrollTo(): Promise<void>;
+    }
+
+    /**
+     * A store page for a specific product.
+     * 	[Read more..](https://fake-corvid-api/$w.ProductPage.html#)
+     */
+    interface ProductPage extends Element, HiddenCollapsedMixin{
+        /**
+         * Gets the all the information associated with the current product.
+         * 	[Read more..](https://fake-corvid-api/$w.ProductPage.html#getProduct)
+         */
+        getProduct(): Promise<ProductPage.StoreProduct>;
+    }
+
+    /**
+     * Provides functionality for input elements can be required to have a value.
+     * 	[Read more..](https://fake-corvid-api/$w.RequiredMixin.html#)
+     */
+    interface RequiredMixin {
+        /**
+         * Sets or gets whether an input element is required to have a value.
+         * 	[Read more..](https://fake-corvid-api/$w.RequiredMixin.html#required)
+         */
+        required: boolean;
+    }
+
+    /**
+     * Provides functionality for elements that can be styled.
+     * 	[Read more..](https://fake-corvid-api/$w.StyleMixin.html#)
+     */
+    interface StyleMixin {
+        /**
+         * Gets an object containing information about the element's styles.
+         * 	[Read more..](https://fake-corvid-api/$w.StyleMixin.html#style)
+         */
+        readonly style: Style;
+    }
+
+    /**
+     * An icon that leads users to the shopping cart.
+     * 	[Read more..](https://fake-corvid-api/$w.CartIcon.html#)
+     */
+    namespace CartIcon {
+        /**
+         * An object used to pass a custom text field when adding a product to
+         *  the shopping cart with options.
+         */
+        type AddToCartCustomTextField = {
+            /**
+             * Custom text field title.
+             */
+            title: string;
+            /**
+             * Custom text field value.
+             */
+            value: string;
+        };
+
+        /**
+         * An object used when adding multiple products to the shopping cart.
+         */
+        type AddToCartItem = {
+            /**
+             * The ID of the product to add to the cart.
+             */
+            productID: string;
+            /**
+             * Custom custom
+             *  text fields to use when adding the product to the cart.
+             */
+            options?: CartIcon.AddToCartOptions;
+        };
+
+        /**
+         * An object used when adding a product to the shopping cart with options.
+         */
+        type AddToCartOptions = {
+            /**
+             * Product options to use when adding the
+             *  product to the cart. The object contains key:value pairs where the key is the
+             *  option name and the value is the chosen option value.
+             */
+            choices: any;
+            /**
+             * Custom custom
+             *  text fields to use when adding the product to the cart.
+             */
+            customTextField: CartIcon.AddToCartCustomTextField;
+        };
+
+    }
+
+    /**
+     * Dropdowns are used for selecting one of a number of options.
+     *  They are especially useful when there are too many options to display using
+     *  [radio buttons]($w.RadioButtonGroup.html). Dropdowns consist of a list
+     *  of [options](#Option). Each [option](#Option) contains a label, which is
+     *  what the user sees, and a value, which is what is used in code and stored in
+     *  you collections.
+     * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#)
+     */
+    namespace Dropdown {
+        /**
+         * An object used by the \`options\` property that contains the attributes of a dropdown list item.
+         */
+        type Option = {
+            /**
+             * The value of the dropdown option. This is what you use in code and is what is stored in your collections.
+             */
+            value: string;
+            /**
+             * The label of the dropdown option. This is what a user sees.
+             */
+            label?: string;
+        };
+
+    }
+
+    /**
+     * A gallery for displaying multiple items.
+     * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#)
+     */
+    namespace Gallery {
+        /**
+         * An object used by the \`galleryCapabilities\` property that contains the capabilities of a gallery.
+         */
+        type GalleryCapabilities = {
+            /**
+             * Indicates if the gallery supports play operations.
+             */
+            isPlayable: boolean;
+            /**
+             * Indicates if the gallery supports the notion of a current item.
+             */
+            hasCurrentItem: boolean;
+            /**
+             * Indicates if the gallery supports navigation buttons.
+             */
+            hasNavigationButtons: boolean;
+        };
+
+        /**
+         * An object used by the Gallery properties \`items\` and \`currentItem\` to represent a single gallery image.
+         */
+        type ImageItem = {
+            /**
+             * Item type. Value is \`\\"image\\"\`.
+             */
+            type: string;
+            /**
+             * Item slug.
+             */
+            slug: string;
+            /**
+             * Image source URL.
+             */
+            src: string;
+            /**
+             * Image description. Descriptions over 100 characters are truncated.
+             */
+            description?: string;
+            /**
+             * Image title.
+             */
+            title?: string;
+            /**
+             * URL of the image's clickable link. See [here]($w.LinkableMixin.html#link) for more information about links.
+             */
+            link?: string;
+        };
+
+        /**
+         * An object used by the Gallery properties \`items\` and \`currentItem\` to represent a single gallery video.
+         */
+        type VideoItem = {
+            /**
+             * Item type. Value is \`\\"video\\"\`.
+             */
+            type: string;
+            /**
+             * Item slug.
+             */
+            slug: string;
+            /**
+             * Video source URL.
+             */
+            src: string;
+            /**
+             * Video description. Descriptions over 100 characters are truncated.
+             */
+            description?: string;
+            /**
+             * Video title.
+             */
+            title?: string;
+            /**
+             * URL of the video's clickable link. See [here]($w.LinkableMixin.html#link) for more information about links.
+             */
+            link?: string;
+            /**
+             * Video thumbnail URL.
+             */
+            thumbnail?: string;
+        };
+
+    }
+
+    /**
+     * A store page for a specific product.
+     * 	[Read more..](https://fake-corvid-api/$w.ProductPage.html#)
+     */
+    namespace ProductPage {
+        /**
+         * An object representing a product in a store.
+         */
+        type StoreProduct = {
+            /**
+             * Product ID.
+             */
+            _id: string;
+            /**
+             * Product name.
+             */
+            name: string;
+            /**
+             * Product description.
+             */
+            description: string;
+            /**
+             * Main product media item (image or video thumbnail) URL.
+             */
+            mainMedia: string;
+            /**
+             * List of product media items.
+             */
+            mediaItems: Gallery.ImageItem[] | Gallery.VideoItem[];
+            /**
+             * Product stock keeping unit value.
+             */
+            sku: string;
+            /**
+             * List of product ribbons.
+             */
+            ribbons: ProductPage.StoreProductRibbon[];
+            /**
+             * Product currency.
+             */
+            currency: string;
+            /**
+             * Product price.
+             */
+            price: number;
+            /**
+             * Discounted product price.
+             */
+            discountedPrice: number;
+            /**
+             * Product price formatted with the currency.
+             */
+            formattedPrice: string;
+            /**
+             * Discounted product price formatted with the currency.
+             */
+            formattedDiscountedPrice: string;
+            /**
+             * Indicates whether inventory is tracked for the product.
+             */
+            trackInventory: boolean;
+            /**
+             * Indicates whether the product is in stock.
+             */
+            inStock: boolean;
+            /**
+             * Number of units currently in stock.
+             */
+            quantityInStock: number;
+            /**
+             * Additional product information sections.
+             */
+            additionalInfoSections: ProductPage.StoreProductAdditionalInfoSection[];
+            /**
+             * All the available options for a store product.
+             */
+            productOptions: ProductPage.StoreProductOptions;
+            /**
+             * Product page relative URL.
+             */
+            productPageUrl: string;
+            /**
+             * Indicates whether product variants are managed.
+             */
+            manageVariants: boolean;
+            /**
+             * List of product customization fields.
+             */
+            customTextField: ProductPage.StoreProductCustomTextFields[];
+            /**
+             * Product type. Either \`\\"physical\\"\` or \`\\"digital\\"\`.
+             */
+            productType: string;
+            /**
+             * Product slug.
+             */
+            slug: string;
+            /**
+             * Product weight.
+             */
+            weight: string;
+        };
+
+        /**
+         * An object representing an additional info section for a store product.
+         */
+        type StoreProductAdditionalInfoSection = {
+            /**
+             * Section title.
+             */
+            title: string;
+            /**
+             * Section description.
+             */
+            description: string;
+        };
+
+        /**
+         * An object representing a custom text field for a store product.
+         */
+        type StoreProductCustomTextFields = {
+            /**
+             * Product customization field title.
+             */
+            title: string;
+            /**
+             * Maximum length of product customization field in characters.
+             */
+            maxLength: string;
+        };
+
+        /**
+         * An object representing an option for a store product.
+         */
+        type StoreProductOption = {
+            /**
+             * Option type. Either \`\\"color\\"\` or \`\\"drop_down\\"\`.
+             */
+            optionType: string;
+            /**
+             * Option name.
+             */
+            name: string;
+            /**
+             * Option choices.
+             */
+            choices: ProductPage.StoreProductOptionsChoice[];
+        };
+
+        /**
+         * An object representing all the available options for a store product.
+         */
+        type StoreProductOptions = {
+            /**
+             * Name of the option. This key name is
+             *  dependent on the options added to the product. For example, if a product
+             *  has a size option, this key will be something like \\"Size\\".
+             */
+            optionKey: ProductPage.StoreProductOption;
+        };
+
+        /**
+         * An object representing an options choice for a store product.
+         */
+        type StoreProductOptionsChoice = {
+            /**
+             * Choice value.
+             */
+            value: number;
+            /**
+             * Choice description.
+             */
+            description: number;
+            /**
+             * Choice media.
+             */
+            media: ProductPage.StoreProductOptionsChoiceMedia;
+            /**
+             * Indicates whether the product with this choice is in stock.
+             */
+            inStock: boolean;
+            /**
+             * Indicates whether the product with this option is visible.
+             */
+            visible: boolean;
+        };
+
+        /**
+         * An object representing the choice media
+         */
+        type StoreProductOptionsChoiceMedia = {
+            /**
+             * Main choice media item (image or video thumbnail) URL.
+             */
+            mainMedia: string;
+            /**
+             * List of choice media items.
+             */
+            mediaItems: Gallery.ImageItem[] | Gallery.VideoItem[];
+        };
+
+        /**
+         * An object representing a ribbon for a store product.
+         */
+        type StoreProductRibbon = {
+            /**
+             * Ribbon text.
+             */
+            text: string;
+        };
+
+    }
+
+}
+
+
+}
+import wixCrm from 'wix-crm';
+
+
+/**
+ * The wix-users module contains functionality for working with your
+ *  site's users from client-side code.
+ * 	[Read more..](https://fake-corvid-api/wix-users.html#)
+ */
+declare module 'wix-users' {
+    /**
+     * Gets the current user viewing the site.
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#currentUser)
+     */
+    const currentUser: User;
+
+    /**
+     * Logs the current user into the site using the given session token.
+     * 	[Read more..](https://fake-corvid-api/applySessionToken.html#applySessionToken)
+     */
+    function applySessionToken(sessionToken: string): Promise<void>;
+
+    /**
+     * Sends a Triggered Email to the currently logged-in site member.
+     * 	[Read more..](https://fake-corvid-api/emailUser.html#emailUser)
+     */
+    function emailUser(emailId: string, toUser: string, options?: TriggeredEmailOptions): Promise<void>;
+
+    /**
+     * Logs a user in based on email and password.
+     * 	[Read more..](https://fake-corvid-api/login.html#login)
+     */
+    function login(email: string, password: string): Promise<void>;
+
+    /**
+     * Logs the current user out of the site.
+     * 	[Read more..](https://fake-corvid-api/logout.html#logout)
+     */
+    function logout(): void;
+
+    /**
+     * Sets the function that runs when a user logs in.
+     * 	[Read more..](https://fake-corvid-api/onLogin.html#onLogin)
+     */
+    function onLogin(handler: LoginHandler): void;
+
+    /**
+     * Prompts the current site visitor with a password reset.
+     * 	[Read more..](https://fake-corvid-api/promptForgotPassword.html#promptForgotPassword)
+     */
+    function promptForgotPassword(language?: string): Promise<void>;
+
+    /**
+     * Prompts the current site visitor to log in as a site member.
+     * 	[Read more..](https://fake-corvid-api/promptLogin.html#promptLogin)
+     */
+    function promptLogin(options: LoginOptions): Promise<User>;
+
+    /**
+     * Registers a new site member.
+     * 	[Read more..](https://fake-corvid-api/register.html#register)
+     */
+    function register(email: string, password: string, options?: RegistrationOptions): Promise<RegistrationResult>;
+
+    /**
+     * An object used by the \`promptLogin()\` function to determine how the login dialog box appears.
+     */
+    type LoginOptions = {
+        /**
+         * What type of login experience to present: \`\\"login\\"\` or \`\\"signup\\"\`. Defaults to the option chosen in the Member Signup Settings panel in the Editor.
+         */
+        mode?: string;
+        /**
+         * The two letter language code of the language to show the login form in. Defaults to \`\\"en\\"\` if the property doesn't exist or the given language is not one of the languages found in the Permissions tab of the Page Settings panel in the Editor.
+         */
+        lang?: string;
+    };
+
+    /**
+     * An object that contains information about a site registration.
+     */
+    type RegistrationOptions = {
+        /**
+         * Contact information.
+         */
+        contactInfo: wixCrm.ContactInfo;
+    };
+
+    /**
+     * An object that contains information about the results of a site registration.
+     */
+    type RegistrationResult = {
+        /**
+         * Registration status. Either \\"Pending\\" or \\"Active\\".
+         */
+        status: string;
+        /**
+         * A token for approving the user as
+         *  a site member using the [approveByToken()](wix-users-backend.html#approveByToken)
+         *  function. The token is safe to pass via email or from client-side code to
+         *  backend code. The token is only available when \`status\` is \\"Pending\\".
+         */
+        approvalToken?: string;
+        /**
+         * The user that has been registered.
+         */
+        user: User;
+    };
+
+    /**
+     * An object used when sending a Triggered Email.
+     */
+    type TriggeredEmailOptions = {
+        /**
+         * An object with \`key:value\` pairs where each
+         *  \`key\` is a variable in the email template created in Triggered Emails and its
+         *  corresponding \`value\` is the value to insert into the template in place of
+         *  variable. The values must be strings.
+         */
+        variables: any;
+    };
+
+    /**
+     * Function that runs when a user has logged in.
+     */
+    type LoginHandler = (user: User)=>void;
+
+    /**
+     * A site user.
+     * 	[Read more..](https://fake-corvid-api/wix-users.User.html#)
+     */
+    interface User {
+        /**
+         * Gets the user's ID.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#id)
+         */
+        readonly id: string;
+        /**
+         * Indicates whether the user is logged in or not.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#loggedIn)
+         */
+        readonly loggedIn: boolean;
+        /**
+         * Deprecated: Gets the user's role.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#role)
+         */
+        readonly role: string;
+        /**
+         * Gets the email of the current user.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#getEmail)
+         */
+        getEmail(): Promise<string>;
+        /**
+         * Gets the user's member pricing plan.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#getPricingPlans)
+         */
+        getPricingPlans(): Promise<User.PricingPlan[]>;
+        /**
+         * Gets the user's member roles.
+         * 	[Read more..](https://fake-corvid-api/wix-users.User.html#getRoles)
+         */
+        getRoles(): Promise<User.UserRole[]>;
+    }
+
+    /**
+     * A site user.
+     * 	[Read more..](https://fake-corvid-api/wix-users.User.html#)
+     */
+    namespace User {
+        /**
+         * An object returned by the \`getPricingPlans()\` function representing a user's pricing plans.
+         */
+        type PricingPlan = {
+            /**
+             * The pricing plan's name.
+             */
+            name: string;
+            /**
+             * The pricing plan's start date.
+             */
+            startDate?: Date;
+            /**
+             * The pricing plan's expiry date.
+             */
+            expiryDate?: Date;
+        };
+
+        /**
+         * An object returned by the \`getRoles()\` function representing a user's roles.
+         */
+        type UserRole = {
+            /**
+             * Role name as defined in the site's dashboard or one of \\"Admin\\" or \\"Member\\".
+             */
+            name: string;
+            /**
+             * Role description, if defined in the site's dashboard.
+             */
+            description?: string;
+        };
+
+    }
+
+}
+
+
+/**
+ * The wix-storage module contains functionality for the persistent
+ *  storage of key/value data in the site visitor's browser.
+ * 	[Read more..](https://fake-corvid-api/wix-storage.html#)
+ */
+declare module 'wix-storage' {
+    /**
+     * Used for local storage of data.
+     * 	[Read more..](https://fake-corvid-api/wix-storage.html#local)
+     */
+    const local: Storage;
+
+    /**
+     * Used for memory storage of data.
+     * 	[Read more..](https://fake-corvid-api/wix-storage.html#memory)
+     */
+    const memory: Storage;
+
+    /**
+     * Used for session storage of data.
+     * 	[Read more..](https://fake-corvid-api/wix-storage.html#session)
+     */
+    const session: Storage;
+
+    /**
+     * Used for storing local, session, or memory key/value data in the visitor's browser.
+     * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#)
+     */
+    interface Storage {
+        /**
+         * Removes **all** items from local, session, or memory storage.
+         * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#clear)
+         */
+        clear(): void;
+        /**
+         * Gets an item from local, session, or memory storage.
+         * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#getItem)
+         */
+        getItem(key: string): string;
+        /**
+         * Removes an item from local, session, or memory storage.
+         * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#removeItem)
+         */
+        removeItem(key: string): void;
+        /**
+         * Stores an item in local, session, or memory storage.
+         * 	[Read more..](https://fake-corvid-api/wix-storage.Storage.html#setItem)
+         */
+        setItem(key: string, value: string): void;
+    }
+
+}
+
+
+import wixRouter from 'wix-router';
+
+
+/**
+ * The wix-site module contains functionality for obtaining information about your site and its pages.
+ * 	[Read more..](https://fake-corvid-api/wix-site.html#)
+ */
+declare module 'wix-site' {
+    /**
+     * Gets a code representing the site's currency.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#currency)
+     */
+    const currency: string;
+
+    /**
+     * Gets information about the current page or lightbox.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#currentPage)
+     */
+    const currentPage: StructurePage | StructureLightbox;
+
+    /**
+     * Gets a code representing the site's language.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#language)
+     */
+    const language: string;
+
+    /**
+     * Gets the site's regional settings.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#regionalSettings)
+     */
+    const regionalSettings: string;
+
+    /**
+     * Gets the site revision ID.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#revision)
+     */
+    const revision: string;
+
+    /**
+     * Gets the site's timezone.
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#timezone)
+     */
+    const timezone: string;
+
+    /**
+     * Returns information about the site's pages, prefixes, and lightboxes.
+     * 	[Read more..](https://fake-corvid-api/getSiteStructure.html#getSiteStructure)
+     */
+    function getSiteStructure(): SiteStructure;
+
+    /**
+     * Returns the sitemap for a router or dynamic page prefix.
+     * 	[Read more..](https://fake-corvid-api/routerSitemap.html#routerSitemap)
+     */
+    function routerSitemap(routerPrefix: string): Promise<wixRouter.WixRouterSitemapEntry[]>;
+
+    /**
+     * An object that contains information about the site's prefixes.
+     */
+    type Prefix = {
+        /**
+         * The name of the prefix.
+         */
+        name: string;
+        /**
+         * The type of the prefix: \`\\"dynamicPages\\"\`, \`\\"router\\"\`, or \`\\"app\\"\`.
+         */
+        type: string;
+        /**
+         * The prefix.
+         */
+        prefix: string;
+        /**
+         * If the prefix is an app's prefix, the \`applicationId\` property is the app's ID.
+         */
+        applicationId?: string;
+    };
+
+    /**
+     * An object that contains information about the site's pages, prefixes, and lightboxes.
+     */
+    type SiteStructure = {
+        /**
+         * The pages of the site.
+         */
+        pages: StructurePage[];
+        /**
+         * The prefixes of the site's routers and dynamic pages.
+         */
+        prefixes: Prefix[];
+        /**
+         * The site's lightboxes.
+         */
+        lightboxes: StructureLightbox[];
+    };
+
+    /**
+     * An object that contains information about a lightbox on the site.
+     */
+    type StructureLightbox = {
+        /**
+         * The name of the lightbox.
+         */
+        name: string;
+    };
+
+    /**
+     * An object that contains information about a page on the site.
+     */
+    type StructurePage = {
+        /**
+         * The of the page.
+         */
+        name: string;
+        /**
+         * The type of the page: \`\\"static\\"\` or \`\\"template\\"\`.
+         */
+        type: string;
+        /**
+         * The URL of the page. If the page is a \`static\` page the \`url\` property is the page's SEO URL.
+         */
+        url?: string;
+        /**
+         * If the page is an app page, the \`applicationId\` property is the app's ID.
+         */
+        applicationId?: string;
+        /**
+         * If the page is a router or dynamic page, the \`prefix\` property is the page's prefix.
+         */
+        prefix?: string;
+        /**
+         * If the page is the Home page, \`isHomePage\` is \`true\`. Otherwise, it does not exist.
+         */
+        isHomePage?: boolean;
+    };
+
+}
+
+
+import wixData from 'wix-data';
+
+
+/**
+ * This module contains the APIs for code routers and data binding router hooks.
+ * 	[Read more..](https://fake-corvid-api/wix-router.html#)
+ */
+declare module 'wix-router' {
+    /**
+     * Registers a hook that is called after a router.
+     * 	[Read more..](https://fake-corvid-api/afterRouter.html#afterRouter)
+     */
+    function afterRouter(request: WixRouterRequest, response: WixRouterResponse): Promise<WixRouterResponse>;
+
+    /**
+     * Registers a hook that is called after a sitemap is created.
+     * 	[Read more..](https://fake-corvid-api/afterSitemap.html#afterSitemap)
+     */
+    function afterSitemap(request: WixRouterSitemapRequest, sitemapEntries: WixRouterSitemapEntry[]): Promise<WixRouterSitemapEntry[]>;
+
+    /**
+     * Registers a hook that is called before a router.
+     * 	[Read more..](https://fake-corvid-api/beforeRouter.html#beforeRouter)
+     */
+    function beforeRouter(request: WixRouterRequest): Promise<WixRouterResponse>;
+
+    /**
+     * Registers a hook that is called after a route is resolved by the data binding router, but before the wix-data query is executed.
+     * 	[Read more..](https://fake-corvid-api/customizeQuery.html#customizeQuery)
+     */
+    function customizeQuery(request: WixRouterRequest, route: string, query: wixData.WixDataQuery): wixData.WixDataQuery;
+
+    /**
+     * Returns a response with a status code 403 (Forbidden) and instructs the router to show a 403 page.
+     * 	[Read more..](https://fake-corvid-api/forbidden.html#forbidden)
+     */
+    function forbidden(message?: string): Promise<WixRouterResponse>;
+
+    /**
+     * Returns a response that instructs the router to continue.
+     * 	[Read more..](https://fake-corvid-api/next.html#next)
+     */
+    function next(): Promise<WixRouterResponse>;
+
+    /**
+     * Returns a response with a status code 404 (Not Found) and instructs the router to show a 404 page.
+     * 	[Read more..](https://fake-corvid-api/notFound.html#notFound)
+     */
+    function notFound(message?: string): Promise<WixRouterResponse>;
+
+    /**
+     * Returns a response with a status code 200 (OK) and instructs the router to show the selected page.
+     * 	[Read more..](https://fake-corvid-api/ok.html#ok)
+     */
+    function ok(Page: string | string[], routerReturnedData?: any, head?: WixRouterResponse.HeadOptions): Promise<WixRouterResponse>;
+
+    /**
+     * Returns a response with a status code of 301 (Moved Permanently) or 302 (Found) and instructs the router to redirect to the given URL.
+     * 	[Read more..](https://fake-corvid-api/redirect.html#redirect)
+     */
+    function redirect(url: string, statusCode?: string): Promise<WixRouterResponse>;
+
+    /**
+     * Function containing routing logic for a given URL prefix.
+     * 	[Read more..](https://fake-corvid-api/router.html#router)
+     */
+    function router(request: WixRouterRequest): Promise<WixRouterResponse>;
+
+    /**
+     * Returns a response with the specified HTTP status code with an optional message.
+     * 	[Read more..](https://fake-corvid-api/sendStatus.html#sendStatus)
+     */
+    function sendStatus(statusCode: string, message?: string): Promise<WixRouterResponse>;
+
+    /**
+     * Function containing sitemap logic for a given URL prefix.
+     * 	[Read more..](https://fake-corvid-api/sitemap.html#sitemap)
+     */
+    function sitemap(request: WixRouterSitemapRequest): Promise<WixRouterSitemapEntry[]>;
+
+}
+
+
+/**
+ * [Read more..](https://fake-corvid-api/wix-question-backend.html#)
+ */
+declare module 'wix-question-backend' {
+    /**
+     * [Read more..](https://fake-corvid-api/wix-question-backend.html#wixKeynoteQuestionsV1Question)
+     */
+    const wixKeynoteQuestionsV1Question: WixKeynoteQuestionsV1Question;
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-question-backend.Events.html#)
+     */
+    interface Events {
+        /**
+         * This is summary for 'onQuestionCreated' is auto generated by metro-service 
+         * 	[Read more..](https://fake-corvid-api/wix-question-backend.Events.html#onQuestionCreated)
+         */
+        onQuestionCreated(event: Events.QuestionCreated): void;
+        /**
+         * This is summary for 'onQuestionDeleted' is auto generated by metro-service 
+         * 	[Read more..](https://fake-corvid-api/wix-question-backend.Events.html#onQuestionDeleted)
+         */
+        onQuestionDeleted(event: Events.QuestionDeleted): void;
+        /**
+         * This is summary for 'onQuestionUpdated' is auto generated by metro-service 
+         * 	[Read more..](https://fake-corvid-api/wix-question-backend.Events.html#onQuestionUpdated)
+         */
+        onQuestionUpdated(event: Events.QuestionUpdated): void;
+    }
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-question-backend.Question.html#)
+     */
+    interface Question {
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.Question.html#createQuestion)
+         */
+        createQuestion(question: Question.Question): Promise<Question.CreateQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.Question.html#deleteQuestion)
+         */
+        deleteQuestion(questionId: string, revision: string): Promise<Question.DeleteQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.Question.html#getQuestion)
+         */
+        getQuestion(questionId: string): Promise<Question.GetQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.Question.html#queryQuestion)
+         */
+        queryQuestion(query: Question.QueryV2): Promise<Question.QueryQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.Question.html#questionsFeed)
+         */
+        questionsFeed(): Promise<Question.QuestionsFeedResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.Question.html#updateQuestion)
+         */
+        updateQuestion(_id: string, question: Question.UpdateQuestionQuestion, options: Question.UpdateQuestionOptions): Promise<Question.UpdateQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.Question.html#upvote)
+         */
+        upvote(questionId: string, options: Question.UpvoteOptions): Promise<Question.UpvoteResponse>;
+    }
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-question-backend.WixKeynoteQuestionsV1Question.html#)
+     */
+    interface WixKeynoteQuestionsV1Question {
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.WixKeynoteQuestionsV1Question.html#createQuestion)
+         */
+        createQuestion(question: WixKeynoteQuestionsV1Question.Question): Promise<WixKeynoteQuestionsV1Question.CreateQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.WixKeynoteQuestionsV1Question.html#deleteQuestion)
+         */
+        deleteQuestion(questionId: string, revision: string): Promise<WixKeynoteQuestionsV1Question.DeleteQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.WixKeynoteQuestionsV1Question.html#getQuestion)
+         */
+        getQuestion(questionId: string): Promise<WixKeynoteQuestionsV1Question.GetQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.WixKeynoteQuestionsV1Question.html#queryQuestion)
+         */
+        queryQuestion(query: WixKeynoteQuestionsV1Question.QueryV2): Promise<WixKeynoteQuestionsV1Question.QueryQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.WixKeynoteQuestionsV1Question.html#questionsFeed)
+         */
+        questionsFeed(): Promise<WixKeynoteQuestionsV1Question.QuestionsFeedResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.WixKeynoteQuestionsV1Question.html#updateQuestion)
+         */
+        updateQuestion(_id: string, question: WixKeynoteQuestionsV1Question.UpdateQuestionQuestion, options: WixKeynoteQuestionsV1Question.UpdateQuestionOptions): Promise<WixKeynoteQuestionsV1Question.UpdateQuestionResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-question-backend.WixKeynoteQuestionsV1Question.html#upvote)
+         */
+        upvote(questionId: string, options: WixKeynoteQuestionsV1Question.UpvoteOptions): Promise<WixKeynoteQuestionsV1Question.UpvoteResponse>;
+    }
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-question-backend.Events.html#)
+     */
+    namespace Events {
+        type BackendEventMetadata = {
+            entityId: string;
+            eventTime: string;
+            id: string;
+            triggeredByAnonymizeRequest: boolean;
+        };
+
+        type CreateQuestionRequest = {
+            question: Events.Question;
+        };
+
+        type CreateQuestionResponse = {
+            question: Events.Question;
+        };
+
+        type CursorPaging = {
+            /**
+             * Cursor returned in last query response. Should not be provided on first page request
+             */
+            cursor: string;
+            /**
+             * The number of items to load.
+             * Cursor token returned in the query response. To be used on the next query request, but not the first query request.
+             */
+            limit: number;
+        };
+
+        type DeleteQuestionRequest = {
+            questionId: string;
+            revision: string | number;
+        };
+
+        type DeleteQuestionResponse = {
+        };
+
+        type Empty = {
+        };
+
+        type FeedQuestion = {
+            _createdDate: Date;
+            _id: string;
+            _updatedDate: Date;
+            author: string;
+            content: string;
+            upvotedByMe: boolean;
+            upvotes: string | number;
+        };
+
+        type GetQuestionRequest = {
+            questionId: string;
+        };
+
+        type GetQuestionResponse = {
+            question: Events.Question;
+        };
+
+        type Paging = {
+            /**
+             * Number of items to load.
+             */
+            limit: number;
+            /**
+             * Number of items to skip in the current sort order.
+             */
+            offset: number;
+        };
+
+        type QueryQuestionRequest = {
+            query: Events.QueryV2;
+        };
+
+        type QueryQuestionResponse = {
+            questions: Array<Events.Question>;
+        };
+
+        type QueryV2 = {
+            /**
+             * Cursor token pointing to a page of results. Not used in the first request. Following requests use the cursor token and not \`filter\` or \`sort\`.
+             */
+            cursorPaging: Events.CursorPaging;
+            /**
+             * Array of projected fields. A list of specific field names to return. If \`fieldsets\` are also specified, the union of \`fieldsets\` and \`fields\` is returned.
+             */
+            fields: Array<string>;
+            /**
+             * Array of named, predefined sets of projected fields. A array of predefined named sets of fields to be returned. Specifying multiple \`fieldsets\` will return the union of fields from all sets. If \`fields\` are also specified, the union of \`fieldsets\` and \`fields\` is returned.
+             */
+            fieldsets: Array<string>;
+            /**
+             * Filter object in the following format:
+             * \`\\"filter\\" : {
+             * \\"fieldName1\\": \\"value1\\",
+             * \\"fieldName2\\":{\\"$operator\\":\\"value2\\"}
+             * }\`
+             * Example of operators: \`$eq\`, \`$ne\`, \`$lt\`, \`$lte\`, \`$gt\`, \`$gte\`, \`$in\`, \`$hasSome\`, \`$hasAll\`, \`$startsWith\`, \`$contains\`
+             */
+            filter: Record<string, any>;
+            /**
+             * Paging options to limit and skip the number of items.
+             */
+            paging: Events.Paging;
+            /**
+             * Sort object in the following format:
+             * \`[{\\"fieldName\\":\\"sortField1\\",\\"order\\":\\"ASC\\"},{\\"fieldName\\":\\"sortField2\\",\\"order\\":\\"DESC\\"}]\`
+             */
+            sort: Array<Events.Sorting>;
+        };
+
+        type Question = {
+            _createdDate: Date;
+            _id: string;
+            _updatedDate: Date;
+            author: string;
+            content: string;
+            revision: string | number;
+            spicyWords: Array<string>;
+            status: Events.Status;
+            upvotes: string | number;
+        };
+
+        type QuestionCreated = {
+            entity: Events.Question;
+            metadata: Events.BackendEventMetadata;
+        };
+
+        type QuestionDeleted = {
+            metadata: Events.BackendEventMetadata;
+        };
+
+        type QuestionUpdated = {
+            entity: Events.Question;
+            metadata: Events.BackendEventMetadata;
+        };
+
+        type QuestionsFeedRequest = {
+        };
+
+        type QuestionsFeedResponse = {
+            questions: Array<Events.FeedQuestion>;
+        };
+
+        enum SortOrder {
+            ASC = \\"ASC\\",
+            DESC = \\"DESC\\",
+        }
+
+        type Sorting = {
+            /**
+             * Name of the field to sort by.
+             */
+            fieldName: string;
+            /**
+             * Sort order.
+             */
+            order: Events.SortOrder;
+        };
+
+        enum Status {
+            ACCEPTED = \\"ACCEPTED\\",
+            ANSWERED = \\"ANSWERED\\",
+            REJECTED = \\"REJECTED\\",
+            SUBMITTED = \\"SUBMITTED\\",
+        }
+
+        type UpdateQuestionRequest = {
+            mask: Array<string>;
+            question: Events.Question;
+        };
+
+        type UpdateQuestionResponse = {
+            question: Events.Question;
+        };
+
+        type UpvoteRequest = {
+            questionId: string;
+            redeemVote: boolean;
+        };
+
+        type UpvoteResponse = {
+        };
+
+    }
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-question-backend.Question.html#)
+     */
+    namespace Question {
+        type CreateQuestionRequest = {
+            question: Question.Question;
+        };
+
+        type CreateQuestionResponse = {
+            question: Question.Question;
+        };
+
+        type CursorPaging = {
+            /**
+             * Cursor returned in last query response. Should not be provided on first page request
+             */
+            cursor: string;
+            /**
+             * The number of items to load.
+             * Cursor token returned in the query response. To be used on the next query request, but not the first query request.
+             */
+            limit: number;
+        };
+
+        type DeleteQuestionRequest = {
+            questionId: string;
+            revision: string;
+        };
+
+        type DeleteQuestionResponse = {
+        };
+
+        type Empty = {
+        };
+
+        type FeedQuestion = {
+            _createdDate: Date;
+            _id: string;
+            _updatedDate: Date;
+            author: string;
+            content: string;
+            upvotedByMe: boolean;
+            upvotes: string;
+        };
+
+        type GetQuestionRequest = {
+            questionId: string;
+        };
+
+        type GetQuestionResponse = {
+            question: Question.Question;
+        };
+
+        type Paging = {
+            /**
+             * Number of items to load.
+             */
+            limit: number;
+            /**
+             * Number of items to skip in the current sort order.
+             */
+            offset: number;
+        };
+
+        type QueryQuestionRequest = {
+            query: Question.QueryV2;
+        };
+
+        type QueryQuestionResponse = {
+            questions: Array<Question.Question>;
+        };
+
+        type QueryV2 = {
+            /**
+             * Cursor token pointing to a page of results. Not used in the first request. Following requests use the cursor token and not \`filter\` or \`sort\`.
+             */
+            cursorPaging: Question.CursorPaging;
+            /**
+             * Array of projected fields. A list of specific field names to return. If \`fieldsets\` are also specified, the union of \`fieldsets\` and \`fields\` is returned.
+             */
+            fields: Array<string>;
+            /**
+             * Array of named, predefined sets of projected fields. A array of predefined named sets of fields to be returned. Specifying multiple \`fieldsets\` will return the union of fields from all sets. If \`fields\` are also specified, the union of \`fieldsets\` and \`fields\` is returned.
+             */
+            fieldsets: Array<string>;
+            /**
+             * Filter object in the following format:
+             * \`\\"filter\\" : {
+             * \\"fieldName1\\": \\"value1\\",
+             * \\"fieldName2\\":{\\"$operator\\":\\"value2\\"}
+             * }\`
+             * Example of operators: \`$eq\`, \`$ne\`, \`$lt\`, \`$lte\`, \`$gt\`, \`$gte\`, \`$in\`, \`$hasSome\`, \`$hasAll\`, \`$startsWith\`, \`$contains\`
+             */
+            filter: Record<string, any>;
+            /**
+             * Paging options to limit and skip the number of items.
+             */
+            paging: Question.Paging;
+            /**
+             * Sort object in the following format:
+             * \`[{\\"fieldName\\":\\"sortField1\\",\\"order\\":\\"ASC\\"},{\\"fieldName\\":\\"sortField2\\",\\"order\\":\\"DESC\\"}]\`
+             */
+            sort: Array<Question.Sorting>;
+        };
+
+        type Question = {
+            _createdDate: Date;
+            _id: string;
+            _updatedDate: Date;
+            author: string;
+            content: string;
+            revision: string;
+            spicyWords: Array<string>;
+            status: Question.Status;
+            upvotes: string;
+        };
+
+        type QuestionsFeedRequest = {
+        };
+
+        type QuestionsFeedResponse = {
+            questions: Array<Question.FeedQuestion>;
+        };
+
+        enum SortOrder {
+            ASC = \\"ASC\\",
+            DESC = \\"DESC\\",
+        }
+
+        type Sorting = {
+            /**
+             * Name of the field to sort by.
+             */
+            fieldName: string;
+            /**
+             * Sort order.
+             */
+            order: Question.SortOrder;
+        };
+
+        enum Status {
+            ACCEPTED = \\"ACCEPTED\\",
+            ANSWERED = \\"ANSWERED\\",
+            REJECTED = \\"REJECTED\\",
+            SUBMITTED = \\"SUBMITTED\\",
+        }
+
+        type UpdateQuestionOptions = {
+            mask: Array<string>;
+        };
+
+        type UpdateQuestionQuestion = {
+            _createdDate: Date;
+            _updatedDate: Date;
+            author: string;
+            content: string;
+            revision: string;
+            spicyWords: Array<string>;
+            status: Question.Status;
+            upvotes: string;
+        };
+
+        type UpdateQuestionRequest = {
+            mask: Array<string>;
+            question: Question.Question;
+        };
+
+        type UpdateQuestionResponse = {
+            question: Question.Question;
+        };
+
+        type UpvoteOptions = {
+            redeemVote: boolean;
+        };
+
+        type UpvoteRequest = {
+            questionId: string;
+            redeemVote: boolean;
+        };
+
+        type UpvoteResponse = {
+        };
+
+    }
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-question-backend.WixKeynoteQuestionsV1Question.html#)
+     */
+    namespace WixKeynoteQuestionsV1Question {
+        type CreateQuestionRequest = {
+            question: WixKeynoteQuestionsV1Question.Question;
+        };
+
+        type CreateQuestionResponse = {
+            question: WixKeynoteQuestionsV1Question.Question;
+        };
+
+        type CursorPaging = {
+            /**
+             * Cursor returned in last query response. Should not be provided on first page request
+             */
+            cursor: string;
+            /**
+             * The number of items to load.
+             * Cursor token returned in the query response. To be used on the next query request, but not the first query request.
+             */
+            limit: number;
+        };
+
+        type DeleteQuestionRequest = {
+            questionId: string;
+            revision: string;
+        };
+
+        type DeleteQuestionResponse = {
+        };
+
+        type Empty = {
+        };
+
+        type FeedQuestion = {
+            _createdDate: Date;
+            _id: string;
+            _updatedDate: Date;
+            author: string;
+            content: string;
+            upvotedByMe: boolean;
+            upvotes: string;
+        };
+
+        type GetQuestionRequest = {
+            questionId: string;
+        };
+
+        type GetQuestionResponse = {
+            question: WixKeynoteQuestionsV1Question.Question;
+        };
+
+        type Paging = {
+            /**
+             * Number of items to load.
+             */
+            limit: number;
+            /**
+             * Number of items to skip in the current sort order.
+             */
+            offset: number;
+        };
+
+        type QueryQuestionRequest = {
+            query: WixKeynoteQuestionsV1Question.QueryV2;
+        };
+
+        type QueryQuestionResponse = {
+            questions: Array<WixKeynoteQuestionsV1Question.Question>;
+        };
+
+        type QueryV2 = {
+            /**
+             * Cursor token pointing to a page of results. Not used in the first request. Following requests use the cursor token and not \`filter\` or \`sort\`.
+             */
+            cursorPaging: WixKeynoteQuestionsV1Question.CursorPaging;
+            /**
+             * Array of projected fields. A list of specific field names to return. If \`fieldsets\` are also specified, the union of \`fieldsets\` and \`fields\` is returned.
+             */
+            fields: Array<string>;
+            /**
+             * Array of named, predefined sets of projected fields. A array of predefined named sets of fields to be returned. Specifying multiple \`fieldsets\` will return the union of fields from all sets. If \`fields\` are also specified, the union of \`fieldsets\` and \`fields\` is returned.
+             */
+            fieldsets: Array<string>;
+            /**
+             * Filter object in the following format:
+             * \`\\"filter\\" : {
+             * \\"fieldName1\\": \\"value1\\",
+             * \\"fieldName2\\":{\\"$operator\\":\\"value2\\"}
+             * }\`
+             * Example of operators: \`$eq\`, \`$ne\`, \`$lt\`, \`$lte\`, \`$gt\`, \`$gte\`, \`$in\`, \`$hasSome\`, \`$hasAll\`, \`$startsWith\`, \`$contains\`
+             */
+            filter: Record<string, any>;
+            /**
+             * Paging options to limit and skip the number of items.
+             */
+            paging: WixKeynoteQuestionsV1Question.Paging;
+            /**
+             * Sort object in the following format:
+             * \`[{\\"fieldName\\":\\"sortField1\\",\\"order\\":\\"ASC\\"},{\\"fieldName\\":\\"sortField2\\",\\"order\\":\\"DESC\\"}]\`
+             */
+            sort: Array<WixKeynoteQuestionsV1Question.Sorting>;
+        };
+
+        type Question = {
+            _createdDate: Date;
+            _id: string;
+            _updatedDate: Date;
+            author: string;
+            content: string;
+            revision: string;
+            spicyWords: Array<string>;
+            status: WixKeynoteQuestionsV1Question.Status;
+            upvotes: string;
+        };
+
+        type QuestionsFeedRequest = {
+        };
+
+        type QuestionsFeedResponse = {
+            questions: Array<WixKeynoteQuestionsV1Question.FeedQuestion>;
+        };
+
+        enum SortOrder {
+            ASC = \\"ASC\\",
+            DESC = \\"DESC\\",
+        }
+
+        type Sorting = {
+            /**
+             * Name of the field to sort by.
+             */
+            fieldName: string;
+            /**
+             * Sort order.
+             */
+            order: WixKeynoteQuestionsV1Question.SortOrder;
+        };
+
+        enum Status {
+            ACCEPTED = \\"ACCEPTED\\",
+            ANSWERED = \\"ANSWERED\\",
+            REJECTED = \\"REJECTED\\",
+            SUBMITTED = \\"SUBMITTED\\",
+        }
+
+        type UpdateQuestionOptions = {
+            mask: Array<string>;
+        };
+
+        type UpdateQuestionQuestion = {
+            _createdDate: Date;
+            _updatedDate: Date;
+            author: string;
+            content: string;
+            revision: string;
+            spicyWords: Array<string>;
+            status: WixKeynoteQuestionsV1Question.Status;
+            upvotes: string;
+        };
+
+        type UpdateQuestionRequest = {
+            mask: Array<string>;
+            question: WixKeynoteQuestionsV1Question.Question;
+        };
+
+        type UpdateQuestionResponse = {
+            question: WixKeynoteQuestionsV1Question.Question;
+        };
+
+        type UpvoteOptions = {
+            redeemVote: boolean;
+        };
+
+        type UpvoteRequest = {
+            questionId: string;
+            redeemVote: boolean;
+        };
+
+        type UpvoteResponse = {
+        };
+
+    }
+
+}
+
+
+/**
+ * [Read more..](https://fake-corvid-api/wix-dev-backend.html#)
+ */
+declare module 'wix-dev-backend' {
+    /**
+     * [Read more..](https://fake-corvid-api/wix-dev-backend.html#test)
+     */
+    const test: string;
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#)
+     */
+    interface Order {
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#bulkUpdate)
+         */
+        bulkUpdate(eventId: string, orderNumber: Array<string>, options: Order.BulkUpdateOptions): Promise<Order.BulkUpdateResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#confirm)
+         */
+        confirm(eventId: string, orderNumber: Array<string>): Promise<Order.ConfirmOrderResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#get)
+         */
+        get(eventId: string, orderNumber: string, fieldset: Array<Order.OrderFieldset>): Promise<Order.GetOrderResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#getSummary)
+         */
+        getSummary(eventId: string): Promise<Order.GetSummaryResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#list)
+         */
+        list(offset: number, options: Order.ListOptions): Promise<Order.ListOrdersResponse>;
+        /**
+         * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#update)
+         */
+        update(eventId: string, orderNumber: string, fields: Array<string>, options: Order.UpdateOptions): Promise<Order.UpdateOrderResponse>;
+    }
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-dev-backend.Order.html#)
+     */
+    namespace Order {
+        type AddressLocation = {
+            /**
+             * Address latitude.
+             */
+            latitude: number;
+            /**
+             * Address longitude.
+             */
+            longitude: number;
+        };
+
+        type BulkUpdateRequest = {
+            /**
+             * Whether to archive the order.
+             */
+            archived: boolean;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Set of fields to update.
+             */
+            fields: Array<string>;
+            orderNumber: Array<string>;
+        };
+
+        type BulkUpdateResponse = {
+            /**
+             * Updated orders.
+             */
+            orders: Array<Order.Order>;
+        };
+
+        type CalendarLinks = {
+            /**
+             * \\"Add to Google calendar\\" URL.
+             */
+            google: string;
+            /**
+             * \\"Download ICS calendar file\\" URL.
+             */
+            ics: string;
+        };
+
+        type CheckIn = {
+            /**
+             * Time of check-in
+             */
+            created: Date;
+        };
+
+        type ConfirmOrderRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Order numbers.
+             */
+            orderNumber: Array<string>;
+        };
+
+        type ConfirmOrderResponse = {
+            /**
+             * Confirmed orders.
+             */
+            orders: Array<Order.Order>;
+        };
+
+        type Counts = {
+            /**
+             * Number or orders
+             */
+            count: number;
+            /**
+             * Number of tickets within orders
+             */
+            tickets: number;
+            /**
+             * Number of tickets with check-in
+             */
+            ticketsCheckIn: number;
+        };
+
+        type CouponDiscount = {
+            /**
+             * Discount coupon code.
+             */
+            code: string;
+            /**
+             * Discount coupon ID.
+             */
+            couponId: string;
+            /**
+             * Discount coupon name.
+             */
+            name: string;
+        };
+
+        type Discount = {
+            /**
+             * Total charge after applied discount.
+             */
+            afterDiscount: Order.Money;
+            /**
+             * Total discount amount.
+             */
+            amount: Order.Money;
+            /**
+             * Discount coupon code.
+             */
+            code: string;
+            /**
+             * Discount coupon ID.
+             */
+            couponId: string;
+            /**
+             * Discount items.
+             */
+            discounts: Array<Order.DiscountItem>;
+            /**
+             * Discount coupon name.
+             */
+            name: string;
+        };
+
+        type DiscountItem = {
+            /**
+             * Total discount amount.
+             */
+            amount: Order.Money;
+            /**
+             * Coupon discount.
+             */
+            coupon: Order.CouponDiscount;
+            /**
+             * Pricing plan discount.
+             */
+            paidPlan: Order.PaidPlanDiscount;
+        };
+
+        type FacetCounts = {
+            /**
+             * Facet counts aggregated per value
+             */
+            counts: Record<string, number>;
+        };
+
+        type Fee = {
+            /**
+             * Total amount of fee charges.
+             */
+            amount: Order.Money;
+            /**
+             * Fee identifier.
+             */
+            name: Order.WIX_FEE;
+            /**
+             * Fee rate.
+             */
+            rate: string;
+            /**
+             * How fee is calculated.
+             */
+            type: Order.FeeType;
+        };
+
+        type FormResponse = {
+            /**
+             * Input values entered upon ticket order.
+             */
+            inputValues: Array<Order.InputValue>;
+        };
+
+        type FormattedAddress = {
+            /**
+             * Address components (optional).
+             */
+            address: any;
+            /**
+             * One line address representation.
+             */
+            formatted: string;
+        };
+
+        type GetInvoicePreviewRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Controls which data is returned. See [Fieldset](https://dev.wix.com/api/rest/wix-events/wix-events/fieldset#wix-events_wix-events_fieldset_order-fieldset).
+             */
+            fieldset: Array<Order.OrderFieldset>;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderResponse = {
+            /**
+             * \\"Add to calendar\\" links.
+             */
+            calendarLinks: Order.CalendarLinks;
+            /**
+             * Requested order.
+             */
+            order: Order.Order;
+        };
+
+        type GetSummaryRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+        };
+
+        type GetSummaryResponse = {
+            /**
+             * Ticket sales grouped by currency.
+             */
+            sales: Array<Order.TicketSales>;
+        };
+
+        type GuestDetails = {
+            /**
+             * Contact ID associated with this guest.
+             */
+            contactId: string;
+            /**
+             * Guest email.
+             */
+            email: string;
+            /**
+             * Guest first name.
+             */
+            firstName: string;
+            /**
+             * Full form response.
+             */
+            form: Order.FormResponse;
+            /**
+             * Whether ticket belongs to assigned guest.
+             */
+            guestAssigned: boolean;
+            /**
+             * Guest last name.
+             */
+            lastName: string;
+        };
+
+        type HeadersEntry = {
+            key: string;
+            value: string;
+        };
+
+        type InputValue = {
+            /**
+             * Address type value.
+             */
+            address: Order.FormattedAddress;
+            /**
+             * Date/time value.
+             */
+            dateTime: Date;
+            /**
+             * Unique input name.
+             */
+            inputName: string;
+            /**
+             * Int or floating point number value.
+             */
+            number: number;
+            /**
+             * Text value representation.
+             */
+            value: string;
+            /**
+             * Text value vector.
+             */
+            values: Array<string>;
+        };
+
+        type Invoice = {
+            /**
+             * Discount applied to cart.
+             */
+            discount: Order.Discount;
+            /**
+             * Fees applied to the cart.
+             */
+            fees: Array<Order.Fee>;
+            /**
+             * Total amount of cart after discount, tax, and fees.
+             * Grand total is calculated in the following order:
+             * 1. Total prices of all items in the cart are calculated.
+             * 2. Discount is subtracted from the cart (if applicable).
+             * 3. Tax is added (if applicable).
+             * 4. Wix service fee is added.
+             */
+            grandTotal: Order.Money;
+            items: Array<Order.Item>;
+            /**
+             * URL to invoice preview. Returned only if order is paid.
+             */
+            previewUrl: string;
+            /**
+             * Total revenue, excluding fees. (Taxes and payment provider fees are not deducted).
+             */
+            revenue: Order.Money;
+            /**
+             * Total cart amount before discount, tax, and fees.
+             */
+            subTotal: Order.Money;
+            /**
+             * Tax applied to cart.
+             */
+            tax: Order.Tax;
+            /**
+             * Total cart amount.
+             */
+            total: Order.Money;
+        };
+
+        type Item = {
+            /**
+             * Unique line item ID.
+             */
+            _id: string;
+            /**
+             * Discount applied to the line item.
+             */
+            discount: Order.Discount;
+            /**
+             * Fees applied to the item.
+             */
+            fees: Array<Order.Fee>;
+            /**
+             * Line item mame.
+             */
+            name: string;
+            /**
+             * Line item price.
+             */
+            price: Order.Money;
+            /**
+             * Line item quantity.
+             */
+            quantity: number;
+            /**
+             * Tax applied to the item.
+             */
+            tax: Order.Tax;
+            /**
+             * Total price for line items. Always equal to price * quantity.
+             */
+            total: Order.Money;
+        };
+
+        type ListOrdersRequest = {
+            /**
+             * Deprecated: use tag = ARCHIVED / NON_ARCHIVED
+             */
+            archived: boolean;
+            /**
+             * Deprecated: use tag = CONFIRMED
+             */
+            confirmed: boolean;
+            /**
+             * Event creator ID.
+             */
+            eventCreatorId: Array<string>;
+            /**
+             * Event ID.
+             */
+            eventId: Array<string>;
+            /**
+             * Field facets.
+             * See [supported facets](https://dev.wix.com/api/rest/wix-events/wix-events/filter-and-sort#wix-events_wix-events_filter-and-sort_list-orders).
+             */
+            facet: Array<string>;
+            /**
+             * Controls which data is returned. See [Fieldset](https://dev.wix.com/api/rest/wix-events/wix-events/fieldset#wix-events_wix-events_fieldset_order-fieldset).
+             */
+            fieldset: Array<Order.OrderFieldset>;
+            /**
+             * Deprecated: use tag = FULLY_CHECKED_IN / NOT_FULLY_CHECKED_IN
+             */
+            fullyCheckedIn: boolean;
+            /**
+             * Limit.
+             */
+            limit: number;
+            /**
+             * Site member ID.
+             */
+            memberId: Array<string>;
+            /**
+             * Deprecated: use tag = MEMBER
+             */
+            membersOnly: boolean;
+            /**
+             * Offset.
+             */
+            offset: number;
+            /**
+             * Order number.
+             */
+            orderNumber: Array<string>;
+            /**
+             * Textual search filter - search is performed on \\"full_name\\", \\"email\\" and \\"order_number\\".
+             */
+            searchPhrase: string;
+            /**
+             * Sort order. Defaults to \\"created:asc\\".
+             * See [supported fields](https://dev.wix.com/api/rest/wix-events/wix-events/filter-and-sort#wix-events_wix-events_filter-and-sort_list-orders).
+             */
+            sort: string;
+            /**
+             * Status.
+             */
+            status: Array<Order.OrderStatus>;
+            /**
+             * Order tag.
+             */
+            tag: Array<Order.OrderTag>;
+        };
+
+        type ListOrdersResponse = {
+            /**
+             * Filter facets.
+             */
+            facets: Record<string, Order.FacetCounts>;
+            /**
+             * Limit.
+             */
+            limit: number;
+            /**
+             * Offset.
+             */
+            offset: number;
+            /**
+             * Order data enriched facets.
+             */
+            orderFacets: Order.OrderFacets;
+            /**
+             * Orders.
+             */
+            orders: Array<Order.Order>;
+            /**
+             * Meta data of search results.
+             */
+            searchMetaData: Order.SearchMetaData;
+            /**
+             * Total orders matching the given filters.
+             */
+            total: number;
+        };
+
+        type Money = {
+            /**
+             * decimal amount representation.
+             */
+            amount: string;
+            /**
+             * ISO 4217 format of the currency i.e. \`USD\`.
+             */
+            currency: string;
+            /**
+             * Monetary amount. Decimal string with a period as a decimal separator (e.g., 3.99). Optionally, a single (-), to indicate that the amount is negative.
+             */
+            value: string;
+        };
+
+        type Order = {
+            /**
+             * Whether the order is anonymized by GDPR delete.
+             */
+            anonymized: boolean;
+            /**
+             * Whether the order is archived.
+             */
+            archived: boolean;
+            /**
+             * Checkout channel type
+             */
+            channel: Order.ChannelType;
+            /**
+             * Checkout form response. When each purchased ticket is assigned to a guest, guest forms are returned for each ticket, and buyer info is returned.
+             */
+            checkoutForm: Order.FormResponse;
+            /**
+             * Whether the order is confirmed (triggered once payment gateway processes the payment and funds reach the merchant's account).
+             */
+            confirmed: boolean;
+            /**
+             * Contact ID of buyer (resolved using email address).
+             */
+            contactId: string;
+            /**
+             * RSVP created timestamp.
+             */
+            created: Date;
+            /**
+             * Guest email.
+             */
+            email: string;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Guest first name.
+             */
+            firstName: string;
+            /**
+             * Guest full name.
+             */
+            fullName: string;
+            /**
+             * Whether all tickets in order are checked-in.
+             */
+            fullyCheckedIn: boolean;
+            /**
+             * Order invoice.
+             */
+            invoice: Order.Invoice;
+            /**
+             * Guest last name.
+             */
+            lastName: string;
+            /**
+             * Member ID of buyer (if relevant).
+             */
+            memberId: string;
+            /**
+             * Payment method used for purchase, e.g., \\"payPal\\", \\"creditCard\\", etc.
+             */
+            method: string;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+            /**
+             * Internal order payment details
+             */
+            paymentDetails: Order.PaymentDetails;
+            /**
+             * Reservation ID.
+             */
+            reservationId: string;
+            /**
+             * Payment snapshot ID.
+             * Empty for FREE order.
+             */
+            snapshotId: string;
+            /**
+             * Order status.
+             */
+            status: Order.OrderStatus;
+            /**
+             * Tickets (generated after payment).
+             */
+            tickets: Array<Order.TicketingTicket>;
+            /**
+             * URL to ticket PDF.
+             */
+            ticketsPdf: string;
+            /**
+             * Tickets ordered.
+             */
+            ticketsQuantity: number;
+            /**
+             * Total order price.
+             */
+            totalPrice: Order.Money;
+            /**
+             * Deprecated.
+             */
+            transactionId: string;
+        };
+
+        type OrderDeleted = {
+            /**
+             * Whether order was anonymized by GDPR delete.
+             */
+            anonymized: boolean;
+            /**
+             * Contact ID associated with this order
+             */
+            contactId: string;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Member ID associated with this order.
+             */
+            memberId: string;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+            /**
+             * Order type.
+             */
+            orderType: Order.OrderType;
+            /**
+             * Tickets generated after payment.
+             */
+            tickets: Array<Order.Ticket>;
+            /**
+             * Order deleted timestamp in ISO UTC format.
+             */
+            timestamp: Date;
+            /**
+             * Whether event was triggered by GDPR delete request.
+             */
+            triggeredByAnonymizeRequest: boolean;
+        };
+
+        type OrderFacetCounts = {
+            /**
+             * Facet counts aggregated per value
+             */
+            counts: Record<string, Order.Counts>;
+        };
+
+        type OrderFacets = {
+            /**
+             * Filter facets.
+             */
+            facets: Record<string, Order.OrderFacetCounts>;
+        };
+
+        type OrderUpdated = {
+            /**
+             * Whether order was archived and excluded from results.
+             */
+            archived: boolean;
+            /**
+             * Checkout form response.
+             */
+            checkoutForm: Order.FormResponse;
+            /**
+             * Whether order is confirmed - occurs once payment gateway processes the payment and funds reach merchant's account.
+             */
+            confirmed: boolean;
+            /**
+             * Contact ID associated with this order.
+             */
+            contactId: string;
+            /**
+             * Order created timestamp.
+             */
+            created: Date;
+            /**
+             * Buyer email.
+             */
+            email: string;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Buyer first name.
+             */
+            firstName: string;
+            /**
+             * Buyer last name.
+             */
+            lastName: string;
+            /**
+             * Member ID associated with this order.
+             */
+            memberId: string;
+            /**
+             * Payment method used for paid tickets purchase, i.e. \\"payPal\\", \\"creditCard\\", etc.
+             */
+            method: string;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+            /**
+             * Order status.
+             */
+            status: Order.OrderStatus;
+            /**
+             * Tickets generated after payment.
+             */
+            tickets: Array<Order.Ticket>;
+            /**
+             * Order updated timestamp in ISO UTC format.
+             */
+            timestamp: Date;
+            /**
+             * Whether event was triggered by GDPR delete request.
+             */
+            triggeredByAnonymizeRequest: boolean;
+        };
+
+        type PaidPlanDiscount = {
+            /**
+             * Name of pricing plan.
+             */
+            name: string;
+            /**
+             * Discount by percentage applied to tickets.
+             */
+            percentDiscount: Order.PercentDiscount;
+        };
+
+        type PaymentDetails = {
+            /**
+             * Wix Payments transaction
+             */
+            transaction: Order.PaymentTransaction;
+        };
+
+        type PaymentTransaction = {
+            /**
+             * Transaction Payment method e.g., \\"payPal\\", \\"creditCard\\", etc.
+             */
+            method: string;
+            /**
+             * Wix Payments transaction id
+             */
+            transactionId: string;
+        };
+
+        type PercentDiscount = {
+            /**
+             * Number of discounted tickets.
+             */
+            quantityDiscounted: number;
+            /**
+             * Percent rate.
+             */
+            rate: string;
+        };
+
+        type RawHttpResponse = {
+            body: Order.Uint8Array;
+            headers: Array<Order.HeadersEntry>;
+            statusCode: number;
+        };
+
+        type Result = {
+            /**
+             * Entity ID
+             */
+            _id: string;
+            /**
+             * Entity score.
+             * Higher is more relevant to search phrase.
+             */
+            score: string;
+        };
+
+        type SearchMetaData = {
+            /**
+             * Search results
+             */
+            results: Array<Order.Result>;
+        };
+
+        type StreetAddress = {
+            /**
+             * Apartment number.
+             */
+            apt: string;
+            /**
+             * Street name.
+             */
+            name: string;
+            /**
+             * Street number.
+             */
+            number: string;
+        };
+
+        type Subdivision = {
+            /**
+             * Short subdivision code.
+             */
+            code: string;
+            /**
+             * Subdivision full name.
+             */
+            name: string;
+            type: Order.SubdivisionType;
+            /**
+             * Free text description of subdivision type.
+             */
+            typeInfo: string;
+        };
+
+        type Tax = {
+            /**
+             * Total tax amount.
+             */
+            amount: Order.Money;
+            /**
+             * Tax name.
+             */
+            name: string;
+            /**
+             * Tax rate.
+             */
+            rate: string;
+            /**
+             * Taxable amount.
+             */
+            taxable: Order.Money;
+            /**
+             * Tax type.
+             */
+            type: Order.TaxType;
+        };
+
+        type Ticket = {
+            /**
+             * Anonymized tickets no longer contain personally identifiable information (PII).
+             */
+            anonymized: boolean;
+            /**
+             * Whether ticket is archived.
+             */
+            archived: boolean;
+            /**
+             * Ticket check-in.
+             */
+            checkIn: Order.CheckIn;
+            /**
+             * Whether ticket is confirmed
+             */
+            confirmed: boolean;
+            /**
+             * Contact ID associated with this ticket.
+             */
+            contactId: string;
+            /**
+             * Guest email.
+             */
+            email: string;
+            /**
+             * Guest first name.
+             */
+            firstName: string;
+            /**
+             * Ticket form response (only assigned tickets contain separate forms).
+             */
+            form: Order.FormResponse;
+            /**
+             * Guest last name.
+             */
+            lastName: string;
+            /**
+             * Member ID associated with this ticket.
+             */
+            memberId: string;
+            /**
+             * Ticket price.
+             */
+            price: Order.Money;
+            /**
+             * Ticket definition ID.
+             */
+            ticketDefinitionId: string;
+            /**
+             * Unique issued ticket number.
+             */
+            ticketNumber: string;
+        };
+
+        type TicketDetails = {
+            /**
+             * Unique seat id in the event venue.
+             */
+            seatId: string;
+        };
+
+        type TicketSalePeriod = {
+            /**
+             * Ticket sale end timestamp.
+             */
+            endDate: Date;
+            /**
+             * Whether to hide this ticket if it's not on sale
+             */
+            hideNotOnSale: boolean;
+            /**
+             * Ticket sale start timestamp.
+             */
+            startDate: Date;
+        };
+
+        type TicketSales = {
+            /**
+             * Total revenue, excluding fees (taxes and payment provider fees are not deducted).
+             */
+            revenue: Order.Money;
+            /**
+             * Total balance of confirmed transactions.
+             */
+            total: Order.Money;
+            /**
+             * Total number of confirmed orders.
+             */
+            totalOrders: number;
+            /**
+             * Total number of tickets purchased.
+             */
+            totalTickets: number;
+        };
+
+        type TicketingTicket = {
+            /**
+             * Whether ticket was anonymized by GDPR delete.
+             * Anonymized tickets no longer contain personally identifiable information (PII).
+             */
+            anonymized: boolean;
+            /**
+             * Whether ticket is visible in guest list.
+             */
+            archived: boolean;
+            /**
+             * Associated order checkout channel type
+             */
+            channel: Order.ChannelType;
+            /**
+             * Ticket check-in.
+             */
+            checkIn: Order.CheckIn;
+            /**
+             * Ticket check-in URL.
+             * Shown as QR code image in PDF.
+             * Format: \`https://www.wixevents.com/check-in/{ticket number},{event id}\`
+             * Example: \`https://www.wixevents.com/check-in/AAAA-AAAA-BB021,00000000-0000-0000-0000-000000000000\`
+             */
+            checkInUrl: string;
+            /**
+             * Whether ticket requires payment.
+             */
+            free: boolean;
+            /**
+             * Guest personal details.
+             */
+            guestDetails: Order.GuestDetails;
+            /**
+             * Guest full name.
+             */
+            guestFullName: string;
+            /**
+             * Ticket owner member ID.
+             */
+            memberId: string;
+            /**
+             * Ticket name.
+             */
+            name: string;
+            /**
+             * Whether order and ticket are visible in order list.
+             */
+            orderArchived: boolean;
+            /**
+             * Buyer full name.
+             */
+            orderFullName: string;
+            /**
+             * Associated order number.
+             */
+            orderNumber: string;
+            /**
+             * Associated order status.
+             */
+            orderStatus: Order.OrderStatus;
+            /**
+             * Ticket policy (as displayed in PDF).
+             */
+            policy: string;
+            /**
+             * Ticket price.
+             */
+            price: Order.Money;
+            /**
+             * Deprecated, use \`check_in_url\`.
+             */
+            qrCode: string;
+            /**
+             * Ticket sale period
+             */
+            salePeriod: Order.TicketSalePeriod;
+            /**
+             * Ticket sale status
+             */
+            saleStatus: Order.TicketSaleStatus;
+            /**
+             * Ticket definition ID.
+             */
+            ticketDefinitionId: string;
+            /**
+             * Additional ticket details.
+             */
+            ticketDetails: Order.TicketDetails;
+            /**
+             * Unique ticket number (issued automatically).
+             */
+            ticketNumber: string;
+            /**
+             * Deprecated, use \`ticket_pdf_url\`.
+             */
+            ticketPdf: string;
+            /**
+             * URL for ticket PDF download.
+             */
+            ticketPdfUrl: string;
+            /**
+             * URL to download ticket in .pkpass format for Apple Wallet
+             */
+            walletPassUrl: string;
+        };
+
+        type UpdateOrderRequest = {
+            /**
+             * Whether order is archived.
+             */
+            archived: boolean;
+            /**
+             * Checkout form.
+             */
+            checkoutForm: Order.FormResponse;
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Set of field paths to update.
+             */
+            fields: Array<string>;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type UpdateOrderResponse = {
+            /**
+             * Updated order.
+             */
+            order: Order.Order;
+        };
+
+        enum ChannelType {
+            OFFLINE_POS = \\"OFFLINE_POS\\",
+            ONLINE = \\"ONLINE\\",
+        }
+
+        enum FeeName {
+            WIX_FEE = \\"WIX_FEE\\",
+        }
+
+        enum FeeType {
+            FEE_ADDED = \\"FEE_ADDED\\",
+            FEE_ADDED_AT_CHECKOUT = \\"FEE_ADDED_AT_CHECKOUT\\",
+            FEE_INCLUDED = \\"FEE_INCLUDED\\",
+        }
+
+        enum OrderFieldset {
+            DETAILS = \\"DETAILS\\",
+            FORM = \\"FORM\\",
+            INVOICE = \\"INVOICE\\",
+            TICKETS = \\"TICKETS\\",
+        }
+
+        enum OrderStatus {
+            CANCELED = \\"CANCELED\\",
+            DECLINED = \\"DECLINED\\",
+            FREE = \\"FREE\\",
+            INITIATED = \\"INITIATED\\",
+            NA_ORDER_STATUS = \\"NA_ORDER_STATUS\\",
+            OFFLINE_PENDING = \\"OFFLINE_PENDING\\",
+            PAID = \\"PAID\\",
+            PENDING = \\"PENDING\\",
+        }
+
+        enum OrderTag {
+            ARCHIVED = \\"ARCHIVED\\",
+            CONFIRMED = \\"CONFIRMED\\",
+            FULLY_CHECKED_IN = \\"FULLY_CHECKED_IN\\",
+            MEMBER = \\"MEMBER\\",
+            NON_ARCHIVED = \\"NON_ARCHIVED\\",
+            NOT_FULLY_CHECKED_IN = \\"NOT_FULLY_CHECKED_IN\\",
+            UNCONFIRMED = \\"UNCONFIRMED\\",
+        }
+
+        enum OrderType {
+            ASSIGNED_TICKETS = \\"ASSIGNED_TICKETS\\",
+            UNASSIGNED_TICKETS = \\"UNASSIGNED_TICKETS\\",
+        }
+
+        enum SubdivisionType {
+            ADMINISTRATIVE_AREA_LEVEL_1 = \\"ADMINISTRATIVE_AREA_LEVEL_1\\",
+            ADMINISTRATIVE_AREA_LEVEL_2 = \\"ADMINISTRATIVE_AREA_LEVEL_2\\",
+            ADMINISTRATIVE_AREA_LEVEL_3 = \\"ADMINISTRATIVE_AREA_LEVEL_3\\",
+            ADMINISTRATIVE_AREA_LEVEL_4 = \\"ADMINISTRATIVE_AREA_LEVEL_4\\",
+            ADMINISTRATIVE_AREA_LEVEL_5 = \\"ADMINISTRATIVE_AREA_LEVEL_5\\",
+            COUNTRY = \\"COUNTRY\\",
+            UNKNOWN_SUBDIVISION_TYPE = \\"UNKNOWN_SUBDIVISION_TYPE\\",
+        }
+
+        enum TaxType {
+            ADDED = \\"ADDED\\",
+            ADDED_AT_CHECKOUT = \\"ADDED_AT_CHECKOUT\\",
+            INCLUDED = \\"INCLUDED\\",
+        }
+
+        enum TicketSaleStatus {
+            SALE_ENDED = \\"SALE_ENDED\\",
+            SALE_SCHEDULED = \\"SALE_SCHEDULED\\",
+            SALE_STARTED = \\"SALE_STARTED\\",
+        }
+
+    }
+
+}
+
+
+import wixData from 'wix-data';
+
+
+/**
+ * A dataset connects page elements to a set of items in a data collection.
+ * 	[Read more..](https://fake-corvid-api/wix-dataset.html#)
+ */
+declare module 'wix-dataset' {
+    /**
+     * A [dataset](wix-dataset.html) connects page elements to a set of items in a data collection.
+     * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#)
+     */
+    interface Dataset {
+        /**
+         * Returns the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getCurrentItem)
+         */
+        getCurrentItem(): any;
+        /**
+         * Returns the current item's index.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getCurrentItemIndex)
+         */
+        getCurrentItemIndex(): number;
+        /**
+         * Gets the index of the dataset's current page.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getCurrentPageIndex)
+         */
+        getCurrentPageIndex(): number;
+        /**
+         * Returns the selected items.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getItems)
+         */
+        getItems(fromIndex: number, numberOfItems: number): Promise<Dataset.GetItemsResult>;
+        /**
+         * Gets the dataset's page size.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getPageSize)
+         */
+        getPageSize(): number;
+        /**
+         * Returns the number of items in the dataset that match its filter criteria.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getTotalCount)
+         */
+        getTotalCount(): number;
+        /**
+         * Gets the number of pages in the dataset.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#getTotalPageCount)
+         */
+        getTotalPageCount(): number;
+        /**
+         * Indicates if there is a next item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#hasNext)
+         */
+        hasNext(): boolean;
+        /**
+         * Indicates if there is a next page of data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#hasNextPage)
+         */
+        hasNextPage(): boolean;
+        /**
+         * Indicates if there is a previous item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#hasPrevious)
+         */
+        hasPrevious(): boolean;
+        /**
+         * Indicates if there is a previous page of data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#hasPreviousPage)
+         */
+        hasPreviousPage(): boolean;
+        /**
+         * Loads the next page of data in addition to the current data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#loadMore)
+         */
+        loadMore(): Promise<void>;
+        /**
+         * Loads the specified page.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#loadPage)
+         */
+        loadPage(pageIndex: number): Promise<any[]>;
+        /**
+         * Create a new blank item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#new)
+         */
+        new(): Promise<void>;
+        /**
+         * Saves the current item and moves to the next item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#next)
+         */
+        next(): Promise<any>;
+        /**
+         * Moves to the next page of data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#nextPage)
+         */
+        nextPage(): Promise<any[]>;
+        /**
+         * Adds an event handler that runs just after a save.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onAfterSave)
+         */
+        onAfterSave(handler: Dataset.AfterSaveHandler): void;
+        /**
+         * Adds an event handler that runs just before a save.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onBeforeSave)
+         */
+        onBeforeSave(handler: Dataset.BeforeSaveHandler): void;
+        /**
+         * Adds an event handler that runs when the current index changes.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onCurrentIndexChanged)
+         */
+        onCurrentIndexChanged(handler: Dataset.CurrentIndexChangedHandler): void;
+        /**
+         * Adds an event handler that runs when an error occurs.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onError)
+         */
+        onError(handler: Dataset.ErrorHandler): void;
+        /**
+         * Adds an event handler that runs when a value of the current item changes.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onItemValuesChanged)
+         */
+        onItemValuesChanged(handler: Dataset.ItemValuesChangedHandler): void;
+        /**
+         * Adds an event handler that runs when the dataset is ready.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#onReady)
+         */
+        onReady(handler: Dataset.ReadyHandler): void;
+        /**
+         * Saves the current item and moves to the previous item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#previous)
+         */
+        previous(): Promise<any>;
+        /**
+         * Moves to the previous page of data.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#previousPage)
+         */
+        previousPage(): Promise<any[]>;
+        /**
+         * Refetches the contents of the dataset from the collection.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#refresh)
+         */
+        refresh(): Promise<void>;
+        /**
+         * Removes the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#remove)
+         */
+        remove(): Promise<void>;
+        /**
+         * Reverts the current item to its saved value.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#revert)
+         */
+        revert(): Promise<void>;
+        /**
+         * Saves the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#save)
+         */
+        save(): Promise<any>;
+        /**
+         * Sets the current item by index.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setCurrentItemIndex)
+         */
+        setCurrentItemIndex(index: number): Promise<void>;
+        /**
+         * Updates the value of a field in the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setFieldValue)
+         */
+        setFieldValue(fieldKey: string, value: any): void;
+        /**
+         * Updates the values of a set of fields in the current item.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setFieldValues)
+         */
+        setFieldValues(fieldValues: any): void;
+        /**
+         * Sets the dataset filter.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setFilter)
+         */
+        setFilter(filter: wixData.WixDataFilter): Promise<void>;
+        /**
+         * Sets the dataset's page size.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setPageSize)
+         */
+        setPageSize(pageSize: number): Promise<void>;
+        /**
+         * Sets the dataset sort order.
+         * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#setSort)
+         */
+        setSort(sort: wixData.WixDataSort): Promise<void>;
+    }
+
+    /**
+     * A [dataset](wix-dataset.html) connects page elements to a set of items in a data collection.
+     * 	[Read more..](https://fake-corvid-api/wix-dataset.Dataset.html#)
+     */
+    namespace Dataset {
+        /**
+         * An object representing a dataset error.
+         */
+        type DatasetError = {
+            /**
+             * Error code.
+             */
+            code: string;
+            /**
+             * Error message.
+             */
+            message: string;
+        };
+
+        /**
+         * An object used by the \`getItems()\` function that contains the items retrieved and the total number of items in the dataset that match its filter criteria
+         */
+        type GetItemsResult = {
+            /**
+             * List of items objects where key:value pairs are the field keys and field values of the retrieved items, including all hidden fields.
+             */
+            items: any[];
+            /**
+             * The number of items in the dataset that match its filter criteria.
+             */
+            totalCount: number;
+            /**
+             * The index in the dataset of the first item in the items property.
+             */
+            offset: number;
+        };
+
+        /**
+         * An after save event handler.
+         */
+        type AfterSaveHandler = (itemBeforeSave: any, itemAfterSave: any)=>void;
+
+        /**
+         * A before save event handler.
+         */
+        type BeforeSaveHandler = ()=>Promise<boolean>;
+
+        /**
+         * A current item index change event handler.
+         */
+        type CurrentIndexChangedHandler = (index: number)=>void;
+
+        /**
+         * An error event handler.
+         */
+        type ErrorHandler = (operation: string, error: Dataset.DatasetError)=>void;
+
+        /**
+         * A current item value change event handler.
+         */
+        type ItemValuesChangedHandler = (itemBeforeChange: any, updatedItem: any)=>void;
+
+        /**
+         * A dataset ready event handler.
+         */
+        type ReadyHandler = ()=>void;
+
+    }
+
+}
+
+
+/**
+ * The wix-data module contains functionality for working with data in collections.
+ * 	[Read more..](https://fake-corvid-api/wix-data.html#)
+ */
+declare module 'wix-data' {
+    /**
+     * Creates an aggregation.
+     * 	[Read more..](https://fake-corvid-api/aggregate.html#aggregate)
+     */
+    function aggregate(collectionId: string): WixDataAggregate;
+
+    /**
+     * Adds a number of items to a collection.
+     * 	[Read more..](https://fake-corvid-api/bulkInsert.html#bulkInsert)
+     */
+    function bulkInsert(collectionId: string, items: any[], options?: WixDataOptions): Promise<WixDataBulkResult>;
+
+    /**
+     * Removes a number of items from a collection.
+     * 	[Read more..](https://fake-corvid-api/bulkRemove.html#bulkRemove)
+     */
+    function bulkRemove(collectionId: string, itemIds: string[], options?: WixDataOptions): Promise<WixDataBulkRemoveResult>;
+
+    /**
+     * Inserts or updates a number of items in a collection.
+     * 	[Read more..](https://fake-corvid-api/bulkSave.html#bulkSave)
+     */
+    function bulkSave(collectionId: string, items: any[], options?: WixDataOptions): Promise<WixDataBulkResult>;
+
+    /**
+     * Updates a number of items in a collection.
+     * 	[Read more..](https://fake-corvid-api/bulkUpdate.html#bulkUpdate)
+     */
+    function bulkUpdate(collectionId: string, items: any[], options?: WixDataOptions): Promise<WixDataBulkResult>;
+
+    /**
+     * Creates a filter to be used with datasets.
+     * 	[Read more..](https://fake-corvid-api/filter.html#filter)
+     */
+    function filter(): WixDataFilter;
+
+    /**
+     * Retrieves an item from a collection.
+     * 	[Read more..](https://fake-corvid-api/get.html#get)
+     */
+    function get(collectionId: string, itemId: string, options?: WixDataOptions): Promise<any>;
+
+    /**
+     * Adds an item to a collection.
+     * 	[Read more..](https://fake-corvid-api/insert.html#insert)
+     */
+    function insert(collectionId: string, item: any, options?: WixDataOptions): Promise<any>;
+
+    /**
+     * Inserts a reference in the specified property.
+     * 	[Read more..](https://fake-corvid-api/insertReference.html#insertReference)
+     */
+    function insertReference(collectionId: string, propertyName: string, referringItem: any | string, referencedItem: any | string | any[] | string[], options?: WixDataOptions): Promise<void>;
+
+    /**
+     * Checks if a reference to the referenced item exists in the specified
+     *   property of the referring item.
+     * 	[Read more..](https://fake-corvid-api/isReferenced.html#isReferenced)
+     */
+    function isReferenced(collectionId: string, propertyName: string, referringItem: any | string, referencedItem: any | string, options?: WixDataOptions): Promise<boolean>;
+
+    /**
+     * Creates a query for retrieving items from a database collection.
+     * 	[Read more..](https://fake-corvid-api/query.html#query)
+     */
+    function query(collectionId: string): WixDataQuery;
+
+    /**
+     * Gets the full items referenced in the specified property.
+     * 	[Read more..](https://fake-corvid-api/queryReferenced.html#queryReferenced)
+     */
+    function queryReferenced(collectionId: string, item: any | string, propertyName: string, options?: WixDataQueryReferencedOptions): Promise<WixDataQueryReferencedResult>;
+
+    /**
+     * Removes an item from a collection.
+     * 	[Read more..](https://fake-corvid-api/remove.html#remove)
+     */
+    function remove(collectionId: string, itemId: string, options?: WixDataOptions): Promise<any>;
+
+    /**
+     * Removes a reference from the specified property.
+     * 	[Read more..](https://fake-corvid-api/removeReference.html#removeReference)
+     */
+    function removeReference(collectionId: string, propertyName: string, referringItem: any | string, referencedItem: any | string | any[] | string[], options?: WixDataOptions): Promise<void>;
+
+    /**
+     * Replaces current references with references in the specified property.
+     * 	[Read more..](https://fake-corvid-api/replaceReferences.html#replaceReferences)
+     */
+    function replaceReferences(collectionId: string, propertyName: string, referringItem: any | string, referencedItem: any | string | any[] | string[], options?: WixDataOptions): Promise<void>;
+
+    /**
+     * Inserts or updates an item in a collection.
+     * 	[Read more..](https://fake-corvid-api/save.html#save)
+     */
+    function save(collectionId: string, item: any, options?: WixDataOptions): Promise<any>;
+
+    /**
+     * Creates a sort to be used with the dataset \`setSort()\` function.
+     * 	[Read more..](https://fake-corvid-api/sort.html#sort)
+     */
+    function sort(): WixDataSort;
+
+    /**
+     * Removes all items from a collection.
+     * 	[Read more..](https://fake-corvid-api/truncate.html#truncate)
+     */
+    function truncate(collectionId: string, options?: WixDataOptions): Promise<void>;
+
+    /**
+     * Updates an item in a collection.
+     * 	[Read more..](https://fake-corvid-api/update.html#update)
+     */
+    function update(collectionId: string, item: any, options?: WixDataOptions): Promise<any>;
+
+    /**
+     * An object returned by the \`bulkRemove()\` function.
+     */
+    type WixDataBulkRemoveResult = {
+        /**
+         * The number of removed items.
+         */
+        removed: number;
+        /**
+         * The number of skipped items.
+         */
+        skipped: number;
+        /**
+         * List of IDs of removed items.
+         */
+        removedItemIds: string[];
+        /**
+         * List of errors.
+         */
+        errors: Error[];
+    };
+
+    /**
+     * An object returned by Wix Data bulk operations.
+     */
+    type WixDataBulkResult = {
+        /**
+         * The number of inserted items.
+         */
+        inserted: number;
+        /**
+         * The number of updated items.
+         */
+        updated: number;
+        /**
+         * The number of skipped items.
+         */
+        skipped: number;
+        /**
+         * List of IDs of inserted items.
+         */
+        insertedItemIds: string[];
+        /**
+         * List of IDs of updated items.
+         */
+        updatedItemIds: string[];
+        /**
+         * List of errors.
+         */
+        errors: Error[];
+    };
+
+    /**
+     * An object that you pass as the \`options\` parameter that modifies how an operation is performed.
+     */
+    type WixDataOptions = {
+        /**
+         * Prevents [permission](https://support.wix.com/en/article/about-collection-permissions) checks from running for the operation. Defaults to \`false\`.
+         */
+        suppressAuth?: boolean;
+        /**
+         * Prevents [hooks](https://support.wix.com/en/article/wix-code-how-to-use-data-hooks) from running for the operation.
+         */
+        suppressHooks?: boolean;
+        /**
+         * Optional filters specific to querying [Wix Stores Products Collection Fields](https://support.wix.com/en/article/velo-wix-stores-products-collection-fields).
+         */
+        appOptions?: WixStoresProductQuery;
+    };
+
+    /**
+     * An object for controlling the order of returned referenced items.
+     */
+    type WixDataQueryReferencedOptions = {
+        /**
+         * The order of the returned referenced items. Either \\"asc\\" or \\"desc\\".
+         */
+        order: string;
+    };
+
+    /**
+     * An object that you pass as the \`options.appOptions\` parameter that allows for Wix Stores/Products query specificity.
+     */
+    type WixStoresProductQuery = {
+        /**
+         * Whether to include product variants in the query. Default is \`false\`.
+         */
+        includeVariants?: boolean;
+        /**
+         * Whether to include [hidden products](https://support.wix.com/en/article/wix-stores-changing-the-visibility-of-a-product) in the query. Default is \`false\`.
+         */
+        includeHiddenProducts?: boolean;
+    };
+
+    /**
+     * Provides functionality for performing aggregations on collection data.
+     * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#)
+     */
+    interface WixDataAggregate {
+        /**
+         * Adds a sort to an aggregation, sorting by the items or groups by the specified properties in ascending order.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#ascending)
+         */
+        ascending(...propertyName: string[]): WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to only contain the average value from each aggregation group.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#avg)
+         */
+        avg(propertyName: string, projectedName?: string): WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to contain the item count of each group in the aggregation.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#count)
+         */
+        count(): WixDataAggregate;
+        /**
+         * Adds a sort to an aggregation, sorting by the items or groups by the specified properties in descending order.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#descending)
+         */
+        descending(...propertyName: string[]): WixDataAggregate;
+        /**
+         * Filters out items from being used in an aggregation.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#filter)
+         */
+        filter(filter: WixDataFilter): WixDataAggregate;
+        /**
+         * Groups items together in an aggregation.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#group)
+         */
+        group(...propertyName: string[]): WixDataAggregate;
+        /**
+         * Filters out groups from being returned from an aggregation.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#having)
+         */
+        having(filter: WixDataFilter): WixDataAggregate;
+        /**
+         * Limits the number of items or groups the aggregation returns.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#limit)
+         */
+        limit(limit: number): WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to only contain the maximum value from each aggregation group.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#max)
+         */
+        max(propertyName: string, projectedName?: string): WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to only contain the minimum value from each aggregation group.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#min)
+         */
+        min(propertyName: string, projectedName?: string): WixDataAggregate;
+        /**
+         * Runs the aggregation and returns the results.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#run)
+         */
+        run(): Promise<WixDataAggregateResult>;
+        /**
+         * Sets the number of items or groups to skip before returning aggregation results.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#skip)
+         */
+        skip(skip: number): WixDataAggregate;
+        /**
+         * Refines a \`WixDataAggregate\` to contain the sum from each aggregation group.
+         * 	[Read more..](https://fake-corvid-api/wix-data.WixDataAggregate.html#sum)
+         */
+        sum(propertyName: string, projectedName?: string): WixDataAggregate;
+    }
+
+}
+
+
+import wixUsers from 'wix-users';
+
+
+/**
+ * The wix-crm module contains functionality for working with
+ *  [your site's contacts](https://support.wix.com/en/article/about-your-contact-list)
+ *  from client-side code.
+ * 	[Read more..](https://fake-corvid-api/wix-crm.html#)
+ */
+declare module 'wix-crm' {
+    /**
+     * Creates a new contact or updates an existing contact.
+     * 	[Read more..](https://fake-corvid-api/createContact.html#createContact)
+     */
+    function createContact(contactInfo: ContactInfo): Promise<string>;
+
+    /**
+     * Sends a Triggered Email to the contact.
+     * 	[Read more..](https://fake-corvid-api/emailContact.html#emailContact)
+     */
+    function emailContact(emailId: string, toContact: string, options?: wixUsers.TriggeredEmailOptions): Promise<void>;
+
+    /**
+     * An object that contains information about a site contact.
+     */
+    type ContactInfo = {
+        /**
+         * Contact's first name.
+         */
+        firstName: string;
+        /**
+         * Contact's last name.
+         */
+        lastName: string;
+        /**
+         * Contact's image source.
+         */
+        picture: string;
+        /**
+         * List of contact's email addresses.
+         */
+        emails: string[];
+        /**
+         * Email address the contact who is also
+         *  a member uses to log into the system.
+         */
+        loginEmail: string;
+        /**
+         * List of contact's phone numbers.
+         */
+        phones: string[];
+        /**
+         * List of contact's labels. [Labels](https://support.wix.com/en/article/creating-contact-labels)
+         *  are used to organize contacts. When setting the \`labels\` property, you can
+         *  only list labels that already exist in your site's [Contacts List](https://support.wix.com/en/article/accessing-your-contact-list).
+         */
+        labels: string[];
+        /**
+         * Contact's language.
+         */
+        language: string;
+        /**
+         * Any
+         *  number of custom fields. [Customs fields](https://support.wix.com/en/article/adding-custom-fields-to-contacts)
+         *  are used to store additional information about your site's contacts. When
+         *  setting a custom field, use key:value pairs where the key matches the names
+         *  defined in your site's [Contacts List](https://support.wix.com/en/article/accessing-your-contact-list).
+         *  You can only set values for custom fields that already exist in the Contacts
+         *  application.
+         */
+        customFields: string | number | Date;
+    };
+
+}
+
+
+/// <reference path='./$w.d.ts' />
+/// <reference path='./wix-users.d.ts' />
+/// <reference path='./wix-storage.d.ts' />
+/// <reference path='./wix-site.d.ts' />
+/// <reference path='./wix-router.d.ts' />
+/// <reference path='./wix-question-backend.d.ts' />
+/// <reference path='./wix-dev-backend.d.ts' />
+/// <reference path='./wix-dataset.d.ts' />
+/// <reference path='./wix-data.d.ts' />
+/// <reference path='./wix-crm.d.ts' />
+"
+`;
