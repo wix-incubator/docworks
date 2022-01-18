@@ -11,9 +11,14 @@ const isEmptyInterface = service =>
 	isEmpty_(service.properties) && isEmpty_(service.operations)
 
 const isEmptyNamespace = service =>
-	isEmpty_(service.services) &&
+	isEmpty_(service[SUB_SERVICES_KEY]) &&
 	isEmpty_(service.messages) &&
 	isEmpty_(service.callbacks)
+
+const isEmptyModule = service =>
+	isEmpty_(service[SUB_SERVICES_KEY]) &&
+	isEmpty_(service.properties)&& 
+	isEmpty_(service.operations)
 
 const getServiceSummary = service =>
 	service && service.docs && service.docs.summary ? service.docs.summary : ''
@@ -102,6 +107,7 @@ const createHierarchicalServicesMap = services => {
 	return modulesMapManager.getMap()
 }
 module.exports = {
+	isEmptyModule,
 	isEmptyInterface,
 	isEmptyNamespace,
 	getServiceSummary,
