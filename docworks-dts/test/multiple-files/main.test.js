@@ -23,6 +23,24 @@ const DETACHED_SERVICE_JSON = {
 	clientId: 'test'
 }
 
+const EMPTY_SERVICE_JSON = {
+	name: 'Test',
+	mixes: [],
+	labels: [],
+	docs: {
+		summary: '',
+		description: [],
+		links: [],
+		examples: [],
+		request: 'NA'
+	},
+	properties: [],
+	operations: [],
+	callbacks: [],
+	messages: [],
+	clientId: 'test'
+}
+
 const getServiceJson = servicePath =>
 	require(path.join('../services/', servicePath))
 const run = paths => {
@@ -147,6 +165,10 @@ describe('convert docworks to dts', () => {
 
 			expect(content).toContain(expectedDeceleration1)
 			expect(content).toContain(expectedDeceleration2)
+		})
+		test('should filter empty modules', () => {
+			const [{ content }] = multifilesMain([EMPTY_SERVICE_JSON], { summaryTemplate })
+			expect(content).toEqual('')
 		})
 	})
 

@@ -1,5 +1,3 @@
-const camelCase_ = require('lodash/camelCase')
-const { addDependency } = require('./providers/modulesDependencies')
 const { $W_NAME, TYPES } = require('./constants')
 const {
 	BASE_TYPES,
@@ -50,13 +48,8 @@ const isCrossReferenceType = (type, service) =>
 
 const resolveCrossReferenceType = (type, service) => {
 	if (isTypeGlobal(type)) return type
-
-	const { name, memberOf } = service
-	const [currentModuleName] = memberOf ? memberOf.split('.') : [name]
 	const [crossedTypeModuleName, ...otherParts] = type.split('.')
-
-	addDependency(currentModuleName, crossedTypeModuleName)
-	return `${camelCase_(crossedTypeModuleName)}.${otherParts.join('.')}`
+	return `import('${crossedTypeModuleName}').${otherParts.join('.')}`
 }
 
 const normalizeType = (type, service) => {
