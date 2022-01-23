@@ -4,10 +4,6 @@ const {
 	set: setDocumentationGenerator
 } = require('./providers/documentationGenerator')
 
-const {
-	init: initModulesDependencies
-} = require('./providers/modulesDependencies')
-
 const getMainContent = modulesNames =>
 	modulesNames.reduce(
 		(content, name) => content + dtsTripleSlashReference(name) + '\n',
@@ -31,7 +27,6 @@ const main = (
 		mainFileName = 'index.d.ts'
 	} = {}
 ) => {
-	initModulesDependencies()
 	setDocumentationGenerator(summaryTemplate)
 
 	const wixModuleFiles = repoCreator({ services, run$wFixer })
