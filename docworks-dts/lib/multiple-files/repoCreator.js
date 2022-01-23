@@ -32,7 +32,14 @@ const createImportStatements = dependencies => {
 
 const prependImportStatements = (module, extraConetnt) => {
 	if (module) {
-		module.content = [...extraConetnt, module.content].join('\n')
+		const declarationParts = module.content.split('\n')
+		const indexOfDeclareStatment = declarationParts.findIndex(dPart => dPart.includes('declare module'))
+		const declarationWithImportStatements = [
+			...declarationParts.slice(0,indexOfDeclareStatment + 1),
+			...extraConetnt,
+			...declarationParts.slice(indexOfDeclareStatment + 1)
+		]
+		module.content = declarationWithImportStatements.join('\n')
 	}
 }
 
