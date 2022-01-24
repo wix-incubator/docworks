@@ -809,7 +809,7 @@ namespace $w {
  * 	[Read more..](https://fake-corvid-api/wix-users.html#)
  */
 declare module 'wix-users' {
-import wixCrm from 'wix-crm';
+	import wixCrm from 'wix-crm';
 
 
     /**
@@ -1067,7 +1067,7 @@ declare module 'wix-storage' {
  * 	[Read more..](https://fake-corvid-api/wix-site.html#)
  */
 declare module 'wix-site' {
-import wixRouter from 'wix-router';
+	import wixRouter from 'wix-router';
 
 
     /**
@@ -1206,7 +1206,7 @@ import wixRouter from 'wix-router';
  * 	[Read more..](https://fake-corvid-api/wix-router.html#)
  */
 declare module 'wix-router' {
-import wixData from 'wix-data';
+	import wixData from 'wix-data';
 
 
     /**
@@ -3132,7 +3132,7 @@ declare module 'wix-dev-backend' {
  * 	[Read more..](https://fake-corvid-api/wix-dataset.html#)
  */
 declare module 'wix-dataset' {
-import wixData from 'wix-data';
+	import wixData from 'wix-data';
 
 
     /**
@@ -3680,7 +3680,7 @@ declare module 'wix-data' {
  * 	[Read more..](https://fake-corvid-api/wix-crm.html#)
  */
 declare module 'wix-crm' {
-import wixUsers from 'wix-users';
+	import wixUsers from 'wix-users';
 
 
     /**
