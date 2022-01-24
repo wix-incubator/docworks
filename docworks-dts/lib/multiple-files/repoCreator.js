@@ -8,6 +8,7 @@ const { getModulesDependenciesMap } = require('./providers/modulesDependencies')
 const { emit, dtsImportDefault } = require('./generators')
 
 const is$w = name => name === $W_NAME
+const addIndentation = (statment) => `\t${statment}`
 
 const createModulesFilesMap = ({ services, run$wFixer }) => {
 	const servicesMap = createHierarchicalServicesMap(services)
@@ -26,17 +27,19 @@ const createModulesFilesMap = ({ services, run$wFixer }) => {
 const createImportStatements = dependencies => {
 	return Object.keys(dependencies).map(depModuleKey => {
 		const dependency = dependencies[depModuleKey]
-		return emit(dtsImportDefault(dependency.to, dependency.from))
+		return addIndentation(emit(dtsImportDefault(dependency.to, dependency.from)))
 	})
 }
 
-const prependImportStatements = (module, extraConetnt) => {
+const prependImportStatements = (module, extraContent) => {
 	if (module) {
 		const declarationParts = module.content.split('\n')
-		const indexOfDeclareStatment = declarationParts.findIndex(dPart => dPart.includes('declare module'))
+		const indexOfDeclareStatment = declarationParts.findIndex(dPart =>
+			dPart.includes('declare module')
+		)
 		const declarationWithImportStatements = [
-			...declarationParts.slice(0,indexOfDeclareStatment + 1),
-			...extraConetnt,
+			...declarationParts.slice(0, indexOfDeclareStatment + 1),
+			...extraContent,
 			...declarationParts.slice(indexOfDeclareStatment + 1)
 		]
 		module.content = declarationWithImportStatements.join('\n')
