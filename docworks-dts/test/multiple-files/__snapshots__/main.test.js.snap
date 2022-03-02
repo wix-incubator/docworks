@@ -820,49 +820,49 @@ declare module 'wix-users' {
 
     /**
      * Logs the current user into the site using the given session token.
-     * 	[Read more..](https://fake-corvid-api/applySessionToken.html#applySessionToken)
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#applySessionToken)
      */
     function applySessionToken(sessionToken: string): Promise<void>;
 
     /**
      * Sends a Triggered Email to the currently logged-in site member.
-     * 	[Read more..](https://fake-corvid-api/emailUser.html#emailUser)
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#emailUser)
      */
     function emailUser(emailId: string, toUser: string, options?: TriggeredEmailOptions): Promise<void>;
 
     /**
      * Logs a user in based on email and password.
-     * 	[Read more..](https://fake-corvid-api/login.html#login)
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#login)
      */
     function login(email: string, password: string): Promise<void>;
 
     /**
      * Logs the current user out of the site.
-     * 	[Read more..](https://fake-corvid-api/logout.html#logout)
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#logout)
      */
     function logout(): void;
 
     /**
      * Sets the function that runs when a user logs in.
-     * 	[Read more..](https://fake-corvid-api/onLogin.html#onLogin)
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#onLogin)
      */
     function onLogin(handler: LoginHandler): void;
 
     /**
      * Prompts the current site visitor with a password reset.
-     * 	[Read more..](https://fake-corvid-api/promptForgotPassword.html#promptForgotPassword)
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#promptForgotPassword)
      */
     function promptForgotPassword(language?: string): Promise<void>;
 
     /**
      * Prompts the current site visitor to log in as a site member.
-     * 	[Read more..](https://fake-corvid-api/promptLogin.html#promptLogin)
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#promptLogin)
      */
     function promptLogin(options: LoginOptions): Promise<User>;
 
     /**
      * Registers a new site member.
-     * 	[Read more..](https://fake-corvid-api/register.html#register)
+     * 	[Read more..](https://fake-corvid-api/wix-users.html#register)
      */
     function register(email: string, password: string, options?: RegistrationOptions): Promise<RegistrationResult>;
 
@@ -1108,13 +1108,13 @@ declare module 'wix-site' {
 
     /**
      * Returns information about the site's pages, prefixes, and lightboxes.
-     * 	[Read more..](https://fake-corvid-api/getSiteStructure.html#getSiteStructure)
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#getSiteStructure)
      */
     function getSiteStructure(): SiteStructure;
 
     /**
      * Returns the sitemap for a router or dynamic page prefix.
-     * 	[Read more..](https://fake-corvid-api/routerSitemap.html#routerSitemap)
+     * 	[Read more..](https://fake-corvid-api/wix-site.html#routerSitemap)
      */
     function routerSitemap(routerPrefix: string): Promise<wixRouter.WixRouterSitemapEntry[]>;
 
@@ -1211,73 +1211,73 @@ declare module 'wix-router' {
 
     /**
      * Registers a hook that is called after a router.
-     * 	[Read more..](https://fake-corvid-api/afterRouter.html#afterRouter)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#afterRouter)
      */
     function afterRouter(request: WixRouterRequest, response: WixRouterResponse): Promise<WixRouterResponse>;
 
     /**
      * Registers a hook that is called after a sitemap is created.
-     * 	[Read more..](https://fake-corvid-api/afterSitemap.html#afterSitemap)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#afterSitemap)
      */
     function afterSitemap(request: WixRouterSitemapRequest, sitemapEntries: WixRouterSitemapEntry[]): Promise<WixRouterSitemapEntry[]>;
 
     /**
      * Registers a hook that is called before a router.
-     * 	[Read more..](https://fake-corvid-api/beforeRouter.html#beforeRouter)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#beforeRouter)
      */
     function beforeRouter(request: WixRouterRequest): Promise<WixRouterResponse>;
 
     /**
      * Registers a hook that is called after a route is resolved by the data binding router, but before the wix-data query is executed.
-     * 	[Read more..](https://fake-corvid-api/customizeQuery.html#customizeQuery)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#customizeQuery)
      */
     function customizeQuery(request: WixRouterRequest, route: string, query: wixData.WixDataQuery): wixData.WixDataQuery;
 
     /**
      * Returns a response with a status code 403 (Forbidden) and instructs the router to show a 403 page.
-     * 	[Read more..](https://fake-corvid-api/forbidden.html#forbidden)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#forbidden)
      */
     function forbidden(message?: string): Promise<WixRouterResponse>;
 
     /**
      * Returns a response that instructs the router to continue.
-     * 	[Read more..](https://fake-corvid-api/next.html#next)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#next)
      */
     function next(): Promise<WixRouterResponse>;
 
     /**
      * Returns a response with a status code 404 (Not Found) and instructs the router to show a 404 page.
-     * 	[Read more..](https://fake-corvid-api/notFound.html#notFound)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#notFound)
      */
     function notFound(message?: string): Promise<WixRouterResponse>;
 
     /**
      * Returns a response with a status code 200 (OK) and instructs the router to show the selected page.
-     * 	[Read more..](https://fake-corvid-api/ok.html#ok)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#ok)
      */
     function ok(Page: string | string[], routerReturnedData?: any, head?: WixRouterResponse.HeadOptions): Promise<WixRouterResponse>;
 
     /**
      * Returns a response with a status code of 301 (Moved Permanently) or 302 (Found) and instructs the router to redirect to the given URL.
-     * 	[Read more..](https://fake-corvid-api/redirect.html#redirect)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#redirect)
      */
     function redirect(url: string, statusCode?: string): Promise<WixRouterResponse>;
 
     /**
      * Function containing routing logic for a given URL prefix.
-     * 	[Read more..](https://fake-corvid-api/router.html#router)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#router)
      */
     function router(request: WixRouterRequest): Promise<WixRouterResponse>;
 
     /**
      * Returns a response with the specified HTTP status code with an optional message.
-     * 	[Read more..](https://fake-corvid-api/sendStatus.html#sendStatus)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#sendStatus)
      */
     function sendStatus(statusCode: string, message?: string): Promise<WixRouterResponse>;
 
     /**
      * Function containing sitemap logic for a given URL prefix.
-     * 	[Read more..](https://fake-corvid-api/sitemap.html#sitemap)
+     * 	[Read more..](https://fake-corvid-api/wix-router.html#sitemap)
      */
     function sitemap(request: WixRouterSitemapRequest): Promise<WixRouterSitemapEntry[]>;
 
@@ -3391,116 +3391,116 @@ declare module 'wix-dataset' {
 declare module 'wix-data' {
     /**
      * Creates an aggregation.
-     * 	[Read more..](https://fake-corvid-api/aggregate.html#aggregate)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#aggregate)
      */
     function aggregate(collectionId: string): WixDataAggregate;
 
     /**
      * Adds a number of items to a collection.
-     * 	[Read more..](https://fake-corvid-api/bulkInsert.html#bulkInsert)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#bulkInsert)
      */
     function bulkInsert(collectionId: string, items: any[], options?: WixDataOptions): Promise<WixDataBulkResult>;
 
     /**
      * Removes a number of items from a collection.
-     * 	[Read more..](https://fake-corvid-api/bulkRemove.html#bulkRemove)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#bulkRemove)
      */
     function bulkRemove(collectionId: string, itemIds: string[], options?: WixDataOptions): Promise<WixDataBulkRemoveResult>;
 
     /**
      * Inserts or updates a number of items in a collection.
-     * 	[Read more..](https://fake-corvid-api/bulkSave.html#bulkSave)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#bulkSave)
      */
     function bulkSave(collectionId: string, items: any[], options?: WixDataOptions): Promise<WixDataBulkResult>;
 
     /**
      * Updates a number of items in a collection.
-     * 	[Read more..](https://fake-corvid-api/bulkUpdate.html#bulkUpdate)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#bulkUpdate)
      */
     function bulkUpdate(collectionId: string, items: any[], options?: WixDataOptions): Promise<WixDataBulkResult>;
 
     /**
      * Creates a filter to be used with datasets.
-     * 	[Read more..](https://fake-corvid-api/filter.html#filter)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#filter)
      */
     function filter(): WixDataFilter;
 
     /**
      * Retrieves an item from a collection.
-     * 	[Read more..](https://fake-corvid-api/get.html#get)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#get)
      */
     function get(collectionId: string, itemId: string, options?: WixDataOptions): Promise<any>;
 
     /**
      * Adds an item to a collection.
-     * 	[Read more..](https://fake-corvid-api/insert.html#insert)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#insert)
      */
     function insert(collectionId: string, item: any, options?: WixDataOptions): Promise<any>;
 
     /**
      * Inserts a reference in the specified property.
-     * 	[Read more..](https://fake-corvid-api/insertReference.html#insertReference)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#insertReference)
      */
     function insertReference(collectionId: string, propertyName: string, referringItem: any | string, referencedItem: any | string | any[] | string[], options?: WixDataOptions): Promise<void>;
 
     /**
      * Checks if a reference to the referenced item exists in the specified
      *   property of the referring item.
-     * 	[Read more..](https://fake-corvid-api/isReferenced.html#isReferenced)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#isReferenced)
      */
     function isReferenced(collectionId: string, propertyName: string, referringItem: any | string, referencedItem: any | string, options?: WixDataOptions): Promise<boolean>;
 
     /**
      * Creates a query for retrieving items from a database collection.
-     * 	[Read more..](https://fake-corvid-api/query.html#query)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#query)
      */
     function query(collectionId: string): WixDataQuery;
 
     /**
      * Gets the full items referenced in the specified property.
-     * 	[Read more..](https://fake-corvid-api/queryReferenced.html#queryReferenced)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#queryReferenced)
      */
     function queryReferenced(collectionId: string, item: any | string, propertyName: string, options?: WixDataQueryReferencedOptions): Promise<WixDataQueryReferencedResult>;
 
     /**
      * Removes an item from a collection.
-     * 	[Read more..](https://fake-corvid-api/remove.html#remove)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#remove)
      */
     function remove(collectionId: string, itemId: string, options?: WixDataOptions): Promise<any>;
 
     /**
      * Removes a reference from the specified property.
-     * 	[Read more..](https://fake-corvid-api/removeReference.html#removeReference)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#removeReference)
      */
     function removeReference(collectionId: string, propertyName: string, referringItem: any | string, referencedItem: any | string | any[] | string[], options?: WixDataOptions): Promise<void>;
 
     /**
      * Replaces current references with references in the specified property.
-     * 	[Read more..](https://fake-corvid-api/replaceReferences.html#replaceReferences)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#replaceReferences)
      */
     function replaceReferences(collectionId: string, propertyName: string, referringItem: any | string, referencedItem: any | string | any[] | string[], options?: WixDataOptions): Promise<void>;
 
     /**
      * Inserts or updates an item in a collection.
-     * 	[Read more..](https://fake-corvid-api/save.html#save)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#save)
      */
     function save(collectionId: string, item: any, options?: WixDataOptions): Promise<any>;
 
     /**
      * Creates a sort to be used with the dataset \`setSort()\` function.
-     * 	[Read more..](https://fake-corvid-api/sort.html#sort)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#sort)
      */
     function sort(): WixDataSort;
 
     /**
      * Removes all items from a collection.
-     * 	[Read more..](https://fake-corvid-api/truncate.html#truncate)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#truncate)
      */
     function truncate(collectionId: string, options?: WixDataOptions): Promise<void>;
 
     /**
      * Updates an item in a collection.
-     * 	[Read more..](https://fake-corvid-api/update.html#update)
+     * 	[Read more..](https://fake-corvid-api/wix-data.html#update)
      */
     function update(collectionId: string, item: any, options?: WixDataOptions): Promise<any>;
 
@@ -3685,13 +3685,13 @@ declare module 'wix-crm' {
 
     /**
      * Creates a new contact or updates an existing contact.
-     * 	[Read more..](https://fake-corvid-api/createContact.html#createContact)
+     * 	[Read more..](https://fake-corvid-api/wix-crm.html#createContact)
      */
     function createContact(contactInfo: ContactInfo): Promise<string>;
 
     /**
      * Sends a Triggered Email to the contact.
-     * 	[Read more..](https://fake-corvid-api/emailContact.html#emailContact)
+     * 	[Read more..](https://fake-corvid-api/wix-crm.html#emailContact)
      */
     function emailContact(emailId: string, toContact: string, options?: wixUsers.TriggeredEmailOptions): Promise<void>;
 
