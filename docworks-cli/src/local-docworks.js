@@ -114,6 +114,9 @@ async function localDocworks({remoteRepo, branch, outputDirectory, tmpDir, proje
         const {services, errors} = runJsDoc(jsDocSources, plugins)
         logger.jsDocErrors(errors)
 
+        logger.command("deleting ", workingSubdir)
+        fs.emptyDirSync(workingSubdir);
+        await fs.ensureDir(workingSubdir)
         logger.command('docworks', `readServices ${workingSubdir}`)
         const repoContent = await readFromDir(workingSubdir)
 
@@ -125,6 +128,8 @@ async function localDocworks({remoteRepo, branch, outputDirectory, tmpDir, proje
             logger.command('docworks', 'enrichment')
             enriched = enrichModel(merged.repo, enrichmentDocsDir)
         }
+
+        
 
         logger.command('docworks', `saveServices ${workingSubdir}`)
         await saveToDir(workingSubdir, enriched)

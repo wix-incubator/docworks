@@ -82,6 +82,10 @@ async function extractComparePush({remoteRepo, remoteBranch, workingDir, project
       }
     }
 
+    logger.command("deleting ", workingSubdir)
+    fs.emptyDirSync(workingSubdir);
+    await fs.ensureDir(workingSubdir)
+
     logger.command('docworks', `readServices ${workingSubdir}`)
     let repoContent = await readFromDir(workingSubdir)
 

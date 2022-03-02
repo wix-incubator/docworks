@@ -32,7 +32,11 @@ async function saveToDir(directory, services) {
     let serviceJson = serviceToJson(service)
     return {dirName, fullFileName, repoFileName, serviceJson}
   })
-
+  // .filter(serviceToSave => {
+  //   const serviceJson = serviceToSave.serviceJson
+  //   return !serviceJson.includes("removed")
+  // })
+  debugger
   // ensure all directories are created before starting to save files - we do so one after the other
   let dirNames = new Set(filesAndServices.map(_ => _.dirName))
   let dirsPromise = [...dirNames].reduce(function(cur, next) {
