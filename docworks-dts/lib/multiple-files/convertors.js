@@ -18,11 +18,14 @@ const { getServiceSummary } = require('./serviceUtils')
 
 const { SUB_SERVICES_KEY } = require('./constants')
 
+const getServiceDocsName = ({ name, memberOf }) =>
+	memberOf ? `${memberOf}.${name}` : name
+
 const docworksPropertyToDtsConst = (property, service) => {
 	const documentationGenerator = getDocumentationGenerator()
 	const jsDocComment = documentationGenerator({
 		summary: property.docs.summary,
-		service: service.name,
+		service: getServiceDocsName(service),
 		member: property.name
 	})
 	property.type = resolveType(property.type, service, { union: true })
@@ -57,7 +60,7 @@ const docworksOperationToDtsFunction = (operation, service) => {
 	)
 	const jsDocComment = documentationGenerator({
 		summary: summary,
-		service: name,
+		service: getServiceDocsName(service),
 		member: name
 	})
 
@@ -150,9 +153,6 @@ const docworksOperationToDtsMethod = (operation, service) => {
 		service
 	})
 }
-
-const getServiceDocsName = ({ name, memberOf }) =>
-	memberOf ? `${memberOf}.${name}` : name
 
 const docworksSubServiceToDtsInterface = service => {
 	const { name, properties = [], operations = [] } = service

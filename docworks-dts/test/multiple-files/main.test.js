@@ -106,13 +106,21 @@ describe('convert docworks to dts', () => {
 			expect(content).toContain(expectedDocLink)
 		})
 
-		test('should generate documentation link to methods', () => {
+		test('should generate documentation link to mixins methods', () => {
 			const [{ content }] = run([
 				'$w.service.json',
 				'ClickableMixin.service.json'
 			])
 			const expectedDocLink =
 				'[Read more..](https://fake-corvid-api/$w.ClickableMixin.html#onClick)'
+
+			expect(content).toContain(expectedDocLink)
+		})
+
+		test('should generate documentation link to members methods', () => {
+			const [{ content }] = run(['wix-users.service.json'])
+			const expectedDocLink =
+				'[Read more..](https://fake-corvid-api/wix-users.html#emailUser)'
 
 			expect(content).toContain(expectedDocLink)
 		})
