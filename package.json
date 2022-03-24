@@ -28,6 +28,7 @@
       "wix-one-of",
 			"wix-queryable",
 			"wix-snippet",
+			"wix-scopes",
 			"wix-types-fix"
 		]
 	}
