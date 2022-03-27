@@ -1,3 +1,5 @@
+const {EmptyScopesError, InvalidScope, InvalidScopeSchema} = require('./ScopeErrors')
+
 const SCOPES_TAG_NAME = 'scopes'
 const FRONTEND_SCOPE = 'frontend'
 const BACKEND_SCOPE = 'backend'
@@ -10,19 +12,19 @@ const extractScopesFromTag = (tag) => {
 
   const isScropesTagValid = tag.value.match(/^\[[a-zA-Z,]*\]$/)
   if(!isScropesTagValid){
-    throw new Error(`scopes tag ${tag.value} is not valid`)
+    throw new InvalidScopeSchema(tag.value)
   }
 
   const scopesTagWithoutBrackets = tag.value.slice(1,tag.value.length-1)
 
   if(!scopesTagWithoutBrackets){
-    throw new Error(`scopes tag ${tag.value} value is empty`)
+    throw new EmptyScopesError()
   }
   const scopesValues = scopesTagWithoutBrackets.split(',')
 
   for(const scopeValue of scopesValues){
     if(!UNIVERSAL_SCOPES.includes(scopeValue)){
-      throw new Error(`unknown scope value ${scopeValue}`)
+      throw new InvalidScope(scopeValue)
     }
   }
 
@@ -40,7 +42,7 @@ const defineScopesTag = (dictionary) => {
         doclet[SCOPES_TAG_NAME] = extractScopesFromTag(tag)
       }
       catch(e){
-        console.error(e.message)
+        console.error(e.message, e.kind)
         doclet[SCOPES_TAG_NAME] = []
       }
     }

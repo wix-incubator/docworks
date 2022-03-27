@@ -1,5 +1,7 @@
 const { docworksMergeService, extendDocworksService, SCOPES_TAG_NAME, UNIVERSAL_SCOPES } = require('../src/index')
+const { ScopeErrorKinds } = require('../src/ScopeErrors')
 const { initTestPropertiesAndDefineTags, makeTag } = require('./utils')
+
 describe('wix-scopes', () => {
 
   it('should register the snippet tag', () => {
@@ -54,14 +56,56 @@ describe('wix-scopes', () => {
   })
 
   describe('edge cases',() => {
-    it('should not accept unknown scope',()=>{
-    const { dictionary, doclet } = initTestPropertiesAndDefineTags()
-    const tag = makeTag({value: 'unknown_scope'})
-    dictionary.tags[SCOPES_TAG_NAME].onTagged(doclet, tag)
 
-    expect(doclet).toEqual(expect.objectContaining({
-        scopes: []
-      }))
+    let dictionary,doclet,spy
+
+    beforeEach(()=>{
+        const testProperties = initTestPropertiesAndDefineTags()
+        dictionary = testProperties.dictionary
+        doclet = testProperties.doclet
+        spy = jest.spyOn(console, 'error').mockImplementation(() => {})
     })
-  })
+
+    it('should not accept invalid scopes pattern',()=>{
+        const tag = makeTag({value: 'frontend,backend'})
+        dictionary.tags[SCOPES_TAG_NAME].onTagged(doclet, tag)
+        
+        expect(doclet).toEqual(expect.objectContaining({
+            scopes: []
+        }))
+
+        expect(spy).toHaveBeenCalledWith(
+            expect.anything(),
+            ScopeErrorKinds.INVALID_SCOPES_SCHEMA
+        )
+    })
+
+    it('should not accept unknown scope',()=>{
+        const tag = makeTag({value: '[unknownScope]'})
+        dictionary.tags[SCOPES_TAG_NAME].onTagged(doclet, tag)
+
+        expect(doclet).toEqual(expect.objectContaining({
+            scopes: []
+        }))
+        
+        expect(spy).toHaveBeenCalledWith(
+            expect.anything(),
+            ScopeErrorKinds.INVALID_SCOPE
+        )
+    })
+
+    it('should not accept empty scopes value',()=>{
+        const tag = makeTag({value: '[]'})
+        dictionary.tags[SCOPES_TAG_NAME].onTagged(doclet, tag)
+
+        expect(doclet).toEqual(expect.objectContaining({
+            scopes: []
+        }))
+        
+        expect(spy).toHaveBeenCalledWith(
+            expect.anything(),
+            ScopeErrorKinds.EMPTY_SCOPES
+        )
+     })
+    })
 })
