@@ -3,7 +3,7 @@ const FRONTEND_SCOPE = 'frontend'
 const BACKEND_SCOPE = 'backend'
 const UNIVERSAL_SCOPES = [FRONTEND_SCOPE, BACKEND_SCOPE]
 
-function extractScopesFromTag(tag){
+const extractScopesFromTag = (tag) => {
   if(!tag || !tag.value){
     return UNIVERSAL_SCOPES
   }
@@ -29,7 +29,7 @@ function extractScopesFromTag(tag){
   return scopesValues
 }
 
-function defineScopesTag(dictionary) {
+const defineScopesTag = (dictionary) => {
   dictionary.defineTag(SCOPES_TAG_NAME, {
     mustNotHaveValue : true,
     mustNotHaveDescription: true,
@@ -41,16 +41,17 @@ function defineScopesTag(dictionary) {
       }
       catch(e){
         console.error(e.message)
+        doclet[SCOPES_TAG_NAME] = []
       }
     }
   })
 }
 
-function extendDocworks(doclet) {
+const extendDocworks = (doclet) => {
   return {extraValue: doclet[SCOPES_TAG_NAME]}
 }
 
-function mergeScopesValue(newValue, oldValue) {
+const mergeScopesValue = (newValue, oldValue) => {
   return {value: newValue, changed: newValue !== oldValue}
 }
 
