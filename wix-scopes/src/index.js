@@ -29,27 +29,38 @@ function extractScopesFromTag(tag){
   return scopesValues
 }
 
-exports.defineTags = function(dictionary) {
+function defineScopesTag(dictionary) {
   dictionary.defineTag(SCOPES_TAG_NAME, {
     mustNotHaveValue : true,
     mustNotHaveDescription: true,
     canHaveType: false,
     canHaveName : false,
     onTagged: function(doclet, tag) {
-      doclet[SCOPES_TAG_NAME] = extractScopesFromTag(tag)
+      try{
+        doclet[SCOPES_TAG_NAME] = extractScopesFromTag(tag)
+      }
+      catch(e){
+        console.error(e.message)
+      }
     }
   })
 }
 
-exports.extendDocworksKey = SCOPES_TAG_NAME
-
 function extendDocworks(doclet) {
   return {extraValue: doclet[SCOPES_TAG_NAME]}
 }
-exports.extendDocworksService = extendDocworks
 
 function mergeScopesValue(newValue, oldValue) {
   return {value: newValue, changed: newValue !== oldValue}
 }
 
-exports.docworksMergeService = mergeScopesValue
+module.exports = {
+  extendDocworksKey: SCOPES_TAG_NAME,
+  docworksMergeService: mergeScopesValue,
+  extendDocworksService: extendDocworks,
+  defineTags: defineScopesTag,
+  UNIVERSAL_SCOPES,
+  FRONTEND_SCOPE,
+  BACKEND_SCOPE,
+  SCOPES_TAG_NAME
+}
