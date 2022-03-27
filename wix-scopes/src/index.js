@@ -4,7 +4,6 @@ const BACKEND_SCOPE = 'backend'
 const UNIVERSAL_SCOPES = [FRONTEND_SCOPE, BACKEND_SCOPE]
 
 function extractScopesFromTag(tag){
-  debugger
   if(!tag || !tag.value){
     return UNIVERSAL_SCOPES
   }
@@ -49,8 +48,8 @@ function extendDocworks(doclet) {
 }
 exports.extendDocworksService = extendDocworks
 
-function mergeQueryableValue(newValue, oldValue) {
+function mergeScopesValue(newValue, oldValue) {
   return {value: newValue, changed: newValue !== oldValue}
 }
 
-exports.docworksMergeService = mergeQueryableValue
+exports.docworksMergeService = mergeScopesValue
