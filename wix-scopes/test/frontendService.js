@@ -3,9 +3,7 @@
  * @class Service
  * @scopes [frontend]
  */
- class Service {
-}
+ class Service {}
   
-  
-  export default Service
+export default Service
   

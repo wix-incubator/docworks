@@ -1,4 +1,4 @@
-const {EmptyScopesError, InvalidScope, InvalidScopeSchema} = require('./ScopeErrors')
+const { EmptyScopesError, InvalidScope, InvalidScopeSchema } = require('./ScopeErrors')
 
 const SCOPES_TAG_NAME = 'scopes'
 const FRONTEND_SCOPE = 'frontend'
@@ -55,7 +55,7 @@ const extendDocworks = (doclet) => {
 
 const mergeScopesValue = (newValue = [], oldValue = []) => {
   let hasChanged = false
-  let mergedValue = newValue
+  let mergedValue = oldValue
   
   if(!newValue.length  && !oldValue.length){
     return {changed: hasChanged}

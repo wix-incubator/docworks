@@ -3,7 +3,6 @@ const { ScopeErrorKinds } = require('../src/ScopeErrors')
 const { initTestPropertiesAndDefineTags, makeTag } = require('./utils')
 
 describe('wix-scopes', () => {
-
   it('should register the snippet tag', () => {
     const {dictionary} = initTestPropertiesAndDefineTags()
 
@@ -63,7 +62,6 @@ describe('wix-scopes', () => {
   })
 
   describe('edge cases',() => {
-
     let dictionary,doclet,spy
 
     beforeEach(()=>{

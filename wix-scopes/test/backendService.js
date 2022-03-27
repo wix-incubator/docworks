@@ -3,9 +3,7 @@
  * @class Service
  * @scopes [backend]
  */
- class Service {
-}
-  
-  
-  export default Service
+ class Service {}
+
+export default Service
   

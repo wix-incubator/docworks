@@ -1,4 +1,4 @@
-const {defineTags} = require('../src/index')
+const { defineTags } = require('../src/index')
 
 const makeDict = () => {
     return {
