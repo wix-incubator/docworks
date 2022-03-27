@@ -33,10 +33,10 @@ const extractScopesFromTag = (tag) => {
 
 const defineScopesTag = (dictionary) => {
   dictionary.defineTag(SCOPES_TAG_NAME, {
-    mustNotHaveValue : true,
     mustNotHaveDescription: true,
     canHaveType: false,
     canHaveName : false,
+    mustHaveValue: true,
     onTagged: function(doclet, tag) {
       try{
         doclet[SCOPES_TAG_NAME] = extractScopesFromTag(tag)
@@ -53,8 +53,20 @@ const extendDocworks = (doclet) => {
   return {extraValue: doclet[SCOPES_TAG_NAME]}
 }
 
-const mergeScopesValue = (newValue, oldValue) => {
-  return {value: newValue, changed: newValue !== oldValue}
+const mergeScopesValue = (newValue = [], oldValue = []) => {
+  let hasChanged = false
+  let mergedValue = newValue
+  
+  if(!newValue.length  && !oldValue.length){
+    return {changed: hasChanged}
+  }
+
+  if(newValue.sort().join(',') !== oldValue.sort().join(',')){
+    hasChanged = true
+    mergedValue = [...new Set([...oldValue, ...newValue])]
+  }
+
+  return {value: mergedValue, changed: hasChanged}
 }
 
 module.exports = {

@@ -1,4 +1,4 @@
-const { docworksMergeService, extendDocworksService, SCOPES_TAG_NAME, UNIVERSAL_SCOPES } = require('../src/index')
+const { docworksMergeService, extendDocworksService, SCOPES_TAG_NAME, UNIVERSAL_SCOPES, BACKEND_SCOPE, FRONTEND_SCOPE } = require('../src/index')
 const { ScopeErrorKinds } = require('../src/ScopeErrors')
 const { initTestPropertiesAndDefineTags, makeTag } = require('./utils')
 
@@ -27,31 +27,38 @@ describe('wix-scopes', () => {
 
   describe('merge', () => {
     it('should report no change if no scopes tag', () => {
-      const mergeResult = docworksMergeService(undefined, undefined)
+        const mergeResult = docworksMergeService(undefined, undefined)
 
-      expect(mergeResult.value).not.toBeDefined()
-      expect(mergeResult.changed).toBeFalsy()
+        expect(mergeResult.value).not.toBeDefined()
+        expect(mergeResult.changed).toBeFalsy()
     })
 
-    it('should report no change if scopes tag did not change', () => {
-      const mergeResult = docworksMergeService(true, true)
-
-      expect(mergeResult.value).toEqual(true)
-      expect(mergeResult.changed).toBeFalsy()
+    it('should merge scopes tag properly', () => {
+        const mergeResult = docworksMergeService([BACKEND_SCOPE], [FRONTEND_SCOPE])
+    
+        expect(mergeResult.value).toEqual(UNIVERSAL_SCOPES)
+        expect(mergeResult.changed).toBeTruthy()
     })
 
-    it('should report change if scopes tag was added', () => {
-      const mergeResult = docworksMergeService(true, undefined)
-
-      expect(mergeResult.value).toEqual(true)
-      expect(mergeResult.changed).toBeTruthy()
+    it('should merge new value scope tag properly', () => {
+        const mergeResult = docworksMergeService(undefined, [BACKEND_SCOPE])
+  
+        expect(mergeResult.value).toEqual([BACKEND_SCOPE])
+        expect(mergeResult.changed).toBeTruthy()
     })
 
-    it('should report changed if scopes tag was removed', () => {
-      const mergeResult = docworksMergeService(undefined, true)
+    it('should merge old value scope tag properly', () => {
+        const mergeResult = docworksMergeService([FRONTEND_SCOPE], undefined)
+  
+        expect(mergeResult.value).toEqual([FRONTEND_SCOPE])
+        expect(mergeResult.changed).toBeTruthy()
+    })
 
-      expect(mergeResult.value).not.toBeDefined()
-      expect(mergeResult.changed).toBeTruthy()
+    it('should merge scopes tag properly and not contain duplicates', () => {
+        const mergeResult = docworksMergeService([BACKEND_SCOPE,FRONTEND_SCOPE], [FRONTEND_SCOPE])
+
+        expect(mergeResult.value).toEqual(UNIVERSAL_SCOPES)
+        expect(mergeResult.changed).toBeTruthy()
     })
   })
 
