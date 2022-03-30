@@ -1,0 +1,24 @@
+{
+  "name": "wix-scopes",
+  "version": "1.0.0",
+  "description": "Add scopes tag to docworks",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix",
+    "build": "npm run lint && npm run test",
+    "prepublish": "npm run build",
+    "test": "jest"
+  },
+  "author": "Gal Carmi",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-jest": "^26.2.2",
+    "docworks-jsdoc2spec": "^1.10.8",
+    "docworks-repo": "^1.10.20",
+    "eslint": "^6.0.1",
+    "jest": "^26.2.2"
+  }
+}
