@@ -1,6 +1,6 @@
 const runJsDoc = require('docworks-jsdoc2spec')
 const { merge } = require('docworks-repo')
-const { UNIVERSAL_SCOPES, FRONTEND_SCOPE } = require('../src')
+const { UNIVERSAL_SCOPES, FRONTEND_SCOPE, BACKEND_SCOPE } = require('../src')
 
 const WIX_SCOPES_PLUGIN_PATH = ['src/index']
 
@@ -14,11 +14,16 @@ const services = {
         'include': [
           'test/backendService.js'
         ],
+    },
+    UNIVERSAL_SERVICE: {
+        'include': [
+          'test/universalService.js'
+        ],
     }
 }
 
 describe('wix-scopes - integration test', () => {
-    it('should extract valid scopes from the jsDoc service', () => {
+    it('should extract valid frontend scope from the jsDoc service', () => {
         const jsDocRes = runJsDoc(services.FRONTEND_SERVICE, WIX_SCOPES_PLUGIN_PATH)
         const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
     
@@ -26,6 +31,32 @@ describe('wix-scopes - integration test', () => {
             expect.objectContaining({
                 extra: {
                     scopes: [FRONTEND_SCOPE]
+                }
+            })
+        )
+    })
+
+    it('should extract valid backend scope from the jsDoc service', () => {
+        const jsDocRes = runJsDoc(services.BACKEND_SERVICE, WIX_SCOPES_PLUGIN_PATH)
+        const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
+    
+        expect(jsDocService).toEqual(
+            expect.objectContaining({
+                extra: {
+                    scopes: [BACKEND_SCOPE]
+                }
+            })
+        )
+    })
+
+    it('should extract valid frontend and backend scopes from the jsDoc service', () => {
+        const jsDocRes = runJsDoc(services.UNIVERSAL_SERVICE, WIX_SCOPES_PLUGIN_PATH)
+        const jsDocService = jsDocRes.services.find(s => s.name === 'Service')
+    
+        expect(jsDocService).toEqual(
+            expect.objectContaining({
+                extra: {
+                    scopes: UNIVERSAL_SCOPES
                 }
             })
         )

@@ -50,8 +50,11 @@ const defineScopesTag = (dictionary) => {
 }
 
 const extendDocworks = (doclet) => {
-  return {extraValue: doclet[SCOPES_TAG_NAME]}
+  return { extraValue: doclet[SCOPES_TAG_NAME] }
 }
+
+const isStringArraysEqual = (firstStringsArray, secondStringsArray) => 
+  firstStringsArray.sort().join(',') !== secondStringsArray.sort().join(',')
 
 const mergeScopesValue = (newValue = [], oldValue = []) => {
   let hasChanged = false
@@ -61,12 +64,12 @@ const mergeScopesValue = (newValue = [], oldValue = []) => {
     return {changed: hasChanged}
   }
 
-  if(newValue.sort().join(',') !== oldValue.sort().join(',')){
+  if(isStringArraysEqual(newValue, oldValue)){
     hasChanged = true
     mergedValue = [...new Set([...oldValue, ...newValue])]
   }
 
-  return {value: mergedValue, changed: hasChanged}
+  return { value: mergedValue, changed: hasChanged }
 }
 
 module.exports = {
