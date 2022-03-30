@@ -1,6 +1,6 @@
 {
   "name": "wix-scopes",
-  "version": "1.0.0",
+  "version": "1.11.5",
   "description": "Add scopes tag to docworks",
   "main": "src/index.js",
   "scripts": {
@@ -12,7 +12,6 @@
   },
   "author": "Gal Carmi",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-jest": "^26.2.2",
