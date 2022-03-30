@@ -12,13 +12,12 @@
   },
   "author": "Gal Carmi",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-jest": "^26.2.2",
     "docworks-jsdoc2spec": "^1.10.8",
     "docworks-repo": "^1.10.20",
     "eslint": "^6.0.1",
-    "jest": "^26.2.2"
+    "jest": "^24.8.0"
   }
 }
