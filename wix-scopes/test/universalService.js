@@ -1,7 +1,7 @@
 /* eslint-disable getter-return,no-unused-vars */
 /**
  * @class Service
- * @scopes [backend,frontend]
+ * @scopes [frontend,backend]
  */
  class Service {}
 
