@@ -6,6 +6,7 @@ const { moduleBuilder, $wGlobalNamespaceBuilder } = require('./builders')
 const { $W_NAME } = require('./constants')
 const { getModulesDependenciesMap } = require('./providers/modulesDependencies')
 const { emit, dtsImportDefault } = require('./generators')
+const { isIncludesRemovedLabel } = require('./utils')
 
 const is$w = name => name === $W_NAME
 const addIndentation = (statment) => `\t${statment}`
@@ -14,7 +15,7 @@ const createModulesFilesMap = ({ services, run$wFixer }) => {
 	const servicesMap = createHierarchicalServicesMap(services)
 	return Object.keys(servicesMap).reduce((filesMap, moduleName) => {
 		const rootService = servicesMap[moduleName]
-		if (isEmptyModule(rootService)) return filesMap
+		if (isEmptyModule(rootService) || isIncludesRemovedLabel(rootService)) return filesMap
 		return {
 			...filesMap,
 			[moduleName]: is$w(moduleName)

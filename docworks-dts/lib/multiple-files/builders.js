@@ -24,19 +24,12 @@ const {
 const {
 	DATASET,
 	DYNAMIC_DATASET,
-	SUB_SERVICES_KEY,
 	$W_NAME
 } = require('./constants')
+const { getServiceFilteredProperties } = require('./utils')
 
 const moduleBuilder = service => {
-	const {
-		name,
-		properties = [],
-		operations = [],
-		messages = [],
-		callbacks = [],
-		[SUB_SERVICES_KEY]: subServices = {}
-	} = service
+	const { name, messages, callbacks, operations, properties, subServices } = getServiceFilteredProperties(service)
 
 	const constMembers = properties.map(property =>
 		docworksPropertyToDtsConst(property, service)
@@ -98,12 +91,7 @@ const get$wDatasetMembers = () => {
 }
 
 const $wGlobalNamespaceBuilder = (service, { run$wFixer }) => {
-	const {
-		name,
-		messages = [],
-		callbacks = [],
-		[SUB_SERVICES_KEY]: subServices = {}
-	} = service
+	const { name, messages, callbacks, subServices } = getServiceFilteredProperties(service)
 
 	const typesMembers = messages.map(message =>
 		docworksMessageToDtsType(message, service)
