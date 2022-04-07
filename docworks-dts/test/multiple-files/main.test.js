@@ -1,45 +1,9 @@
 const path = require('path')
 const { readFromDir } = require('docworks-repo')
 const multifilesMain = require('../../lib/multiple-files')
+const { DETACHED_SERVICE_JSON, EMPTY_SERVICE_JSON, SERVICE_JSON_WITH_REMOVED_ITEMS, REMOVED_SERVICE_JSON } = require('./utils/servicesMocks')
 const summaryTemplate =
 	'<%= model.summary %>\n\t[Read more..](https://fake-corvid-api/<%= model.service %>.html#<%= model.member %>)'
-
-const DETACHED_SERVICE_JSON = {
-	name: 'Test',
-	memberOf: 'wix-unknown-module',
-	mixes: [],
-	labels: [],
-	docs: {
-		summary: '',
-		description: [],
-		links: [],
-		examples: [],
-		request: 'NA'
-	},
-	properties: [],
-	operations: [],
-	callbacks: [],
-	messages: [],
-	clientId: 'test'
-}
-
-const EMPTY_SERVICE_JSON = {
-	name: 'Test',
-	mixes: [],
-	labels: [],
-	docs: {
-		summary: '',
-		description: [],
-		links: [],
-		examples: [],
-		request: 'NA'
-	},
-	properties: [],
-	operations: [],
-	callbacks: [],
-	messages: [],
-	clientId: 'test'
-}
 
 const getServiceJson = servicePath =>
 	require(path.join('../services/', servicePath))
@@ -177,6 +141,14 @@ describe('convert docworks to dts', () => {
 		test('should filter empty modules', () => {
 			const [{ content }] = multifilesMain([EMPTY_SERVICE_JSON], { summaryTemplate })
 			expect(content).toEqual('')
+		})
+		test('should filter removed modules', ()=>{
+			const [{ content }] = multifilesMain([REMOVED_SERVICE_JSON], { summaryTemplate })
+			expect(content).toEqual('')
+		})
+		test('should filter removed properties, messages, callbacks, operations', ()=>{
+			const [{ content }] = multifilesMain([SERVICE_JSON_WITH_REMOVED_ITEMS], { summaryTemplate })
+			expect(content).toMatchSnapshot()
 		})
 	})
 
