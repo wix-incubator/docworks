@@ -185,7 +185,6 @@ const docworksServiceToDtsNamespace = service => {
 		baseTypes,
 		jsDocComment
 	})
-
 	const {
 		messages = [],
 		callbacks = [],

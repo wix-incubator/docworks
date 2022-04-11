@@ -24,17 +24,17 @@ const {
 const {
 	DATASET,
 	DYNAMIC_DATASET,
-	$W_NAME,
-	SUB_SERVICES_KEY
+	SUB_SERVICES_KEY,
+	$W_NAME
 } = require('./constants')
 
 const moduleBuilder = service => {
 	const {
 		name,
+		properties = [],
+		operations = [],
 		messages = [],
 		callbacks = [],
-		properties,
-		operations,
 		[SUB_SERVICES_KEY]: subServices = {}
 	} = service
 
