@@ -3798,5 +3798,7 @@ declare module 'Test' {
 
 }
 
+
+/// <reference path='./Test.d.ts' />
 "
 `;

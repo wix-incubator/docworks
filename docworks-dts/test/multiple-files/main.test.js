@@ -151,8 +151,8 @@ describe('convert docworks to dts', () => {
 			expect(content).toMatchSnapshot()
 		})
 		test('should filter subservice with removed label', ()=>{
-			const [{ content }] = multifilesMain([SERVICE_AND_REMOVED_SUB_SERVICE.service, SERVICE_AND_REMOVED_SUB_SERVICE.removedSubService], { summaryTemplate })
-			expect(content).toMatchSnapshot()
+			const wixModules = multifilesMain([SERVICE_AND_REMOVED_SUB_SERVICE.service, SERVICE_AND_REMOVED_SUB_SERVICE.removedSubService], { summaryTemplate })
+			expect(wixModules.map(m => m.content).join('\n')).toMatchSnapshot()
 		})
 	})
 
