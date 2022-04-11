@@ -20,8 +20,6 @@ const isEmptyModule = service =>
 	isEmpty_(service.properties)&& 
 	isEmpty_(service.operations)
 
-const isNotEmptyModule = service => !isEmptyModule(service)
-
 const getServiceSummary = service =>
 	service && service.docs && service.docs.summary ? service.docs.summary : ''
 
@@ -142,6 +140,5 @@ module.exports = {
 	isEmptyInterface,
 	isEmptyNamespace,
 	getServiceSummary,
-	createHierarchicalServicesMap,
-	isNotEmptyModule
+	createHierarchicalServicesMap
 }
