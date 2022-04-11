@@ -3756,3 +3756,47 @@ declare module 'wix-users' {
 /// <reference path='./wix-users.d.ts' />
 "
 `;
+
+exports[`convert docworks to dts services should filter removed properties, messages, callbacks, operations 1`] = `
+"/**
+ * [Read more..](https://fake-corvid-api/Test.html#)
+ */
+declare module 'Test' {
+    /**
+     * [Read more..](https://fake-corvid-api/Test.html#validProp)
+     */
+    const validProp: boolean;
+
+    /**
+     * [Read more..](https://fake-corvid-api/Test.html#validFunc)
+     */
+    function validFunc(param: number): void;
+
+    type validMessage = {
+        /**
+         * Error code.
+         */
+        code: string;
+    };
+
+    type validFunc = (param: number)=>void;
+
+}
+
+"
+`;
+
+exports[`convert docworks to dts services should filter subservice with removed label 1`] = `
+"/**
+ * [Read more..](https://fake-corvid-api/Test.html#)
+ */
+declare module 'Test' {
+    /**
+     * [Read more..](https://fake-corvid-api/Test.html#validFunc)
+     */
+    function validFunc(param: number): void;
+
+}
+
+"
+`;
