@@ -1,10 +1,4 @@
-const { EXTRA_PROPS_VALUES } = require('./new-type-strcture-test-service')
-
-const validProp = {
-	name: 'validProp',
-	type: [{nativeType: 'boolean'}],
-	...EXTRA_PROPS_VALUES
-}
+const { validProp, validFunc, validMessage } = require('./validItems')
 
 const DETACHED_SERVICE_JSON = {
 	name: 'Test',
@@ -65,19 +59,22 @@ const SERVICE_JSON_WITH_REMOVED_ITEMS = {
 		{
 			name: 'test',
 			labels: ['removed']
-		}
+		},
+		validFunc
 	],
 	callbacks: [
 		{
 			name: 'test',
 			labels: ['removed']
-		}
+		},
+		validFunc
 	],
 	messages: [
 		{
 			name: 'test',
 			labels: ['removed']
-		}
+		},
+		validMessage
 	],
 	clientId: 'test'
 }
