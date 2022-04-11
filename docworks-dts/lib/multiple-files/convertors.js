@@ -18,8 +18,6 @@ const { getServiceSummary } = require('./serviceUtils')
 
 const { SUB_SERVICES_KEY } = require('./constants')
 
-const { getServiceFilteredProperties } = require('./utils')
-
 const getServiceDocsName = ({ name, memberOf }) =>
 	memberOf ? `${memberOf}.${name}` : name
 
@@ -188,7 +186,11 @@ const docworksServiceToDtsNamespace = service => {
 		jsDocComment
 	})
 
-	const { messages, callbacks, subServices } = getServiceFilteredProperties(service)
+	const {
+		messages = [],
+		callbacks = [],
+		[SUB_SERVICES_KEY]: subServices = {}
+	} = service
 
 	const typesMembers = messages.map(msg =>
 		docworksMessageToDtsType(msg, service)

@@ -242,11 +242,6 @@ namespace $w {
      */
     interface FormElement extends Element, ValidatableMixin, ValueMixin{
         /**
-         * Sets or gets an element's value.
-         * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#value)
-         */
-        readonly value: any;
-        /**
          * Adds an event handler that runs when an input element's value
          *  is changed.
          * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#onChange)
