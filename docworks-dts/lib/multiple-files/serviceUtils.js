@@ -73,7 +73,6 @@ const sortServices = (firstService, secondService) => {
 	if (firstServiceMemberOf && !secondServiceMemberOf) return 1
 	if (!firstServiceMemberOf && secondServiceMemberOf) return -1
 
-	// firstServiceMemberOf && secondServiceMemberOf
 	const fisrtServiceFullName = `${firstServiceMemberOf}.${firstServiceName}`
 	const secondServiceFullName = `${secondServiceMemberOf}.${secondServiceName}`
 	return fisrtServiceFullName.localeCompare(secondServiceFullName)
