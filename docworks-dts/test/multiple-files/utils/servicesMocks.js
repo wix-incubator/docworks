@@ -1,10 +1,11 @@
+const { REMOVED_LABEL } = require('../../../lib/multiple-files/constants')
 const { validProp, validFunc, validMessage } = require('./validItems')
 
-const DETACHED_SERVICE_JSON = {
-	name: 'Test',
-	memberOf: 'wix-unknown-module',
+const aService = ({name, memberOf, properties, labels, operations} = {}) => ({
+	name: name || 'Test',
+	memberOf,
 	mixes: [],
-	labels: [],
+	labels: labels || [],
 	docs: {
 		summary: '',
 		description: [],
@@ -12,12 +13,14 @@ const DETACHED_SERVICE_JSON = {
 		examples: [],
 		request: 'NA'
 	},
-	properties: [],
-	operations: [],
+	properties: properties || [],
+	operations: operations || [],
 	callbacks: [],
 	messages: [],
 	clientId: 'test'
-}
+})
+
+const DETACHED_SERVICE_JSON = aService({name:'Test', memberOf:'wix-unknown-module'})
 
 const EMPTY_SERVICE_JSON = {
 	name: 'Test',
@@ -97,9 +100,15 @@ const REMOVED_SERVICE_JSON = {
 	clientId: 'test'
 }
 
+const SERVICE_AND_REMOVED_SUB_SERVICE = {
+	service: aService({name:'Test', operations: [validFunc]}),
+	removedSubService: aService({name:'Test2', memberOf:'Test', properties:[validProp], labels:[REMOVED_LABEL]})
+}
+
 module.exports = {
 	DETACHED_SERVICE_JSON,
 	EMPTY_SERVICE_JSON,
 	SERVICE_JSON_WITH_REMOVED_ITEMS,
-	REMOVED_SERVICE_JSON
+	REMOVED_SERVICE_JSON,
+	SERVICE_AND_REMOVED_SUB_SERVICE
 }

@@ -1,7 +1,7 @@
 const path = require('path')
 const { readFromDir } = require('docworks-repo')
 const multifilesMain = require('../../lib/multiple-files')
-const { DETACHED_SERVICE_JSON, EMPTY_SERVICE_JSON, SERVICE_JSON_WITH_REMOVED_ITEMS, REMOVED_SERVICE_JSON } = require('./utils/servicesMocks')
+const { DETACHED_SERVICE_JSON, EMPTY_SERVICE_JSON, SERVICE_JSON_WITH_REMOVED_ITEMS, REMOVED_SERVICE_JSON, SERVICE_AND_REMOVED_SUB_SERVICE } = require('./utils/servicesMocks')
 const summaryTemplate =
 	'<%= model.summary %>\n\t[Read more..](https://fake-corvid-api/<%= model.service %>.html#<%= model.member %>)'
 
@@ -148,6 +148,10 @@ describe('convert docworks to dts', () => {
 		})
 		test('should filter removed properties, messages, callbacks, operations', ()=>{
 			const [{ content }] = multifilesMain([SERVICE_JSON_WITH_REMOVED_ITEMS], { summaryTemplate })
+			expect(content).toMatchSnapshot()
+		})
+		test('should filter subservice with removed label', ()=>{
+			const [{ content }] = multifilesMain([SERVICE_AND_REMOVED_SUB_SERVICE.service, SERVICE_AND_REMOVED_SUB_SERVICE.removedSubService], { summaryTemplate })
 			expect(content).toMatchSnapshot()
 		})
 	})
