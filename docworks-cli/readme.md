@@ -5,6 +5,7 @@ recipes:
 A. all automated
 -----------------
 
+
 1. checkout repo http://repo to /repo
 2. jsdoc code in folders /a /b /c pattern *.js
 3. compare new with repo
