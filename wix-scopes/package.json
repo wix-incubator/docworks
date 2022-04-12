@@ -1,6 +1,6 @@
 {
   "name": "wix-scopes",
-  "version": "1.11.6",
+  "version": "1.11.7",
   "description": "Add scopes tag to docworks",
   "main": "src/index.js",
   "scripts": {
