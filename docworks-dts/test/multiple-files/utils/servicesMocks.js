@@ -1,6 +1,11 @@
 const { REMOVED_LABEL } = require('../../../lib/multiple-files/constants')
 const { validProp, validFunc, validMessage } = require('./validItems')
 
+const getRemovedItem = (extraLabels = []) =>({
+	name: 'test',
+	labels: ['removed', ...extraLabels]
+})
+
 const aService = ({name, memberOf, properties, labels, operations} = {}) => ({
 	name: name || 'Test',
 	memberOf,
@@ -52,31 +57,23 @@ const SERVICE_JSON_WITH_REMOVED_ITEMS = {
 		request: 'NA'
 	},
 	properties: [
+		getRemovedItem(),
+		getRemovedItem(['changed']),
 		validProp,
-		{
-			name: 'test',
-			labels: ['removed']
-		}
 	],
 	operations: [
-		{
-			name: 'test',
-			labels: ['removed']
-		},
+		getRemovedItem(),
+		getRemovedItem(['changed']),
 		validFunc
 	],
 	callbacks: [
-		{
-			name: 'test',
-			labels: ['removed']
-		},
+		getRemovedItem(),
+		getRemovedItem(['changed']),
 		validFunc
 	],
 	messages: [
-		{
-			name: 'test',
-			labels: ['removed']
-		},
+		getRemovedItem(),
+		getRemovedItem(['changed']),
 		validMessage
 	],
 	clientId: 'test'
