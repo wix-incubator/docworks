@@ -18,10 +18,13 @@ const TYPES = {
 	MAP: 'Map'
 }
 
+const REMOVED_LABEL = 'removed'
+
 module.exports = {
 	TYPES,
 	$W_NAME,
 	SUB_SERVICES_KEY,
 	DATASET,
-	DYNAMIC_DATASET
+	DYNAMIC_DATASET,
+	REMOVED_LABEL
 }

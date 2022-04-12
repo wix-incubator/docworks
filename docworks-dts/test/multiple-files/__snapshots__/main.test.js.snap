@@ -242,11 +242,6 @@ namespace $w {
      */
     interface FormElement extends Element, ValidatableMixin, ValueMixin{
         /**
-         * Sets or gets an element's value.
-         * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#value)
-         */
-        readonly value: any;
-        /**
          * Adds an event handler that runs when an input element's value
          *  is changed.
          * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#onChange)
@@ -3759,5 +3754,51 @@ declare module 'wix-users' {
 /// <reference path='./wix-site.d.ts' />
 /// <reference path='./wix-storage.d.ts' />
 /// <reference path='./wix-users.d.ts' />
+"
+`;
+
+exports[`convert docworks to dts services should filter removed properties, messages, callbacks, operations 1`] = `
+"/**
+ * [Read more..](https://fake-corvid-api/Test.html#)
+ */
+declare module 'Test' {
+    /**
+     * [Read more..](https://fake-corvid-api/Test.html#validProp)
+     */
+    const validProp: boolean;
+
+    /**
+     * [Read more..](https://fake-corvid-api/Test.html#validFunc)
+     */
+    function validFunc(param: number): void;
+
+    type validMessage = {
+        /**
+         * Error code.
+         */
+        code: string;
+    };
+
+    type validFunc = (param: number)=>void;
+
+}
+
+"
+`;
+
+exports[`convert docworks to dts services should filter subservice with removed label 1`] = `
+"/**
+ * [Read more..](https://fake-corvid-api/Test.html#)
+ */
+declare module 'Test' {
+    /**
+     * [Read more..](https://fake-corvid-api/Test.html#validFunc)
+     */
+    function validFunc(param: number): void;
+
+}
+
+
+/// <reference path='./Test.d.ts' />
 "
 `;

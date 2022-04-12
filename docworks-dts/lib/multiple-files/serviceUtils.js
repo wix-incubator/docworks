@@ -1,7 +1,7 @@
 const has_ = require('lodash/has')
 const set_ = require('lodash/set')
 const isEmpty_ = require('lodash/isEmpty')
-const { SUB_SERVICES_KEY } = require('./constants')
+const { SUB_SERVICES_KEY, REMOVED_LABEL } = require('./constants')
 
 const isRootService = service => !service.memberOf
 const withServicesProperty = service =>
@@ -71,14 +71,15 @@ const sortServices = (firstService, secondService) => {
 	if (firstServiceMemberOf && !secondServiceMemberOf) return 1
 	if (!firstServiceMemberOf && secondServiceMemberOf) return -1
 
-	// firstServiceMemberOf && secondServiceMemberOf
 	const fisrtServiceFullName = `${firstServiceMemberOf}.${firstServiceName}`
 	const secondServiceFullName = `${secondServiceMemberOf}.${secondServiceName}`
 	return fisrtServiceFullName.localeCompare(secondServiceFullName)
 }
 
 const createHierarchicalServicesMap = services => {
-	const sortedServices = services.sort(sortServices)
+	const relevantServices = services.filter(service=>isNotIncludesRemovedLabel(service))
+	const servicesWithoutRemovedItems = relevantServices.map(getServiceWithoutRemovedItems)
+	const sortedServices = servicesWithoutRemovedItems.sort(sortServices)
 	const modulesMapManager = createModulesMapManager()
 	const errors = []
 	while (sortedServices.length) {
@@ -106,6 +107,34 @@ const createHierarchicalServicesMap = services => {
 
 	return modulesMapManager.getMap()
 }
+ 
+const isIncludesRemovedLabel = ({labels} = {}) => labels && labels.length === 1 && labels[0] === REMOVED_LABEL
+
+const isNotIncludesRemovedLabel = (item) => !isIncludesRemovedLabel(item)
+
+const getServiceWithoutRemovedItems = (service) => {
+	let {
+		properties = [],
+		operations = [],
+		messages = [],
+		callbacks = [],
+        [SUB_SERVICES_KEY]: subServices = {}
+	} = service
+
+	service.properties = properties.filter(isNotIncludesRemovedLabel)
+	service.operations = operations.filter(isNotIncludesRemovedLabel)
+	service.messages = messages.filter(isNotIncludesRemovedLabel)
+	service.callbacks = callbacks.filter(isNotIncludesRemovedLabel)
+
+
+    for (const [key, service] of Object.entries(subServices)) {
+        const serviceWithoutRemoveItems = getServiceWithoutRemovedItems(service)
+        service[SUB_SERVICES_KEY][key] = serviceWithoutRemoveItems
+    }
+
+    return service
+}
+
 module.exports = {
 	isEmptyModule,
 	isEmptyInterface,
