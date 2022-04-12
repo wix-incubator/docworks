@@ -140,18 +140,22 @@ describe('convert docworks to dts', () => {
 		})
 		test('should filter empty modules', () => {
 			const [{ content }] = multifilesMain([EMPTY_SERVICE_JSON], { summaryTemplate })
+			
 			expect(content).toEqual('')
 		})
 		test('should filter removed modules', ()=>{
 			const [{ content }] = multifilesMain([REMOVED_SERVICE_JSON], { summaryTemplate })
+			
 			expect(content).toEqual('')
 		})
 		test('should filter removed properties, messages, callbacks, operations', ()=>{
 			const [{ content }] = multifilesMain([SERVICE_JSON_WITH_REMOVED_ITEMS], { summaryTemplate })
+			
 			expect(content).toMatchSnapshot()
 		})
 		test('should filter subservice with removed label', ()=>{
 			const wixModules = multifilesMain([SERVICE_AND_REMOVED_SUB_SERVICE.service, SERVICE_AND_REMOVED_SUB_SERVICE.removedSubService], { summaryTemplate })
+			
 			expect(wixModules.map(m => m.content).join('\n')).toMatchSnapshot()
 		})
 	})
