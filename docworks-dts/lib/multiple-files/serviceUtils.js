@@ -108,7 +108,7 @@ const createHierarchicalServicesMap = services => {
 	return modulesMapManager.getMap()
 }
  
-const isIncludesRemovedLabel = ({labels} = {}) => labels && labels.length === 1 && labels[0] === REMOVED_LABEL
+const isIncludesRemovedLabel = ({labels} = {}) => Array.isArray(labels) && labels.includes(REMOVED_LABEL)
 
 const isNotIncludesRemovedLabel = (item) => !isIncludesRemovedLabel(item)
 
