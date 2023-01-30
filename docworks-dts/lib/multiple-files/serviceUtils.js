@@ -17,7 +17,7 @@ const isEmptyNamespace = service =>
 
 const isEmptyModule = service =>
 	isEmpty_(service[SUB_SERVICES_KEY]) &&
-	isEmpty_(service.properties)&& 
+	isEmpty_(service.properties)&&
 	isEmpty_(service.operations)
 
 const getServiceSummary = service =>
@@ -32,7 +32,13 @@ const createModulesMapManager = () => {
 	}
 
 	const addRoot = service => {
-		map_[service.name] = withServicesProperty(service)
+    const name = service.displayName ? service.displayName : service.name
+    const v2ConventionService = {
+      ...service,
+      name,
+    }
+
+		map_[name] = withServicesProperty(v2ConventionService)
 	}
 
 	const hasModule = moduleName => {
@@ -107,7 +113,7 @@ const createHierarchicalServicesMap = services => {
 
 	return modulesMapManager.getMap()
 }
- 
+
 const isIncludesRemovedLabel = ({labels} = {}) => Array.isArray(labels) && labels.includes(REMOVED_LABEL)
 
 const isNotIncludesRemovedLabel = (item) => !isIncludesRemovedLabel(item)
