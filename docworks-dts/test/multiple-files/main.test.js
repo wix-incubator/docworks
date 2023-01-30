@@ -93,13 +93,18 @@ describe('convert docworks to dts', () => {
 	describe('services', () => {
 
     test('should use the display name of the service json instead of the name', () => {
-      const [{ content }] = run(['wix-dot-convention-backend.service.json'])
-      const expectedDeceleration = 'wix-dot-backend.v2'
-      const unExpectedDeceleration = 'wix-dot-backend-v2'
+      const [{ content }] = run(['wix-dot-convention-backend.service.json', 'DotConventionNamespace.service.json'])
+      const expectedDeceleration = 'declare module \'wix-dot-backend.v2\''
+      const unExpectedDeceleration = 'declare module \'wix-dot-backend-v2\''
+      const expectedNamespaceDeclaration = 'namespace Orders'
+      const expectedInterfaceDeclaration = 'interface Orders'
 
       expect(content).toContain(expectedDeceleration)
+      expect(content).toContain(expectedNamespaceDeclaration)
+      expect(content).toContain(expectedInterfaceDeclaration)
       expect(content).not.toContain(unExpectedDeceleration)
     })
+
 		test('should convert service to module if it is the root(does not have memberOf value)', () => {
 			const [{ content }] = run(['wix-crm.service.json'])
 			const expectedDeceleration = 'declare module \'wix-crm\' {'

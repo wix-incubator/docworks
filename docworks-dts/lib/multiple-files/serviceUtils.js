@@ -32,13 +32,7 @@ const createModulesMapManager = () => {
 	}
 
 	const addRoot = service => {
-    const name = service.displayName ? service.displayName : service.name
-    const v2ConventionService = {
-      ...service,
-      name,
-    }
-
-		map_[name] = withServicesProperty(v2ConventionService)
+		map_[service.name] = withServicesProperty(service)
 	}
 
 	const hasModule = moduleName => {
