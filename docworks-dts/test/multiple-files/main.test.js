@@ -92,7 +92,7 @@ describe('convert docworks to dts', () => {
 
 	describe('services', () => {
 
-    test('should convert service to module if it is the root(does not have memberOf value)', () => {
+    test('should use the display name of the service json instead of the name', () => {
       const [{ content }] = run(['wix-dot-convention-backend.service.json'])
       const expectedDeceleration = 'wix-dot-backend.v2'
       const unExpectedDeceleration = 'wix-dot-backend-v2'
