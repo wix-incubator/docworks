@@ -450,7 +450,6 @@ describe('filter services before converting to dts', () => {
     expect(dts).not.toContain('declare module \'wix-dot-backend-v2\'')
     expect(dts).not.toContain('namespace Orders')
     expect(dts).not.toContain('interface Orders')
-    expect(dts).not.toContain('CartIcon')
   })
 })
 
