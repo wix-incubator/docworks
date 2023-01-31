@@ -21,7 +21,7 @@ describe('tern workflow e2e', function () {
     }
   })
 
-  it('generate tern from a remote repo', async function () {
+  it('generate tern from a remote repo', async function (done) {
     const remote = './tmp/remote'
     await createRemoteOnVer1(remote)
     logger.log('run test')
@@ -48,9 +48,10 @@ describe('tern workflow e2e', function () {
 	"!name": "apiname"
 }`
     )
+    done()
   })
 
-  it('generate tern from a remote repo\'s non-master branch', async function () {
+  it('generate tern from a remote repo\'s non-master branch', async function (done) {
     const remote = './tmp/remote'
     const branch = 'test-branch'
     await createRemoteOnVer1(remote, branch)
@@ -78,9 +79,10 @@ describe('tern workflow e2e', function () {
 	"!name": "apiname"
 }`
     )
+    done()
   })
 
-  it('generate tern from a remote repo with a tern plugin', async function () {
+  it('generate tern from a remote repo with a tern plugin', async function (done) {
     const remote = './tmp/remote'
     await createRemoteOnVer1(remote)
     logger.log('run test')
@@ -108,5 +110,6 @@ describe('tern workflow e2e', function () {
 	"!name": "apiname"
 }`
     )
+    done()
   })
 })
