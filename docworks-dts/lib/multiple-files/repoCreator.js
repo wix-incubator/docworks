@@ -12,13 +12,12 @@ const addIndentation = (statment) => `\t${statment}`
 
 const createModulesFilesMap = ({ services, run$wFixer }) => {
 	const servicesMap = createHierarchicalServicesMap(services)
-	return Object.keys(servicesMap).reduce((filesMap, moduleId) => {
-		const rootService = servicesMap[moduleId]
+	return Object.keys(servicesMap).reduce((filesMap, moduleName) => {
+		const rootService = servicesMap[moduleName]
 		if (isEmptyModule(rootService)) return filesMap
-    const moduleName = is$w(moduleId) || !rootService.displayName ? moduleId : rootService.displayName
 		return {
 			...filesMap,
-			[moduleName]: is$w(moduleId)
+			[moduleName]: is$w(moduleName)
 				? $wGlobalNamespaceBuilder(rootService, { run$wFixer })
 				: moduleBuilder(rootService)
 		}
