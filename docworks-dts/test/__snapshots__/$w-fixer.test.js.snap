@@ -391,7 +391,7 @@ declare namespace $w {
     /**
      * An icon that leads users to the shopping cart.
      */
-    interface CartIcon extends $w.Element, $w.HiddenCollapsedMixin{
+    interface CartIconextends $w.Element, $w.HiddenCollapsedMixin {
         /**
          * Adds multiple products to the shopping cart.
          */
@@ -486,7 +486,7 @@ declare namespace $w {
      *  what the user sees, and a value, which is what is used in code and stored in
      *  you collections.
      */
-    interface Dropdown extends $w.FormElement, $w.HiddenCollapsedMixin, $w.DisabledMixin, $w.FocusMixin, $w.ClickableMixin, $w.StyleMixin, $w.RequiredMixin{
+    interface Dropdownextends $w.FormElement, $w.HiddenCollapsedMixin, $w.DisabledMixin, $w.FocusMixin, $w.ClickableMixin, $w.StyleMixin, $w.RequiredMixin {
         /**
          * Sets or gets the options in a dropdown.
          */
@@ -529,7 +529,7 @@ declare namespace $w {
     /**
      * Provides basic functionality for elements.
      */
-    interface Element extends $w.Node, $w.ViewportMixin{
+    interface Elementextends $w.Node, $w.ViewportMixin {
         /**
          * Indicates if an element is currently displayed.
          */
@@ -581,7 +581,7 @@ declare namespace $w {
     /**
      * Provides functionality related to user input elements.
      */
-    interface FormElement extends $w.Element, $w.ValidatableMixin, $w.ValueMixin{
+    interface FormElementextends $w.Element, $w.ValidatableMixin, $w.ValueMixin {
         /**
          * Sets or gets an element's value.
          */
@@ -596,7 +596,7 @@ declare namespace $w {
     /**
      * A gallery for displaying multiple items.
      */
-    interface Gallery extends $w.Element, $w.HiddenCollapsedMixin, $w.PlayableMixin{
+    interface Galleryextends $w.Element, $w.HiddenCollapsedMixin, $w.PlayableMixin {
         /**
          * Sets or gets the action that occurs when an item in the gallery is clicked.
          */
@@ -720,7 +720,7 @@ declare namespace $w {
     /**
      * Provides functionality for all elements that can be hidden or collapsed.
      */
-    interface HiddenCollapsedMixin extends $w.HiddenMixin, $w.CollapsedMixin{
+    interface HiddenCollapsedMixinextends $w.HiddenMixin, $w.CollapsedMixin {
     }
 
     /**
@@ -732,7 +732,7 @@ declare namespace $w {
      * 
      *  For an overview of working with an HTML Component using code, see Working with the HTML Element.
      */
-    interface HtmlComponent extends $w.IFrame{
+    interface HtmlComponentextends $w.IFrame {
         /**
          * Sets or gets whether the HTML Component displays scrollbars.
          */
@@ -786,7 +786,7 @@ declare namespace $w {
     /**
      * A store page for a specific product.
      */
-    interface ProductPage extends $w.Element, $w.HiddenCollapsedMixin{
+    interface ProductPageextends $w.Element, $w.HiddenCollapsedMixin {
         /**
          * Gets the all the information associated with the current product.
          */

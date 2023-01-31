@@ -495,7 +495,7 @@ declare namespace $w {
      * An icon that leads users to the shopping cart.
      * 	[Read more..](https://fake-corvid-api/$w.CartIcon.html#)
      */
-    interface CartIcon extends $w.Element, $w.HiddenCollapsedMixin{
+    interface CartIconextends $w.Element, $w.HiddenCollapsedMixin {
         /**
          * Adds multiple products to the shopping cart.
          * 	[Read more..](https://fake-corvid-api/$w.CartIcon.html#addProductsToCart)
@@ -604,7 +604,7 @@ declare namespace $w {
      *  you collections.
      * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#)
      */
-    interface Dropdown extends $w.FormElement, $w.HiddenCollapsedMixin, $w.DisabledMixin, $w.FocusMixin, $w.ClickableMixin, $w.StyleMixin, $w.RequiredMixin{
+    interface Dropdownextends $w.FormElement, $w.HiddenCollapsedMixin, $w.DisabledMixin, $w.FocusMixin, $w.ClickableMixin, $w.StyleMixin, $w.RequiredMixin {
         /**
          * Sets or gets the options in a dropdown.
          * 	[Read more..](https://fake-corvid-api/$w.Dropdown.html#options)
@@ -653,7 +653,7 @@ declare namespace $w {
      * Provides basic functionality for elements.
      * 	[Read more..](https://fake-corvid-api/$w.Element.html#)
      */
-    interface Element extends $w.Node, $w.ViewportMixin{
+    interface Elementextends $w.Node, $w.ViewportMixin {
         /**
          * Indicates if an element is currently displayed.
          * 	[Read more..](https://fake-corvid-api/$w.Element.html#rendered)
@@ -714,7 +714,7 @@ declare namespace $w {
      * Provides functionality related to user input elements.
      * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#)
      */
-    interface FormElement extends $w.Element, $w.ValidatableMixin, $w.ValueMixin{
+    interface FormElementextends $w.Element, $w.ValidatableMixin, $w.ValueMixin {
         /**
          * Sets or gets an element's value.
          * 	[Read more..](https://fake-corvid-api/$w.FormElement.html#value)
@@ -732,7 +732,7 @@ declare namespace $w {
      * A gallery for displaying multiple items.
      * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#)
      */
-    interface Gallery extends $w.Element, $w.HiddenCollapsedMixin, $w.PlayableMixin{
+    interface Galleryextends $w.Element, $w.HiddenCollapsedMixin, $w.PlayableMixin {
         /**
          * Sets or gets the action that occurs when an item in the gallery is clicked.
          * 	[Read more..](https://fake-corvid-api/$w.Gallery.html#clickAction)
@@ -865,7 +865,7 @@ declare namespace $w {
      * Provides functionality for all elements that can be hidden or collapsed.
      * 	[Read more..](https://fake-corvid-api/$w.HiddenCollapsedMixin.html#)
      */
-    interface HiddenCollapsedMixin extends $w.HiddenMixin, $w.CollapsedMixin{
+    interface HiddenCollapsedMixinextends $w.HiddenMixin, $w.CollapsedMixin {
     }
 
     /**
@@ -878,7 +878,7 @@ declare namespace $w {
      *  For an overview of working with an HTML Component using code, see Working with the HTML Element.
      * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#)
      */
-    interface HtmlComponent extends $w.IFrame{
+    interface HtmlComponentextends $w.IFrame {
         /**
          * Sets or gets whether the HTML Component displays scrollbars.
          * 	[Read more..](https://fake-corvid-api/$w.HtmlComponent.html#scrolling)
@@ -944,7 +944,7 @@ declare namespace $w {
      * A store page for a specific product.
      * 	[Read more..](https://fake-corvid-api/$w.ProductPage.html#)
      */
-    interface ProductPage extends $w.Element, $w.HiddenCollapsedMixin{
+    interface ProductPageextends $w.Element, $w.HiddenCollapsedMixin {
         /**
          * Gets the all the information associated with the current product.
          * 	[Read more..](https://fake-corvid-api/$w.ProductPage.html#getProduct)
