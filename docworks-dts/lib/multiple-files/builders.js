@@ -30,7 +30,6 @@ const {
 
 const moduleBuilder = service => {
 	const {
-    displayName,
 		name,
 		properties = [],
 		operations = [],
@@ -72,18 +71,16 @@ const moduleBuilder = service => {
 		...namespacesMembers
 	]
 
-  const serviceName = displayName ? displayName : name
-
 	const documentationGenerator = getDocumentationGenerator()
 	const jsDocComment = documentationGenerator({
 		summary: getServiceSummary(service),
-		service: serviceName
+		service: name
 	})
 
-	const content = emit(dtsModule(serviceName, { members, jsDocComment }))
+	const content = emit(dtsModule(name, { members, jsDocComment }))
 
 	return {
-		name: serviceName,
+		name,
 		content
 	}
 }
