@@ -5,11 +5,15 @@ const { DETACHED_SERVICE_JSON, EMPTY_SERVICE_JSON, SERVICE_JSON_WITH_REMOVED_ITE
 const summaryTemplate =
 	'<%= model.summary %>\n\t[Read more..](https://fake-corvid-api/<%= model.service %>.html#<%= model.member %>)'
 
+const v2Root = require('../services/wix-dot-convention-backend.service.json')
+const v2Namespace = require('../services/DotConventionNamespace.service.json')
+const wixCrm = require('../services/wix-crm.service.json')
+const { cloneDeep } = require('lodash')
 const getServiceJson = servicePath =>
 	require(path.join('../services/', servicePath))
 const run = paths => {
 	const services = paths.map(getServiceJson)
-	return multifilesMain(services, { summaryTemplate })
+	return multifilesMain(services.map(cloneDeep), { summaryTemplate })
 }
 describe('convert docworks to dts', () => {
 	describe('main', () => {
@@ -434,11 +438,8 @@ describe('filter services before converting to dts', () => {
 
 
   test('should ignore .v2 convention if needed', () => {
-    const v2Root = require('../services/wix-dot-convention-backend.service.json')
-    const v2Namespace = require('../services/DotConventionNamespace.service.json')
-    const wixCrm = require('../services/wix-crm.service.json')
 
-    const dts = multifilesMain([v2Root, v2Namespace, wixCrm], {
+    const dts = multifilesMain([cloneDeep(v2Root), cloneDeep(v2Namespace), cloneDeep(wixCrm)], {
       summaryTemplate,
       ignoredModules: ['wix-dot-backend.v2']
     })

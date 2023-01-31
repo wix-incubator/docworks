@@ -188,6 +188,17 @@ declare module 'wix-dev-backend' {
 }
 
 /**
+ * [Read more..](https://fake-corvid-api/wix-dot-backend-v2.html#)
+ */
+declare module 'wix-dot-backend-v2' {
+    /**
+     * [Read more..](https://fake-corvid-api/wix-dot-backend-v2.html#test)
+     */
+    const test: string;
+
+}
+
+/**
  * [Read more..](https://fake-corvid-api/wix-question-backend.html#)
  */
 declare module 'wix-question-backend' {
@@ -1427,6 +1438,83 @@ declare namespace wix_dataset {
          * A dataset ready event handler.
          */
         type ReadyHandler = ()=>void;
+
+    }
+
+}
+
+declare namespace wix_dot_backend_v2 {
+    /**
+     * [Read more..](https://fake-corvid-api/wix-dot-backend-v2.Orders.html#)
+     */
+    interface Orders {
+        /**
+         * Retrieves an order, including ticket data.
+         * >The fieldsets in this function are restricted and only run if you elevate permissions using the [wix-auth.elevate()](https://www.wix.com/velo/reference/wix-auth/elevate) function.
+         * 	[Read more..](https://fake-corvid-api/wix-dot-backend-v2.Orders.html#getOrder)
+         */
+        getOrder(identifiers: wix_events_v2.Orders.GetOrderIdentifiers, options: wix_events_v2.Orders.GetOrderOptions): Promise<wix_events_v2.Orders.GetOrderResponse>;
+    }
+
+    namespace Orders {
+        type GetOrderIdentifiers = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderOptions = {
+            /**
+             * Controls which data is returned. Fieldsets are \`TICKETS\`, \`DETAILS\`, \`FORM\`, and \`INVOICE\`.
+             */
+            fieldset?: Array<string>;
+        };
+
+        type GetOrderRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Controls which data is returned. Fieldsets are \`TICKETS\`, \`DETAILS\`, \`FORM\`, and \`INVOICE\`.
+             */
+            fieldset?: Array<string>;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderResponse = {
+            /**
+             * Requested order.
+             */
+            order?: wix_events_v2.Orders.Order;
+        };
+
+        type Order = {
+            /**
+             * Whether the order is anonymized by GDPR delete.
+             */
+            anonymized?: boolean;
+            /**
+             * Whether the order is archived.
+             */
+            archived?: boolean;
+            /**
+             * Checkout channel type
+             */
+            channel?: string;
+            /**
+             * Guest full name.
+             */
+            fullName?: string;
+        };
 
     }
 
