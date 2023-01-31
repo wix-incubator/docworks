@@ -126,6 +126,11 @@ declare module 'wix-dev-backend' {
 
 }
 
+declare module 'wix-dot-backend-v2' {
+    const test: string;
+
+}
+
 declare module 'wix-question-backend' {
     const wixKeynoteQuestionsV1Question: wix_question_backend.WixKeynoteQuestionsV1Question;
 
@@ -391,7 +396,7 @@ declare namespace $w {
     /**
      * An icon that leads users to the shopping cart.
      */
-    interface CartIcon extends $w.Element, $w.HiddenCollapsedMixin{
+    interface CartIconextends $w.Element, $w.HiddenCollapsedMixin {
         /**
          * Adds multiple products to the shopping cart.
          */
@@ -486,7 +491,7 @@ declare namespace $w {
      *  what the user sees, and a value, which is what is used in code and stored in
      *  you collections.
      */
-    interface Dropdown extends $w.FormElement, $w.HiddenCollapsedMixin, $w.DisabledMixin, $w.FocusMixin, $w.ClickableMixin, $w.StyleMixin, $w.RequiredMixin{
+    interface Dropdownextends $w.FormElement, $w.HiddenCollapsedMixin, $w.DisabledMixin, $w.FocusMixin, $w.ClickableMixin, $w.StyleMixin, $w.RequiredMixin {
         /**
          * Sets or gets the options in a dropdown.
          */
@@ -529,7 +534,7 @@ declare namespace $w {
     /**
      * Provides basic functionality for elements.
      */
-    interface Element extends $w.Node, $w.ViewportMixin{
+    interface Elementextends $w.Node, $w.ViewportMixin {
         /**
          * Indicates if an element is currently displayed.
          */
@@ -581,7 +586,7 @@ declare namespace $w {
     /**
      * Provides functionality related to user input elements.
      */
-    interface FormElement extends $w.Element, $w.ValidatableMixin, $w.ValueMixin{
+    interface FormElementextends $w.Element, $w.ValidatableMixin, $w.ValueMixin {
         /**
          * Sets or gets an element's value.
          */
@@ -596,7 +601,7 @@ declare namespace $w {
     /**
      * A gallery for displaying multiple items.
      */
-    interface Gallery extends $w.Element, $w.HiddenCollapsedMixin, $w.PlayableMixin{
+    interface Galleryextends $w.Element, $w.HiddenCollapsedMixin, $w.PlayableMixin {
         /**
          * Sets or gets the action that occurs when an item in the gallery is clicked.
          */
@@ -720,7 +725,7 @@ declare namespace $w {
     /**
      * Provides functionality for all elements that can be hidden or collapsed.
      */
-    interface HiddenCollapsedMixin extends $w.HiddenMixin, $w.CollapsedMixin{
+    interface HiddenCollapsedMixinextends $w.HiddenMixin, $w.CollapsedMixin {
     }
 
     /**
@@ -732,7 +737,7 @@ declare namespace $w {
      * 
      *  For an overview of working with an HTML Component using code, see Working with the HTML Element.
      */
-    interface HtmlComponent extends $w.IFrame{
+    interface HtmlComponentextends $w.IFrame {
         /**
          * Sets or gets whether the HTML Component displays scrollbars.
          */
@@ -786,7 +791,7 @@ declare namespace $w {
     /**
      * A store page for a specific product.
      */
-    interface ProductPage extends $w.Element, $w.HiddenCollapsedMixin{
+    interface ProductPageextends $w.Element, $w.HiddenCollapsedMixin {
         /**
          * Gets the all the information associated with the current product.
          */
@@ -1233,6 +1238,79 @@ declare namespace wix_dataset {
          * A dataset ready event handler.
          */
         type ReadyHandler = ()=>void;
+
+    }
+
+}
+
+declare namespace wix_dot_backend_v2 {
+    interface Orders {
+        /**
+         * Retrieves an order, including ticket data.
+         * >The fieldsets in this function are restricted and only run if you elevate permissions using the [wix-auth.elevate()](https://www.wix.com/velo/reference/wix-auth/elevate) function.
+         */
+        getOrder(identifiers: wix_events_v2.Orders.GetOrderIdentifiers, options: wix_events_v2.Orders.GetOrderOptions): Promise<wix_events_v2.Orders.GetOrderResponse>;
+    }
+
+    namespace Orders {
+        type GetOrderIdentifiers = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderOptions = {
+            /**
+             * Controls which data is returned. Fieldsets are \`TICKETS\`, \`DETAILS\`, \`FORM\`, and \`INVOICE\`.
+             */
+            fieldset?: Array<string>;
+        };
+
+        type GetOrderRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Controls which data is returned. Fieldsets are \`TICKETS\`, \`DETAILS\`, \`FORM\`, and \`INVOICE\`.
+             */
+            fieldset?: Array<string>;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderResponse = {
+            /**
+             * Requested order.
+             */
+            order?: wix_events_v2.Orders.Order;
+        };
+
+        type Order = {
+            /**
+             * Whether the order is anonymized by GDPR delete.
+             */
+            anonymized?: boolean;
+            /**
+             * Whether the order is archived.
+             */
+            archived?: boolean;
+            /**
+             * Checkout channel type
+             */
+            channel?: string;
+            /**
+             * Guest full name.
+             */
+            fullName?: string;
+        };
 
     }
 
