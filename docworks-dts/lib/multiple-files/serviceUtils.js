@@ -17,7 +17,7 @@ const isEmptyNamespace = service =>
 
 const isEmptyModule = service =>
 	isEmpty_(service[SUB_SERVICES_KEY]) &&
-	isEmpty_(service.properties)&& 
+	isEmpty_(service.properties)&&
 	isEmpty_(service.operations)
 
 const getServiceSummary = service =>
@@ -107,7 +107,7 @@ const createHierarchicalServicesMap = services => {
 
 	return modulesMapManager.getMap()
 }
- 
+
 const isIncludesRemovedLabel = ({labels} = {}) => Array.isArray(labels) && labels.includes(REMOVED_LABEL)
 
 const isNotIncludesRemovedLabel = (item) => !isIncludesRemovedLabel(item)
