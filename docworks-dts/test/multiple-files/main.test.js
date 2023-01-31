@@ -91,6 +91,20 @@ describe('convert docworks to dts', () => {
 	})
 
 	describe('services', () => {
+
+    test('should use the display name of the service json instead of the name', () => {
+      const [{ content }] = run(['wix-dot-convention-backend.service.json', 'DotConventionNamespace.service.json'])
+      const expectedDeceleration = 'declare module \'wix-dot-backend.v2\''
+      const unExpectedDeceleration = 'declare module \'wix-dot-backend-v2\''
+      const expectedNamespaceDeclaration = 'namespace Orders'
+      const expectedInterfaceDeclaration = 'interface Orders'
+
+      expect(content).toContain(expectedDeceleration)
+      expect(content).toContain(expectedNamespaceDeclaration)
+      expect(content).toContain(expectedInterfaceDeclaration)
+      expect(content).not.toContain(unExpectedDeceleration)
+    })
+
 		test('should convert service to module if it is the root(does not have memberOf value)', () => {
 			const [{ content }] = run(['wix-crm.service.json'])
 			const expectedDeceleration = 'declare module \'wix-crm\' {'
@@ -140,22 +154,22 @@ describe('convert docworks to dts', () => {
 		})
 		test('should filter empty modules', () => {
 			const [{ content }] = multifilesMain([EMPTY_SERVICE_JSON], { summaryTemplate })
-			
+
 			expect(content).toEqual('')
 		})
 		test('should filter removed modules', ()=>{
 			const [{ content }] = multifilesMain([REMOVED_SERVICE_JSON], { summaryTemplate })
-			
+
 			expect(content).toEqual('')
 		})
 		test('should filter removed properties, messages, callbacks, operations', ()=>{
 			const [{ content }] = multifilesMain([SERVICE_JSON_WITH_REMOVED_ITEMS], { summaryTemplate })
-			
+
 			expect(content).toMatchSnapshot()
 		})
 		test('should filter subservice with removed label', ()=>{
 			const wixModules = multifilesMain([SERVICE_AND_REMOVED_SUB_SERVICE.service, SERVICE_AND_REMOVED_SUB_SERVICE.removedSubService], { summaryTemplate })
-			
+
 			expect(wixModules.map(m => m.content).join('\n')).toMatchSnapshot()
 		})
 	})
@@ -417,6 +431,26 @@ describe('filter services before converting to dts', () => {
 		expect(dts).not.toContain('declare namespace $w')
 		expect(dts).not.toContain('CartIcon')
 	})
+
+
+  test('should ignore .v2 convention if needed', () => {
+    const v2Root = require('../services/wix-dot-convention-backend.service.json')
+    const v2Namespace = require('../services/DotConventionNamespace.service.json')
+    const wixCrm = require('../services/wix-crm.service.json')
+
+    const dts = multifilesMain([v2Root, v2Namespace, wixCrm], {
+      summaryTemplate,
+      ignoredModules: ['wix-dot-backend.v2']
+    })
+      .map(file => file.content)
+      .join('\n')
+
+    expect(dts).toContain('declare module \'wix-crm\'')
+    expect(dts).not.toContain('declare module \'wix-dot-backend.v2\'')
+    expect(dts).not.toContain('declare module \'wix-dot-backend-v2\'')
+    expect(dts).not.toContain('namespace Orders')
+    expect(dts).not.toContain('interface Orders')
+  })
 })
 
 describe('cross reference types', () => {
