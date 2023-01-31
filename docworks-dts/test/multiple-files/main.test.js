@@ -431,6 +431,27 @@ describe('filter services before converting to dts', () => {
 		expect(dts).not.toContain('declare namespace $w')
 		expect(dts).not.toContain('CartIcon')
 	})
+
+
+  test('should ignore .v2 convention if needed', () => {
+    const v2Root = require('../services/wix-dot-convention-backend.service.json')
+    const v2Namespace = require('../services/DotConventionNamespace.service.json')
+    const wixCrm = require('../services/wix-crm.service.json')
+
+    const dts = multifilesMain([v2Root, v2Namespace, wixCrm], {
+      summaryTemplate,
+      ignoredModules: ['wix-dot-backend.v2']
+    })
+      .map(file => file.content)
+      .join('\n')
+
+    expect(dts).toContain('declare module \'wix-crm\'')
+    expect(dts).not.toContain('declare module \'wix-dot-backend.v2\'')
+    expect(dts).not.toContain('declare module \'wix-dot-backend-v2\'')
+    expect(dts).not.toContain('namespace Orders')
+    expect(dts).not.toContain('interface Orders')
+    expect(dts).not.toContain('CartIcon')
+  })
 })
 
 describe('cross reference types', () => {
