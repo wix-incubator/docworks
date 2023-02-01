@@ -1,6 +1,6 @@
 {
   "name": "wix-custom-labels",
-  "version": "1.10.20",
+  "version": "2.0.0",
   "description": "docworks plugin based on jsDoc. @customlabels",
   "main": "src/index.js",
   "scripts": {
@@ -15,8 +15,8 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-jest": "^26.2.2",
-    "docworks-jsdoc2spec": "^1.10.8",
-    "docworks-repo": "^1.10.20",
+    "docworks-jsdoc2spec": "^2.0.0",
+    "docworks-repo": "^2.0.0",
     "eslint": "^6.0.1",
     "jest": "^26.2.2"
   },

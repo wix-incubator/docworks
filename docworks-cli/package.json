@@ -1,6 +1,6 @@
 {
   "name": "docworks-cli",
-  "version": "1.11.9",
+  "version": "2.0.0",
   "description": "",
   "main": "src/docworks.js",
   "scripts": {
@@ -19,9 +19,9 @@
     "@babel/polyfill": "^7.0.0",
     "chalk": "^2.3.0",
     "docworks-dts": "^1.11.9",
-    "docworks-jsdoc2spec": "^1.10.8",
-    "docworks-repo": "^1.10.20",
-    "docworks-tern": "^1.10.20",
+    "docworks-jsdoc2spec": "^2.0.0",
+    "docworks-repo": "^2.0.0",
+    "docworks-tern": "^2.0.0",
     "fs-extra": "^5.0.0",
     "optimist": "^0.6.1",
     "resolve": "^1.5.0",
