@@ -123,8 +123,9 @@ async function extractComparePush({remoteRepo, remoteBranch, workingDir, project
       logger.rawLog(`    ${chalk.white('git commit -m')} '${chalk.gray(commitMessage(projectSubdir, merged.messages, errors, '      '))}'`)
       await localGit.commit(commitMessage(projectSubdir, merged.messages, errors, ''))
 
-      logger.command('git push', `origin ${remoteBranch?remoteBranch:'master'}`)
-      await localGit.push('origin', remoteBranch?remoteBranch:'master')
+      const defaulrBranch = process.env.DEFAULT_BRANCH ? process.env.DEFAULT_BRANCH : 'master'
+      logger.command('git push', `origin ${remoteBranch?remoteBranch:defaulrBranch}`)
+      await localGit.push('origin', remoteBranch?remoteBranch:defaulrBranch)
     }
     else {
       logger.log('no changes detected')
