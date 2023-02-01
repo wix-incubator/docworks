@@ -2600,6 +2600,95 @@ declare module 'wix-dev-backend' {
 
 
 /**
+ * [Read more..](https://fake-corvid-api/wix-dot-backend.v2.html#)
+ */
+declare module 'wix-dot-backend.v2' {
+    /**
+     * [Read more..](https://fake-corvid-api/wix-dot-backend-v2.html#test)
+     */
+    const test: string;
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-dot-backend-v2.Orders.html#)
+     */
+    interface Orders {
+        /**
+         * Retrieves an order, including ticket data.
+         * >The fieldsets in this function are restricted and only run if you elevate permissions using the [wix-auth.elevate()](https://www.wix.com/velo/reference/wix-auth/elevate) function.
+         * 	[Read more..](https://fake-corvid-api/wix-dot-backend-v2.Orders.html#getOrder)
+         */
+        getOrder(identifiers: wixEventsV2.Orders.GetOrderIdentifiers, options: wixEventsV2.Orders.GetOrderOptions): Promise<wixEventsV2.Orders.GetOrderResponse>;
+    }
+
+    /**
+     * [Read more..](https://fake-corvid-api/wix-dot-backend-v2.Orders.html#)
+     */
+    namespace Orders {
+        type GetOrderIdentifiers = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderOptions = {
+            /**
+             * Controls which data is returned. Fieldsets are \`TICKETS\`, \`DETAILS\`, \`FORM\`, and \`INVOICE\`.
+             */
+            fieldset?: Array<string>;
+        };
+
+        type GetOrderRequest = {
+            /**
+             * Event ID.
+             */
+            eventId: string;
+            /**
+             * Controls which data is returned. Fieldsets are \`TICKETS\`, \`DETAILS\`, \`FORM\`, and \`INVOICE\`.
+             */
+            fieldset?: Array<string>;
+            /**
+             * Unique order number.
+             */
+            orderNumber: string;
+        };
+
+        type GetOrderResponse = {
+            /**
+             * Requested order.
+             */
+            order?: wixEventsV2.Orders.Order;
+        };
+
+        type Order = {
+            /**
+             * Whether the order is anonymized by GDPR delete.
+             */
+            anonymized?: boolean;
+            /**
+             * Whether the order is archived.
+             */
+            archived?: boolean;
+            /**
+             * Checkout channel type
+             */
+            channel?: string;
+            /**
+             * Guest full name.
+             */
+            fullName?: string;
+        };
+
+    }
+
+}
+
+
+/**
  * [Read more..](https://fake-corvid-api/wix-question-backend.html#)
  */
 declare module 'wix-question-backend' {
@@ -3743,6 +3832,7 @@ declare module 'wix-users' {
 /// <reference path='./wix-data.d.ts' />
 /// <reference path='./wix-dataset.d.ts' />
 /// <reference path='./wix-dev-backend.d.ts' />
+/// <reference path='./wix-dot-backend.v2.d.ts' />
 /// <reference path='./wix-question-backend.d.ts' />
 /// <reference path='./wix-router.d.ts' />
 /// <reference path='./wix-site.d.ts' />
