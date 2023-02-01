@@ -44,8 +44,10 @@ async function createRemoteOnVer1(remote, branch) {
   await asPromise(remoteBuildRepo, remoteBuildRepo.commit)('docs commit')
 
   if (branch) {
-    logger.log('git checkout master')
-    await asPromise(remoteBuildRepo, remoteBuildRepo.checkout)('master')
+    logger.log('git checkout default branch')
+    const defaulrBranch = process.env.DEFAULT_BRANCH ? process.env.DEFAULT_BRANCH : 'master'
+
+    await asPromise(remoteBuildRepo, remoteBuildRepo.checkout)(defaulrBranch)
   }
 
   logger.log(`git clone ${remoteBuild} ${remote} --bare`)

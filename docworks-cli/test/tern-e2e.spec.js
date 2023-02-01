@@ -51,7 +51,7 @@ describe('tern workflow e2e', function () {
     )
   })
 
-  it.skip('generate tern from a remote repo\'s non-master branch', async function () {
+  it('generate tern from a remote repo\'s non-master branch', async function () {
     const remote = './tmp/remote'
     const branch = 'test-branch'
     await createRemoteOnVer1(remote, branch)
