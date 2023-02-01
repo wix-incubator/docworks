@@ -6,15 +6,12 @@ class Git {
     this._git = workingDir?simpleGit(workingDir):simpleGit()
   }
 
-  async init(bare) {
-    await asPromise(this._git, this._git.init)(bare)
-    // return asPromise(this._git, this._git.addConfig)('init.defaultBranch', 'master')
-
+  init(bare) {
+    return asPromise(this._git, this._git.init)(bare)
   }
 
- async  clone(remoteRepo, workingDir, options) {
-    await asPromise(this._git, this._git.clone)(remoteRepo, workingDir, options || [])
-   // return asPromise(this._git, this._git.addConfig)('init.defaultBranch', 'master')
+  clone(remoteRepo, workingDir, options) {
+    return asPromise(this._git, this._git.clone)(remoteRepo, workingDir, options || [])
   }
 
   checkout(branchName) {
