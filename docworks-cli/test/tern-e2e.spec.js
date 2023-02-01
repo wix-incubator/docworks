@@ -10,6 +10,7 @@ const expect = chai.expect
 describe('tern workflow e2e', function () {
 
   beforeEach(() => {
+    process.env.DEFAULT_BRANCH = 'main'
     logger.reset()
     fsExtra.removeSync('./tmp')
   })

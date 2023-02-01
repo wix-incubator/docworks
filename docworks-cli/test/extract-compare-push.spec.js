@@ -66,6 +66,7 @@ describe('extract compare push workflow', function() {
 
   beforeEach(() => {
     logger.reset()
+    process.env.DEFAULT_BRANCH = 'main'
     return fs.remove('./tmp')
   })
 

@@ -72,6 +72,7 @@ async function runDocWorks(args) {
 describe('extract compare push workflow e2e', function() {
 
   beforeEach(() => {
+    process.env.DEFAULT_BRANCH = 'main'
     logger.reset()
     return fs.remove('./tmp')
   })
