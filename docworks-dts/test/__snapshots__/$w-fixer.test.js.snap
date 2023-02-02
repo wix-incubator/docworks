@@ -126,7 +126,7 @@ declare module 'wix-dev-backend' {
 
 }
 
-declare module 'wix-dot-backend-v2' {
+declare module 'wix-dot-backend.v2' {
     const test: string;
 
 }

@@ -7,6 +7,7 @@ const {
   convertServiceToInterface,
   convertServiceToModule
 } = require('./dts-converters')
+const {$W_NAME} = require('./multiple-files/constants')
 
 function ensureNamespace(namespaces, name, { jsDocComment } = {}) {
   let namespace = namespaces[name]
@@ -17,18 +18,21 @@ function ensureNamespace(namespaces, name, { jsDocComment } = {}) {
   return namespace
 }
 
+const is$w = name => name === $W_NAME
+
 function handleServiceAsModule(
   service,
   modules,
   namespaces,
   { documentationGenerator } = {}
 ) {
-  const serviceName = service.name
+  // service should ber derived from display non for non $w
+  const serviceName =  is$w(service.name) || !service.displayName ? service.name : service.displayName
 
-  if (modules[serviceName]) {
+  if (modules[serviceName || service.name]) {
     throw new Error(`Module ${serviceName} already defined`)
   }
-  const module = convertServiceToModule(service, { documentationGenerator })
+  const module = convertServiceToModule(service, { documentationGenerator }, serviceName)
   if (module.members.length > 0) {
     modules[serviceName] = module
   }

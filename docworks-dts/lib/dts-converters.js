@@ -34,7 +34,7 @@ function convertServiceToInterface(service, { documentationGenerator }) {
   return dtsInterface(service.name, { members, baseTypes, jsDocComment })
 }
 
-function convertServiceToModule(service, { documentationGenerator }) {
+function convertServiceToModule(service, { documentationGenerator }, name) {
   const properties = service.properties.map(property =>
     convertPropertyToConst(service, property, { documentationGenerator })
   )
@@ -47,7 +47,7 @@ function convertServiceToModule(service, { documentationGenerator }) {
     service: fullServiceName(service)
   })
 
-  return dtsModule(service.name, { members, jsDocComment })
+  return dtsModule(name, { members, jsDocComment })
 }
 
 function convertPropertyToProperty(
