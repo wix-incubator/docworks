@@ -190,7 +190,7 @@ declare module 'wix-dev-backend' {
 /**
  * [Read more..](https://fake-corvid-api/wix-dot-backend-v2.html#)
  */
-declare module 'wix-dot-backend-v2' {
+declare module 'wix-dot-backend.v2' {
     /**
      * [Read more..](https://fake-corvid-api/wix-dot-backend-v2.html#test)
      */
